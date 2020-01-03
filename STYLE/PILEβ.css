@@ -1,0 +1,470 @@
+#AntiToxins .SingleParticle > .Navigate > div,
+#AntiToxins .Preview .Cover:hover,
+#AntiToxins .SingleParticle .Pages .Page{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+#AntiToxins{
+    width: 100%; height: 100%;
+    position: absolute; left: 0; top: 0;
+}
+#AntiToxins > .Entry{
+    width: 5%; height: 5%;
+    position: absolute; left: 47.5%; top: 47.5%;
+    z-index: -11;
+}
+#AntiToxins .DevStar{
+    width: 40.52%; padding-bottom: 43.12%;
+    position: absolute; top: 13.79%; right: -15.31%;
+}
+#AntiToxins .DevStar > .Line{
+    height: 2px;
+    position: absolute; top: 50%; right: 50%;
+    background-color: #f50057;
+    z-index: -1;
+}
+#AntiToxins .DevStar > div:not(.Line){
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+}
+#AntiToxins .DevStar .TheStar{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    background: url("../ASSETS/AntiToxins/DevStar.png") no-repeat;
+}
+#AntiToxins .DevGlow{
+    width: 150.38%; height: 151.67%;
+    position: absolute; top: -28.2%; left: -25.65%;
+    background: url("../ASSETS/AntiToxins/DevGlow.png") no-repeat center;
+}
+#AntiToxins .DevSign{
+    width: 42.41%; height: 40.48%;
+    position: absolute; top: 27.3%; left: 3%;
+    background: url("../ASSETS/AntiToxins/DevSign.png") no-repeat;
+}
+#AntiToxins .DevSignBeam{
+    width: 46.98%; height: 27.70%;
+    position: absolute; top: 32.87%; left: 8%;
+    background: url("../ASSETS/AntiToxins/DevSignBeam.png") no-repeat;
+}
+#AntiToxins .DevParticle{
+    position: absolute;
+}
+#AntiToxins .DevParticle > div:not(.NoTouchin):hover{
+    cursor: pointer;
+}
+#AntiToxins .DevParticle div{
+    width: 100%; height: 100%;
+    position: absolute;
+}
+#AntiToxins .DevParticle > div > div{
+    background: url("../ASSETS/AntiToxins/DevParticle.png") no-repeat;
+    transform-origin: center;
+}
+#AntiToxins .DevParticle.A{
+    width: 10%; padding-bottom: 10%;
+    top: 32%; right: 26%;
+}
+#AntiToxins .DevParticle.B{
+    width: 8%; padding-bottom: 8%;
+    top: 10%; right: 24%;
+}
+#AntiToxins .DevParticle.C{
+    width: 10%; padding-bottom: 10%;
+    top: 60%; right: 33%;
+}
+#AntiToxins .DevParticle.D{
+    width: 8%; padding-bottom: 8%;
+    top: 40%; right: 41%;
+}
+#AntiToxins .DevParticle.E{
+    width: 8%; padding-bottom: 8%;
+    top: 80%; right: 27%;
+}
+#AntiToxins .DevParticle.F{
+    width: 10%; padding-bottom: 10%;
+    top: 16%; right: 34%;
+}
+#AntiToxins .DevStar > div > div, #AntiToxins .DevStar .Star > div, #AntiToxins .DevParticle > div > div{
+    background-size: 100%;
+}
+#AntiToxins .DevStar .Star > .DevGlow{
+    background-size: 128%;
+}
+
+#AntiToxins .ArtStar .Star,#AntiToxins .DevStar .Star{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+}
+#AntiToxins .ArtStar{
+    width: 40.52%; padding-bottom: 43.12%;
+    position: absolute; top: 13.79%; left: -15.31%;
+}
+#AntiToxins .ArtStar > .Line{
+    height: 2px;
+    position: absolute; top: 50%; right: 50%;
+    background-color: #aa00ff;
+    z-index: -1;
+}
+#AntiToxins .ArtStar > div:not(.Line){
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+}
+#AntiToxins .ArtStar .TheStar{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    background: url("../ASSETS/AntiToxins/ArtStar.png") no-repeat;
+}
+#AntiToxins .ArtGlow{
+    width: 150.38%; height: 151.67%;
+    position: absolute; top: -28.2%; left: -25.65%;
+    background: url("../ASSETS/AntiToxins/ArtGlow.png") no-repeat center;
+}
+#AntiToxins .ArtSign{
+    width: 42.41%; height: 40.48%;
+    position: absolute; top: 27.3%; right: 3%;
+    background: url("../ASSETS/AntiToxins/ArtSign.png") no-repeat;
+}
+#AntiToxins .ArtSignBeam{
+    width: 46.98%; height: 27.70%;
+    position: absolute; top: 32.87%; right: 12%;
+    background: url("../ASSETS/AntiToxins/ArtSignBeam.png") no-repeat;
+}
+#AntiToxins .ArtParticle{
+    position: absolute;
+}
+#AntiToxins .ArtParticle div{
+    width: 100%; height: 100%;
+    position: absolute;
+}
+#AntiToxins .ArtParticle > div > div{
+    background: url("../ASSETS/AntiToxins/ArtParticle.png") no-repeat;
+    transform-origin: center;
+}
+#AntiToxins .ArtParticle > div:not(.NoTouchin):hover{
+    cursor: pointer;
+}
+#AntiToxins .ArtParticle.A{
+    width: 8%; padding-bottom: 8%;
+    top: 35%; left: 27%;
+}
+#AntiToxins .ArtParticle.B{
+    width: 10%; padding-bottom: 10%;
+    top: 9%; left: 20%;
+}
+#AntiToxins .ArtParticle.C{
+    width: 10%; padding-bottom: 10%;
+    top: 80%; left: 23%;
+}
+#AntiToxins .ArtParticle.D{
+    width: 10%; padding-bottom: 10%;
+    top: 46%; left: 37%;
+}
+#AntiToxins .ArtParticle.E{
+    width: 8%; padding-bottom: 8%;
+    top: 64%; left: 30%;
+}
+#AntiToxins .ArtParticle.F{
+    width: 10%; padding-bottom: 10%;
+    top: 16%; left: 32%;
+}
+#AntiToxins .ArtStar > div > div, #AntiToxins .ArtStar .Star > div, #AntiToxins .ArtParticle > div > div{
+    background-size: 100%;
+}
+#AntiToxins .ArtStar .Star > .ArtGlow{
+    background-size: 128%;
+}
+
+
+#AntiToxins .SingleParticle{
+    width: 1050px; height: 716px;
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%); z-index: 100;
+    font-family: Ocr; color: #fff;
+    padding: 0 3em 3em 3em; box-sizing: border-box;
+    opacity: 0; visibility: hidden;
+    z-index: -1;
+}
+#AntiToxins .SingleParticle > .Clone, #AntiToxins .SingleParticle > .Clone *{
+    z-index: 2;
+}
+#AntiToxins .SingleParticle > .Clone > div{
+    left: 50%; top: 12.5%;
+    transform: translate(-50%, -50%);
+}
+#AntiToxins .SingleParticle > .Clone > div > div{
+    transition: .1s opacity ease-in-out;
+}
+#AntiToxins .SingleParticle > .Clone > div:hover > div{
+    /*transform: scale(.5);*/
+    opacity: .6;
+    cursor: pointer;
+}
+#AntiToxins .SingleParticle:after{
+    content: "";
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1050 716.23'%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cg%3e%3cpath fill='%23320018' d='M0 716.23V176.48L466.33 0h117.34L1050 176.48v539.75H0z'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat; z-index: -1;
+}
+#AntiToxins .SingleParticle > .Navigate{
+    width: 27%; padding-bottom: 10.5em;
+    font-size: .8em;
+    position: relative;
+    margin: 0 auto;
+}
+#AntiToxins .SingleParticle > .Navigate > div{
+    padding-top: 18%;
+}
+#AntiToxins .SingleParticle > .Navigate > div span{
+    transition: opacity .2s ease;
+    opacity: .8; display: block;
+}
+#AntiToxins .SingleParticle > .Navigate > div:hover{
+    cursor: pointer;
+}
+#AntiToxins .SingleParticle > .Navigate > div:hover span{
+    opacity: 1;
+}
+#AntiToxins .SingleParticle > .Navigate > div > div{
+    width: 1em; padding-bottom: 1em;
+    font-size: 3.2em;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 40 30.31'%3e%3cdefs%3e%3clinearGradient id='a' x1='48.62' y1='15.13' x2='57.91' y2='15.13' gradientTransform='matrix(-1 0 0 1 57.91 0)' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0' stop-color='%23000051' stop-opacity='0'/%3e%3cstop offset='.15' stop-color='%232f0052' stop-opacity='.19'/%3e%3cstop offset='.38' stop-color='%23750054' stop-opacity='.48'/%3e%3cstop offset='.59' stop-color='%23ac0055' stop-opacity='.7'/%3e%3cstop offset='.77' stop-color='%23d40056' stop-opacity='.86'/%3e%3cstop offset='.91' stop-color='%23ec0057' stop-opacity='.96'/%3e%3cstop offset='1' stop-color='%23f50057'/%3e%3c/linearGradient%3e%3clinearGradient id='b' x1='43.08' y1='9.92' x2='52.37' y2='9.92' xlink:href='%23a'/%3e%3clinearGradient id='c' x1='37.5' y1='4.71' x2='46.79' y2='4.71' xlink:href='%23a'/%3e%3clinearGradient id='d' x1='43.25' y1='20.43' x2='52.54' y2='20.43' xlink:href='%23a'/%3e%3clinearGradient id='e' x1='37.8' y1='25.6' x2='47.09' y2='25.6' xlink:href='%23a'/%3e%3clinearGradient id='f' x1='37.54' y1='15.13' x2='46.83' y2='15.13' xlink:href='%23a'/%3e%3clinearGradient id='g' x1='27.65' y1='15.13' x2='36.94' y2='15.13' xlink:href='%23a'/%3e%3clinearGradient id='h' x1='17.91' y1='15.13' x2='27.2' y2='15.13' xlink:href='%23a'/%3e%3c/defs%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cg%3e%3cpath fill='url(%23a)' d='M0 15.13l4.65 4.71 4.64-4.71-4.64-4.72L0 15.13z'/%3e%3cpath fill='url(%23b)' d='M5.54 9.92l4.64 4.71 4.65-4.71-4.65-4.72-4.64 4.72z'/%3e%3cpath fill='url(%23c)' d='M11.12 4.71l4.64 4.72 4.65-4.72L15.76 0l-4.64 4.71z'/%3e%3cpath fill='url(%23d)' d='M5.37 20.43l4.64 4.71 4.65-4.71-4.65-4.72-4.64 4.72z'/%3e%3cpath fill='url(%23e)' d='M10.82 25.6l4.64 4.71 4.65-4.71-4.65-4.72-4.64 4.72z'/%3e%3cpath fill='url(%23f)' d='M11.07 15.13l4.65 4.71 4.64-4.71-4.64-4.72-4.65 4.72z'/%3e%3cpath fill='url(%23g)' d='M20.97 15.13l4.64 4.71 4.65-4.71-4.65-4.72-4.64 4.72z'/%3e%3cpath fill='url(%23h)' d='M30.71 15.13l4.65 4.71L40 15.13l-4.64-4.72-4.65 4.72z'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat;
+    position: relative;
+    transition: margin .2s ease;
+}
+#AntiToxins .PrevProject{
+    text-align: right; float: left;
+}
+#AntiToxins .PrevProject > div{
+    margin: .5rem 0 0 auto;
+}
+#AntiToxins .PrevProject:hover > div{
+    margin-right: .3em;
+}
+#AntiToxins .NextProject{
+    text-align: left; float: right;
+}
+#AntiToxins .NextProject > div{
+    margin: .5rem auto 0 0;
+    transform: scaleX(-1);
+}
+#AntiToxins .NextProject:hover > div{
+    margin-left: .3em;
+}
+#AntiToxins .SingleParticle > .Title{
+    font-size: 1.6em; text-align: center;
+    padding: 1.1em 0;
+}
+#AntiToxins .SingleParticle .Pages{
+    text-align: center; font-size: 1.1em; line-height: .8em;
+}
+#AntiToxins .SingleParticle .Pages > div{
+    display: inline-block; border-top: 1px solid #808080;
+}
+#AntiToxins .SingleParticle .Pages .Page{
+    display: inline-block;
+    padding: 1em .9em; opacity: .4;
+    position: relative; overflow: hidden; z-index: 1;
+    transition: opacity .2s ease-in-out;
+}
+#AntiToxins .SingleParticle .Pages .Page:hover{
+    cursor: pointer; opacity: .6;
+}
+#AntiToxins .SingleParticle .Pages .Page:after{
+    content: "";
+    width: 100%; height: 100%;
+    position: absolute; top: 100%; left: 0; opacity: .4;
+    background: linear-gradient(to bottom, rgba(0,0,81,0) 0%,rgba(245,0,87,1) 100%); z-index: -1;
+}
+#AntiToxins .SingleParticle .Pages .Page.active{
+    opacity: 1;
+}
+#AntiToxins .SingleParticle .Pages .Page.active:after{
+    top: 0;
+}
+#AntiToxins .Preview{
+    width: 100%; height: 200px;
+    position: relative; z-index: 10;
+}
+#AntiToxins .Preview .img{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    border-radius: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+#AntiToxins .Preview img{
+    width: 100%;
+    position: absolute; top: 0; left: 0;
+    border-radius: 5px;
+}
+#AntiToxins .Preview .Cover{
+    width: 102%; height: 102%;
+    position: absolute; top: -1%; left: -1%; z-index: 1;
+    text-align: center;
+    font-size: 2em;
+}
+#AntiToxins .Preview .Cover:hover{
+    cursor: pointer;
+}
+#AntiToxins .Preview .Cover > div:first-child{
+    content: "";
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    background: #320018; opacity: .95; z-index: -1;
+    transition: opacity .2s ease;
+}
+#AntiToxins .Preview .Cover > div:last-child{
+    position: relative; top: 50%;
+    transform: translateY(-50%);
+}
+#AntiToxins .Preview .Cover i{
+    width: .65em; padding-bottom: .65em; padding-right: .5em;
+    display: inline-block; margin: 0; position: relative;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21.72 21.05'%3e%3cpath d='M8.5 14.19l-4.58 4.58h2.47a1.14 1.14 0 1 1 0 2.28H1.22A1.17 1.17 0 0 1 0 19.91V14.7a1.14 1.14 0 1 1 2.28 0v2.48l4.61-4.6c1.11-1.07 2.62.6 1.61 1.61zM3.92 2.34h2.47a1.15 1.15 0 1 0 0-2.29H1.22A1.18 1.18 0 0 0 0 1.19v5.22a1.14 1.14 0 1 0 2.28 0V3.93l4.61 4.6c1 1 2.65-.56 1.61-1.61zm15.45 1.58V6.4a1.15 1.15 0 1 0 2.29 0V1.22A1.18 1.18 0 0 0 20.49 0h-5.22a1.14 1.14 0 1 0 0 2.28h2.48l-4.56 4.64c-1 1 .58 2.66 1.62 1.61zm-1.58 14.83h-2.47a1.15 1.15 0 1 0 0 2.29h5.18a1.18 1.18 0 0 0 1.21-1.15v-5.22a1.14 1.14 0 1 0-2.28 0v2.48l-4.63-4.58c-1-1-2.65.58-1.6 1.62z' fill='white'/%3e%3c/svg%3e") no-repeat;
+    transition: transform .2s ease;
+    transform-origin: left;
+}
+#AntiToxins .Preview .Cover:hover i{
+    transform: scale(1.2);
+}
+#AntiToxins .Preview .Cover:hover:after{
+    opacity: .9;
+}
+#AntiToxins .Detail > div{
+    display: inline-block; height: 160px;
+    float: left; font-size: 1.35em; margin-top: 1em;
+    box-sizing: border-box;
+}
+#AntiToxins .Detail .BuiltWith{
+    width: 45%; padding-right: 1em;
+    position: relative;
+}
+#AntiToxins .BuiltWith .Shiners{
+    width: 100%; height: 100%; margin-right: 1em;
+    position: relative; top: 0; left: 0;
+}
+#AntiToxins .BuiltWith .Shiners .Shiner{
+    width: 14.14%; height: 100%;
+    position: absolute; top: 0;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 57.54 160'%3e%3cdefs%3e%3clinearGradient id='a' x1='89.06' y1='-139.97' x2='89.06' y2='-197.51' gradientTransform='matrix(0 -1 -1 0 -139.97 174.53)' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0' stop-color='white'/%3e%3cstop offset='.17' stop-color='%23c6c6c6'/%3e%3cstop offset='.4' stop-color='gray'/%3e%3cstop offset='.6' stop-color='%23494949'/%3e%3cstop offset='.78' stop-color='%23212121'/%3e%3cstop offset='.92' stop-color='%23090909'/%3e%3cstop offset='1'/%3e%3c/linearGradient%3e%3cmask id='b' x='0' y='-.38' width='57.54' height='171.7' maskUnits='userSpaceOnUse'%3e%3cpath fill='url(%23a)' d='M0 155.29V21.37L57.54-.38v171.7L0 155.29z'/%3e%3c/mask%3e%3clinearGradient id='c' x1='14.53' y1='-168.74' x2='174.53' y2='-168.74' gradientTransform='matrix(0 -1 -1 0 -139.97 174.53)' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0' stop-color='%23320018'/%3e%3cstop offset='.14' stop-color='%23360019' stop-opacity='.99'/%3e%3cstop offset='.23' stop-color='%2344001e' stop-opacity='.97'/%3e%3cstop offset='.3' stop-color='%235a0025' stop-opacity='.94'/%3e%3cstop offset='.36' stop-color='%237b0030' stop-opacity='.89'/%3e%3cstop offset='.42' stop-color='%23a5003d' stop-opacity='.82'/%3e%3cstop offset='.47' stop-color='%23d8004e' stop-opacity='.74'/%3e%3cstop offset='.5' stop-color='%23f50057' stop-opacity='.7'/%3e%3cstop offset='.53' stop-color='%23d8004e' stop-opacity='.74'/%3e%3cstop offset='.58' stop-color='%23a5003d' stop-opacity='.82'/%3e%3cstop offset='.64' stop-color='%237b0030' stop-opacity='.89'/%3e%3cstop offset='.7' stop-color='%235a0025' stop-opacity='.94'/%3e%3cstop offset='.77' stop-color='%2344001e' stop-opacity='.97'/%3e%3cstop offset='.86' stop-color='%23360019' stop-opacity='.99'/%3e%3cstop offset='1' stop-color='%23320018'/%3e%3c/linearGradient%3e%3c/defs%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cg%3e%3cg data-name='Built with'%3e%3cg%3e%3cg mask='url(%23b)'%3e%3cpath fill='url(%23c)' d='M0 144V22.45L57.54 0v160L0 144z'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat;
+}
+#AntiToxins .BuiltWith .Shiners .Shiner:nth-child(1){
+    left: 0;
+}
+#AntiToxins .BuiltWith .Shiners .Shiner:nth-child(2){
+    right: 0;
+    transform: scaleX(-1);
+}
+#AntiToxins .BuiltWith .Shiners .Wire{
+    width: 99%; height: 50%;
+    position: absolute; bottom: 0; left: .5%;
+    box-sizing: border-box;
+    border-left: 1px solid #f50057;
+    border-bottom: 1px solid #f50057;
+    border-right: 1px solid #f50057;
+}
+#AntiToxins .BuiltWith .Title{
+    width: 100%;
+    padding-right: 1em; text-align: center; box-sizing: border-box;
+    position: absolute; top: 0; left: 0;
+}
+#AntiToxins .BuiltWith .Navigate{
+    width: 100%;
+    font-size: .65em;
+    padding-right: 1em; text-align: center; box-sizing: border-box;
+    position: absolute; bottom: 0; left: 0;
+    direction: rtl;
+}
+#AntiToxins .BuiltWith .Navigate > div{
+    display: inline-block; padding-bottom: .5rem;
+    opacity: .4; visibility: inherit; position: relative;
+    transition: opacity .2s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+#AntiToxins .BuiltWith .Navigate > div:hover{
+    cursor: pointer; opacity: .6;
+}
+#AntiToxins .BuiltWith .Navigate > div:after{
+    content: "";
+    width: 1px; height: .5em;
+    background: #f50057;
+    position: absolute; bottom: 0; left: 50%;
+    transform: scaleY(0);
+    transition: transform .2s ease;
+}
+#AntiToxins .BuiltWith .Navigate > div.disable{
+    opacity: 0; display: none;
+}
+#AntiToxins .BuiltWith .Navigate > div.active{
+    opacity: 1;
+}
+#AntiToxins .BuiltWith .Navigate > div.active:after{
+    transform: scaleY(1);
+}
+#AntiToxins .BuiltWith .ToolBox{
+    width: 100%; height: 100%;
+    padding-right: 1em; text-align: center; box-sizing: border-box;
+    position: absolute; top: 0; left: 0;
+    transform: translateY(-10%);
+    transition: all .1s ease-in-out;
+    opacity: 0; visibility: hidden;
+    display: block;
+}
+#AntiToxins .BuiltWith .ToolBox.disable{
+    display: none;
+}
+#AntiToxins .BuiltWith .ToolBox.active{
+    transform: translateY(0%);
+    opacity: 1; visibility: inherit;
+}
+#AntiToxins .BuiltWith .ToolBox > div{
+    width: 10%; height: 100%;
+    position: relative;
+    display: none; opacity: 0;
+    transition: all .1s ease-in-out;
+}
+#AntiToxins .BuiltWith .ToolBox > div.active{
+    opacity: 1; display: inline-block;
+}
+#AntiToxins .BuiltWith .ToolBox > div img{
+    position: relative; top: 50%; display: block;
+    transform: translateY(-50%);
+}
+#AntiToxins .SingleParticle .State{
+    position: absolute; bottom: 1.5em; left: 50%;
+    transform: translateX(-50%); font-size: .9em;
+}
+#AntiToxins .SingleParticle .State .RealState{
+    display: none;
+}
+#AntiToxins .SingleParticle .State .RealState .goto{
+    color: #f50057; text-decoration: none;
+}
+#AntiToxins .SingleParticle .State .RealState.active{
+    display: block;
+}
+#AntiToxins .SingleParticle .State .Exc{
+    width: 100%;
+    position: absolute; top: 0; left: 0; z-index: -1;
+}
+#AntiToxins .SingleParticle .State .Exc div{
+    width: .45em; height: 1.8em;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4.95 19.84'%3e%3cpath d='M1 14.46L0 2.58c-.29-3.46 5.21-3.42 4.93 0l-1 11.88a1.47 1.47 0 0 1-2.93 0zm-.13 3.83a1.61 1.61 0 0 0 3.21 0 1.61 1.61 0 0 0-3.21 0z' fill='%23f50057'/%3e%3c/svg%3e") no-repeat; margin-top: -.4em;
+}
+#AntiToxins .SingleParticle .State .Exc div:first-child{
+    float: left; margin-left: -2em;
+}
+#AntiToxins .SingleParticle .State .Exc div:last-child{
+    float: right; margin-right: -2em;
+}
+#AntiToxins .Detail .Description{
+    width: 55%; text-align: justify; overflow: auto;
+}
