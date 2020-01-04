@@ -7,7 +7,16 @@ Gandalf = [
 	],
 	[
 		".BreathinFragment",
-		["*Laughes*","Why you keep poking me?"]
+		[
+		    "*Laughes*",
+            "Why you keep poking me?",
+            "I'm NOT clickable",
+            "You ever wanted to fly?",
+            "I'm just here to breath",
+            "Don't mind me friend",
+            "I'm just a fragment",
+            "Who's your god? mine's Infa"
+        ]
 	],
 	[
 		".Portal.JourNey, .Portal.Artery, .Portal.BigMo",
