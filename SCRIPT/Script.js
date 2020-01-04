@@ -21,6 +21,14 @@ Gandalf = [
 	[
 		".Portal.JourNey, .Portal.Artery, .Portal.BigMo",
 		["Dimension locked, Fly!","Lock disengaged"]
+	],
+	[
+		"#Reach",
+		["Loading next division...","Select a dimension to fly","Already in progress","Soon!","Cancelling reverse..."]
+	],
+	[
+		"#Ditch",
+		["Loading previos division...","Unable to fly","Already in progress","Soon!"]
 	]
 ];
 Peek = [
@@ -1648,7 +1656,6 @@ fixset(true)
                 // Add currently selected option to an array
                 RandList.push(Opt);
                 Global.RandList.BR = RandList;
-                console.log(Opt);
             }
         });;
         // Send option change request
@@ -1720,6 +1727,7 @@ fixset(true)
 			}
             if( Locked[0] == true ){ return; }
             Forward.isAllowed(true);
+            Glitch.on("#Gandalf", "Reversing...");
             ActiveFly.duration(ActiveFly.duration()-ActiveFly.duration()*.9).reverse().eventCallback("onReverseComplete",KillActiveFly);
             if( (Reverse.pedal == true && ReverseFly.isActive()) || Reverse.IsOverrided() ){
 				Reverse.isAllowed(true);
@@ -1757,6 +1765,7 @@ fixset(true)
 			}
 		}
 		if( Forward.isAllowed() ) {
+		    $("#Reach").data({GandalfOpt: 0});
 			Fly(true);
 		}
 		else{
@@ -2791,6 +2800,7 @@ function ActiveSequence(t){
 						Global.Rotten = DirectRotten[0] = ActivePortal[0] = false;
 						Forward.isAvailable = false;
 						Forward.isAllowed(false,false);
+						$("#Reach").data({GandalfOpt: 1})
 
 						Global.RottenStillActive = true;
 						ActiveRotten[XX].eventCallback("onRepeat",null).eventCallback("onRepeat", KillRot , [XX,t]);
@@ -2821,9 +2831,11 @@ function ActiveSequence(t){
 				if( Active.Dimension === Portal[0] ){
 					Forward.isAvailable = false;
 					Forward.isAllowed(false,false);
+					$("#Reach").data({GandalfOpt: 3});
 				}else {
 					Forward.isAvailable = true;
 					Forward.isAllowed(true, true);
+                    $("#Reach").data({GandalfOpt: 0});
 				}
 				// Changing Gandalf's content
 				t.data({GandalfOpt: 0, PostClickOpt: 1});
@@ -2863,6 +2875,7 @@ function SwitchDivision(target,Manual){
 			}
 			Forward.isAvailable = true;
 			Forward.isAllowed(true);
+			Glitch.on("#Gandalf", null);
 		}
 	}
 	// Boosting active fly's speed to wrap up faster
@@ -2882,6 +2895,7 @@ function SwitchDivision(target,Manual){
 
 		Forward.isAvailable = true;
 		Forward.isAllowed(true);
+        Glitch.on("#Gandalf", null);
 		if( !Manual ) {
 			// Keeping the current division in target variable
 			target = ActiveSection[0];
@@ -2906,6 +2920,7 @@ function SwitchDivision(target,Manual){
 					Parent = Subject.parent();
 					Forward.isAvailable = true;
 				}else{
+				    $("#Reach").data({GandalfOpt: 1});
 					Forward.isAllowed(false);
 				}
 			} else if (Reverse.pedal == true) {
@@ -2948,6 +2963,7 @@ function SwitchDivision(target,Manual){
 			}
 		}
 		if( !Forward.obj.length && Active.Dimension == Portal[0] ){
+		    $("#Reach").data({GandalfOpt: 3});
 			Forward.isAvailable = false;
 			Forward.isAllowed(false);
 		}
@@ -3209,10 +3225,18 @@ function Fly(Reach,Manual){
 				Forward.isAllowed(false);
 				Reverse.isAllowed(true);
 			}else {
-				ActiveFly.reverse();
+				ActiveFly.reverse().eventCallback("onReverseComplete", function(){
+                    if( !Forward.obj.length && Active.Dimension == Portal[0] ){
+                        $("#Reach").data({GandalfOpt: 3});
+                    }else{
+                        $("#Reach").data({GandalfOpt: 1});
+                    }
+				    Glitch.on("#Gandalf", null);
+                });
 				ReverseFly.reverse().eventCallback("onReverseComplete", BackToBus);
 				Forward.isAllowed(false);
 				Reverse.isAllowed(true);
+				$("#Reach").data({GandalfOpt: 4});
 			}
 			function BackToBus(){
 				Forward.isAllowed(Forward.memory);
@@ -3232,6 +3256,7 @@ function Fly(Reach,Manual){
 		else if( ActiveFly.reversed() ){
 				Forward.isAllowed(false);
 				Reverse.isAllowed(true);
+                $("#Reach").data({GandalfOpt: 0});
 				ActiveFly.reversed( !ActiveFly.reversed() );
 				// Setting the active portal to shrink
 				if( ActivePortal[0] !== false && DirectRotten[0] !== false && (typeof(Shrinker) !== "undefined" && Shrinker.reversed()) ) {
@@ -3674,6 +3699,7 @@ function PreventFly(t){
 	if( !Reverse.isAllowed() || !Forward.isAllowed() ){
 		if(t){ t.endDrag(); }
 		PedalPrevent.restart().play();
+
 	}
 	if( Active.Dimension === Portal[0] ){
 		// Gandalfer(null, "SOON!");
