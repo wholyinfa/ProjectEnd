@@ -6,6 +6,10 @@ Gandalf = [
 		"Select a dimension"
 	],
 	[
+		".BreathinFragment",
+		["*Laughes*","Why you keep poking me?"]
+	],
+	[
 		".Portal.JourNey, .Portal.Artery, .Portal.BigMo",
 		["Dimension locked, Fly!","Lock disengaged"]
 	]
@@ -610,7 +614,13 @@ $(window).resize(function(){Varia();});
  Global = {
  	Rotten : false ,
  	RottenStillActive : false,
-	PeekActive: null
+    // Peek
+	PeekActive: null,
+    // Gandalf
+	GandalfActive: null,
+    RandList: {
+ 	    BR: []
+    }
  };
  var Rain = true;
   var GapHeight = 600;
@@ -1593,6 +1603,48 @@ fixset(true)
 			}
 
 		});
+
+	// Set Gandalf reaction to BreathingFragment
+    $(".BreathinFragment").click(function(){
+        var BR = $(this),
+            Opt = $(this),
+            OptLength = 0;
+        // Find this asset's row in Gandalf's array
+        $.each(Gandalf,function(){
+            if( $(BR[0]).filter(this[0]).length ){
+                var RandList = Global.RandList.BR;
+                // Get the overall option length
+                OptLength = this[1].length;
+                // Randomly select an option
+                Opt = Math.floor(OptLength*Math.random());
+                // Ensure the selection of all arrays before re-selecting the same option
+                for( i = 0 ; i < RandList.length ; i++ ){
+                    // Check whether the option is repetitive
+                    if( RandList[i] === Opt ){
+                        // Run the loop until:
+                        while(
+                            // The option is not repetitive
+                            RandList[i] === Opt ||
+                            // Or the current option isn't the same as the previous option
+                            RandList[RandList.length] === Opt ){
+                            // Randomly select an option
+                            Opt = Math.floor(OptLength*Math.random());
+                        }
+                    }
+                }
+                // Reset picked list to allow a new loop
+                if( RandList.length === OptLength ){
+                    RandList = [];
+                }
+                // Add currently selected option to an array
+                RandList.push(Opt);
+                Global.RandList.BR = RandList;
+                console.log(Opt);
+            }
+        });;
+        // Send option change request
+        $(this).data({GandalfOpt: Opt});
+    });
 
 	  // Defining QuickAccess controlls
     PedalTop = $(".Pedal").position().top;
@@ -5257,13 +5309,11 @@ function CardDeSelect(theT, This, ResetTargets){
 	Glitch.on("#Gandalf", Content);
 }*/
 Gandalfer = {
-	setup: function(PeekRow){
+	setup: function(GandalfRow){
 		// A variable indicating mouseover is off, so mouseleave would be deactivated as well
 		var Deactivate = false;
-		$(PeekRow[0]).click(function(){
-			var content = PeekRow[1];
-			// Prohibiting calling the function for every child hover
-			if( Global.GandalfActive === PeekRow[0] ){ return false; }
+		$(GandalfRow[0]).click(function(){
+			var content = GandalfRow[1];
 			// Analyzing the element for deactivation requests
 			if( $(this).data().GandalfActive === false ){
 				Deactivate = true;
@@ -5271,11 +5321,9 @@ Gandalfer = {
 			}
 			var PO = $(this).data().GandalfOpt;
 			if( typeof(PO) !== "undefined" ){
-				content = PeekRow[1][PO];
+				content = GandalfRow[1][PO];
 			}
-			// Setting PeekActive indicator
-			Global.PeekActive = PeekRow[0];
-			// Placing Peek's content
+			// Placing Gandalf's content
 			Glitch.on("#Gandalf", content);
 			// Identifying post-click option change requests
 			var GO = $(this).data().PostClickOpt;
@@ -5285,13 +5333,17 @@ Gandalfer = {
 		});
 	},
 	set: function(asset){
+	    // Attempt to find the requested asset in Gandalf's array
 		$.each(Gandalf, function(){
 			if( $(asset[0]).filter($(this[0])[0]) ){
+			    // Load Gandalf with the row's content
 				var content = this[1];
+                // Look for a data requesting selection of a particular array
 				var PO = asset.data().GandalfOpt;
 				if( typeof(PO) !== "undefined" ){
 					content = this[1][PO];
 				}
+				// Setting gandalf's content
 				Glitch.on("#Gandalf", content);
 			}
 		});
