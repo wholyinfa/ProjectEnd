@@ -1,14 +1,14 @@
 Portal = ['JourNey','Artery','BigMo'];
 PortalColor = ['#00ffff','#ff8f8f','#b3ffb3',"#FFF"];
 Gandalf = [
-	{
-		id: "Temporary",
-		content : "Select a dimension"
-	},
-	{
-		class: ["Portal JourNey","Portal Artery","Portal BigMo"],
-		content : "Use the pedal to FLY!"
-	}
+	[
+		"#Temporary .Void",
+		"Select a dimension"
+	],
+	[
+		".Portal.JourNey, .Portal.Artery, .Portal.BigMo",
+		["Dimension locked, Fly!","Lock disengaged"]
+	]
 ];
 Peek = [
 	[
@@ -1556,7 +1556,7 @@ fixset(true)
 			ease: Expo.easeInOut
 		});
 	});
-	$('#Temporary>div').click(function(){ ActiveSequence($(this)); });
+	$('#Temporary > .Portal').click(function(){ ActiveSequence($(this)); });
 
 	$('#Temporary>div').mouseenter(function(){
 
@@ -2567,8 +2567,30 @@ fixset(true)
 	});
 
 	// Gandalf Markers
-	$("#Temporary").click(function(){
-		if( $(this).find(".Portal.active").length == 0 ){ Gandalfer($(this)) }
+	$.each(Gandalf, function() {
+		var PeekRow = this;
+
+		// Enabling the option to choose between multiple content for one asset in case the second array contains other than text
+		if( typeof(this[1]) === "object" ){
+			// Default option is the first asset
+			$(this[0]).data({GandalfOpt: 0});
+		}
+		if (
+			// Checking whether this asset contains multiple elements
+			$(this[0]).length > 1){
+			if (
+				// Identifying whether this asset group needs to be deactive
+				PeekRow.length > 2 &&
+				typeof (PeekRow[2]) === "object" &&
+				PeekRow[2].active === false
+			) {
+				// Setting a deactive indicator for each individual asset in the group
+				$(this[0]).each(function () {
+					$(this).data({GandalfActive: false});
+				})
+			}
+		}
+		Gandalfer.setup(this);
 	});
 
 	// Peek Markers
@@ -2678,8 +2700,7 @@ function SetPanel(PrevClass){
   // Portals activation procedure
 
 function ActiveSequence(t){
-	if( Global.RottenStillActive || ( typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ) ){ return; }
-	Gandalfer(t);
+	if( Global.RottenStillActive || ( typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ) ){ return;	}
 
 	for( X = 0 ; X < Portal.length ; X++ ){
 		if( t.hasClass(Portal[X]) && !Global.RottenStillActive ){
@@ -2716,6 +2737,8 @@ function ActiveSequence(t){
 							$(".QuickAccess > .Cells.active").toggleClass("active");
 							$(".QuickAccess").find(".Default").toggleClass("active");
 							ShalliDefine = false;
+							// Changing Gandalf's content
+							$("#Temporary .Void").data({GandalfActive: true});
 						}
 					}
 				}
@@ -2741,6 +2764,9 @@ function ActiveSequence(t){
 					Forward.isAvailable = true;
 					Forward.isAllowed(true, true);
 				}
+				// Changing Gandalf's content
+				t.data({GandalfOpt: 0, PostClickOpt: 1});
+				$("#Temporary .Void").data({GandalfActive: false});
 			}
 		}
 		if( !Global.Rotten && X+1 === Portal.length ){
@@ -3589,7 +3615,7 @@ function PreventFly(t){
 		PedalPrevent.restart().play();
 	}
 	if( Active.Dimension === Portal[0] ){
-		Gandalfer(null, "SOON!");
+		// Gandalfer(null, "SOON!");
 	}
 }
   // Reverse Handle
@@ -5203,7 +5229,7 @@ function CardDeSelect(theT, This, ResetTargets){
 }
 
 // Gandalf setter
-function Gandalfer(T,manual){
+/*function Gandalfer(T,manual){
 	if( !manual ) {
 		var t = T,
 		Content = null;
@@ -5229,7 +5255,48 @@ function Gandalfer(T,manual){
 		var Content = manual;
 	}
 	Glitch.on("#Gandalf", Content);
-}
+}*/
+Gandalfer = {
+	setup: function(PeekRow){
+		// A variable indicating mouseover is off, so mouseleave would be deactivated as well
+		var Deactivate = false;
+		$(PeekRow[0]).click(function(){
+			var content = PeekRow[1];
+			// Prohibiting calling the function for every child hover
+			if( Global.GandalfActive === PeekRow[0] ){ return false; }
+			// Analyzing the element for deactivation requests
+			if( $(this).data().GandalfActive === false ){
+				Deactivate = true;
+				return false;
+			}
+			var PO = $(this).data().GandalfOpt;
+			if( typeof(PO) !== "undefined" ){
+				content = PeekRow[1][PO];
+			}
+			// Setting PeekActive indicator
+			Global.PeekActive = PeekRow[0];
+			// Placing Peek's content
+			Glitch.on("#Gandalf", content);
+			// Identifying post-click option change requests
+			var GO = $(this).data().PostClickOpt;
+			if( typeof(GO) !== "undefined" ){
+				$(this).data({ GandalfOpt: GO }).removeData("PostClickOpt");
+			}
+		});
+	},
+	set: function(asset){
+		$.each(Gandalf, function(){
+			if( $(asset[0]).filter($(this[0])[0]) ){
+				var content = this[1];
+				var PO = asset.data().GandalfOpt;
+				if( typeof(PO) !== "undefined" ){
+					content = this[1][PO];
+				}
+				Glitch.on("#Gandalf", content);
+			}
+		});
+	}
+};
 
 // Peek setter
 Peeker = {

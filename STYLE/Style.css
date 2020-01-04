@@ -922,6 +922,10 @@ body{
 #Temporary > div div {
     position: absolute;
 }
+#Temporary > .Void {
+    width: 100%; height: 100%;
+    top: 0; left: 0;
+}
 #Temporary > .Portal:hover {
     cursor: pointer;
 }

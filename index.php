@@ -274,6 +274,8 @@
                 </div>
             </div>
             <div id="Temporary">
+                <div class="Void"></div>
+
                 <div class="BreathinFragment Entry">
                     <div class="Eyez"></div>
                     <div class="Laugh"></div>
