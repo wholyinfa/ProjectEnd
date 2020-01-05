@@ -51,6 +51,19 @@ Gandalf = [
     [
         "#Skillometer .CoreSlot",
         "Unmounting the core..."
+    ],
+	// AntiToxins
+    [
+        ".ArtStar, .DevStar",
+        "Select a project"
+    ],
+    [
+        ".ArtParticle, .DevParticle",
+        "Opening..."
+    ],
+    [
+        "#AntiToxins .SingleParticle .PrevProject, #AntiToxins .SingleParticle .NextProject",
+        "Openning..."
     ]
 ];
 Peek = [
@@ -1544,7 +1557,7 @@ fixset(true)
 
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Skillometer");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2255,8 +2268,10 @@ fixset(true)
 			Star = $(this),
 			Class = $(this).attr("class");
 		if( TrackLines.isActive === null || TrackLines.isActive[Class] ){
+			$(this).data({GandalfActive: false});
 			return;
 		}
+		$(this).data({GandalfActive: true});
 		TrackLines.isActive[Class] = true;
 
 		if( typeof(TrackLines.obj[Class]) === "undefined" ){
@@ -5029,6 +5044,7 @@ function ParticleActivation(T, e){
 	AddFly.ParticleEntrance(false, true);
 	// Appearing the single particle panel
 	EnterParticle.eventCallback("onComplete",function(){
+		Glitch.on("#Gandalf", null);
 		TriggerDiamond(Asc.parent().parent());
 	});
 }
@@ -5056,6 +5072,7 @@ function TriggerDiamond(asset){
 		width : asset.children().innerWidth(),
 		paddingBottom: asset.children().innerWidth()
 	}).click(function(){
+		Glitch.on("#Gandalf", "Closing...");
 		if( Particle.isActive ){
 			ResetParticle(asset);
 			return;
@@ -5078,6 +5095,8 @@ function TriggerDiamond(asset){
 		var GoToParticle = ( $(this).hasClass("PrevProject") ) ?
 			CurrentParticle.prev(".DevParticle, .ArtParticle") :
 			CurrentParticle.next(".DevParticle, .ArtParticle") ;
+		// Update status on Gandalf
+		Gandalfer.set($(this));
 
 		if( GoToParticle.length === 0 ){
 			var group = ( CurrentParticle.hasClass("ArtParticle") ) ? "ArtParticle" : "DevParticle" ,
@@ -5134,6 +5153,8 @@ function TriggerDiamond(asset){
 		ParticleNavigation.eventCallback("onComplete", function(){
 			TriggerDiamond(GoToParticle);
 			Particle.Navigated = true;
+			// Reset Gandalf's content
+			Glitch.on("#Gandalf", null);
 		});
 	});
 }
@@ -5276,6 +5297,8 @@ function ResetParticle(asset, e){
 		AntiToxins.duration(AntiToxins.duration()).restart();
 		TweenMax.to(".QuickAccess", .5, {y: "0%"});
 		Particle.Navigated = false;
+		// Reset Gandalf after all assets are back to their default position
+		Glitch.on("#Gandalf", null);
 	}
 	if( Particle.Navigated ){
 		EnterParticle = new TimelineMax();
@@ -5448,7 +5471,7 @@ Gandalfer = {
 	set: function(asset){
 	    // Attempt to find the requested asset in Gandalf's array
 		$.each(Gandalf, function(){
-			if( $(asset[0]).filter($(this[0])[0]) ){
+			if( $(this[0]).filter($(asset[0])[0]).length ){
 			    // Load Gandalf with the row's content
 				var content = this[1];
                 // Look for a data requesting selection of a particular array
