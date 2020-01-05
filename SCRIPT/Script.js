@@ -20,16 +20,16 @@ Gandalf = [
 	],
 	[
 		".Portal.JourNey, .Portal.Artery, .Portal.BigMo",
-		["Dimension locked, Fly!","Lock disengaged"]
+		["Launch initiated, Fly!","Launch disengaged"]
 	],
 	[
 		"#Reach",
-		["Loading next division...","Select a dimension to fly","Already in progress","Soon!","Cancelling fly..."]
+		["Loading next division...","Select a dimension to fly","Already in progress","Soon!","Cancelling launch..."]
 	],
-	[
-		"#Ditch",
+    [
+        "#Ditch",
         ["Loading previous division...","Can't go back","Soon!","Cancelling fly..."]
-	]
+    ]
 ];
 Peek = [
 	[
@@ -1680,12 +1680,22 @@ fixset(true)
 		onDragStopScope: this.target,
 		onPress: function(){
 			if( (!Forward.isAllowed() && !Reverse.pedal) || (!Reverse.isAllowed() && Reverse.pedal) ) {
+			    if( !Reverse.isAllowed() && Reverse.pedal ){
+                    Glitch.on("#Gandalf", "Can't go back");
+                }else{
+			        if( Active.Dimension === Portal[0] ){
+                        Glitch.on("#Gandalf", "Soon!");
+                    }else{
+                        Glitch.on("#Gandalf", "Select a dimension to fly");
+                    }
+                }
 				PreventFly(this);
 			}
 		},
 		onDragStart: function(){
 			Locked[0] = false; // UnLocks the spaceship's movement
 			PedalAction.restart().play();
+			Glitch.on("#Gandalf", "Take off initiated...");
 			Fly();
         },
 		onDrag: function(){
@@ -1727,7 +1737,6 @@ fixset(true)
 			}
             if( Locked[0] == true ){ return; }
             Forward.isAllowed(true);
-            Glitch.on("#Gandalf", "Reversing...");
             ActiveFly.duration(ActiveFly.duration()-ActiveFly.duration()*.9).reverse().eventCallback("onReverseComplete",KillActiveFly);
             if( (Reverse.pedal == true && ReverseFly.isActive()) || Reverse.IsOverrided() ){
 				Reverse.isAllowed(true);
@@ -1743,6 +1752,7 @@ fixset(true)
 				Shrinker.duration(Shrinker.duration()-Shrinker.duration()*.9).reverse();
 				}
             }
+            Glitch.on("#Gandalf", "Cancelling launch...");
         },
 		zIndexBoost: false
     });
@@ -3731,10 +3741,16 @@ function ReverseHandle(NoChange){
 		if( NoChange !== false ){ReverseSequence();}
 		// Setting the pedal to reverse mode
 		TweenMax.to(".Pedal", .2, {y:PedalBoundary.Stop});
+		if( typeof(NoChange) === "object" && NoChange.hasClass("Rev Handle") ){
+            Glitch.on("#Gandalf", "Reverse activated");
+        }
 	}else{
 		Reverse.pedal = false;
 		// Resetting the pedal
 		TweenMax.to(".Pedal", .2, {y:PedalBoundary.Start});
+        if( typeof(NoChange) === "object" && NoChange.hasClass("Rev Handle") ){
+            Glitch.on("#Gandalf", "Reverse deactiveated");
+        }
 	}
 }
   // Reverse sequence
@@ -3821,6 +3837,8 @@ function KillActiveFly(){
 	}
 	// By order of the fookin DivisionSequence
 	DiviOrders();
+    // Resetting Gandalf on launch cancellation
+    Glitch.on("#Gandalf", null);
 }
 function KillReverseFly(){
 	Reverse.isAllowed(Reverse.memory);
@@ -3838,6 +3856,8 @@ function KillReverseFly(){
 	if( Order.NO == 1 ){ Order.NO = 0;
 		TweenMax.to($(".DevAura, .DevAuraZ,.ArtAura, .ArtAuraZ"), .2, {autoAlpha: 1});
 	}
+	// Resetting Gandalf on launch cancellation
+    Glitch.on("#Gandalf", null);
 }
 // Adds fly animations
 AddFly = {
