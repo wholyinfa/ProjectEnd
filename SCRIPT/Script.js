@@ -73,7 +73,16 @@ Gandalf = [
 	[
 		"#PrevFace, #NextFace",
 		"No stone selected"
-	]
+	],
+    // DeckCloud
+    [
+        "#DeckCloud .Sign",
+        "Select a card to reveal"
+    ],
+    [
+        "#DeckCloud .Card",
+        ["Card revealed","Deck stacked!"]
+    ]
 ];
 Peek = [
 	[
@@ -1566,7 +1575,7 @@ fixset(true)
 
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	OnLoadActive = $("#DeckCloud");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2668,6 +2677,8 @@ fixset(true)
 			CardSelect.mdReset[T].siblings().data({PeekOption: 0});
 			CardSelect.mdReset[T].siblings(":last-child").data({PeekOption: 1});
 			Peeker.set(CardSelect.mdReset[T]);
+            // Exclusive commands for Gandalf
+            $("#DeckCloud .Card").data({GandalfOpt: 1});
 
 			CardSelect.mdReset[T] = false;
 			return;
@@ -2695,8 +2706,10 @@ fixset(true)
 		});
 		// Exclusive commands for Peek
 		$(this).siblings().data({PeekOption: 2});
-			$(this).data({PeekOption: 3});
+        $(this).data({PeekOption: 3});
 		Peeker.set($(this));
+        // Exclusive commands for Gandalf
+        $("#DeckCloud .Card").data({GandalfOpt: 0});
 	});
 
 	// DivisionExpress
