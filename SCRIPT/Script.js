@@ -29,6 +29,15 @@ Gandalf = [
     [
         "#Ditch",
         ["Reverse launch initiated...","Can't go back","Soon!","Cancelling launch..."]
+    ],
+    // SpaceCyclone
+    [
+        ".Storm .Tripwire",
+        ["Entering..."]
+    ],
+    [
+        ".Storm .Definer",
+        ["Departing..."]
     ]
 ];
 Peek = [
@@ -1917,6 +1926,7 @@ fixset(true)
 			if (Storm.find(".BetaAsset:hover").length != 0) {
 				AssetHover(Storm.find(".BetaAsset"));
 			}
+			Glitch.on("#Gandalf", null);
 		})
 	});
 	StormForm = [];
@@ -4918,6 +4928,10 @@ function ExitStorm(t){
 		if( SC_Footer.reversed() ){
 			SC_Footer.reversed( !SC_Footer.reversed() ).resume();
 		}
+		// Resetting Gandalf only after exit by direct click
+		if( !ActiveFly.isActive() && !ReverseFly.isActive() ){
+		    Glitch.on("#Gandalf", null);
+        }
 	});
 	EnterStorm.reverse();
 }
