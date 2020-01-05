@@ -20,15 +20,15 @@ Gandalf = [
 	],
 	[
 		".Portal.JourNey, .Portal.Artery, .Portal.BigMo",
-		["Launch initiated, Fly!","Launch disengaged"]
+		["Launch engaged!","Launch disengaged!"]
 	],
 	[
 		"#Reach",
-		["Loading next division...","Select a dimension to fly","Already in progress","Soon!","Cancelling launch..."]
+		["Forward launch initiated...","Select a dimension to fly","Soon!","Cancelling launch..."]
 	],
     [
         "#Ditch",
-        ["Loading previous division...","Can't go back","Soon!","Cancelling fly..."]
+        ["Reverse launch initiated...","Can't go back","Soon!","Cancelling launch..."]
     ]
 ];
 Peek = [
@@ -1695,7 +1695,6 @@ fixset(true)
 		onDragStart: function(){
 			Locked[0] = false; // UnLocks the spaceship's movement
 			PedalAction.restart().play();
-			Glitch.on("#Gandalf", "Take off initiated...");
 			Fly();
         },
 		onDrag: function(){
@@ -1703,8 +1702,14 @@ fixset(true)
 
             // Boundary Set
 
-			if( Reverse.pedal == false ) { XtoPercent = (CurPos == this.minY) ? 0 : 100; }
-			else{ XtoPercent = (CurPos == this.minY) ? 100 : 0; }
+			if( Reverse.pedal == false ) {
+			    XtoPercent = (CurPos == this.minY) ? 0 : 100;
+                Glitch.on("#Gandalf", "Forward launch initiated...");
+			}
+			else{
+			    XtoPercent = (CurPos == this.minY) ? 100 : 0;
+                Glitch.on("#Gandalf", "Reverse launch initiated...");
+			}
             if( CurPos < PedalBoundary.Stop && CurPos > PedalBoundary.Start ) {
                 Region = Math.abs(this.maxY - this.minY);
                 XtoPercent = (Reverse.pedal == false) ? ( (CurPos) * 100) / Region : ( Math.abs(CurPos-this.maxY) * 100) / Region;
@@ -2845,7 +2850,7 @@ function ActiveSequence(t){
 				if( Active.Dimension === Portal[0] ){
 					Forward.isAvailable = false;
 					Forward.isAllowed(false,false);
-					$("#Reach").data({GandalfOpt: 3});
+					$("#Reach").data({GandalfOpt: 2});
 				}else {
 					Forward.isAvailable = true;
 					Forward.isAllowed(true, true);
@@ -2977,7 +2982,7 @@ function SwitchDivision(target,Manual){
 			}
 		}
 		if( !Forward.obj.length && Active.Dimension == Portal[0] ){
-		    $("#Reach").data({GandalfOpt: 3});
+		    $("#Reach").data({GandalfOpt: 2});
 			Forward.isAvailable = false;
 			Forward.isAllowed(false);
 		}
@@ -3241,7 +3246,7 @@ function Fly(Reach,Manual){
 			}else {
 				ActiveFly.reverse().eventCallback("onReverseComplete", function(){
                     if( !Forward.obj.length && Active.Dimension == Portal[0] ){
-                        $("#Reach").data({GandalfOpt: 3});
+                        $("#Reach").data({GandalfOpt: 2});
                     }else{
                         $("#Reach").data({GandalfOpt: 1});
                     }
@@ -3250,7 +3255,7 @@ function Fly(Reach,Manual){
 				ReverseFly.reverse().eventCallback("onReverseComplete", BackToBus);
 				Forward.isAllowed(false);
 				Reverse.isAllowed(true);
-				$("#Reach").data({GandalfOpt: 4});
+				$("#Reach").data({GandalfOpt: 3});
 			}
 			function BackToBus(){
 				Forward.isAllowed(Forward.memory);
