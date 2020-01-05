@@ -3763,9 +3763,6 @@ function PreventFly(t){
 		PedalPrevent.restart().play();
 
 	}
-	if( Active.Dimension === Portal[0] ){
-		// Gandalfer(null, "SOON!");
-	}
 }
   // Reverse Handle
 function ReverseHandle(NoChange){
@@ -5429,13 +5426,10 @@ function CardDeSelect(theT, This, ResetTargets){
 }*/
 Gandalfer = {
 	setup: function(GandalfRow){
-		// A variable indicating mouseover is off, so mouseleave would be deactivated as well
-		var Deactivate = false;
 		$(GandalfRow[0]).click(function(){
 			var content = GandalfRow[1];
 			// Analyzing the element for deactivation requests
 			if( $(this).data().GandalfActive === false ){
-				Deactivate = true;
 				return false;
 			}
 			var PO = $(this).data().GandalfOpt;
