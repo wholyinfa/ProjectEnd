@@ -38,6 +38,19 @@ Gandalf = [
     [
         ".Storm .Definer",
         ["Departing..."]
+    ],
+    // Skillometer
+    [
+        "#Skillometer .Core .Strikes",
+        ["Mounting the core...","Replacing the core..."]
+    ],
+    [
+        "#Skillometer .Glued",
+        "Select a core to power up"
+    ],
+    [
+        "#Skillometer .CoreSlot",
+        "Unmounting the core..."
     ]
 ];
 Peek = [
@@ -1531,7 +1544,7 @@ fixset(true)
 
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	OnLoadActive = $("#Skillometer");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2110,7 +2123,13 @@ fixset(true)
 			Emginashun.duration(Emginashun.duration()/14.4).reverse().eventCallback("onReverseComplete",DelCore,[Emginashun._first.target[0]]);
 			Laser.pause();
 			if( InfoPanel.active() ){ InfoPanel.off(); }
-		}
+			// Update status on Gandalf when a core is requested while another core is placed
+            $(this).data({GandalfOpt: 1});
+		}else{
+            // Update status on Gandalf for a new core request
+            $(this).data({GandalfOpt: 0});
+        }
+        $("#Skillometer .Glued").data({GandalfActive: false});
 		CoreClick[0] = CoreElement.attr("class");
 		Core = CoreElement.find(".Extender");
 		Dur = .5;
@@ -4759,6 +4778,8 @@ function CorePlaced(ThisCore){
 	CoreGlow.play(); SkiloBrrr.play(); Laser.play();
 	TweenMax.set(ThisCore, {zIndex: 2});
 	TweenMax.set(CoreKeepa[0], {zIndex: 2,autoAlpha: 0});
+    // Update status on Gandalf after core is placed
+    Glitch.on("#Gandalf", "Core analysis completed");
 }
 function ApplyCoreSlide(){
 	CoreSlider.play();
@@ -4794,6 +4815,10 @@ function ResetCore(){
 	Emginashun.delay(0).reverse().eventCallback("onReverseComplete",DelCore,[Emginashun._first.target[0]]);
 	TweenMax.set(CoreKeepa[0], {zIndex: 0,autoAlpha: 1});
 	CoreMove.reverse();
+	// Reactivating Gandalf after the Core is removed
+    $("#Skillometer .Glued").data({GandalfActive: true});
+    // Reset Gandalf's content
+    Glitch.on("#Gandalf", null);
 }
 
 // SpaceCyclone
