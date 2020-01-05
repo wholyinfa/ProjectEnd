@@ -64,7 +64,16 @@ Gandalf = [
     [
         "#AntiToxins .SingleParticle .PrevProject, #AntiToxins .SingleParticle .NextProject",
         "Openning..."
-    ]
+    ],
+	// Analyzer
+	[
+		"#Analyzer .Crystal, .LeftWing, .RightWing",
+		"Select a stone to analyze"
+	],
+	[
+		"#PrevFace, #NextFace",
+		"No stone selected"
+	]
 ];
 Peek = [
 	[
@@ -2356,15 +2365,15 @@ fixset(true)
 
 	Analyzer = { isActive: false, object: false,
 		Sequence: function(T){
-			// Toggling hover ability for crystal
+			// Toggle hover ability for crystal
 			$(".Crystal").toggleClass("active")
 			// Change Peek's content
 			.data({PeekOption: 1});
-			// Indicating reverse request
+			// Indicate reverse request
 			if( Analyzer.isActive ){
 				Analyzer.Reverse(T);
 			}
-			// Setting & replacing new data
+			// Set & replace new data
 			Analyzer.isActive = T.parent().attr("class");
 			Analyzer.object = T.parent();
 			TweenMax.set(T, {autoAlpha: 0});
@@ -2419,6 +2428,11 @@ fixset(true)
 									clamp: false
 								})
 							});
+							// Update status on Gandalf
+							Glitch.on("#Gandalf", "Stone analyzed");
+							// Deactive stone select notice
+							$("#PrevFace, #NextFace").data({GandalfActive: false});
+
 							var CurrentActive = $(".Analyzer .Faces > div.active");
 							// Making sure of the existence of the current active particle
 							if( CurrentActive ){
@@ -2483,7 +2497,7 @@ fixset(true)
 				rotation: 0,
 				scale: 1
 			});
-			// Reversing other animation groupes
+			// Reversing other animation groups
 			FaceAppear.reverse();
 			DimeEntrance.reverse();
 			if( AnalyzePlate.reversed() ){
@@ -2496,6 +2510,8 @@ fixset(true)
 			Analyzer.isActive = false;
 			if( FullReset ){
 				Glitch.on("#Analyzer .Core .Cloud", "SELECT A STONE");
+				// Reactivate stone select notice
+				$("#PrevFace, #NextFace").data({GandalfActive: true});
 			}
 		}
 	};
