@@ -24,11 +24,11 @@ Gandalf = [
 	],
 	[
 		"#Reach",
-		["Loading next division...","Select a dimension to fly","Already in progress","Soon!","Cancelling reverse..."]
+		["Loading next division...","Select a dimension to fly","Already in progress","Soon!","Cancelling fly..."]
 	],
 	[
 		"#Ditch",
-		["Loading previos division...","Unable to fly","Already in progress","Soon!"]
+        ["Loading previous division...","Can't go back","Soon!","Cancelling fly..."]
 	]
 ];
 Peek = [
@@ -1781,6 +1781,7 @@ fixset(true)
 			}
 		}
 		if( Reverse.isAllowed() ) {
+            $("#Ditch").data({GandalfOpt: 0});
 			Fly(true);
 		}
 		else{
@@ -3267,17 +3268,28 @@ function Fly(Reach,Manual){
 		}
 		return;
 	}
+    // Return on forward fly
 	if( Reverse.pedal === true && typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ||
 		( typeof(ReverseFly) !== "undefined" && ReverseFly.isActive() ) ){
-
+	    // Return on forward fly and return on reversed reverse fly
 		if( typeof(ReverseFly) !== "undefined" && ReverseFly.isActive() ){
-				Forward.isAllowed(true);
-				Reverse.isAllowed(false);
-				ActiveFly.reversed(!ActiveFly.reversed());
-				ReverseFly.reversed(!ReverseFly.reversed()).eventCallback("onReverseComplete", BackToBus);
+		    // Return on Forward fly
+            if( ActiveFly.isActive() && !ReverseFly.reversed() ){
+                $("#Ditch").data({GandalfOpt: 3});
+            }
+            Forward.isAllowed(true);
+            Reverse.isAllowed(false);
+            ActiveFly.reversed(!ActiveFly.reversed());
+            ReverseFly.reversed(!ReverseFly.reversed()).eventCallback("onReverseComplete", BackToBus);
 			function BackToBus(){
 				Forward.isAllowed(Forward.memory);
 				Reverse.isAllowed(Reverse.memory);
+                if( !Reverse.obj ){
+                    $("#Ditch").data({GandalfOpt: 1});
+                }else{
+                    $("#Ditch").data({GandalfOpt: 0});
+                }
+                Glitch.on("#Gandalf", null);
 				// Reactivating the portal
 				if( ActivePortal[0] !== false && DirectRotten[0] !== false && typeof(Shrinker) !== "undefined" ) {
 					DirectRotten[0].play();
@@ -3288,10 +3300,13 @@ function Fly(Reach,Manual){
 		else{
 				Forward.isAllowed(true);
 				Reverse.isAllowed(false);
+				$("#Ditch").data({GandalfOpt: 3});
 				ActiveFly.reverse().eventCallback("onReverseComplete",BackToBus);
 				function BackToBus(){
 					Forward.isAllowed(Forward.memory);
 					Reverse.isAllowed(Reverse.memory);
+					Glitch.on("#Gandalf", null);
+                    $("#Ditch").data({GandalfOpt: 0});
 					// Reactivating the portal
 					if( ActivePortal[0] !== false && DirectRotten[0] !== false && typeof(Shrinker) !== "undefined" ) {
 						DirectRotten[0].play();
@@ -3735,12 +3750,14 @@ function ReverseSequence(){
 		} else {
 			Reverse.obj = $("#" + Active.Dimension).children("div").last();
 		}
+        $("#Ditch").data({GandalfOpt: 0});
 		Reverse.obj.parent().css({visibility: "", opacity: ""});
 	}else{
 		revallowed = true;
 	}
 	if( !Reverse.obj.length || revallowed ){
 		Reverse.obj = false; Reverse.isAllowed(false);
+		$("#Ditch").data({GandalfOpt: 1});
 	}
 }
 // DivisionSequence orders
