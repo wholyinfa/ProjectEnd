@@ -676,6 +676,38 @@ Personalities = [
 		content: "Lorem ipsum dolor sit amet, te feu"
 	}
 ];
+DivisionURI = [
+	{
+		name: "Temporary",
+		pagetitle: "InfamousRocket - Front-end web developer, Digital designer",
+		url: ""
+	},
+	{
+		name: "SpaceCyclone",
+		pagetitle: "SpaceCyclone: Contact information - InfamousRocket",
+		url: "contact-information"
+	},
+	{
+		name: "Skillometer",
+		pagetitle: "Skillometer: Skills & experience proficiency - InfamousRocket",
+		url: "skills-&-experience"
+	},
+	{
+		name: "AntiToxins",
+		pagetitle: "AntiToxins: Projects & work samples - InfamousRocket",
+		url: "projects-&-work"
+	},
+	{
+		name: "Analyzer",
+		pagetitle: "Analyzer: Moral & behaviour - InfamousRocket",
+		url: "moral-&-behaviour"
+	},
+	{
+		name: "DeckCloud",
+		pagetitle: "DeckCloud: Achievements & abilities - InfamousRocket",
+		url: "achievements-&-abilities"
+	}
+];
 
 
 $(document).ready(function(){Globe();Varia()});
@@ -1593,7 +1625,7 @@ fixset(true)
 		Color: PortalColor[PortalColor.length-1]
 	};
 	ActivePortal = [false]; Origin = [0];
-	ActiveSection = OnLoadActive; SwitchDivisionActive = [false];
+	ActiveDivision = OnLoadActive; SwitchDivisionActive = [false];
 	Forward = {isAvailable : false, obj: false, allowed: false, memory: null, isAllowed: function(set,memory){
 		if(typeof(set) == "boolean"){
 			this.allowed = set;
@@ -1774,7 +1806,7 @@ fixset(true)
 				Dur = ReverseFly.duration()-((ReverseFly.duration()*.9)*( XtoPercent / 100 ));
 				ReverseFly.duration(Dur);
 			}else{
-				if( SwitchDivisionActive[0] == false && ActiveSection.attr("id") == "Temporary" ){
+				if( SwitchDivisionActive[0] == false && ActiveDivision.attr("id") == "Temporary" ){
 					Dur = Shrinker.duration()-((Shrinker.duration()*.9)*( XtoPercent / 100 ));
 					Shrinker.duration(Dur);
 				}
@@ -1806,7 +1838,7 @@ fixset(true)
 				}
 				ReverseFly.duration(ReverseFly.duration()-ReverseFly.duration()*.9).reverse().eventCallback("onReverseComplete",KillReverseFly);
 			}else{
-            	if( ActiveSection.attr("id") == "Temporary" || ( typeof(Shrinker) !== "undefined" && Shrinker.isActive() ) ){
+            	if( ActiveDivision.attr("id") == "Temporary" || ( typeof(Shrinker) !== "undefined" && Shrinker.isActive() ) ){
 				Shrinker.duration(Shrinker.duration()-Shrinker.duration()*.9).reverse();
 				}
             }
@@ -2780,11 +2812,34 @@ fixset(true)
 		}
 		Peeker.setup(this);
 	});
-
 	Pathfinder();
+	URI();
 	DivisionSequence(true);
-	if( ActiveSection.attr("id") === "Temporary" ){
+	if( ActiveDivision.attr("id") === "Temporary" ){
 		$("#Reach").data({GandalfOpt: 1});
+	}
+}
+
+function URI(ForceSet){
+	// Obtain the current URL path's name
+	var currenturl = (ForceSet) ? ActiveDivision.attr("id") : (document.location.pathname).replace(/\/~Project_END\//, ""),
+		url = null;
+
+	// Locate the page's URI information if available
+	$.each(DivisionURI, function(i){
+		if( this.name.toLowerCase() === currenturl.toLowerCase() || this.url.toLowerCase() === currenturl.toLowerCase() ){
+			url = ( this.name.toLowerCase() == "temporary" ) ? "./" : this.url ;
+			window.history.pushState({
+				id: this.name
+			}, this.pagetitle, url);
+			console.log(document.location);
+			document.title = this.pagetitle;
+		}
+	});
+	if( currenturl !== "" && url == null ){
+		var msg ="404 - Page not found";
+		window.history.pushState({id : "404"}, msg, "404");
+		document.title = msg;
 	}
 }
 
@@ -2955,15 +3010,15 @@ function SwitchDivision(target,Manual){
 			TweenMax.to(target.find(".Flow"),.5,{background: Active.Color,autoAlpha: 0});
 			// Activating the new section
 				Section = $("#" + Portal[X]).children().first();
-			if( ActiveSection.attr("id") == "Temporary" ){target = $("#Temporary");}
+			if( ActiveDivision.attr("id") == "Temporary" ){target = $("#Temporary");}
 			// Switching
-			ActiveSection = Section;
+			ActiveDivision = Section;
 
 			Dimension = $("#" + Portal[X]);
 			ChildrenLen = Dimension.children("div").length;
 			if ((Reverse.pedal == false &&
-				(ChildrenLen > 1 && ActiveSection.index() + 1 < ChildrenLen))) {
-				Forward.obj = Dimension.children().eq(ActiveSection.index() + 1);
+				(ChildrenLen > 1 && ActiveDivision.index() + 1 < ChildrenLen))) {
+				Forward.obj = Dimension.children().eq(ActiveDivision.index() + 1);
 			}
 			Forward.isAvailable = true;
 			Forward.isAllowed(true);
@@ -2976,13 +3031,13 @@ function SwitchDivision(target,Manual){
 		Shrinker.eventCallback("onComplete",LoadSection,[FlyAssociates]);
 	}else{
 		// Hiding the current section
-		TweenMax.to(ActiveSection, .5, {autoAlpha: 0,onComplete: LoadSection,onCompleteParams: [FlyAssociates]});
+		TweenMax.to(ActiveDivision, .5, {autoAlpha: 0,onComplete: LoadSection,onCompleteParams: [FlyAssociates]});
 	}
 	Locked[0] = true;
 	ActivePortal[0] = false;
 	// Prepping the spaceship for the next section
 	if( Section == false || Manual ){
-		Dimension = ActiveSection.parent();
+		Dimension = ActiveDivision.parent();
 		ChildrenLen = Dimension.children("div").length;
 
 		Forward.isAvailable = true;
@@ -2990,17 +3045,17 @@ function SwitchDivision(target,Manual){
         Glitch.on("#Gandalf", null);
 		if( !Manual ) {
 			// Keeping the current division in target variable
-			target = ActiveSection;
+			target = ActiveDivision;
 			if ((Reverse.pedal == false &&
-				(ChildrenLen > 1 && ActiveSection.index() + 1 < ChildrenLen))) {
-				ActiveSection = Dimension.children().eq(ActiveSection.index() + 1);
-				if ( ActiveSection.index() + 1 < ChildrenLen ) {
-					Forward.obj = Dimension.children().eq(ActiveSection.index() + 1);
+				(ChildrenLen > 1 && ActiveDivision.index() + 1 < ChildrenLen))) {
+				ActiveDivision = Dimension.children().eq(ActiveDivision.index() + 1);
+				if ( ActiveDivision.index() + 1 < ChildrenLen ) {
+					Forward.obj = Dimension.children().eq(ActiveDivision.index() + 1);
 				}else{
 					Forward.obj = $("#Temporary");
 				}
 			} else if ((ActivePortal[0] == false && Reverse.pedal == false)) {
-				ActiveSection = Subject = $("#Temporary");
+				ActiveDivision = Subject = $("#Temporary");
 				Forward.isAvailable = false;
 				// Resetting portals affected assets
 				if (DirectRotten[0] !== false) {
@@ -3016,33 +3071,33 @@ function SwitchDivision(target,Manual){
 					Forward.isAllowed(false);
 				}
 			} else if (Reverse.pedal == true) {
-				ActiveSection = Reverse.obj;
-				Subject = ActiveSection.find(".Entry");
-				Parent = ActiveSection;
+				ActiveDivision = Reverse.obj;
+				Subject = ActiveDivision.find(".Entry");
+				Parent = ActiveDivision;
 				// Resetting portals affected assets
-				if (DirectRotten[0] !== false && ActiveSection.attr("id") == "Temporary") {
+				if (DirectRotten[0] !== false && ActiveDivision.attr("id") == "Temporary") {
 					DirectRotten[0].play();
 					GetPortal = $(DirectRotten[0].target[0]).parent().parent();
 					CheckForToggle(GetPortal);
 					// Fly Config
 					ActivePortal[0] = GetPortal;
-					if (ActiveSection.attr("id") == "Temporary") {
+					if (ActiveDivision.attr("id") == "Temporary") {
 						Subject = GetPortal;
 					}
 				}
 			}
-			if ( Forward.obj == false && (ChildrenLen > 1 && ActiveSection.index() + 1 <= ChildrenLen) ) {
-				Forward.obj = Dimension.children().eq(ActiveSection.index() + 1);
+			if ( Forward.obj == false && (ChildrenLen > 1 && ActiveDivision.index() + 1 <= ChildrenLen) ) {
+				Forward.obj = Dimension.children().eq(ActiveDivision.index() + 1);
 			}
 		}
 		else{
-			Section = ActiveSection;
-			ActiveSection = target;
+			Section = ActiveDivision;
+			ActiveDivision = target;
 			target = Section;
 			DirectFlyActive[0] = false;
 
 			// Resetting portals affected assets
-			if ( DirectRotten[0] !== false && ActiveSection.attr("id") == "Temporary") {
+			if ( DirectRotten[0] !== false && ActiveDivision.attr("id") == "Temporary") {
 				DirectRotten[0].play();
 				GetPortal = $(DirectRotten[0].target[0]).parent().parent();
 				CheckForToggle(GetPortal);
@@ -3059,7 +3114,7 @@ function SwitchDivision(target,Manual){
 			Forward.isAvailable = false;
 			Forward.isAllowed(false);
 		}
-			Section = ActiveSection;
+			Section = ActiveDivision;
 	}
 
 	Section.css({visibility: "", opacity: "", transform : "", transformOrigin: ""});
@@ -3078,12 +3133,13 @@ function SwitchDivision(target,Manual){
 	ReverseSequence();
 	DivisionSequence(true,target);
 	Pathfinder();
+	URI(true);
 }
   // Division sequences
 Order = {NO: 0, Definitive: false};
 
 function DivisionSequence(reset,undone){
-	DiviSection = ActiveSection.attr("id");
+	DiviSection = ActiveDivision.attr("id");
 	PreFlyIsSet = false; Reactive = false;
 	if( reset && Reverse.obj ){
         PreDivision = Reverse.obj.attr("id");
@@ -3338,7 +3394,7 @@ function Fly(Reach,Manual){
 					DirectRotten[0].play();
 					CheckForToggle(ActivePortal[0]);
 				}
-				Reverse.obj.css({zIndex: -1}); ActiveSection.css({zIndex: 1});
+				Reverse.obj.css({zIndex: -1}); ActiveDivision.css({zIndex: 1});
 				ResetVars = PreFlyAssociates.toString()+","+FlyAssociates.toString();
 				if( NextDivisionAssociates ){ ResetVars += ","+NextDivisionAssociates.toString(); }
 				TweenMax.set(ResetVars, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
@@ -3442,9 +3498,9 @@ function Fly(Reach,Manual){
 		if( Reverse.pedal == true ){
 			Parent = Reverse.obj;
 		}else{
-			Parent = ActiveSection;
+			Parent = ActiveDivision;
 		}
-		if( Manual ){ Parent = ActiveSection; }
+		if( Manual ){ Parent = ActiveDivision; }
 		if( ActivePortal[0] === false ){
 			if( Reverse.pedal == true && Reverse.obj.attr("id") == "Temporary" ){
 				Subject = $(DirectRotten[0].target).parent().parent();
@@ -3476,11 +3532,11 @@ function Fly(Reach,Manual){
 			Reverse.isAllowed(false,Reverse.isAllowed());
 			Reverse.IsOverrided(false);
 			TweenMax.set(Reverse.obj,{autoAlpha: 1});
-			Reverse.obj.css({zIndex: 1}); ActiveSection.css({zIndex: -1});
+			Reverse.obj.css({zIndex: 1}); ActiveDivision.css({zIndex: -1});
 			ReverseFly = new TimelineMax({paused: true});
 			ReverseFly.eventCallback("onReverseComplete",KillReverseFly);
 			if( PreFlyAssociates.length > 1 ){
-				if( ActiveSection.attr("id") !== "Temporary" ){
+				if( ActiveDivision.attr("id") !== "Temporary" ){
 					HoldMyState = RevHoldMyState = {
 						ot : Subject.offset().top,
 						ol : Subject.offset().left,
@@ -3502,7 +3558,7 @@ function Fly(Reach,Manual){
 						AutoNode.push(this);
 					}else{
 						Asc = Parent.find(this.toString());
-						if( ActiveSection.attr("id") !== "Temporary" ) {
+						if( ActiveDivision.attr("id") !== "Temporary" ) {
 							AddFly.Switch(true);
 						}else{
 							AddFly.Spin(true);
@@ -3514,7 +3570,7 @@ function Fly(Reach,Manual){
 				X = 1;
 					Parent.find(AutoNode.toString()).each(function () {
 						Asc = Parent.find(this);
-						if( ActiveSection.attr("id") !== "Temporary" ) {
+						if( ActiveDivision.attr("id") !== "Temporary" ) {
 							AddFly.Switch(true);
 						}else{
 							AddFly.Spin(true);
@@ -3527,11 +3583,11 @@ function Fly(Reach,Manual){
 				X = 1; AutoNode = [];
 				$(FlyAssociates).each(function(i){
 					// Creating an array consisting of multiple nodes (if there are any)
-					if( this.length == 1 && ActiveSection.find(this.toString()).length > 1 ){
+					if( this.length == 1 && ActiveDivision.find(this.toString()).length > 1 ){
 						AutoNode.push(this);
 					}else{
-						Asc = ActiveSection.find(this.toString());
-						if( ActiveSection.attr("id") !== "Temporary" ) {
+						Asc = ActiveDivision.find(this.toString());
+						if( ActiveDivision.attr("id") !== "Temporary" ) {
 							AddFly.Switch("ffs");
 						}else{
 							AddFly.Spin("ffs");
@@ -3541,9 +3597,9 @@ function Fly(Reach,Manual){
 				});
 				if( AutoNode.length > 0 ) {
 				X = 1;
-					ActiveSection.find(AutoNode.toString()).each(function () {
-						Asc = ActiveSection.find(this);
-						if( ActiveSection.attr("id") !== "Temporary" ) {
+					ActiveDivision.find(AutoNode.toString()).each(function () {
+						Asc = ActiveDivision.find(this);
+						if( ActiveDivision.attr("id") !== "Temporary" ) {
 							AddFly.Switch("ffs");
 						}else{
 							AddFly.Spin("ffs");
@@ -3552,7 +3608,7 @@ function Fly(Reach,Manual){
 					});
 				}
 			}
-			if( ActiveSection.attr("id") !== "Temporary" ){ TheDelay = TheDelayNum = 0; }else{ TheDelay = "-=9"; TheDelayNum = 9; }
+			if( ActiveDivision.attr("id") !== "Temporary" ){ TheDelay = TheDelayNum = 0; }else{ TheDelay = "-=9"; TheDelayNum = 9; }
 			ActiveFly
 				.fromTo(Reverse.obj, AnimDur-TheDelayNum, {
 					autoAlpha: 0,
@@ -3562,7 +3618,7 @@ function Fly(Reach,Manual){
 					ease: CustomEase.create("custom", "M0,0 C0,0 0.194,0.907 0.514,0.942 0.642,0.972 1,1 1,1")
 				}, TheDelay);
 			ReverseFly
-				.fromTo(ActiveSection, AnimDur-TheDelayNum, {
+				.fromTo(ActiveDivision, AnimDur-TheDelayNum, {
 					autoAlpha: 1,
 					ease: CustomEase.create("custom", "M0,0 C0,0 0.194,0.907 0.514,0.942 0.642,0.972 1,1 1,1")
 				}, {
@@ -3575,7 +3631,7 @@ function Fly(Reach,Manual){
 			Forward.isAllowed(false,Forward.isAllowed());
 			Reverse.isAllowed(true,Reverse.isAllowed());
 			Reverse.IsOverrided(false);
-			if( ActiveSection.attr("id") == "SpaceCyclone" && NextDivisionAssociates.length > 1 ){
+			if( ActiveDivision.attr("id") == "SpaceCyclone" && NextDivisionAssociates.length > 1 ){
 				HoldMyState = RevHoldMyState = {
 					ot : $(".QuickAccess").offset().top+200,
 					ol : $(".QuickAccess").offset().left,
@@ -3591,7 +3647,7 @@ function Fly(Reach,Manual){
 						AutoNode.push(this);
 					}else{
 						Asc = Forward.obj.find(this.toString());
-						if( ActiveSection.attr("id") !== "SpaceCyclone" ) {
+						if( ActiveDivision.attr("id") !== "SpaceCyclone" ) {
 							AddFly.Switch();
 						}else{
 							AddFly.Spin(false);
@@ -3603,7 +3659,7 @@ function Fly(Reach,Manual){
 					X = 1;
 					Forward.obj.find(AutoNode.toString()).each(function () {
 						Asc = Forward.obj.find(this);
-						if( ActiveSection.attr("id") !== "SpaceCyclone" ) {
+						if( ActiveDivision.attr("id") !== "SpaceCyclone" ) {
 							AddFly.Switch();
 						}else{
 							AddFly.Spin(false);
@@ -3670,7 +3726,7 @@ function Fly(Reach,Manual){
 						AutoNode.push(this);
 					}else{
 						Asc = Parent.find(this.toString());
-						if( ActiveSection.attr("id") !== "SpaceCyclone" ) {
+						if( ActiveDivision.attr("id") !== "SpaceCyclone" ) {
 							AddFly.Switch();
 						}else{
 							AddFly.Spin();
@@ -3682,7 +3738,7 @@ function Fly(Reach,Manual){
 					X = 1;
 					Parent.find(AutoNode.toString()).each(function () {
 						Asc = Parent.find(this);
-						if( ActiveSection.attr("id") !== "SpaceCyclone" ) {
+						if( ActiveDivision.attr("id") !== "SpaceCyclone" ) {
 							AddFly.Switch();
 						}else{
 							AddFly.Spin();
@@ -3694,7 +3750,7 @@ function Fly(Reach,Manual){
 
 			// Setting the active portal to shrink
 
-			if( ActiveSection.attr("id") === "Temporary" ) {
+			if( ActiveDivision.attr("id") === "Temporary" ) {
 				Shrinker = new TimelineMax({paused: true});
 				Shrinker.set(Subject.find(".Shrinker"), {scale: 1, rotation: 0, z: 0.01});
 				Scale = (window.innerWidth / Subject.width()) * 2;
@@ -3722,11 +3778,11 @@ function Fly(Reach,Manual){
 					},(AnimDur*1.4)-.5);
 			}else{
 
-				if( ActiveSection.attr("id") !== "SpaceCyclone" ){
+				if( ActiveDivision.attr("id") !== "SpaceCyclone" ){
 					TheDelay = "-=10";
 					TheDelayNum = AnimDur - 3;
 					ActiveFly
-						.fromTo(ActiveSection, AnimDur - TheDelayNum, {
+						.fromTo(ActiveDivision, AnimDur - TheDelayNum, {
 							autoAlpha: 1
 						}, {
 							autoAlpha: 0
@@ -3740,7 +3796,7 @@ function Fly(Reach,Manual){
 					TheDelay = "-=9";
 					TheDelayNum = 9;
 					ActiveFly
-						.fromTo(ActiveSection, AnimDur - TheDelayNum, {
+						.fromTo(ActiveDivision, AnimDur - TheDelayNum, {
 							autoAlpha: 1,
 							ease: CustomEase.create("custom", "M0,0 C0,0 0.194,0.907 0.514,0.942 0.642,0.972 1,1 1,1")
 						}, {
@@ -3786,7 +3842,7 @@ function Fly(Reach,Manual){
 	if( Reach ){ Dur = AnimDur-AnimDur*.9; } // Reach Button : Duration decreased
 	ActiveFly.duration(Dur).resume();
 
-	if( ActiveSection.attr("id") === "Temporary" && Reverse.pedal === false ) {
+	if( ActiveDivision.attr("id") === "Temporary" && Reverse.pedal === false ) {
 		if( Shrinker.reversed() ){Shrinker.reversed( !Shrinker.reversed() );}
 		Dur = Shrinker.duration();
 		if( Reach ){ Dur -= Dur*.9; } // Reach Button : Duration decreased
@@ -3831,13 +3887,13 @@ function ReverseHandle(NoChange){
   // Reverse sequence
 function ReverseSequence(){
 	var revallowed = false ;
-	Dimension = ActiveSection.parent();
+	Dimension = ActiveDivision.parent();
 	ChildrenLen = Dimension.children("div").length;
-	StartFromZero = ActiveSection.index() - (Dimension.children().length - ChildrenLen);
+	StartFromZero = ActiveDivision.index() - (Dimension.children().length - ChildrenLen);
 	Reverse.isAllowed(true);
 	if (ChildrenLen > 1 &&
 		StartFromZero - 1 >= 0) {
-		Reverse.obj = Dimension.children().eq(ActiveSection.index() - 1);
+		Reverse.obj = Dimension.children().eq(ActiveDivision.index() - 1);
 	} else if ( Active.Dimension !== "Trilogies" ) {
 		if (Active.Dimension === Dimension.attr("id")) {
 			Reverse.obj = $("#Trilogies > #Temporary");
@@ -3893,7 +3949,7 @@ function KillRot(XX,T){
 function KillActiveFly(){
 	Forward.isAllowed(Forward.memory);
 	if( Reverse.obj !== false ){Reverse.obj.css({zIndex: -1});}
-	ActiveSection.css({zIndex: 1});
+	ActiveDivision.css({zIndex: 1});
 	ResetVars = PreFlyAssociates.toString()+","+FlyAssociates.toString();
 	if( NextDivisionAssociates ){ ResetVars += ","+NextDivisionAssociates.toString(); }
 	TweenMax.set(ResetVars, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
@@ -3987,7 +4043,7 @@ AddFly = {
 		AscOrigin +=  ((HoldMyState.ot+HoldMyState.h/2)-Asc.offset().top)+"px";
 		A_ease = Back.easeInOut.config(2);
 		TheFly = (ReverseSeq || Reverse == false) ? ReverseFly : ActiveFly;
-		TheParent = (ReverseSeq) ? ActiveSection.find(Asc) : (Reverse !== false) ? Parent.find(Asc) : Forward.obj.find(Asc);
+		TheParent = (ReverseSeq) ? ActiveDivision.find(Asc) : (Reverse !== false) ? Parent.find(Asc) : Forward.obj.find(Asc);
 		TheFly.add(
 			TweenMax.fromTo(TheParent, AnimDur, {
 				rotation: Afrom_rotation,
@@ -4007,8 +4063,8 @@ AddFly = {
 		Afrom_x = 0;
 		Afrom_scale = 1;
 		Afrom_autoAlpha = 1;
-		Ato_y = ((ActiveSection.height()/2-SC_HoldMyState.ot)-SC_HoldMyState.h/2);
-		Ato_x = ((ActiveSection.width()/2-SC_HoldMyState.ol)-SC_HoldMyState.w/2);
+		Ato_y = ((ActiveDivision.height()/2-SC_HoldMyState.ot)-SC_HoldMyState.h/2);
+		Ato_x = ((ActiveDivision.width()/2-SC_HoldMyState.ol)-SC_HoldMyState.w/2);
 		Ato_scale = SC_scale;
 		Ato_autoAlpha = ( type1 ) ? .3 : 0;
 		AscOrigin = ((SC_HoldMyState.ol+SC_HoldMyState.w/2)-Asc.offset().left)+"px ";
@@ -4075,8 +4131,8 @@ AddFly = {
 		Afrom_x = 0;
 		Afrom_scale = 1;
 		Afrom_autoAlpha = 1;
-		Ato_y = ( ( ActiveSection.height()*.14 - AT_HoldMyState.ot ) - AT_HoldMyState.h / 2 );
-		Ato_x = ( ( ActiveSection.width()/2 - AT_HoldMyState.ol ) - AT_HoldMyState.w / 2 );
+		Ato_y = ( ( ActiveDivision.height()*.14 - AT_HoldMyState.ot ) - AT_HoldMyState.h / 2 );
+		Ato_x = ( ( ActiveDivision.width()/2 - AT_HoldMyState.ol ) - AT_HoldMyState.w / 2 );
 		Ato_scale = ( type1 ) ? DefaultScale(AT_HoldMyState.w) : AT_scale;
 		Ato_autoAlpha = ( type1 ) ? 1 : .2;
 		AscOrigin = ( ( AT_HoldMyState.ol + AT_HoldMyState.w / 2 ) - Asc.offset().left ) + "px ";
@@ -4109,8 +4165,8 @@ AddFly = {
 	},
 	ParticleNavigate : function(type1, type2){
 		AnimDur = .75;
-		Ato_y = (( ActiveSection.height() * .14 - NAV_HoldMyState.ot ) - NAV_HoldMyState.h / 2 );
-		Ato_x = (( ActiveSection.width() / 2 - NAV_HoldMyState.ol ) - NAV_HoldMyState.w / 2 );
+		Ato_y = (( ActiveDivision.height() * .14 - NAV_HoldMyState.ot ) - NAV_HoldMyState.h / 2 );
+		Ato_x = (( ActiveDivision.width() / 2 - NAV_HoldMyState.ol ) - NAV_HoldMyState.w / 2 );
 		Ato_autoAlpha = ( type1 ) ? 1 : .2;
 		AscOrigin = ( ( NAV_HoldMyState.ol + NAV_HoldMyState.w / 2 ) - Asc.parent().offset().left ) + "px ";
 		AscOrigin += ( ( NAV_HoldMyState.ot + NAV_HoldMyState.h / 2 ) - Asc.parent().offset().top ) + "px";
@@ -4183,24 +4239,24 @@ StormRitual = {
 		);
 	},
 	Definer : function(){
-		Ato_y = ( ( ( ( ( ActiveSection.height() * 8 ) / 100 ) - Asc.offset().top ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveSection.width() / 2 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+		Ato_y = ( ( ( ( ( ActiveDivision.height() * 8 ) / 100 ) - Asc.offset().top ) ) * 100 ) / Asc.innerHeight();
+		Ato_x = ( ( ( ( ActiveDivision.width() / 2 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
 		AssetRotation = 0;
 		AssetX = "0%";
 		AssetY = "0%";
 		this.Ritual();
 	},
 	AlphaAsset : function(){
-		Ato_y = ( ( ( ( ActiveSection.height() / 2 ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveSection.width() * 0.75 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+		Ato_y = ( ( ( ( ActiveDivision.height() / 2 ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
+		Ato_x = ( ( ( ( ActiveDivision.width() * 0.75 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
 		AssetRotation = ( Asc.hasClass("Resume") ) ? 20 : ( Asc.hasClass("CodeProject") ) ? 9 : ( Asc.hasClass("Envelope") ) ? 12 : 0;
 		AssetX = ( Asc.hasClass("Resume") ) ? "25%" : ( Asc.hasClass("Envelope") ) ? "-3%" : "0%";
 		AssetY = ( Asc.hasClass("Resume") ) ? "-8%" : ( Asc.hasClass("Envelope") ) ? "25%" : "0%";
 		this.Ritual();
 	},
 	BetaAsset : function(){
-		Ato_y = ( ( ( ( ActiveSection.height() / 2 ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveSection.width() * .25 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+		Ato_y = ( ( ( ( ActiveDivision.height() / 2 ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
+		Ato_x = ( ( ( ( ActiveDivision.width() * .25 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
 		AssetRotation = ( Asc.hasClass("CV") ) ? 20 : ( Asc.hasClass("DesignProject") ) ? -20 : 0;
 		AssetX = ( Asc.hasClass("CV") ) ? "35%" : "0%";
 		AssetY = ( Asc.hasClass("CV") ) ? "12%" : "0%";
@@ -4455,14 +4511,14 @@ function Pathfinder(){
 	ctt = false;
 	// Preventing pathfinder to rewrite similar paths
 	if( ( typeof(tpath) !== "undefined" ) &&
-		( tpath.parent.attr("id") == ActiveSection.parent().attr("id") &&
+		( tpath.parent.attr("id") == ActiveDivision.parent().attr("id") &&
 		( tpath.parent.attr("id") !== "Trilogies" || tprint.parent == null ) )
 		 ){
 			Busted = true;
 	}
 	tpath = {
-		self: ActiveSection,
-		parent: ActiveSection.parent()
+		self: ActiveDivision,
+		parent: ActiveDivision.parent()
 	};
 	tprint = {
 		pre: null,
@@ -4734,7 +4790,7 @@ function PathCallTo(){
 			( i === 1 ) ? null :
 			( i-1 === tpath.parent.children().length ) ? tpath.self :
 			tpath.parent.children().eq(i-2);
-		if( (DirectFly[i] !== null && DirectFly[i].attr("id") !== ActiveSection.attr("id")) ){
+		if( (DirectFly[i] !== null && DirectFly[i].attr("id") !== ActiveDivision.attr("id")) ){
 			$(CurrentA).css({color: Active.Color});
 
 			var Divider = $("#Path>span");
@@ -5007,7 +5063,7 @@ function DefaultScale(asset){
 	if( asset instanceof Object && asset instanceof jQuery ){
 		asset = asset.innerWidth();
 	}
-	return 1 + ( 1 - ( asset / ( ActiveSection.width() * .1 ) ) );
+	return 1 + ( 1 - ( asset / ( ActiveDivision.width() * .1 ) ) );
 }
 function ParticleActivation(T, e){
 	// Cancelling click process on 2 conditions :
@@ -5449,33 +5505,6 @@ function CardDeSelect(theT, This, ResetTargets){
 }
 
 // Gandalf setter
-/*function Gandalfer(T,manual){
-	if( !manual ) {
-		var t = T,
-		Content = null;
-		for (X = 0; X < Gandalf.length; X++) {
-			if (t.attr("id") && t.attr("id") === Gandalf[X].id) {
-				Content = Gandalf[X].content;
-			}
-			if (Gandalf[X].class) {
-				if (typeof (Gandalf[X].class) == "object") {
-					for (XX = 0; XX < Gandalf[X].class.length; XX++) {
-						if (t.hasClass(Gandalf[X].class[XX])) {
-							Content = Gandalf[X].content;
-						}
-					}
-				} else {
-					if (t.hasClass(Gandalf[X].class)) {
-						Content = Gandalf[X].content;
-					}
-				}
-			}
-		}
-	}else{
-		var Content = manual;
-	}
-	Glitch.on("#Gandalf", Content);
-}*/
 Gandalfer = {
 	setup: function(GandalfRow){
 		$(GandalfRow[0]).click(function(){
