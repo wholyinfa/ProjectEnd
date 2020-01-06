@@ -260,15 +260,17 @@
                 </div>
                 </div>
                 <div id="Footer">
-                    <a href="" class="Telegram">
-                        <img src="ASSETS/Footer/Telegram.png" alt="">
-                        TELEGRAM
+                    <a href="https://github.com/infamousrocket/ProjectEnd" class="GitHub">
+                        <img src="ASSETS/Footer/GitHub.png" alt="InfamousRocket on GitHub">
+                        <div class="Line"></div>
+                        GITHUB
                     </a>
-                    <a href="" class="Telegram">
-                        <img src="ASSETS/Footer/LinkedIn.png" alt="">
-                        TELEGRAM
+                    <a href="https://www.linkedin.com/in/alihadadi" class="LinkedIn">
+                        <img src="ASSETS/Footer/LinkedIn.png" alt="InfamousRocket on LinkedIn">
+                        <div class="Line"></div>
+                        LINKEDIN
                     </a>
-                    <div class="CopyRight">EVERYTHINGS RSERVED C2018</div>
+                    <div class="CopyRight">EVERYTHING'S RESERVED &copy;<?php echo date("Y"); ?></div>
                 </div>
             </div>
             <div id="Temporary">
