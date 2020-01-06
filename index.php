@@ -6,20 +6,20 @@
 <meta name='CSRF' content="<?php echo $token; ?>" >
 <meta name='Description' content=''>
 <meta name='Keywords' content=''>
-<title>Ali Hadadi | Web front-end developer, Digital designer</title>
+<title>InfamousRocket - Front-end web developer, Digital designer</title>
 <!--<link href='STYLE/PILE.css' rel='stylesheet' type='text/css'>
 <link href='STYLE/PILEβ.css' rel='stylesheet' type='text/css'>
 <link href='STYLE/PileΓ.css' rel='stylesheet' type='text/css'>-->
-<link href='STYLE/Style.css' rel='stylesheet' type='text/css'>
-<link href='PIC/SeoLess/Log.png' rel='shortcut icon'>
-<script src='SCRIPT/JQ-3.1.1.js' type='text/javascript' language='javascript' ></script>
-    <script src='SCRIPT/   jquery-ui.js' type='text/javascript' language='javascript' ></script>
-<script src='SCRIPT/GSAP/TweenMax.min.js' type='text/javascript' language='javascript' ></script>
-<script src='SCRIPT/GSAP/TimelineMax.min.js' type='text/javascript' language='javascript' ></script>
-<script src='SCRIPT/GSAP/easing/CustomEase.min.js' type='text/javascript' language='javascript' ></script>
-<script src='SCRIPT/GSAP/utils/Draggable.min.js' type='text/javascript' language='javascript' ></script>
+<link href='http://localhost/~Project_END/STYLE/Style.css' rel='stylesheet' type='text/css'>
+<link href='http://localhost/~Project_END/PIC/SeoLess/Log.png' rel='shortcut icon'>
+<script src='http://localhost/~Project_END/SCRIPT/JQ-3.1.1.js' type='text/javascript' language='javascript' ></script>
+<script src='http://localhost/~Project_END/SCRIPT/jquery-ui.js' type='text/javascript' language='javascript' ></script>
+<script src='http://localhost/~Project_END/SCRIPT/GSAP/TweenMax.min.js' type='text/javascript' language='javascript' ></script>
+<script src='http://localhost/~Project_END/SCRIPT/GSAP/TimelineMax.min.js' type='text/javascript' language='javascript' ></script>
+<script src='http://localhost/~Project_END/SCRIPT/GSAP/easing/CustomEase.min.js' type='text/javascript' language='javascript' ></script>
+<script src='http://localhost/~Project_END/SCRIPT/GSAP/utils/Draggable.min.js' type='text/javascript' language='javascript' ></script>
 <!--<script src='SCRIPT/SCRIPT.js' type='text/javascript' language='javascript' ></script>-->
-<script src='SCRIPT/Script.js' type='text/javascript' language='javascript' ></script>
+<script src='http://localhost/~Project_END/SCRIPT/Script.js' type='text/javascript' language='javascript' ></script>
 </head>
 
 <body>
@@ -112,11 +112,9 @@
         <div id='Trilogies'>
 
             <h1 class='Portalian'>
-                    Eyyy , This is Ali <br>
-                    The Best Programmer ; <br>
-                    And the Finest Graphic Designer &lt;3 <br>
-                    OF ALL TIME  <br>
-                    :P</h1>
+                This is the InfamousRocket<br>
+                Front-end web developer<br>
+                & Digital designer</h1>
 
             <div id="SpaceCyclone">
                 <div class="BreathinFragment Entry">
