@@ -2032,6 +2032,84 @@ fixset(true)
 	$("#SpaceCyclone > .Storm form input, #SpaceCyclone > .Storm form textarea").focusout(function(){
 		FormEffects.reverse($(this));
 	});
+	$("#SpaceCyclone > .Storm form").submit(function(e){
+	    // Refuse to redirect
+	    e.preventDefault();
+	    // Collect form's inputs
+        var inputs = $(this).find("input:not([type='file']), .TextArea > textarea"),
+            regx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g,
+            error = 0,
+            file = $(this).find("[type='file']"),
+            err_container = "#"+$(this).attr("id")+" .Error",
+            form = $(this);
+        $.each(inputs, function(){
+            var efilter = $(this).filter("[name='email']");
+           if(
+               ( !efilter.length && !$(this).val() ) ||
+               ( efilter.length && !efilter.val().match(regx) )
+           ){
+               // Addup the error count
+               error++;
+               // Indicate error on inputs
+               TweenMax.to( $(this), .1, {border: "1px solid red"} );
+           }else{
+               TweenMax.to( $(this), .1, {border: "0"} );
+           }
+        });
+        // Check for errors
+        if( error ){
+            // Print the error message
+            error = "Please review the highlighted fields";
+            Glitch.on(err_container, error);
+            // End the request due to errors
+            return false;
+        }
+        // Build the data object
+        var data = {
+            name: $(inputs[0]).val(),
+            email: $(inputs[1]).val(),
+            subject: $(inputs[2]).val(),
+            context: $(inputs[3]).val()
+        };
+        // Include the file if provided
+        if( file.prop("files").length ){
+            data.file = file.prop("files")[0].name;
+        }
+        // Finalize and clear form of previous error remains
+        if( $(err_container).text() ){
+            Glitch.on(err_container, null);
+        }
+        // Update send status
+        Glitch.on("#Gandalf", "Sending...");
+        $.ajax(
+            {
+                type: "POST",
+                url: "http://localhost/~Projecat_END/",
+                data: data,
+                success: function(response){
+                    if( response === "sent" ){
+                    // Request asset reset and send a function to run after the reset animation
+                        AssetForm(form.siblings(".Title"), function(){
+                            // Reset the form
+                            form[0].reset();
+                            // Bring back the place holders
+                            form.find("input:not([type='file']), textarea").each(function(){
+                                FormEffects.reverse($(this));
+                            });
+                            // Update send status
+                            Glitch.on("#Gandalf", "Message sent!");
+                        });
+                    }
+                },
+                error: function(){
+                    // Print error message
+                    Glitch.on(err_container, "Hmm... Something's not right...");
+                    // Update send status
+                    Glitch.on("#Gandalf", "Send unsuccessful!");
+                }
+            }
+        )
+    });
 	$("#SpaceCyclone > .Storm .Definer").click(function(){
 		ExitStorm($(this).parent().parent());
 	});
@@ -4948,13 +5026,22 @@ Form = {
 	Arrange: [],
 	ActiveDom: null
 };
-function AssetForm(t){
+function AssetForm(t,func){
 	// Defining required vars
 	var Asset = t.parent(),
 	Class = t.parent().attr("class"),
 	TheForm = t.siblings("form");
 	AssetHover(Asset,true);
 	if( EnterStorm.isActive() ){ return; }
+    // If available, run the second parameter after the animation is reversed (EXCLUSIVE FORM SEQUENCE)
+    if( func ){
+        Form.Arrange[Class].eventCallback("onReverseComplete", function(){
+            // Run the function
+            func();
+            // Reset call back on the animation
+            Form.Arrange[Class].eventCallback("onReverseComplete", null);
+        });
+    }
 	if( Form.ActiveDom !== null && !Asset.hasClass(Form.ActiveDom.parent().attr("class")) ){
 		var ActiveClass = Form.ActiveDom.parent().attr("class");
 		Deformer(ActiveClass, Form.ActiveDom, true);
