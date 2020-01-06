@@ -80,7 +80,7 @@ Gandalf = [
         "Select a card to reveal"
     ],
     [
-        "#DeckCloud .Card",
+        "#DeckCloud .Card:not(:last-child)",
         ["Card revealed","Deck stacked!"]
     ]
 ];
@@ -1575,7 +1575,7 @@ fixset(true)
 
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#DeckCloud");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
