@@ -157,24 +157,25 @@
                                 <div class="Asset"></div>
                                 <div class="Sub">CODE PROJECT</div>
                             </div>
-                            <form id="CodeProjectRequest" action="">
+                            <form id="DesignReq" action="/">
                                 <div class="Input">
-                                    <label for="Name">Name</label>
-                                    <input type="text" name="Name" >
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" >
                                 </div>
                                 <div class="Input">
-                                    <label for="Email">E-mail</label>
-                                    <input type="text" name="Email">
+                                    <label for="email">E-mail</label>
+                                    <input type="text" name="email">
                                 </div>
                                 <div class="Input">
-                                    <label for="ProjectType">Project Type</label>
-                                    <input type="text" name="ProjectType">
+                                    <label for="subject">Request subject</label>
+                                    <input type="text" name="subject">
                                 </div>
                                 <div class="TextArea">
-                                    <label for="Email">Tell me the basics
-                                        Of what you need</label>
-                                    <textarea name="Describe"></textarea>
+                                    <label for="context">Express the basics
+                                        Of what you need...</label>
+                                    <textarea name="context"></textarea>
                                 </div>
+                                <div class="Error"></div>
                                 <input type="file" accept=".jpeg,.png,.zip,.pdf,.doc,.docx,.txt">
                                 <button class="Attach" type="button">Attach a file</button>
                                 <button class="Submit" type="submit">SEND</button>
@@ -185,24 +186,25 @@
                                 <div class="Asset"></div>
                                 <div class="Sub">DESIGN PROJECT</div>
                             </div>
-                            <form id="DesignProjectRequest" action="">
+                            <form id="DesignReq" action="/">
                                 <div class="Input">
-                                    <label for="Name">Name</label>
-                                    <input type="text" name="Name" >
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" >
                                 </div>
                                 <div class="Input">
-                                    <label for="Email">E-mail</label>
-                                    <input type="text" name="Email">
+                                    <label for="email">E-mail</label>
+                                    <input type="text" name="email">
                                 </div>
                                 <div class="Input">
-                                    <label for="ProjectType">Project Type</label>
-                                    <input type="text" name="ProjectType">
+                                    <label for="subject">Request subject</label>
+                                    <input type="text" name="subject">
                                 </div>
                                 <div class="TextArea">
-                                    <label for="Email">Tell me the basics
-                                        Of what you need</label>
-                                    <textarea name="Describe"></textarea>
+                                    <label for="context">Express the basics
+                                        Of what you need...</label>
+                                    <textarea name="context"></textarea>
                                 </div>
+                                <div class="Error"></div>
                                 <input type="file" accept=".jpeg,.png,.zip,.pdf,.doc,.docx,.txt">
                                 <button class="Attach" type="button">Attach a file</button>
                                 <button class="Submit" type="submit">SEND</button>
@@ -225,24 +227,24 @@
                             <div class="Asset"></div>
                             <div class="Sub">SEND A MESSAGE</div>
                         </div>
-                        <form id="DesignProjectRequest" action="">
+                        <form id="MsgReq" action="/">
                             <div class="Input">
-                                <label for="Name">Name</label>
-                                <input type="text" name="Name" >
+                                <label for="name">Name</label>
+                                <input type="text" name="name" >
                             </div>
                             <div class="Input">
-                                <label for="Email">E-mail</label>
-                                <input type="text" name="Email">
+                                <label for="email">E-mail</label>
+                                <input type="text" name="email">
                             </div>
                             <div class="Input">
-                                <label for="ProjectType">Project Type</label>
-                                <input type="text" name="ProjectType">
+                                <label for="subject">Subject</label>
+                                <input type="text" name="subject">
                             </div>
                             <div class="TextArea">
-                                <label for="Email">Tell me the basics
-                                    Of what you need</label>
-                                <textarea name="Describe"></textarea>
+                                <label for="context">Have something to say?</label>
+                                <textarea name="context"></textarea>
                             </div>
+                            <div class="Error"></div>
                             <input type="file" accept=".jpeg,.png,.zip,.pdf,.doc,.docx,.txt">
                             <button class="Attach" type="button">Attach a file</button>
                             <button class="Submit" type="submit">SEND</button>

@@ -132,6 +132,11 @@
 #SpaceCyclone button:hover{
     cursor: pointer;
 }
+#SpaceCyclone form .Error{
+    width: 100%;
+    position: absolute; top: -2.4em; left: 0;
+    text-align: center; font-size: .8em; font-family: Ocr; color: red;
+}
 #SpaceCyclone .Input{
     width: 350px; height: 60px;
     margin-bottom: .4em; position: relative;
