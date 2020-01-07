@@ -317,95 +317,36 @@ Projects = [
 	},
 	{
 		id: "DevParticle F",
-		title: "HajNabi",
+		title: "Hamyaad",
 		pages: [
 			{
 				title: "about",
-				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/About.jpg",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/About.jpg",
 				active: false
 			},
 			{
-				title: "products",
-				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/Product.jpg",
+				title: "single course",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/SingleCourse.jpg",
 				active: true
 			},
 			{
-				title: "receipt",
-				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/Receipt.jpg",
+				title: "buy course",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/BuyCourse.jpg",
 				active: false
 			}
 		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		detail: "Illuminate the future with Hamyaad's education system, interactive motion graphic implemented in every necessary asset to amplify user's focus on current actions while maintaining structures as uncomplicated as possible in responsive design; all to ensure access to multi-core actions within a few clicks.",
 		tools: [
-			"ai",
-			"ps"
+            "html",
+            "css",
+            "js",
+            "jq",
+            "semantic"
 		],
-		state: "completed",
-		website: "#"
-	},
-	{
-		id: "DevParticle D",
-		title: "This is the Title",
-		pages: [
-			{
-				title: "king apr",
-				image: "Assets/About.jpg",
-				active: false
-			},
-			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
-				active: true
-			},
-			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
-				active: false
-			}
-		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-		tools: [
-			"html",
-			"css",
-			"js",
-			"jq",
-			"ai"
-		],
-		state: "completed",
-		website: "#"
-	},
-	{
-		id: "DevParticle F",
-		title: "This is the Title",
-		pages: [
-			{
-				title: "king apr",
-				image: "Assets/About.jpg",
-				active: false
-			},
-			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
-				active: true
-			},
-			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
-				active: false
-			}
-		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-		tools: [
-			"html",
-			"css",
-			"js",
-			"jq",
-			"ai"
-		],
-		state: "completed",
-		website: "#"
+		state: "completed"
 	},
 
+   /* detail: "Illuminate the future with Hamyaad's education system, established as simple as possible to boost user's attention towards learning with a blue over white theme and floating radiant boxes and containers magnifying important data without much effort.",*/
 	{
 		id: "ArtParticle A",
 		title: "This is the Title",
