@@ -479,11 +479,8 @@
                         <div class="ArtSign"></div>
                     </div>
                 </div>
-                <div class="DevParticle A"><div><div></div></div></div>
-                <div class="DevParticle B"><div><div></div></div></div>
                 <div class="DevParticle C"><div><div></div></div></div>
                 <div class="DevParticle D"><div><div></div></div></div>
-                <div class="DevParticle E"><div><div></div></div></div>
                 <div class="DevParticle F"><div><div></div></div></div>
                 <div class="ArtParticle A"><div><div></div></div></div>
                 <div class="ArtParticle B"><div><div></div></div></div>

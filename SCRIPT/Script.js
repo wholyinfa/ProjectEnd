@@ -283,7 +283,9 @@ Projects = [
 			"css",
 			"js",
 			"jq",
-			"semantic"
+			"semantic",
+            "ai",
+            "ps"
 		],
 		state: "completed"
 	},
@@ -346,7 +348,9 @@ Projects = [
             "css",
             "js",
             "jq",
-            "semantic"
+            "semantic",
+            "ai",
+            "php"
 		],
 		state: "completed"
 	},
@@ -1520,7 +1524,7 @@ fixset(true)
 
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	OnLoadActive = $("#AntiToxins");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
