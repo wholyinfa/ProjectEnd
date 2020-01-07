@@ -289,28 +289,33 @@ Projects = [
 	},
 	{
 		id: "DevParticle D",
-		title: "HajNabi",
+		title: "Vestaak",
 		pages: [
 			{
-				title: "about",
-				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/About.jpg",
+				title: "interns",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/Interns.jpg",
 				active: false
 			},
 			{
-				title: "products",
-				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/Product.jpg",
+				title: "index",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/HomePage.jpg",
 				active: true
 			},
 			{
-				title: "receipt",
-				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/Receipt.jpg",
+				title: "team",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/Team.jpg",
 				active: false
 			}
 		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		detail: "From designing web pages, apps and automated robots to consultant and training, Vestaak does it all even more efficiently now with a landing page promoting their work; introducing a unique structure while delivering interactive animations and slideshows along with responsive design which supports the ajax implemented pages to execute the project flawlessly in one load.",
 		tools: [
-			"ai",
-			"ps"
+            "html",
+            "css",
+            "js",
+            "jq",
+            "semantic",
+            "ai",
+            "ps"
 		],
 		state: "completed",
 		website: "#"
