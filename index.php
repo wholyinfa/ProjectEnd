@@ -326,9 +326,9 @@
         <div id="BigMo">
             <div id="Skillometer">
                 <div class="DivisionExpress">
-                    <h2 class="Content">
+                    <h3 class="Content">
                         Acquiring a strong foundation based on experience before expanding any skill set demands constant work and dedication, finally after enough effort, the need to upgrade arises, over the years i always outperformed the resist to transform my knowledge to a higher level and centralized both the maintenance and the upgrade of my expertise as main goals in every practise; Somehow exploring every asset i hold and mapping it's limits has become my internal source of power.
-                    </h2>
+                    </h3>
                     <div class="Hint">READ!</div>
                     <div class="SwitchBeam">
                     </div>
@@ -454,9 +454,7 @@
             <div id="AntiToxins">
                 <div class="Entry"></div>
                 <div class="DivisionExpress">
-                    <div class="Content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam aut, commodi ea et fugiat id illum incidunt magnam magni natus odit optio perferendis qui quia recusandae repudiandae suscipit vel! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet consectetur consequatur, delectus deserunt dignissimos, doloremque dolores eaque facilis fugiat iste laborum natus omnis, pariatur quaerat quia reiciendis sit voluptatem voluptatum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur cumque doloremque dolores doloribus dolorum enim id, inventore ipsam magni natus odio officiis, possimus quaerat, qui sint temporibus ullam.
-                    </div>
+                    <h3 class="Content">I've come to discover that most specialists want their creation to be different, whether when partnering with individuals on projects, negotiating with groups or mentoring them, in either case this striking innovative mindset is exceptional about people; However, innovation's purity is delivered when formalized with creativity, many miss that part and follow certain trends and guidelines, in my point of view to be different requires one to outpace these standards and yet explore not too far to fully alienate the work.</h3>
                     <div class="Hint">READ!</div>
                     <div class="SwitchBeam">
                     </div>
