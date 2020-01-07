@@ -258,126 +258,93 @@ Peek = [
 ];
 Projects = [
 	{
-		id: "DevParticle A",
-		title: "This is the Title",
-		pages: [
-			{
-				title: "king apr",
-				image: "Assets/About.jpg",
-				active: false
-			},
-			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
-				active: true
-			},
-			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
-				active: false
-			}
-		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-		tools: [
-			"ai"
-		],
-		state: "completed",
-		website: "#"
-	},
-	{
-		id: "DevParticle B",
-		title: "This is the Title",
-		pages: [
-			{
-				title: "king apr",
-				image: "Assets/About.jpg",
-				active: false
-			},
-			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
-				active: true
-			},
-			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
-				active: false
-			}
-		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-		tools: [
-			"html",
-			"css",
-			"js",
-			"jq"
-		],
-		state: "completed",
-		website: "#"
-	},
-	{
 		id: "DevParticle C",
-		title: "This is the Title",
+		title: "HajNabi",
 		pages: [
 			{
-				title: "king apr",
-				image: "Assets/About.jpg",
+				title: "about",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/About.jpg",
 				active: false
 			},
 			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
+				title: "products",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/Products.jpg",
 				active: true
 			},
 			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
+				title: "receipt",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/Receipt.jpg",
 				active: false
 			}
 		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		detail: "Smooth and strong just like HajNabi's oil products, with unique motions ensuring an interactive experience along with powerful slideshows implementing both style and content within the website's core, which itself simplifies access to complex modules.<br>Superior desktop version while thoroughly Mobile-friendly and maximizing responsive design with pixel-based restructuring features.",
 		tools: [
 			"html",
 			"css",
 			"js",
 			"jq",
-			"ai"
+			"semantic"
+		],
+		state: "completed"
+	},
+	{
+		id: "DevParticle D",
+		title: "HajNabi",
+		pages: [
+			{
+				title: "about",
+				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/About.jpg",
+				active: false
+			},
+			{
+				title: "products",
+				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/Product.jpg",
+				active: true
+			},
+			{
+				title: "receipt",
+				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/Receipt.jpg",
+				active: false
+			}
+		],
+		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		tools: [
+			"ai",
+			"ps"
+		],
+		state: "completed",
+		website: "#"
+	},
+	{
+		id: "DevParticle F",
+		title: "HajNabi",
+		pages: [
+			{
+				title: "about",
+				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/About.jpg",
+				active: false
+			},
+			{
+				title: "products",
+				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/Product.jpg",
+				active: true
+			},
+			{
+				title: "receipt",
+				image: "http://localhost/~Project_END/Assets/ProjectAssets/HajNabi/Receipt.jpg",
+				active: false
+			}
+		],
+		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		tools: [
+			"ai",
+			"ps"
 		],
 		state: "completed",
 		website: "#"
 	},
 	{
 		id: "DevParticle D",
-		title: "This is the Title",
-		pages: [
-			{
-				title: "king apr",
-				image: "Assets/About.jpg",
-				active: false
-			},
-			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
-				active: true
-			},
-			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
-				active: false
-			}
-		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-		tools: [
-			"html",
-			"css",
-			"js",
-			"jq",
-			"ai"
-		],
-		state: "completed",
-		website: "#"
-	},
-	{
-		id: "DevParticle E",
 		title: "This is the Title",
 		pages: [
 			{
