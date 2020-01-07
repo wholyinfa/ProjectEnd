@@ -406,6 +406,11 @@
     transform: translateX(-50%);
     white-space: nowrap;
 }
+#SpaceCyclone .Connect .Phone .Sub > .TinyHint{
+    font-size: 0.6em;
+    text-align: center;
+    margin: -1.8em 0 .5em 0;
+}
 #SpaceCyclone .Connect .Definer{
     width: 82.91%; height: 61.96%;
     position: absolute; top: 0; left: 10.83%;

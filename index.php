@@ -252,7 +252,10 @@
                     </div>
                     <div class="BetaAsset Phone">
                         <div class="Asset"></div>
-                        <div class="Sub">+98 921 206 4451</div>
+                        <div class="Sub">
+                            <div class="TinyHint">(Only WhatsApp)</div>
+                            +98 912 206 4451
+                        </div>
                     </div>
                     <div class="Definer">
                         <div class="Asset"></div>
