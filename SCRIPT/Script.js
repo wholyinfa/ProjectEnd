@@ -5325,7 +5325,7 @@ function PrepClone(){
 						.addClass("active");
 					imgContainer.children(".img").last()
 						.addClass("active");
-					singleparticle.find(".Preview img").attr("src", this.image);
+					singleparticle.find(".Preview img:active").attr("src", this.image);
 					singleparticle.find(".Cover").unbind("click").click(function(){
 						if(
 							(typeof(ExpandPreview) !== "undefined" && ExpandPreview.isActive()) ||
@@ -5410,11 +5410,16 @@ function PrepClone(){
 
 			singleparticle.find(".State").children(".RealState.active").removeClass("active");
 			if( this.state == "completed" ){
-				singleparticle.find(".State").children(".RealState").eq(0).addClass("active").children("a").attr("href", this.website);
+				singleparticle.find(".State .RealState").eq(0).addClass("active");
+				if( this.website ){
+					singleparticle.find(".State .RealState span").fadeIn().children("a").attr("href", this.website)
+				}else{
+					singleparticle.find(".State .RealState span").fadeOut();
+				}
 			}else if( this.state == "doing" ){
-				singleparticle.find(".State").children(".RealState").eq(1).addClass("active");
+				singleparticle.find(".State .RealState").eq(1).addClass("active");
 			}else if( this.state == "canelled" ){
-				singleparticle.find(".State").children(".RealState").eq(2).addClass("active");
+				singleparticle.find(".State .RealState").eq(2).addClass("active");
 			}
 		}
 	});

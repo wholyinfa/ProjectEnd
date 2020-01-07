@@ -1701,7 +1701,7 @@ body{
 }
 #AntiToxins .Detail > div{
     display: inline-block; height: 160px;
-    float: left; font-size: 1.35em; margin-top: 1em;
+    float: left; font-size: 1.25em; margin-top: 1em;
     box-sizing: border-box;
 }
 #AntiToxins .Detail .BuiltWith{
@@ -1807,6 +1807,9 @@ body{
     transform: translateX(-50%); font-size: .9em;
 }
 #AntiToxins .SingleParticle .State .RealState{
+    display: none;
+}
+#AntiToxins .SingleParticle .State .RealState span{
     display: none;
 }
 #AntiToxins .SingleParticle .State .RealState .goto{
