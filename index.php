@@ -326,11 +326,9 @@
         <div id="BigMo">
             <div id="Skillometer">
                 <div class="DivisionExpress">
-                    <div class="Content">
-                        We're all good at something, the search for new opportunities as inevitable as it is, grants us new perspectives and forces us to stray around the main route a bit...
-                        My first main route was programming, being in constant search to grow in this field informed me of lacking the ability to "design", simply put! As a web-developer should, i knew how to do simple photo editing, when i realised this route wouldn't fulfill my growing needs, i picked the shovel to create a new path and started learning and developing advanced techniques
-                        on UX/UI designing and now, here i am.
-                    </div>
+                    <h2 class="Content">
+                        Acquiring a strong foundation based on experience before expanding any skill set demands constant work and dedication, finally after enough effort, the need to upgrade arises, over the years i always outperformed the resist to transform my knowledge to a higher level and centralized both the maintenance and the upgrade of my expertise as main goals in every practise; Somehow exploring every asset i hold and mapping it's limits has become my internal source of power.
+                    </h2>
                     <div class="Hint">READ!</div>
                     <div class="SwitchBeam">
                     </div>

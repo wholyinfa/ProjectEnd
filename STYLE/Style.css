@@ -843,8 +843,8 @@ body{
 .DivisionExpress .Content{
     max-width: 100%;
     position: absolute; top: 0; left: 0;
-    padding: 1.5em;
-    font-family: Ocr; font-size: 1em; text-align: justify;
+    padding: 1.5em; margin: 0;
+    font-family: Ocr; font-size: 1em; font-weight: normal; text-align: justify;
     background: #263238; overflow: auto;
 }
 .DivisionExpress .SwitchBeam{
