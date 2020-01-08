@@ -509,8 +509,8 @@ Personalities = [
 	{
 		face: "Confident",
 		particle: "Purple B",
-		title: "WHY SO SERIOUS ?",
-		content: "Lorem ipsum dolor sit amet, te feu"
+		title: "THE BEST",
+		content: "You may thank people everyday for the tiniest amount of service, do you also thank your other-worldly beautiful handsome looking existence for working for you 24/7? If not, other chores can wait, you have a debt to pay."
 	},
 	{
 		face: "Sarcastic",
