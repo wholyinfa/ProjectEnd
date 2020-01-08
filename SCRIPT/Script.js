@@ -259,7 +259,7 @@ Peek = [
 Projects = [
 	{
 		id: "DevParticle C",
-		title: "HajNabi",
+		title: "FOLD (FRONT-END)",
 		pages: [
 			{
 				title: "about",
@@ -283,15 +283,13 @@ Projects = [
 			"css",
 			"js",
 			"jq",
-			"semantic",
-            "ai",
-            "ps"
+			"semantic"
 		],
 		state: "completed"
 	},
 	{
 		id: "DevParticle D",
-		title: "Vestaak",
+		title: "LIOLT (FRONT-END)",
 		pages: [
 			{
 				title: "interns",
@@ -316,15 +314,13 @@ Projects = [
             "js",
             "jq",
             "semantic",
-            "ai",
-            "ps"
 		],
 		state: "completed",
 		website: "#"
 	},
 	{
 		id: "DevParticle F",
-		title: "Hamyaad",
+		title: "TIDE (FRONT-END)",
 		pages: [
 			{
 				title: "about",
@@ -348,9 +344,7 @@ Projects = [
             "css",
             "js",
             "jq",
-            "semantic",
-            "ai",
-            "php"
+            "semantic"
 		],
 		state: "completed"
 	},
@@ -416,18 +410,18 @@ Projects = [
 			{
 				title: "landing",
 				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/GlareLanding.jpg",
-				active: false
+				active: true
 			}
 		],
 		detail: "Glare centralizes attention towards download and usage of a mobile app with exclusive graphical design and an expressive structure letting both owners and users connect interactively.",
 		tools: [
 			"ai",
-			"php"
+			"ps"
 		],
 		state: "completed"
 	},
 	{
-		id: "DevParticle E",
+		id: "ArtParticle E",
 		title: "LIOLT (UI/UX)",
 		pages: [
 			{
@@ -5306,7 +5300,7 @@ function PrepClone(){
 				}
 			}else if( this.state == "doing" ){
 				singleparticle.find(".State .RealState").eq(1).addClass("active");
-			}else if( this.state == "canelled" ){
+			}else if( this.state == "cancelled" ){
 				singleparticle.find(".State .RealState").eq(2).addClass("active");
 			}
 		}
