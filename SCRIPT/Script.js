@@ -411,34 +411,20 @@ Projects = [
 	},
 	{
 		id: "ArtParticle D",
-		title: "This is the Title",
+		title: "GLARE (UI/UX)",
 		pages: [
 			{
-				title: "king apr",
-				image: "Assets/About.jpg",
-				active: false
-			},
-			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
-				active: true
-			},
-			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
+				title: "landing",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/GlareLanding.jpg",
 				active: false
 			}
 		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		detail: "Glare centralizes attention towards download and usage of a mobile app with exclusive graphical design and an expressive structure letting both owners and users connect interactively.",
 		tools: [
-			"html",
-			"css",
-			"js",
-			"jq",
-			"ai"
+			"ai",
+			"php"
 		],
-		state: "completed",
-		website: "#"
+		state: "completed"
 	},
 	{
 		id: "ArtParticle E",
