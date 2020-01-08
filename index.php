@@ -653,7 +653,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                            <div class="Description">Most electronic devices do what humans are unable to do, they grant us extra abilities making our lives easier and our pockets greasier; Harnessing the power of a tiny bit of this digital ocean of information ensures entrance to the future era in a ready state.</div>
                             </div>
                         </div>
                         <div class="TheSinger Card No2">
