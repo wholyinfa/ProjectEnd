@@ -629,7 +629,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                            <div class="Description">Bing able to bring a mythical creature to life, give it a name, color it, base it on a story and share it to the world or sometimes form an ecosystem of elements and witness them interactive and harmonize with each other flawlessly, is definitely a skill worth mastering.</div>
                             </div>
                         </div>
                         <div class="TheFixer Card No5">
