@@ -503,8 +503,8 @@ Personalities = [
 	{
 		face: "Upset",
 		particle: "Blue A",
-		title: "WHY SO SERIOUS ?",
-		content: "Lorem ipsum dolor sit amet, te feu"
+		title: "SILENCE OF DARKNESS",
+		content: "To go low, is to learn how to climb higher. It's okay if you have fallen and broke your wings, whatever you do, please don't stay there."
 	},
 	{
 		face: "Confident",
