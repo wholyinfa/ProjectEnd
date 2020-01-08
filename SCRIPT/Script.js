@@ -384,34 +384,30 @@ Projects = [
 	},
 	{
 		id: "ArtParticle C",
-		title: "This is the Title",
+		title: "TIDE (UI/UX)",
 		pages: [
 			{
-				title: "king apr",
-				image: "Assets/About.jpg",
+				title: "about",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/About.jpg",
 				active: false
 			},
 			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
+				title: "single course",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/SingleCourse.jpg",
 				active: true
 			},
 			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
+				title: "buy course",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/BuyCourse.jpg",
 				active: false
 			}
 		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		detail: "Tide is established as simple as possible to boost user's attention towards learning with a blue over white theme and floating radiant boxes and containers magnifying important data without much effort.<br> Informative structure is a key feature here with every single asset supporting or adding insights into the main subject.<br> The design excludes too fancy graphics as it intends to keep the environment calm and harmonized with soothing gradients floating all over the project.",
 		tools: [
-			"html",
-			"css",
-			"js",
-			"jq",
-			"ai"
+			"ai",
+			"ps"
 		],
-		state: "completed",
-		website: "#"
+		state: "completed"
 	},
 	{
 		id: "ArtParticle D",
