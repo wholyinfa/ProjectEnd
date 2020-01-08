@@ -637,7 +637,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                            <div class="Description">Most things break or malfunction on a regular basis, if even when intensely engaged on a target, a short period of time is dedicated to better understand the source of the problem, next time it breaks, we know where to look.</div>
                             </div>
                         </div>
                         <div class="TheStudent Card No4">
