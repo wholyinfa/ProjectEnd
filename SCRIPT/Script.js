@@ -485,8 +485,8 @@ Personalities = [
 	{
 		face: "Curious",
 		particle: "Blue B",
-		title: "WHY SO SERIOUS ?",
-		content: "Lorem ipsum dolor sit amet, te feu"
+		title: "MYSTERY OF UNKNOWN",
+		content: "To wake up everyday remembering that today, you know more than you did yesterday... That feeling alone calls out to you to go explore this vast universe to uncover new possibilities and create new opportunities."
 	},
 	{
 		face: "Cheerful",
