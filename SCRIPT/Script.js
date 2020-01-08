@@ -491,8 +491,8 @@ Personalities = [
 	{
 		face: "Cheerful",
 		particle: "Green B",
-		title: "WHY SO SERIOUS ?",
-		content: "Lorem ipsum dolor sit amet, te feu"
+		title: "TOXICITY NOT ALLOWED",
+		content: "The energy you offer comes back at you immediately, you may not notice it right away but you will definitely see the effects at some point in time."
 	},
 	{
 		face: "Angry",
