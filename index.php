@@ -566,9 +566,7 @@
         <div id="Artery">
             <div id="Analyzer">
                 <div class="DivisionExpress">
-                    <div class="Content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam aut, commodi ea et fugiat id illum incidunt magnam magni natus odit optio perferendis qui quia recusandae repudiandae suscipit vel! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet consectetur consequatur, delectus deserunt dignissimos, doloremque dolores eaque facilis fugiat iste laborum natus omnis, pariatur quaerat quia reiciendis sit voluptatem voluptatum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur cumque doloremque dolores doloribus dolorum enim id, inventore ipsam magni natus odio officiis, possimus quaerat, qui sint temporibus ullam.
-                    </div>
+                    <div class="Content">Feelings won't last long, it's their nature, but the impact of the person who radiates them may last forever. It's important to be able to manage our emotions when they're pumping beneath our chest to be let out. When we do let them out, it's important to analyze the reactions we get to build a stronger fortress of attitude & respect, be it from others or the most important person in your life, yourself...</div>
                     <div class="Hint">READ!</div>
                     <div class="SwitchBeam">
                     </div>
