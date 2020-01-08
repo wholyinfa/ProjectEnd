@@ -516,7 +516,7 @@ Personalities = [
 		face: "Sarcastic",
 		particle: "Yellow A",
 		title: "WHY SO SERIOUS ?",
-		content: "Lorem ipsum dolor sit amet, te feu"
+		content: "Believe when i say those particular bikers wearing leather jackets with red skulls printed on them wielding a Double-Barreled shotgun would enjoy some fun too! well perhaps they have completely different understanding of 'fun', but yeah, you get the idea."
 	},
 	{
 		face: "Positive",
