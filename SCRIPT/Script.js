@@ -355,68 +355,32 @@ Projects = [
 		state: "completed"
 	},
 
-   /* detail: "Illuminate the future with Hamyaad's education system, established as simple as possible to boost user's attention towards learning with a blue over white theme and floating radiant boxes and containers magnifying important data without much effort.",*/
-	{
-		id: "ArtParticle A",
-		title: "This is the Title",
-		pages: [
-			{
-				title: "king apr",
-				image: "Assets/About.jpg",
-				active: false
-			},
-			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
-				active: true
-			},
-			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
-				active: false
-			}
-		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-		tools: [
-			"html",
-			"css",
-			"js",
-			"jq",
-			"ai"
-		],
-		state: "completed",
-		website: "#"
-	},
 	{
 		id: "ArtParticle B",
-		title: "This is the Title",
+		title: "FOLD (UI/UX)",
 		pages: [
 			{
-				title: "king apr",
-				image: "Assets/About.jpg",
+				title: "about",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/About.jpg",
 				active: false
 			},
 			{
-				title: "index",
-				image: "Assets/BuyCourse.jpg",
+				title: "products",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/Products.jpg",
 				active: true
 			},
 			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
+				title: "receipt",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/Receipt.jpg",
 				active: false
 			}
 		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		detail: "Fold puts the dark theme to support it's golden products and feel like reading a magazine so many assets and elements implement this with their graphic-focused structures.<br> It includes a lot of organizers, filters and slideshows for the convenience of user in exploring through the products while keeping it as minimalistic as possible to access any data within a few clicks.<br> It also cuts out any old interface and interaction to grant user what they need without unnecessary redirects or prompts.",
 		tools: [
-			"html",
-			"css",
-			"js",
-			"jq",
-			"ai"
+			"ai",
+			"ps"
 		],
-		state: "completed",
-		website: "#"
+		state: "completed"
 	},
 	{
 		id: "ArtParticle C",
