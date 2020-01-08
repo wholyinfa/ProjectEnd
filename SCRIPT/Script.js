@@ -479,8 +479,8 @@ Personalities = [
 	{
 		face: "PainKiller",
 		particle: "Green A",
-		title: "WHY SO SERIOUS ?",
-		content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feu"
+		title: "PLEASURE OF PAIN",
+		content: "Let's look at it this way, all the things you've been through, all the tough sacrifices you had to make, all those tears lying in your pillowcase... Considering how stronger it all made you today, and by knowing that it is gonna happen again, isn't it all just, FUNNY?"
 	},
 	{
 		face: "Curious",
@@ -1456,7 +1456,7 @@ fixset(true)
 
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#AntiToxins");
+	OnLoadActive = $("#Analyzer");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(

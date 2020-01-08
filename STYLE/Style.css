@@ -2064,7 +2064,7 @@ body{
     height: 4em;
     position: relative; top: 0; left: 0;
     box-sizing: border-box;
-    font-size: 1em;text-align: justify; margin: 20% 16% 2% 16%; overflow: hidden;
+    font-size: 1em;text-align: justify; margin: 20% 16% 2% 16%; overflow: auto;
 }
 #Analyzer .Plate .Content::-webkit-scrollbar{
     width: 6px;
