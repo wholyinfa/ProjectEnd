@@ -645,7 +645,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                            <div class="Description">Stories have multiple characters and each character has a different perspective, as the main character, it's foolish to refuse to learn other character's perspectives and experiences, as they may offer an insight that prevents one from falling where they fell before.</div>
                             </div>
                         </div>
                         <div class="TheTechSavvy Card No3">
