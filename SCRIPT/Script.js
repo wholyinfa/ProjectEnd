@@ -480,7 +480,7 @@ Personalities = [
 		face: "PainKiller",
 		particle: "Green A",
 		title: "PLEASURE OF PAIN",
-		content: "Let's look at it this way, all the things you've been through, all the tough sacrifices you had to make, all those tears lying in your pillowcase... Considering how stronger it all made you today, and by knowing that it is gonna happen again, isn't it all just, FUNNY?"
+		content: "All the things you've been through, all the tough sacrifices you had to make, all those tears and those lonely nights... Today, you are greater because of them; so on the next adventure, recall that the pain is for you, not against you..."
 	},
 	{
 		face: "Curious",
@@ -522,7 +522,7 @@ Personalities = [
 		face: "Positive",
 		particle: "Yellow B",
 		title: "ABSOLUTE",
-		content: "Never done before huh, have the courage to be the first, plan it out and fly to it; With a mindset like that, nothing would ever stop you."
+		content: "Never done before huh, have the courage to be the first, plan it out and fly to it; With a mindset like that, nothing could ever stop you."
 	}
 ];
 DivisionURI = [
@@ -1456,7 +1456,7 @@ fixset(true)
 
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Analyzer");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
