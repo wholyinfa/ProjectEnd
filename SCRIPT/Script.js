@@ -497,8 +497,8 @@ Personalities = [
 	{
 		face: "Angry",
 		particle: "Purple A",
-		title: "WHY SO SERIOUS ?",
-		content: "Lorem ipsum dolor sit amet, te feu"
+		title: "NO CONTROL",
+		content: "I'm sure you did or said stuff without considering the consequences in the past, it has a bitter taste to it as it deprives you from control. No one likes that, yet when it comes to the root of it all, ANGER, not many try to maintain and direct it towards better purposes, ironic..."
 	},
 	{
 		face: "Upset",
