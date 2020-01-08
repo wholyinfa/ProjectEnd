@@ -616,9 +616,7 @@
             </div>
             <div id="DeckCloud">
                 <div class="DivisionExpress">
-                    <div class="Content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquam aut, commodi ea et fugiat id illum incidunt magnam magni natus odit optio perferendis qui quia recusandae repudiandae suscipit vel! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet consectetur consequatur, delectus deserunt dignissimos, doloremque dolores eaque facilis fugiat iste laborum natus omnis, pariatur quaerat quia reiciendis sit voluptatem voluptatum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto consequuntur cumque doloremque dolores doloribus dolorum enim id, inventore ipsam magni natus odio officiis, possimus quaerat, qui sint temporibus ullam.
-                    </div>
+                    <div class="Content">Work is a permanent form in any lifestyle, without putting effort towards a goal, desired achievements cannot be earned. Living a life like so serves no purpose and in return many of our abilities remain undetected; Working smart however serves both aspects of life adequately, as it helps keep the balance between an effective work environment by dedicating enough time to personal life as well, This balance is not only necessary but crucial to living a healthy life since tensions can get really high at work and therefore the lack of a reliable personal lifestyle becomes a crisis in such times.</div>
                     <div class="Hint">READ!</div>
                     <div class="SwitchBeam">
                     </div>
