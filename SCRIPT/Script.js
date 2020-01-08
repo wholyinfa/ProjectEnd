@@ -427,35 +427,31 @@ Projects = [
 		state: "completed"
 	},
 	{
-		id: "ArtParticle E",
-		title: "This is the Title",
+		id: "DevParticle E",
+		title: "LIOLT (UI/UX)",
 		pages: [
 			{
-				title: "king apr",
-				image: "Assets/About.jpg",
+				title: "interns",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/Interns.jpg",
 				active: false
 			},
 			{
 				title: "index",
-				image: "Assets/BuyCourse.jpg",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/HomePage.jpg",
 				active: true
 			},
 			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
+				title: "team",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/Team.jpg",
 				active: false
 			}
 		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		detail: "Liolt showcases projects in a unique form delivering all the necessary information among with interactive modules while expanding viewer's perspective over what the owners are capable of, also it develops new ways of connecting to the user by introducing the individuals or organizations involved in creative ways.",
 		tools: [
-			"html",
-			"css",
-			"js",
-			"jq",
-			"ai"
+			"ai",
+			"ps"
 		],
-		state: "completed",
-		website: "#"
+		state: "completed"
 	},
 	{
 		id: "ArtParticle F",
