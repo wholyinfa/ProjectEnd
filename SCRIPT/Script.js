@@ -455,34 +455,30 @@ Projects = [
 	},
 	{
 		id: "ArtParticle F",
-		title: "This is the Title",
+		title: "CRYSTAL VOID (UI/UX)",
 		pages: [
 			{
-				title: "king apr",
-				image: "Assets/About.jpg",
+				title: "single business",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/InBarg/SingleBusiness.jpg",
 				active: false
 			},
 			{
 				title: "index",
-				image: "Assets/BuyCourse.jpg",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/InBarg/Index.jpg",
 				active: true
 			},
 			{
-				title: "kaftar",
-				image: "Assets/SingleCourse.jpg",
+				title: "single offer",
+				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/InBarg/SingleOffer.jpg",
 				active: false
 			}
 		],
-		detail: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+		detail: "Crystal Void makes the user feel lost in a well-organized universe allowing exploration among products with varies organizers, filters and slideshows while categorizing every data group in a very unique structure aiming to simplify users access to a vast majority of data.<br> It introduces new methods of interacting with the user and also allowing users to engage in conversations and topics with each other.<br> Exclusive graphics are implemented all over the project along with informative data blocks and sections ensuring working with it an extraordinary experience.",
 		tools: [
-			"html",
-			"css",
-			"js",
-			"jq",
-			"ai"
+			"ai",
+			"ps"
 		],
-		state: "completed",
-		website: "#"
+		state: "cancelled",
 	}
 ];
 Personalities = [
