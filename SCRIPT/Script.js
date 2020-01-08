@@ -521,8 +521,8 @@ Personalities = [
 	{
 		face: "Positive",
 		particle: "Yellow B",
-		title: "WHY SO SERIOUS ?",
-		content: "Lorem ipsum dolor sit amet, te feu"
+		title: "ABSOLUTE",
+		content: "Never done before huh, have the courage to be the first, plan it out and fly to it; With a mindset like that, nothing would ever stop you."
 	}
 ];
 DivisionURI = [
