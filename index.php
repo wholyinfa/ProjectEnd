@@ -703,7 +703,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                            <div class="Description">It feels secure to have control over life and to be able to set goals and design plans to reach them how and when desired without accepting any obstacles or speed bumps along the way.</div>
                             </div>
                         </div>
                         <div class="TheChef Card No4">
