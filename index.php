@@ -719,7 +719,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">I rather call them goals, hit points! Cause dreams are the ones you see in your sleep, i see these with my eyes open, i see myself right where i want to be and you can bet i always reach it >=)</div>
+                            <div class="Description">Dreams that are visualized to be real eventually become part of reality, it's a matter of how bad one wants it and how hard he is willing to work for it, one should never stop dreaming, this life we know would not expand to this extent without our ancestors' dreams supporting their hard work.</div>
                             </div>
                         </div>
                         <div class="TheGamer Card No2">
