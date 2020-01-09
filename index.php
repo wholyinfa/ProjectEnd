@@ -669,7 +669,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                            <div class="Description">In a universe where every life form is structured to get something done it’s empowering to be the one who defines the structure; Today, many every-day items that operate the simplest reactions contain the most complex code either in them, or in the process of making them.</div>
                             </div>
                         </div>
                     </div>
