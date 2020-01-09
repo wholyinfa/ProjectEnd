@@ -661,7 +661,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                            <div class="Description">Words offer the ability to interact with people, when combined with music, interaction with souls is made possible; To sing from the deepest note of the heart and relate to someone far in the world and fill their heart with compassion and inform them of not being alone in their journey, makes one pick up the mic...</div>
                             </div>
                         </div>
                         <div class="TheCoder Card No1">
