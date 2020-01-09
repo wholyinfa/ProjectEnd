@@ -1216,6 +1216,16 @@ function Globe(){
 		autoAlpha: .6,
 		transformOrigin: "50% 0%"
 	});
+	PedalPrism = new TimelineMax({paused: true, repeat: -1});
+	PedalPrism.add(
+		TweenMax.fromTo(".Pedal", 1, {
+			filter: "hue-rotate(0deg)",
+			ease: Power0.easeNone
+		}, {
+			filter: "hue-rotate(360deg)",
+			ease: Power0.easeNone
+		}), 0
+	);
 
 	/*				ArtAura = new TimelineMax({paused: true, repeat: -1});
 					ArtAura.add(
@@ -1601,8 +1611,20 @@ fixset(true)
     PedalBoundary = {Start : 0,
 	                 Stop : PedalTop};
 	Locked = [false];
-
-	// Fly on drag
+    // Add pedal's prism effect
+    $(".Pedal .Ped.Handle").mouseenter(function(){
+    	// Deactive reverse if animation is reversed
+        if( PedalPrism.reversed() ){
+            PedalPrism.reversed(!PedalPrism.reversed());
+        }
+		// Continue the animation
+        PedalPrism.resume();
+    })
+    .mouseleave(function(){
+    	// Reverse animation to static postion
+        PedalPrism.reverse(PedalPrism.time());
+    });
+    // Fly on drag
     Draggable.create(".Pedal" ,{
 		trigger: ".Ped.Handle",
         type: "y",
@@ -1711,7 +1733,8 @@ fixset(true)
 			t = $(this);
 		// Apply the animation
 		TweenMax.to( $(this), .1, {transformOrigin: to, rotation: r} );
-	}).on("mouseup mouseout", function(){
+	})
+    .on("mouseup mouseout", function(){
 		// Reverse to normal
 		TweenMax.to( this, .1, {rotation: 0});
 	});
