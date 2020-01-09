@@ -711,7 +711,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                            <div class="Description">The process of making good food comes to how passionately it's being made, along with passion, patience is key when preparing the perfect meal; In the end the relief of a tasty self-made food after a cooking session washes all the fatigue away.</div>
                             </div>
                         </div>
                         <div class="TheDreamer Card No3">
