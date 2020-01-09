@@ -735,7 +735,7 @@
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
-                            <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </div>
+                            <div class="Description">Feeling the hard cold ground as it reflects "power" for each pushup, hearing the sky yell “higher” at every pullup, fighting the wind, the rain, the snow, the dust while running towards a superior shape of body and mind is worth hustling for everyday.</div>
                             </div>
                         </div>
                     </div>
