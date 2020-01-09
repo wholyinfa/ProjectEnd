@@ -1703,6 +1703,18 @@ fixset(true)
 			ReverseHandle($(this));
 		}
 	});
+	// Apply handle effect
+	$("#Reach, #Ditch").mousedown(function(){
+		// Differentiate buttons attributes.
+		var to = ( $(this).attr("id") === "Reach" ) ? "0% 0%" : "100% 0%",
+			r = ( $(this).attr("id") === "Reach" ) ? 5 : -5,
+			t = $(this);
+		// Apply the animation
+		TweenMax.to( $(this), .1, {transformOrigin: to, rotation: r} );
+	}).on("mouseup mouseout", function(){
+		// Reverse to normal
+		TweenMax.to( this, .1, {rotation: 0});
+	});
 	// Fly alternatives
 	$("#Reach").click(function(){
 		if( DirectFlyActive[0] ){ return; }
