@@ -1449,7 +1449,16 @@ function Globe(){
 		zIndexBoost: false
     });
 
-    // Reverse sequence
+    // Add hover reaction
+	$(".Reverse > .Handle").mouseenter(function(){
+		// Allow hover
+		$(this).parent().addClass("hover");
+	})
+	.mouseleave(function(){
+		// Forbid hover
+		$(this).parent().removeClass("hover");
+	});
+	// Reverse sequence
 	$(".Reverse > .Handle").click(function(){
 		if( (typeof (ReverseFly) == "undefined" || !ReverseFly.isActive()) &&
 			(typeof (ActiveFly) == "undefined" || !ActiveFly.isActive()) ){
@@ -3556,6 +3565,8 @@ function PreventFly(t){
   // Reverse Handle
 function ReverseHandle(NoChange){
 	$(".Reverse").toggleClass("active");
+	// Prohibit hover interference
+	$(".Reverse").removeClass("hover");
 	if( $(".Reverse").hasClass("active") ) {
 		Reverse.pedal = true;
 		if( NoChange !== false ){ReverseSequence();}

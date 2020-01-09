@@ -713,16 +713,16 @@ body{
     left: 10%; top: 5%;
     z-index: 1;
 }
-.QuickAccess .Reverse:after{
+.QuickAccess .Reverse .Handle:after{
     content: "";
-    width: 132%; height: 114%;
+    width: 157%; height: 210%;
     position: absolute;
-    left: -14%; top: -15%;
+    left: -28.1%; top: -70%;
     background: url("../ASSETS/BlackHole/ReverseActive.png") no-repeat 57% -25%;
     background-size: 120%;
     transition: .1s opacity ease-out; opacity: 0; z-index: 0;
 }
-.QuickAccess .Reverse.active:after{
+.QuickAccess .Reverse.active .Handle:after, .QuickAccess .Reverse.hover .Handle:hover:after{
     content: "";
     opacity: 1;
 }
