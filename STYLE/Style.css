@@ -2277,8 +2277,8 @@ body{
 #DeckCloud .Card .Description{
     width: 85%; height: 34.93%;
     top: 59.50%; left: 7.5%;
-    font-family: Ocr; font-size: 1.1em;
-    text-align: justify; overflow: hidden; color: #594c16;
+    font-family: Ocr; font-size: .9em;
+    text-align: justify; overflow: hidden; color: #000;
 }
 #DeckCloud .Card > div:after{
     content: "";
