@@ -4855,9 +4855,7 @@ function Deformer(Class, t, nonstop){
 	}
 	$(Form.Arrange[Class]._first.target[0]).find(".Title").toggleClass("active");
 	if( !nonstop ){
-		if( Switch == false ){
 			Form.ActiveDom = ( Switch === true ) ? null : t;
-		}
 	}
 	return Switch;
 
@@ -4865,13 +4863,15 @@ function Deformer(Class, t, nonstop){
 function ExitStorm(t){
 	Cyclone.isActive = false;
 	Storm = t;
-	// Resetting the forms
+	// Reset the forms
 	if( Form.ActiveDom !== null ){
 		AssetForm($("."+(Form.ActiveDom.parent().attr("class")).replace(" ",".")).find(".Title"));
+		// Reset active form indicator variable
+        Form.ActiveDom = null;
 	}
 	// Reset the animations played after ritual is completed
     if( !PostRitual.reversed() ){
-        PostRitual.reverse( PostRitual.time() );
+        PostRitual.duration(.2).reverse( PostRitual.time() );
     }
     // Stop ritual animation
     Ritual.pause();
