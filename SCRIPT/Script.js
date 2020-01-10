@@ -632,7 +632,7 @@ function Globe(){
 	// Resetting all forms and inputs on page load
 	$("input,textarea").val("");
 	// Form the panels
-	SetPanel();
+	Panel.setup();
 
 // Pre Requisitions
 
@@ -1337,7 +1337,13 @@ function Globe(){
         $(this).data({GandalfOpt: Opt});
     });
 
-	  // Defining QuickAccess controlls
+    //
+	$(".QuickAccess .Cell").click(function(){
+		var PrevSiblings = $(this).prevAll(),
+			NextSiblings = $(this).nextAll();
+	});
+
+  	// Defining QuickAccess controlls
     PedalTop = $(".Pedal").position().top;
     PedalBoundary = {Start : 0,
 	                 Stop : PedalTop};
@@ -1553,7 +1559,8 @@ function Globe(){
                 })
             );
         }
-    }).mouseleave(function(e){
+    })
+	.mouseleave(function(e){
         var pathfinder = $(".PathFinder"),
             path = pathfinder.find("#Path"),
             // Get the difference between Path and it's parent's distance
@@ -2612,85 +2619,89 @@ PanelSwitch = {
 	obj : [],
 	Harmonizer: false
 };
-function SetPanel(PrevClass){
-	var PrevPanel = false,
-		AddToActive = false,
-		Class = $(".QuickAccess > .Cells.active").attr("class"),
-		len = $(".QuickAccess > .Cells").length;
-	if( PrevClass ){
-		PrevPanel = PanelSwitch.obj[PrevClass];
-	}
-	TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
-	// Checking to make sure the current panel doesn't have it's exclusive animation already set
-	if( typeof(PanelSwitch.obj[Class]) === "undefined" ) {
-		// Creating the animation set
-		PanelSwitch.obj[Class] = new TimelineMax();
-		PanelSwitch.obj[Class].add(
-			TweenMax.set(".QuickAccess > .active", {
-				zIndex: 0
-				}), 0
-		).add(
-			TweenMax.to(".QuickAccess > .active > .E", .4, {
-				scale: 1,
-				rotation: -38.23,
-				ease:  Circ. easeOut
-			})
-		).add(
-			TweenMax.staggerTo(".QuickAccess > .active > .F,.QuickAccess > .active > .D", .3, {
-				cycle: {
-					rotation: [17.94, -17.94]
-				},
-				ease:  Circ. easeOut
-			}), "-=.2"
-		).add(
-			TweenMax.staggerTo(".QuickAccess > .active > .C,.QuickAccess > .active > .G", .3, {
-				cycle: {
-					rotation: [-3.71, 2.65]
-				},
-				ease:  Circ. easeOut
-			}), "-=.2"
-		).add(
-			TweenMax.staggerTo(".QuickAccess > .active > .B,.QuickAccess > .active > .H", .3, {
-				cycle: {
-					rotation: [23.66, -23.66]
-				},
-				ease:  Circ. easeOut
-			}), "-=.2"
-		).add(
-			TweenMax.staggerTo(".QuickAccess > .active > .A,.QuickAccess > .active > .I", .3, {
-				cycle: {
-					rotation: [58, -61.31]
-				},
-				ease:  Circ. easeOut
-			}), "-=.2"
-		);
-	}
-	// We proceed knowing the animation is already set
-	if( !PanelSwitch.obj[Class].isActive() ){
-		// Restart the animation Only when the panel isn't already active
-		PanelSwitch.obj[Class].restart();
-		// Deprioritize inactive Cells after active Cells finish animating
-		PanelSwitch.obj[Class].eventCallback("onComplete", function(){
-			TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
-		});
-	}
-	// Reverse the animation when the same running animation is requested
-	else if( PanelSwitch.obj[Class].isActive() && PanelSwitch.obj[Class].reversed() ){
-		// Cancel animation reverse
-		PanelSwitch.obj[Class].reversed( !PanelSwitch.obj[Class].reversed() );
-		// Deprioritize inactive Cells
+Panel = {
+	setup: function(){
+		this.set();
+		this.set(true);
+	},
+	set: function(NEW){
+		var Class = ( NEW === true ) ? "Frame"
+			: $(".QuickAccess > .Cells.active").attr("class"),
+			CellGroup = ( NEW === true ) ? $(".QuickAccess > .Cells.Frame")
+			: $(".QuickAccess > .Cells.active");
 		TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
+		// Checking to make sure the current panel doesn't have it's exclusive animation already set
+		if( typeof(PanelSwitch.obj[Class]) === "undefined" || NEW ) {
+			// Creating the animation set
+			PanelSwitch.obj[Class] = new TimelineMax();
+			PanelSwitch.obj[Class].add(
+				TweenMax.set(CellGroup, {
+					zIndex: 0
+				}), 0
+			).add(
+				TweenMax.to(CellGroup.children(".E"), .4, {
+					scale: 1,
+					rotation: -38.23,
+					ease:  Circ. easeOut
+				})
+			).add(
+				TweenMax.staggerTo(CellGroup.children(".F, .D"), .3, {
+					cycle: {
+						rotation: [17.94, -17.94]
+					},
+					ease:  Circ. easeOut
+				}), "-=.2"
+			).add(
+				TweenMax.staggerTo(CellGroup.children(".C, .G"), .3, {
+					cycle: {
+						rotation: [-3.71, 2.65]
+					},
+					ease:  Circ. easeOut
+				}), "-=.2"
+			).add(
+				TweenMax.staggerTo(CellGroup.children(".B, .H"), .3, {
+					cycle: {
+						rotation: [23.66, -23.66]
+					},
+					ease:  Circ. easeOut
+				}), "-=.2"
+			).add(
+				TweenMax.staggerTo(CellGroup.children(".A, .I"), .3, {
+					cycle: {
+						rotation: [58, -61.31]
+					},
+					ease:  Circ. easeOut
+				}), "-=.2"
+			);
+			if( NEW ){ return; }
+		}
+		// We proceed knowing the animation is already set
+		if( !PanelSwitch.obj[Class].isActive() ){
+			// Restart the animation Only when the panel isn't already active
+			PanelSwitch.obj[Class].restart();
+			// Deprioritize inactive Cells after active Cells finish animating
+			PanelSwitch.obj[Class].eventCallback("onComplete", function(){
+				TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
+			});
+		}
+		// Reverse the animation when the same running animation is requested
+		else if( PanelSwitch.obj[Class].isActive() && PanelSwitch.obj[Class].reversed() ){
+			// Cancel animation reverse
+			PanelSwitch.obj[Class].reversed( !PanelSwitch.obj[Class].reversed() );
+			// Deprioritize inactive Cells
+			TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
+		}
+		// Check for the last Cell group animation
+		if( PanelSwitch.Harmonizer ){
+			// Reverse last Cell group animation
+			PanelSwitch.Harmonizer.reverse();
+			// Remove Cell group animation from the variable
+			PanelSwitch.Harmonizer = false;
+		}
+		// Save current active Cell group animation to a variable
+		PanelSwitch.Harmonizer = PanelSwitch.obj[Class];
 	}
-	// Check for the last Cell group animation
-	if( PanelSwitch.Harmonizer ){
-		// Reverse last Cell group animation
-		PanelSwitch.Harmonizer.reverse();
-		// Remove Cell group animation from the variable
-		PanelSwitch.Harmonizer = false;
-	}
-	// Save current active Cell group animation to a variable
-	PanelSwitch.Harmonizer = PanelSwitch.obj[Class];
-}
+};
 
 // Fly sequence
   // Portals activation procedure
@@ -2705,8 +2716,7 @@ function ActiveSequence(t){
 		if( t.hasClass(Portal[X]) ){
 			Active.Dimension = Portal[X];
 			Active.Color = PortalColor[X];
-			var ShalliDefine = true,
-				PrevPanel = $(".QuickAccess > .Cells.active").attr("class");
+			var ShalliDefine = true;
 			// QuickAccess
 			$(".QuickAccess > .Cells.active").toggleClass("active");
 			$(".QuickAccess").find("."+Portal[X]).toggleClass("active");
@@ -2744,7 +2754,7 @@ function ActiveSequence(t){
 			}
 
 			// Form the panels
-			SetPanel(PrevPanel);
+			Panel.set();
 
 			if( ShalliDefine == true ) {
 				// Set fly clearance
