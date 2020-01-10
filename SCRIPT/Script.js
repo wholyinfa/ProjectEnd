@@ -671,7 +671,6 @@ function Globe(){
 	.to('#Temporary .JourNey .StarFrame', 1, {x: '0%',rotation: -5,transformOrigin: "50% 200%",ease :  Power1.easeInOut});
 
   Jterrain = new TimelineMax({paused:true , repeat: -1});
-  Jterrain.set('#Temporary .Artery .Flow', {scale:1, z:0.01});
 	Jterrain
 	.to('#Temporary .JourNey .Terrain', 0.8, {scale: 1.04,ease : Power1.easeInOut,delay: 0.2})
 	.to('#Temporary .JourNey .Terrain', 0.8, {scale: 1,ease : Power1.easeInOut});
@@ -2697,10 +2696,13 @@ function SetPanel(PrevClass){
   // Portals activation procedure
 
 function ActiveSequence(t){
-	if( Global.RottenStillActive || ( typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ) ){ return;	}
+	// Forbid Portal activation when Fly animation is running
+	if( typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ){
+	    return;
+	}
 
 	for( X = 0 ; X < Portal.length ; X++ ){
-		if( t.hasClass(Portal[X]) && !Global.RottenStillActive ){
+		if( t.hasClass(Portal[X]) ){
 			Active.Dimension = Portal[X];
 			Active.Color = PortalColor[X];
 			var ShalliDefine = true,
@@ -2729,7 +2731,6 @@ function ActiveSequence(t){
 						Forward.isAllowed(false,false);
 						$("#Reach").data({GandalfOpt: 1})
 
-						Global.RottenStillActive = true;
 						ActiveRotten[XX].eventCallback("onRepeat",null).eventCallback("onRepeat", KillRot , [XX,t]);
 						if( $(ActiveRotten[XX].target[0]).parent().parent().hasClass(Portal[X]) ){
 							$(".QuickAccess > .Cells.active").toggleClass("active");
@@ -3734,7 +3735,6 @@ function DiviOrders(){
 // Kill functions
 function KillRot(XX,T){
 	ActiveRotten[XX].pause().eventCallback("onRepeat",null);
-	Global.RottenStillActive = false;
 }
 function KillActiveFly(){
 	Forward.isAllowed(Forward.memory);
