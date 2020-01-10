@@ -1721,7 +1721,7 @@ function Globe(){
 		// Finalizing the Ritual
 		Ritual.eventCallback("onComplete", function(){
 				PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
-				.fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {autoAlpha: 0, y: -20}, {autoAlpha: 1, y: 0}, 0)
+				.fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {y: -20}, {autoAlpha: 1, y: 0}, 0)
 				.to(Storm.not(".Download").find(".Divider"), 1, {autoAlpha: 1}, 0);
 			if (Storm.find(".AlphaAsset:hover").length != 0) {
 				AssetHover(Storm.find(".AlphaAsset"));
@@ -4869,8 +4869,12 @@ function ExitStorm(t){
 	if( Form.ActiveDom !== null ){
 		AssetForm($("."+(Form.ActiveDom.parent().attr("class")).replace(" ",".")).find(".Title"));
 	}
-	// Resetting the ritual
-	PostRitual.reverse();
+	// Reset the animations played after ritual is completed
+    if( !PostRitual.reversed() ){
+        PostRitual.reverse( PostRitual.time() );
+    }
+    // Stop ritual animation
+    Ritual.pause();
 	$(Ritual.getChildren()).each(function(i){
 		if( $(this.target[0]).hasClass("Curtain") ){
 			TweenMax.to(this.target[0], this.duration(), {autoAlpha: 0,ease: Sine. easeOut});
@@ -4884,7 +4888,6 @@ function ExitStorm(t){
 			}
 		}
 	});
-	//Ritual.reverse();
 	// Resetting the storm
 	CutTripwire.reverse().eventCallback("onReverseComplete",function(){
 		Storm.siblings(".Curtain").attr("class","Curtain");
