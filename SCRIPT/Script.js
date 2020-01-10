@@ -1517,7 +1517,6 @@ function Globe(){
     $(".PathFinder .Pocket").mousedown(function(){
         // Forbid hover animations
         if( typeof(IdlePath) !== "undefined" ){
-            console.log("??");
             IdlePath.pause();
         }
     });
@@ -2901,7 +2900,7 @@ function SwitchDivision(target,Manual){
 	URI(true);
 }
   // Division sequences
-Order = {NO: 0, Definitive: false};
+Order = {ID: null, Definitive: false};
 
 function DivisionSequence(reset,undone){
 	DiviSection = ActiveDivision.attr("id");
@@ -2923,12 +2922,16 @@ function DivisionSequence(reset,undone){
 			// DO on entrance or RESTART
 			WolvenEyez.play();
 			BrokenLaugh.play();
-			TweenMax.to($(".Portalian"), .2, {autoAlpha: 1});
+			if( reset ){
+                TweenMax.to($(".Portalian"), .2, {autoAlpha: 1});
+            }else{
+                Order.ID = DiviSection;
+            }
 		}else{
 			// DO when about to leave
 			WolvenEyez.pause();
 			BrokenLaugh.pause();
-			TweenMax.to($(".Portalian"), .2, {autoAlpha: 0});
+            TweenMax.to($(".Portalian"), .2, {autoAlpha: 0});
 		}
 		FlyAssociates = Ascs;
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "Temporary" ){
@@ -2947,8 +2950,12 @@ function DivisionSequence(reset,undone){
 	if( DiviSection == "SpaceCyclone" ){
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
-			if( SC_Footer.reversed() ){ SC_Footer.reversed(!SC_Footer.reversed()) }
-			SC_Footer.resume();
+            if( reset ) {
+                if( SC_Footer.reversed() ){ SC_Footer.reversed(!SC_Footer.reversed()) }
+                SC_Footer.resume();
+            }else{
+                Order.ID = DiviSection;
+            }
 		}else{
 			// DO when about to leave
 			SC_Footer.reverse();
@@ -2998,7 +3005,7 @@ function DivisionSequence(reset,undone){
 			if( reset ){
 				AntiToxins.duration(.5).restart().resume();
 			}else{
-				Order.NO = 1;
+				Order.ID = DiviSection;
 			}
 		}else{
 			// DO when about to leave
@@ -3030,7 +3037,7 @@ function DivisionSequence(reset,undone){
 			if( reset ){
 				AnalyzerFly.restart().resume();
 			}else{
-				Order.NO = 2;
+				Order.ID = DiviSection;
 			}
 		}else{
 			// DO when about to leave
@@ -3061,7 +3068,7 @@ function DivisionSequence(reset,undone){
 				PlaceDeck.restart().resume();
 				ShuffleFire.restart().resume();
 			}else{
-				Order.NO = 3;
+				Order.ID = DiviSection;
 			}
 		}else{
 			// DO when about to leave
@@ -3163,6 +3170,8 @@ function Fly(Reach,Manual){
 				ResetVars = PreFlyAssociates.toString()+","+FlyAssociates.toString();
 				if( NextDivisionAssociates ){ ResetVars += ","+NextDivisionAssociates.toString(); }
 				TweenMax.set(ResetVars, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+                // By order of the fookin DivisionSequence
+				DiviOrders();
 			}
 		}
 		// Return on forward fly while reversed
@@ -3207,6 +3216,8 @@ function Fly(Reach,Manual){
 					DirectRotten[0].play();
 					CheckForToggle(ActivePortal[0]);
 				}
+                // By order of the fookin DivisionSequence
+                DiviOrders();
 			}
 		}
 		// Return on forward fly
@@ -3225,7 +3236,6 @@ function Fly(Reach,Manual){
 						DirectRotten[0].play();
 						CheckForToggle(ActivePortal[0]);
 					}
-					DiviOrders();
 					// Reset all attributes of active associates (Important to prevent calculating errors caused by next division's animations being set but never performed)
 					KillActiveFly();
 				}
@@ -3668,13 +3678,20 @@ function ReverseSequence(){
 }
 // DivisionSequence orders
 function DiviOrders(){
-	if( Order.NO === 1 ){
+    if( Order.ID === "Temporary" ){
+        TweenMax.to($(".Portalian"), .2, {autoAlpha: 1});
+    }
+    if( Order.ID === "SpaceCyclone" ){
+        if( SC_Footer.reversed() ){ SC_Footer.reversed(!SC_Footer.reversed()) }
+        SC_Footer.resume();
+    }
+	if( Order.ID === "AntiToxins" ){
 		AntiToxins.duration(.5).restart().resume();
 	}
-	if( Order.NO === 2 ){
+	if( Order.ID === "Analyzer" ){
 		AnalyzerFly.restart().resume();
 	}
-	if( Order.NO === 3 ){
+	if( Order.ID === "DeckCloud" ){
 		if( PlaceDeck.time() <= PlaceDeck.duration() ){
 			PlaceDeck.resume();
 		}
@@ -3740,11 +3757,13 @@ function KillReverseFly(){
 		ReverseFly.kill();
 		delete ReverseFly;
 	}
-	if( Order.NO == 1 ){ Order.NO = 0;
+	if( Order.ID == 1 ){ Order.ID = 0;
 		TweenMax.to($(".DevAura, .DevAuraZ,.ArtAura, .ArtAuraZ"), .2, {autoAlpha: 1});
 	}
 	// Resetting Gandalf on launch cancellation
     Glitch.on("#Gandalf", null);
+    // By order of the fookin DivisionSequence
+	DiviOrders();
 }
 // Adds fly animations
 AddFly = {
@@ -3769,9 +3788,6 @@ AddFly = {
 		TheDURATION = ( NextActive && !$(AutoNode.toString()).length ) ? AnimDur / (1+((Associates.length+$(AutoNode.toString()).length)-X+1)*.5) :
 			( NextActive && $(AutoNode.toString()).length) ? AnimDur / (1+((Associates.length+$(AutoNode.toString()).length)-X+1)*.1) : AnimDur ;
 
-		if( Asc.filter(".Star").length ){
-            console.log(Asc.offset().left);
-        }
 		TheFly.add(
 			TweenMax.fromTo(Asc, TheDURATION, {
 				y: Afrom_y,
