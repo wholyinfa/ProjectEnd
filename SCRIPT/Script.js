@@ -1576,7 +1576,9 @@ function Globe(){
                 x: xvalue
             });
         // Pause hover reactions
-        IdlePath.pause();
+        if( typeof(IdlePath) !== "undefined" ){
+            IdlePath.pause();
+        }
     });
 
 	// DivisionReactor
@@ -2596,7 +2598,6 @@ function URI(ForceSet){
 			window.history.pushState({
 				id: this.name
 			}, this.pagetitle, url);
-			console.log(document.location);
 			document.title = this.pagetitle;
 		}
 	});
@@ -3126,7 +3127,7 @@ function Fly(Reach,Manual){
 		if( NextDivisionAssociates ){ ResetVars += ","+NextDivisionAssociates.toString(); }
 		TweenMax.set(ResetVars, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
 	}
-	// Mid-fly reverse sequences
+	// Return on reverse fly
 	if( Reverse.pedal === false && ( (typeof(ReverseFly) !== "undefined" && ReverseFly.isActive()) ||
 		( typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ) ) ){
 		// Return on reverse fly
@@ -3182,7 +3183,7 @@ function Fly(Reach,Manual){
     // Return on forward fly
 	if( Reverse.pedal === true && typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ||
 		( typeof(ReverseFly) !== "undefined" && ReverseFly.isActive() ) ){
-	    // Return on forward fly and return on reversed reverse fly
+	    // Reverse forwarded reverse fly
 		if( typeof(ReverseFly) !== "undefined" && ReverseFly.isActive() ){
 		    // Return on Forward fly
             if( ActiveFly.isActive() && !ReverseFly.reversed() ){
@@ -3208,6 +3209,7 @@ function Fly(Reach,Manual){
 				}
 			}
 		}
+		// Return on forward fly
 		else{
 				Forward.isAllowed(true);
 				Reverse.isAllowed(false);
@@ -3224,6 +3226,8 @@ function Fly(Reach,Manual){
 						CheckForToggle(ActivePortal[0]);
 					}
 					DiviOrders();
+					// Reset all attributes of active associates (Important to prevent calculating errors caused by next division's animations being set but never performed)
+					KillActiveFly();
 				}
 		}
 		// Preventing the active portal to shrink & reactivating the portal
@@ -3236,20 +3240,7 @@ function Fly(Reach,Manual){
 		}
 		return;
 	}
-
-	// Allow the current section to continue reversing without having to create another animation
-	if( Reverse.pedal === true &&
-		(typeof(ReverseFly) !== "undefined" && ReverseFly.isActive()) ){
-		if( ReverseFly.reversed() ){ ReverseFly.reversed( !ReverseFly.reversed() ) }
-		ReverseFly.resume();
-	}
-	// Doing the same above for the upcoming section
-	else if( typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ){
-		if( ActiveFly.reversed() ){ ActiveFly.reversed( !ActiveFly.reversed() ) }
-		ActiveFly.resume();
-	}
 	// Creating fly animations
-	else{
 		// Defining rotation's direction
 		NegOrPos = (Math.floor(Math.random() * 2));
 		if (NegOrPos) {
@@ -3290,7 +3281,7 @@ function Fly(Reach,Manual){
         Scale = (window.innerWidth / Subject.width()) * 2;
         AnimDur = 15;
 
-        // Gets the spaceship ready for reverse fly
+        // Get the spaceship ready for reverse fly
 		if( Reverse.pedal === true ){
 			Forward.isAllowed(true,Forward.isAllowed());
 			Reverse.isAllowed(false,Reverse.isAllowed());
@@ -3390,7 +3381,7 @@ function Fly(Reach,Manual){
 					ease: CustomEase.create("custom", "M0,0 C0,0 0.194,0.907 0.514,0.942 0.642,0.972 1,1 1,1")
 				}, TheDelay);
 		}
-		// Gets the spaceship ready for forward fly
+		// Get the spaceship ready for forward fly
 		else {
 			Forward.isAllowed(false,Forward.isAllowed());
 			Reverse.isAllowed(true,Reverse.isAllowed());
@@ -3579,7 +3570,6 @@ function Fly(Reach,Manual){
 				}
 			}
 		}
-	}
 	// Portals Animations
 	if( DirectRotten[0] !== false ){
 		if( DirectRotten[0].time() !== 0 ){ DirectRotten[0].reverse(DirectRotten[0].time()) }
@@ -3779,22 +3769,24 @@ AddFly = {
 		TheDURATION = ( NextActive && !$(AutoNode.toString()).length ) ? AnimDur / (1+((Associates.length+$(AutoNode.toString()).length)-X+1)*.5) :
 			( NextActive && $(AutoNode.toString()).length) ? AnimDur / (1+((Associates.length+$(AutoNode.toString()).length)-X+1)*.1) : AnimDur ;
 
-
+		if( Asc.filter(".Star").length ){
+            console.log(Asc.offset().left);
+        }
 		TheFly.add(
 			TweenMax.fromTo(Asc, TheDURATION, {
 				y: Afrom_y,
 				x: Afrom_x,
 				scale: Afrom_scale,
 				rotation: Afrom_rotation,
-				transformOrigin: AscOrigin,
-				ease: A_ease
+                transformOrigin: AscOrigin,
+                ease: A_ease
 			}, {
 				y: Ato_y,
 				x: Ato_x,
 				scale: Ato_scale,
 				rotation: Ato_rotation,
-				transformOrigin: AscOrigin,
-				ease: A_ease
+                transformOrigin: AscOrigin,
+                ease: A_ease
 			}), TheDELAY
 		);
 	},
