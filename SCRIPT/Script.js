@@ -1197,7 +1197,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	OnLoadActive = $("#SpaceCyclone");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -1721,8 +1721,8 @@ function Globe(){
 		// Finalizing the Ritual
 		Ritual.eventCallback("onComplete", function(){
 				PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
-				.fromTo(Storm.find(".AlphaAsset .Sub, .BetaAsset .Sub"), .4, {autoAlpha: 0, y: -20}, {autoAlpha: 1, y: 0}, 0)
-				.to(Storm.find(".Divider"), 1, {autoAlpha: 1}, 0);
+				.fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {autoAlpha: 0, y: -20}, {autoAlpha: 1, y: 0}, 0)
+				.to(Storm.not(".Download").find(".Divider"), 1, {autoAlpha: 1}, 0);
 			if (Storm.find(".AlphaAsset:hover").length != 0) {
 				AssetHover(Storm.find(".AlphaAsset"));
 			}
@@ -3889,13 +3889,14 @@ AddFly = {
 			},1), 0
 		);
 	},
-	StormEntrance : function(type1){
+	StormEntrance : function(type1,type2){
 		Afrom_y = 0;
 		Afrom_x = 0;
 		Afrom_scale = 1;
 		Afrom_autoAlpha = 1;
-		Ato_y = ((ActiveDivision.height()/2-SC_HoldMyState.ot)-SC_HoldMyState.h/2);
-		Ato_x = ((ActiveDivision.width()/2-SC_HoldMyState.ol)-SC_HoldMyState.w/2);
+        // Add exceptions for one section storms
+		Ato_y = ( type2 ) ? ((ActiveDivision.height()-SC_HoldMyState.ot)-SC_HoldMyState.h/2) : ((ActiveDivision.height()/2-SC_HoldMyState.ot)-SC_HoldMyState.h/2);
+		Ato_x = ( type2 ) ? ((ActiveDivision.width()-SC_HoldMyState.ol)-SC_HoldMyState.w/2) : ((ActiveDivision.width()/2-SC_HoldMyState.ol)-SC_HoldMyState.w/2);
 		Ato_scale = SC_scale;
 		Ato_autoAlpha = ( type1 ) ? .3 : 0;
 		AscOrigin = ((SC_HoldMyState.ol+SC_HoldMyState.w/2)-Asc.offset().left)+"px ";
@@ -4078,18 +4079,24 @@ StormRitual = {
 		this.Ritual();
 	},
 	AlphaAsset : function(){
-		Ato_y = ( ( ( ( ActiveDivision.height() / 2 ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveDivision.width() * 0.75 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
-		AssetRotation = ( Asc.hasClass("Resume") ) ? 20 : ( Asc.hasClass("CodeProject") ) ? 9 : ( Asc.hasClass("Envelope") ) ? 12 : 0;
-		AssetX = ( Asc.hasClass("Resume") ) ? "25%" : ( Asc.hasClass("Envelope") ) ? "-3%" : "0%";
+	    // Add exceptions for one section storm
+	    var nthofpagew = ( Asc.hasClass("Resume") ) ? .5 : .75,
+            nthofpageh = ( Asc.hasClass("Resume") ) ? 1.85 : 2;
+		Ato_y = ( ( ( ( ActiveDivision.height() / nthofpageh ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
+		Ato_x = ( ( ( ( ActiveDivision.width() * nthofpagew ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+		AssetRotation = ( Asc.hasClass("Resume") ) ? 0 : ( Asc.hasClass("CodeProject") ) ? 9 : ( Asc.hasClass("Envelope") ) ? 12 : 0;
+		AssetX = ( Asc.hasClass("Resume") ) ? "5%" : ( Asc.hasClass("Envelope") ) ? "-3%" : "0%";
 		AssetY = ( Asc.hasClass("Resume") ) ? "-8%" : ( Asc.hasClass("Envelope") ) ? "25%" : "0%";
 		this.Ritual();
 	},
 	BetaAsset : function(){
-		Ato_y = ( ( ( ( ActiveDivision.height() / 2 ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveDivision.width() * .25 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
-		AssetRotation = ( Asc.hasClass("CV") ) ? 20 : ( Asc.hasClass("DesignProject") ) ? -20 : 0;
-		AssetX = ( Asc.hasClass("CV") ) ? "35%" : "0%";
+        // Add exceptions for one section storm
+	    var nthofpagew = ( Asc.hasClass("CV") ) ? .5 : .25,
+            nthofpageh = ( Asc.hasClass("CV") ) ? 1.85 : 2;
+		Ato_y = ( ( ( ( ActiveDivision.height() / nthofpageh ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
+		Ato_x = ( ( ( ( ActiveDivision.width() * nthofpagew ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+		AssetRotation = ( Asc.hasClass("CV") ) ? 40 : ( Asc.hasClass("DesignProject") ) ? -20 : 0;
+		AssetX = ( Asc.hasClass("CV") ) ? "15%" : "0%";
 		AssetY = ( Asc.hasClass("CV") ) ? "12%" : "0%";
 		this.Ritual();
 	}
@@ -4774,6 +4781,9 @@ function AssetHover(t,reverse){
 	if( t.hasClass("BetaAsset") ){
 		TweenMax.to($(".Curtain > .Beta"), .2, {autoAlpha: AssetAlpha});
 	}
+	if( t.parent().parent().hasClass("Download") ){
+        TweenMax.to($(".Curtain > .Beta, .Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
+    }
 }
 Form = {
 	Arrange: [],
