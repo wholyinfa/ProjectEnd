@@ -29,6 +29,17 @@
         <div id="NOTREADY"></div>
 
         <div class="QuickAccess">
+            <div class="Cells Frame">
+                <div class="Cell RightSection H"></div>
+                <div class="Cell RightSection G"></div>
+                <div class="Cell RightSection I"></div>
+                <div class="Cell LeftSection E"></div>
+                <div class="Cell RightSection F"></div>
+                <div class="Cell LeftSection B"></div>
+                <div class="Cell LeftSection C"></div>
+                <div class="Cell LeftSection D"></div>
+                <div class="Cell LeftSection A"></div>
+            </div>
             <div class="Cells Default active">
                 <div class="Cell RightSection H"></div>
                 <div class="Cell RightSection G"></div>
