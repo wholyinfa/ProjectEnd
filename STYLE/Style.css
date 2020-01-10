@@ -979,19 +979,19 @@ body{
 #Gandalf{
     padding: 30px;
     position: fixed; bottom: 0; right: 0;
-    font-family: Ocr; font-size: .8em; color: #b3b3b3;
+    font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
 }
 #Peek{
     padding: 30px;
     position: fixed; bottom: 0; left: 0;
-    font-family: Ocr; font-size: .8em; color: #b3b3b3;
+    font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
 }
 #Trilogies .Portalian{
     padding: 30px; margin: 0;
     position: fixed; top: 0; left: 0;
-    font-family: Ocr; font-size: 1.1em; font-weight: normal; color: #b3b3b3;
+    font-family: Ocr; font-size: 1.1em; font-weight: normal; color: #fff;
     transition: color .5s ease-in-out; z-index: -1;
 }
 
