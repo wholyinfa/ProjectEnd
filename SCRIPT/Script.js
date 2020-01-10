@@ -1337,10 +1337,39 @@ function Globe(){
         $(this).data({GandalfOpt: Opt});
     });
 
-    //
-	$(".QuickAccess .Cell").click(function(){
+    // Add TranslucentWave effect
+	$(".QuickAccess .Cells .Cell").click(function(){
 		var PrevSiblings = $(this).prevAll(),
 			NextSiblings = $(this).nextAll();
+		// Animate siblings placed before the clicked element
+		TweenMax.staggerFromTo(PrevSiblings, .175,{
+		   autoAlpha: 1,
+        },{
+		   autoAlpha: 0,
+			delay: .1,
+           onComplete: function(){
+		       this.reverse();
+           }
+        }, .1);
+		// Animate clicked asset
+		TweenMax.fromTo(this, .175,{
+		   autoAlpha: 1
+        },{
+		   autoAlpha: 0,
+            onComplete: function(){
+                this.reverse();
+            }
+        }, .1);
+		// Animate siblings placed after the clicked element
+		TweenMax.staggerFromTo(NextSiblings, .175,{
+		   autoAlpha: 1,
+        },{
+		   autoAlpha: 0,
+			delay: .1,
+            onComplete: function(){
+                this.reverse();
+            }
+        }, .1);
 	});
 
   	// Defining QuickAccess controlls
@@ -2629,6 +2658,7 @@ Panel = {
 			: $(".QuickAccess > .Cells.active").attr("class"),
 			CellGroup = ( NEW === true ) ? $(".QuickAccess > .Cells.Frame")
 			: $(".QuickAccess > .Cells.active");
+		// Deprioritize inactive Cells
 		TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
 		// Checking to make sure the current panel doesn't have it's exclusive animation already set
 		if( typeof(PanelSwitch.obj[Class]) === "undefined" || NEW ) {
@@ -2652,21 +2682,21 @@ Panel = {
 					ease:  Circ. easeOut
 				}), "-=.2"
 			).add(
-				TweenMax.staggerTo(CellGroup.children(".C, .G"), .3, {
+				TweenMax.staggerTo(CellGroup.children(".G, .C"), .3, {
 					cycle: {
 						rotation: [-3.71, 2.65]
 					},
 					ease:  Circ. easeOut
 				}), "-=.2"
 			).add(
-				TweenMax.staggerTo(CellGroup.children(".B, .H"), .3, {
+				TweenMax.staggerTo(CellGroup.children(".H, .B"), .3, {
 					cycle: {
 						rotation: [23.66, -23.66]
 					},
 					ease:  Circ. easeOut
 				}), "-=.2"
 			).add(
-				TweenMax.staggerTo(CellGroup.children(".A, .I"), .3, {
+				TweenMax.staggerTo(CellGroup.children(".I, .A"), .3, {
 					cycle: {
 						rotation: [58, -61.31]
 					},
@@ -2679,8 +2709,10 @@ Panel = {
 		if( !PanelSwitch.obj[Class].isActive() ){
 			// Restart the animation Only when the panel isn't already active
 			PanelSwitch.obj[Class].restart();
-			// Deprioritize inactive Cells after active Cells finish animating
 			PanelSwitch.obj[Class].eventCallback("onComplete", function(){
+				// Prioritize current Active Cell group
+				TweenMax.set(".QuickAccess > .Cells.active", {zIndex: 0});
+				// Deprioritize inactive Cells after active Cells finish animating
 				TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
 			});
 		}
@@ -2688,8 +2720,6 @@ Panel = {
 		else if( PanelSwitch.obj[Class].isActive() && PanelSwitch.obj[Class].reversed() ){
 			// Cancel animation reverse
 			PanelSwitch.obj[Class].reversed( !PanelSwitch.obj[Class].reversed() );
-			// Deprioritize inactive Cells
-			TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
 		}
 		// Check for the last Cell group animation
 		if( PanelSwitch.Harmonizer ){
