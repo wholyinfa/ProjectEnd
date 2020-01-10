@@ -631,6 +631,7 @@ function Globe(){
 		  height = window.innerHeight;
 	// Resetting all forms and inputs on page load
 	$("input,textarea").val("");
+	// Form the panels
 	SetPanel();
 
 // Pre Requisitions
@@ -2610,10 +2611,7 @@ function URI(ForceSet){
 // QuickAccess
 PanelSwitch = {
 	obj : [],
-	Harmonizer: {
-		active: false,
-		list: []
-	}
+	Harmonizer: false
 };
 function SetPanel(PrevClass){
 	var PrevPanel = false,
@@ -2623,11 +2621,16 @@ function SetPanel(PrevClass){
 	if( PrevClass ){
 		PrevPanel = PanelSwitch.obj[PrevClass];
 	}
+	TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
 	// Checking to make sure the current panel doesn't have it's exclusive animation already set
 	if( typeof(PanelSwitch.obj[Class]) === "undefined" ) {
 		// Creating the animation set
 		PanelSwitch.obj[Class] = new TimelineMax();
 		PanelSwitch.obj[Class].add(
+			TweenMax.set(".QuickAccess > .active", {
+				zIndex: 0
+				}), 0
+		).add(
 			TweenMax.to(".QuickAccess > .active > .E", .4, {
 				scale: 1,
 				rotation: -38.23,
@@ -2667,14 +2670,27 @@ function SetPanel(PrevClass){
 	if( !PanelSwitch.obj[Class].isActive() ){
 		// Restart the animation Only when the panel isn't already active
 		PanelSwitch.obj[Class].restart();
-	}else if( PanelSwitch.obj[Class].isActive() && PanelSwitch.obj[Class].reversed() ){
+		// Deprioritize inactive Cells after active Cells finish animating
+		PanelSwitch.obj[Class].eventCallback("onComplete", function(){
+			TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
+		});
+	}
+	// Reverse the animation when the same running animation is requested
+	else if( PanelSwitch.obj[Class].isActive() && PanelSwitch.obj[Class].reversed() ){
+		// Cancel animation reverse
 		PanelSwitch.obj[Class].reversed( !PanelSwitch.obj[Class].reversed() );
+		// Deprioritize inactive Cells
+		TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
 	}
-	if( PanelSwitch.Harmonizer.list.length ){
-		PanelSwitch.Harmonizer.list[0].reverse();
-		PanelSwitch.Harmonizer.list.splice(0, 1);
+	// Check for the last Cell group animation
+	if( PanelSwitch.Harmonizer ){
+		// Reverse last Cell group animation
+		PanelSwitch.Harmonizer.reverse();
+		// Remove Cell group animation from the variable
+		PanelSwitch.Harmonizer = false;
 	}
-	PanelSwitch.Harmonizer.list.push(PanelSwitch.obj[Class]);
+	// Save current active Cell group animation to a variable
+	PanelSwitch.Harmonizer = PanelSwitch.obj[Class];
 }
 
 // Fly sequence
@@ -2726,6 +2742,7 @@ function ActiveSequence(t){
 				}
 			}
 
+			// Form the panels
 			SetPanel(PrevPanel);
 
 			if( ShalliDefine == true ) {
