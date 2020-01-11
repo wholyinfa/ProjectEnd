@@ -1197,7 +1197,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#SpaceCyclone");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -1655,7 +1655,13 @@ function Globe(){
 
 		});
 
-	$('#SpaceCyclone > .Storm .AlphaAsset,#SpaceCyclone > .Storm .BetaAsset:not(.Phone)').mouseenter(function(){
+	$('#SpaceCyclone > .Storm .AlphaAsset .Title:not(.active),#SpaceCyclone > .Storm .BetaAsset:not(.Phone) .Title:not(.active)').mouseenter(function(){
+		AssetHover($(this).parent());
+	})
+		.mouseleave(function(){
+			AssetHover($(this).parent(),true);
+	});
+	$('#SpaceCyclone > .Download.Storm .AlphaAsset, #SpaceCyclone > .Download.Storm .BetaAsset').mouseenter(function(){
 		AssetHover($(this));
 	})
 		.mouseleave(function(){
@@ -4813,11 +4819,12 @@ function AssetForm(t,func){
 		if( Deformer(Class, t) ){ return; }
 		// Using the same animation instead of duplicating
 		Form.Arrange[Class].duration(Form.Arrange[Class].duration()).restart();
-		t.toggleClass("active");
+		// Add the active indicator
+		t.addClass("active");
 		Form.ActiveDom = t;
 		return;
 	}
-	// Tagging the current asset
+	// Toggle the active indicator
 	t.toggleClass("active");
 	Form.ActiveDom = t;
 	// Defining animation and related properties
