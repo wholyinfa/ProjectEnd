@@ -1197,7 +1197,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#SpaceCyclone");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -1940,12 +1940,18 @@ function Globe(){
     });
 
 		// Skillometer
-	CoreClick = [false]; AffectedCores = {Core: [], Waya: []};
-	CoreKeepa = [$(".CoreKeepa")];
+	CoreClick = false; AffectedCores = {Core: [], Waya: []};
+	CoreKeepa = $(".CoreKeepa");
 	SkiloBrrr = new TimelineMax({repeat: -1,paused: true,yoyo: true});
 	SkiloBrrr
 		.to("#Skillometer .Device", .04, {x: 2})
 		.to("#Skillometer .Device", .04, {x: -2});
+    Dangerous = new TimelineMax({repeat: -1,paused: true,yoyo: true});
+	Dangerous.fromTo(".InfoPanel .Danger", .4,{
+        autoAlpha: .3, ease:  Power0.easeNone
+    },{
+        autoAlpha: 1, ease:  Power0.easeNone
+    },0);
 
 	Laser = {
 		make : function(){
@@ -1961,7 +1967,10 @@ function Globe(){
 				this.resume();
 			});
 			TweenMax.to($("#Skillometer .Laser"), .2, {scaleY: 1, onComplete: function(){
-					InfoPanel.on($(CoreMove._first.target[0]).parent());
+			    // Check if the device is currently loaded
+			    if( LoadedCore ){
+                    InfoPanel.on($(CoreMove._first.target[0]).parent());
+                }
 				}});
 		},
 		pause : function(){
@@ -2008,36 +2017,40 @@ function Globe(){
 					SupPower = 12+Math.round((12*this.power)/100);
 					Decimal = (Math.round(CorePower)/Math.pow(10,L)).toFixed(L-5);
 					CorePower = Decimal+"×"+10;
-					Dangerous = ( this.power > 70 ) ? true : false;
 					$("#Skillometer .Power sup").html(SupPower);
 
 					TweenMax.to($("#Skillometer #Info"), .2, {scaleX: 1});
 					TweenMax.to($("#Skillometer #Thunder"), .5, {scaleX: this.power/100});
-					if( Dangerous ){
-						// TweenMax.to($("#Skillometer .InfoPanel .Danger"), .5, {autoAlpha: 1, ease: ToughEase});
+					// Check if the core's power is dangerous
+					if( this.power > 70 ){
+					    if( Dangerous.reversed() ){
+					        Dangerous.reversed(!Dangerous.reversed());
+                        }
+					    // Run danger sign blink animation
+                        Dangerous.resume();
 					}
 					LitteralPower = ( SupPower < 15 ) ? 0 :
 							( SupPower < 18 ) ? 1 :
 							( SupPower < 21 ) ? 2 :  3;
-					TweenMax.to($("#Skillometer .Measure").children().eq(LitteralPower), .5, {autoAlpha: 1, ease: ToughEase});
+                    LP = TweenMax.to($("#Skillometer .Measure").children().eq(LitteralPower), .5, {autoAlpha: 1, ease: ToughEase});
 					Glitch.on("#Skillometer .Power span:first-child", CorePower);
 				}
 			});
 			InfoPanel.active(true);
 		},
 		off : function (){
-			if( !SkiloBrrr.isActive() && !InfoPanel.active() ){ return; }
+		    // Abort method when InfoPanel is already off
+			if( !InfoPanel.active() ){ return; }
 			TweenMax.to($("#Skillometer #Info"), .1, {scaleX: 0});
 			TweenMax.to($("#Skillometer #Thunder"), .2, {scaleX: 0});
-			if( Dangerous ){
-				Danga = $("#Skillometer .InfoPanel .Danger");
-				TweenMax.set(Danga,  {clearProps: "all"});
-				TweenMax.from(Danga, .5, {autoAlpha: 1, ease: ToughEase});
-				Dangerous = false;
-			}
-			LP = $("#Skillometer .Measure").children().eq(LitteralPower);
-			TweenMax.set(LP,  {clearProps: "all"});
-			TweenMax.from(LP, .2, {autoAlpha: 1});
+			// Stop danger sign's animation
+			if( Dangerous.time() !== 0 ){
+                Dangerous.reverse(Dangerous.time());
+			}else{
+                Dangerous.reverse();
+            }
+			// Fade measure labels
+            LP.reverse();
 			$("#Skillometer .Power sup").html("");
 			Glitch.on("#Skillometer .Power span:first-child", "----------");
 			InfoPanel.active(false);
@@ -2050,10 +2063,12 @@ function Globe(){
 			}
 		}
 	};
+	// Variable indicating whether the device is loaded
+    LoadedCore = false;
 
 	$("#Skillometer .Core .Strikes").mouseenter(function(){
 		CoreElement = $(this).parent().parent().parent();
-		if( CoreClick[0] == CoreElement.attr("class") ){return;}
+		if( CoreClick == CoreElement.attr("class") ){return;}
 		OBJ = $(this).siblings(".Title").find(">span");
 		Core = CoreElement.find(".Extender");
 		Dur = ((OBJ.width()*100)/OBJ.parent().innerWidth())/125;
@@ -2073,30 +2088,35 @@ function Globe(){
 		TweenMax.to(OBJ, Dur/2, {x: "0%", ease:  SlowMo.ease.config( 0.2, 0.2, false), onComplete: ApplySlider, onCompleteParams: [OBJ]});
 	})
 		.mouseleave(function(){
-		if( CoreClick[0] !== $(this).parent().attr("class") ){ReverseCore();}
+		if( CoreClick !== $(this).parent().attr("class") ){ReverseCore();}
 	});
 	$("#Skillometer .Core .Strikes").click(function(){
 		CoreElement = $(this).parent().parent().parent();
-		if( CoreClick[0] == CoreElement.attr("class") ){
+		// Cancell load when same element is requested
+		if( CoreClick == CoreElement.attr("class") ){
 			ReverseCore(true);
-			CoreClick[0] = false;
+			CoreClick = false;
 			SkiloBrrr.kill();
 			RemoveCore();
+            LoadedCore = false;
 			return;
 		}
 		ReverseCore(true);
+		// Check if any other element is engaging with the device
 		if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
+		    // Cancel load of the last unplaced element
 			Emginashun.duration(Emginashun.duration()/14.4).reverse().eventCallback("onReverseComplete",DelCore,[Emginashun._first.target[0]]);
 			Laser.pause();
-			if( InfoPanel.active() ){ InfoPanel.off(); }
+			if( LoadedCore ){ InfoPanel.off(); }
 			// Update status on Gandalf when a core is requested while another core is placed
             $(this).data({GandalfOpt: 1});
+            LoadedCore = false;
 		}else{
             // Update status on Gandalf for a new core request
             $(this).data({GandalfOpt: 0});
         }
         $("#Skillometer .Glued").data({GandalfActive: false});
-		CoreClick[0] = CoreElement.attr("class");
+		CoreClick = CoreElement.attr("class");
 		Core = CoreElement.find(".Extender");
 		Dur = .5;
 		MiddleX = ((CoreElement.parent().find(".CoreKeepa").offset().left+CoreElement.parent().find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().left+CoreElement.innerWidth()/2));
@@ -2120,7 +2140,7 @@ function Globe(){
 		CoreClone.find("*").css("transform","");
 
 		CoreSlot.append("<div class=\"Core\"></div>");
-		ActiveCore = CoreSlot.children(":last-child");
+		var ActiveCore = CoreSlot.children(":last-child");
 		ActiveCore.append(Core.find(".Board").clone());
 		ActiveCore.append("<div class='ForReactor'></div>");
 		ActiveCore.find(".ForReactor").html(CoreClone);
@@ -2161,13 +2181,17 @@ function Globe(){
 			autoAlpha: 1,
 			scale: 1,
 			ease:   ToughEase,
-			onComplete: CorePlaced,
-			onCompleteParams: [CoreSlot]
+			onComplete: function(){
+                CoreGlow.play(); SkiloBrrr.play(); Laser.play();
+                TweenMax.set(CoreSlot, {zIndex: 2});
+                TweenMax.set(CoreKeepa, {zIndex: 2,autoAlpha: 0});
+                // Update status on Gandalf after core is placed
+                Glitch.on("#Gandalf", "Core analysis completed");
+                LoadedCore = CoreElement;
+            }
 		});
 		CoreGlow = new TimelineMax({repeat: -1,paused: true,yoyo: true});
-		CoreGlow.to(CoreKeepa[0], .4,{
-			autoAlpha: 1, ease:  SlowMo.ease.config( 0.2, 0.2, false)
-		},0).to(".InfoPanel .Danger", .4,{
+		CoreGlow.to(CoreKeepa, .4,{
 			autoAlpha: 1, ease:  SlowMo.ease.config( 0.2, 0.2, false)
 		},0).to(ActiveCore.find(".Strikes"), .4, {
 			autoAlpha: 1, ease:  SlowMo.ease.config( 0.2, 0.2, false)
@@ -2180,7 +2204,7 @@ function Globe(){
 
 		TweenMax.to(Slider, CoreSliderDur/2, {x: "0%", ease:  SlowMo.ease.config( 0.2, 0.2, false), onComplete: ApplyCoreSlide, onCompleteParams: [Slider]});
 		TweenMax.set(CoreSlot, {zIndex: 0});
-		TweenMax.set(CoreKeepa[0], {zIndex: 0,autoAlpha: 1});
+		TweenMax.set(CoreKeepa, {zIndex: 0,autoAlpha: 1});
 		TweenMax.set(ActiveCore.find(".ForReactor"), {autoAlpha: 0});
 		Emginashun.delay(GlowOnEnter.duration()).play();
 	});
@@ -2188,9 +2212,10 @@ function Globe(){
 		if( Emginashun.reversed() ){ return; }
 		if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
 			Laser.pause();
-			InfoPanel.off();
+            if( LoadedCore ){ InfoPanel.off(); }
 			RemoveCore();
-			CoreClick = [false];
+			CoreClick = false;
+            LoadedCore = false;
 			AffectedCores = {Core: [], Waya: []};
 		}
 	});
@@ -3138,9 +3163,10 @@ function DivisionSequence(reset,undone){
 			// DO when about to leave
 			if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
 				Laser.pause();
-				InfoPanel.off();
+				if( LoadedCore ){ InfoPanel.off(); }
 				RemoveCore(.2);
-				CoreClick = [false];
+				CoreClick = false;
+                LoadedCore = false;
 				AffectedCores = {Core: [], Waya: []};
 			}
 		}
@@ -4801,18 +4827,11 @@ function PocketPath(reset){
 // SkilloCore
 function DelCore(ThisCore){
 	TweenMax.set($(ThisCore).parent().parent(), {zIndex: 0});
-	TweenMax.set(CoreKeepa[0], {zIndex: 0,autoAlpha: 1});
+	TweenMax.set(CoreKeepa, {zIndex: 0,autoAlpha: 1});
 	$(ThisCore).parent().remove();
 }
 function CoreArrived(){
 	GlowOnEnter.play();
-}
-function CorePlaced(ThisCore){
-	CoreGlow.play(); SkiloBrrr.play(); Laser.play();
-	TweenMax.set(ThisCore, {zIndex: 2});
-	TweenMax.set(CoreKeepa[0], {zIndex: 2,autoAlpha: 0});
-    // Update status on Gandalf after core is placed
-    Glitch.on("#Gandalf", "Core analysis completed");
 }
 function ApplyCoreSlide(){
 	CoreSlider.play();
@@ -4846,7 +4865,7 @@ function RemoveCore(Dur){
 }
 function ResetCore(){
 	Emginashun.delay(0).reverse().eventCallback("onReverseComplete",DelCore,[Emginashun._first.target[0]]);
-	TweenMax.set(CoreKeepa[0], {zIndex: 0,autoAlpha: 1});
+	TweenMax.set(CoreKeepa, {zIndex: 0,autoAlpha: 1});
 	CoreMove.reverse();
 	// Reactivating Gandalf after the Core is removed
     $("#Skillometer .Glued").data({GandalfActive: true});
