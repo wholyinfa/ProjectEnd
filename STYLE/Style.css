@@ -1313,7 +1313,7 @@ body{
     width: 400%; height: 22%;
     left: 50%; top: 33%;
     transform-origin: left;
-    background: url("../ASSETS/Skillometer/Waya.png") no-repeat;
+    background: url("../ASSETS/Skillometer/Waya.png") repeat-x;
 }
 #Skillometer .Radiation{
     width: 134.66%; height: 121.33%;

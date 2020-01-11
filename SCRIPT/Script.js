@@ -1952,6 +1952,23 @@ function Globe(){
     },{
         autoAlpha: 1, ease:  Power0.easeNone
     },0);
+	DeviceEmpty = new TimelineMax({paused: true});
+    DeviceEmpty
+        .to("#Skillometer .Device", .08, {x: 4})
+        .to("#Skillometer .Device", .08, {x: -4})
+        .to("#Skillometer .Device", .08, {x: 4})
+        .to("#Skillometer .Device", .08, {x: 0})
+        .staggerTo("#Skillometer .Waya", .5, {backgroundPositionX: function(i,asset){
+            var width = $(asset).innerWidth();
+            // Animate 20% of the background relative to it's container
+            return width * .2 + "%"
+            }}, .15,0)
+        .staggerTo("#Skillometer .Core", .24, {autoAlpha: .3}, 0,0)
+        .staggerTo("#Skillometer .Core", .24, {autoAlpha: 1}, .15,.1);
+    DeviceEmpty.eventCallback("onComplete", function(){
+        // Reverse Waya elements to their default position
+        TweenMax.to( "#Skillometer .Waya", .5, {backgroundPositionX: 0} )
+    });
 
 	Laser = {
 		make : function(){
@@ -2066,6 +2083,11 @@ function Globe(){
 	// Variable indicating whether the device is loaded
     LoadedCore = false;
 
+    $("#Skillometer .Glued").click(function(){
+        if( !DeviceEmpty.isActive() ){
+            DeviceEmpty.restart();
+        }
+    });
 	$("#Skillometer .Core .Strikes").mouseenter(function(){
 		CoreElement = $(this).parent().parent().parent();
 		if( CoreClick == CoreElement.attr("class") ){return;}
