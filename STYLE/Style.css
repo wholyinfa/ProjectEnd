@@ -680,10 +680,37 @@ body{
 #SpaceCyclone .Curtain.Con > *{
     background: #FF8F8F;
 }
-#SpaceCyclone .Definer .Asset{
+#SpaceCyclone .Definer .Asset, #SpaceCyclone .Definer .Asset .Indicator, #SpaceCyclone .Definer .Asset .Area69{
     width: 100%; height: 100%;
     position: absolute; top: 0; left: 0;
     z-index: 1;
+}
+#SpaceCyclone .Storm .Close{
+    width: 100%; padding-bottom: 100%;
+    position: absolute; left: 0; top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+#SpaceCyclone .Storm .Close:before, #SpaceCyclone .Storm .Close:after {
+    content: ' ';
+    width: 15%; height: 100%;
+    position: absolute; left: 42.5%;
+    border-radius: 10px;
+}
+#SpaceCyclone .Definer .Asset .Close:before {
+    transform: rotate(45deg);
+}
+#SpaceCyclone .Definer .Asset .Close:after {
+    transform: rotate(-45deg);
+}
+#SpaceCyclone .Download .Close:before, #SpaceCyclone .Download .Close:after{
+    background: #8fffff;
+}
+#SpaceCyclone .Request .Close:before, #SpaceCyclone .Request .Close:after{
+    background: #b3ffb3;
+}
+#SpaceCyclone .Connect .Close:before, #SpaceCyclone .Connect .Close:after{
+    background: #ff8f8f;
 }
 #SpaceCyclone .Divider{
     width: 1px; height: 400%;
@@ -855,7 +882,7 @@ body{
     width: 52.11%; height: 65.84%;
     position: absolute; top: 0; left: 20.52%;
 }
-#SpaceCyclone .Request .Definer .Asset{
+#SpaceCyclone .Request .Definer .Asset .Indicator{
     background: url("../ASSETS/SpaceCyclone/Req_Plus.png") no-repeat;
 }
 #SpaceCyclone .Request .Divider{
@@ -943,7 +970,7 @@ body{
     width: 50.66%; height: 58.58%;
     position: absolute; top: 0; left: 24.33%;
 }
-#SpaceCyclone .Download .Definer .Asset{
+#SpaceCyclone .Download .Definer .Asset .Indicator{
     background: url("../ASSETS/SpaceCyclone/Dlm_Down.png") no-repeat;
 }
 #SpaceCyclone .Download .Definer .Sub{
@@ -1011,7 +1038,7 @@ body{
     width: 82.91%; height: 61.96%;
     position: absolute; top: 0; left: 10.83%;
 }
-#SpaceCyclone .Connect .Definer .Asset{
+#SpaceCyclone .Connect .Definer .Asset .Indicator{
     background: url("../ASSETS/SpaceCyclone/Con_WiFi.png") no-repeat;
 }
 #SpaceCyclone .Connect .Divider{

@@ -1736,7 +1736,13 @@ function Globe(){
 				AssetHover(Storm.find(".BetaAsset"));
 			}
 			Glitch.on("#Gandalf", null);
-		})
+			// Enable Definer asset hover reactions
+			Area69.enabled();
+			// Perform hover reactions if Definer asset is hovered after entrance
+			if( Storm.find(".Area69").is(":hover") ){
+				Area69.set(Storm.find(".Area69"));
+			}
+		});
 	});
 	StormForm = [];
 	$("#SpaceCyclone > .Storm .Title").click(function (){
@@ -1846,6 +1852,12 @@ function Globe(){
 	$("#SpaceCyclone > .Storm .Definer").click(function(){
 		ExitStorm($(this).parent().parent());
 	});
+	// Add hover reactions
+    $("#SpaceCyclone > .Storm .Definer .Area69").mouseenter(function(){
+		Area69.set($(this));
+    }).mouseleave(function(){
+    	Area69.reset($(this));
+    });
 	$("#Footer > a").mouseenter(function(){
 	    TweenMax.to($(this).find("img"), .15, {
 	        scale: 1.3,
@@ -1857,7 +1869,8 @@ function Globe(){
 	        transformOrigin: "50% 100%",
             ease: Power1.easeOut
         });
-    }).mouseleave(function(){
+    })
+        .mouseleave(function(){
         TweenMax.to($(this).find("img"), .15, {
             scale: 1,
             ease: Power1.easeOut
@@ -4812,6 +4825,40 @@ function AssetHover(t,reverse){
         TweenMax.to($(".Curtain > .Beta, .Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
     }
 }
+Area69 = {
+	enable: null,
+	enabled: function(t){
+		// Save enable/disable requests
+		this.enable = ( t == false ) ? false : true;
+	},
+	varset: function(t,r){
+		// Deny request when disabled
+		if( !this.enable ){
+			return;
+		}
+		var	indica = t.siblings().filter(".Indicator"),
+			close = t.siblings().filter(".Close"),
+			rotation = ( r ) ? 0 : 180,
+			alpha0 = ( r ) ? 1 : 0,
+			alpha1 = ( r ) ? 0 : 1;
+		TweenMax.to( indica, .15, {
+			rotation: rotation,
+			autoAlpha: alpha0
+		} );
+		TweenMax.to( close, .15, {
+			rotation: rotation,
+			autoAlpha: alpha1
+		} );
+	},
+	set: function(t){
+		this.varset(t);
+		return this;
+	},
+	reset: function(t){
+		this.varset(t,true);
+		return this;
+	}
+};
 Form = {
 	Arrange: [],
 	ActiveDom: null
@@ -4937,6 +4984,8 @@ function ExitStorm(t){
         }
 	});
 	EnterStorm.reverse();
+	// Reset and disable Definer asset hover reactions
+	Area69.reset(Storm.find(".Area69")).enabled(false);
 }
 
 // AntiToxins

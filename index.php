@@ -152,7 +152,11 @@
                         <div class="Sub">CV</div>
                     </a>
                     <div class="Definer">
-                        <div class="Asset"></div>
+                        <div class="Asset">
+                            <div class="Indicator"></div>
+                            <div class="Close"></div>
+                            <div class="Area69"></div>
+                        </div>
                         <div class="Sub">DOWNLOAD</div>
                         <div class="Divider"></div>
                     </div>
@@ -222,7 +226,11 @@
                             </form>
                         </div>
                         <div class="Definer">
-                            <div class="Asset"></div>
+                            <div class="Asset">
+                                <div class="Indicator"></div>
+                                <div class="Close"></div>
+                                <div class="Area69"></div>
+                            </div>
                             <div class="Sub">PROJECT REQUEST</div>
                             <div class="Divider"></div>
                         </div>
@@ -269,7 +277,11 @@
                         </div>
                     </div>
                     <div class="Definer">
-                        <div class="Asset"></div>
+                        <div class="Asset">
+                            <div class="Indicator"></div>
+                            <div class="Close"></div>
+                            <div class="Area69"></div>
+                        </div>
                         <div class="Sub">REACH ME</div>
                         <div class="Divider"></div>
                     </div>
