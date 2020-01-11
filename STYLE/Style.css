@@ -884,6 +884,7 @@ body{
 }
 #SpaceCyclone .Request .Definer .Asset .Indicator{
     background: url("../ASSETS/SpaceCyclone/Req_Plus.png") no-repeat;
+    background-size: 100%;
 }
 #SpaceCyclone .Request .Divider{
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 564.25'%3e%3cdefs%3e%3cradialGradient id='a' cx='.5' cy='282.12' r='199.49' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0' stop-color='%23b3ffb3'/%3e%3cstop offset='.08' stop-color='%23adf6ad'/%3e%3cstop offset='.22' stop-color='%239cde9c'/%3e%3cstop offset='.4' stop-color='%2380b680'/%3e%3cstop offset='.6' stop-color='%23597f59'/%3e%3cstop offset='.83' stop-color='%23283928'/%3e%3cstop offset='1'/%3e%3c/radialGradient%3e%3c/defs%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cg%3e%3cpath fill='none' stroke-miterlimit='10' stroke='url(%23a)' d='M.5 0v564.25'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat;
@@ -972,6 +973,7 @@ body{
 }
 #SpaceCyclone .Download .Definer .Asset .Indicator{
     background: url("../ASSETS/SpaceCyclone/Dlm_Down.png") no-repeat;
+    background-size: 100%;
 }
 #SpaceCyclone .Download .Definer .Sub{
     color: #8fffff;
@@ -1035,11 +1037,12 @@ body{
     margin: -1.8em 0 .5em 0;
 }
 #SpaceCyclone .Connect .Definer{
-    width: 82.91%; height: 61.96%;
+    width: 75%; height: 70%;
     position: absolute; top: 0; left: 10.83%;
 }
 #SpaceCyclone .Connect .Definer .Asset .Indicator{
-    background: url("../ASSETS/SpaceCyclone/Con_WiFi.png") no-repeat;
+    background: url("../ASSETS/SpaceCyclone/Con_WiFi.png") no-repeat center;
+    background-size: 100%;
 }
 #SpaceCyclone .Connect .Divider{
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 564.25'%3e%3cdefs%3e%3cradialGradient id='a' cx='.5' cy='282.12' r='199.49' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0' stop-color='%23ff8f8f'/%3e%3cstop offset='.08' stop-color='%23f68a8a'/%3e%3cstop offset='.22' stop-color='%23de7c7c'/%3e%3cstop offset='.4' stop-color='%23b66666'/%3e%3cstop offset='.6' stop-color='%237f4747'/%3e%3cstop offset='.83' stop-color='%23392020'/%3e%3cstop offset='1'/%3e%3c/radialGradient%3e%3c/defs%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cpath fill='none' stroke-miterlimit='10' stroke='url(%23a)' d='M.5 0v564.25'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat;

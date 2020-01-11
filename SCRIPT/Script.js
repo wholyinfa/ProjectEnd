@@ -894,7 +894,7 @@ function Globe(){
 	SC_CN_Wifi = new TimelineMax({paused:true, repeat: -1});
 	SC_CN_Wifi
 		.to($("#SpaceCyclone .Connect.Storm .Definer > .Asset"), .3,
-			{rotation: 360, transformOrigin: "50% 87.5%", opacity: 1,ease: Power0.easeNone}
+			{rotation: 360, transformOrigin: "50% 79.5%", opacity: 1,ease: Power0.easeNone}
 		);
 	SC_CN_Phone = new TimelineMax({paused:true, repeat: -1});
 	SC_CN_Phone
