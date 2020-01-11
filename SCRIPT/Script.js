@@ -1620,6 +1620,8 @@ function Globe(){
 		// SpaceCyclone
 	Cyclone = {isActive : false};
 	$('#SpaceCyclone > .Storm .Tripwire').mouseenter(function(){
+	    // Prohibit hover reactions when entering the storm
+        if(Cyclone.isActive){return;}
 
 		T = $(this).parent().parent();
 
@@ -1668,9 +1670,43 @@ function Globe(){
 			AssetHover($(this),true);
 	});
 	$('#SpaceCyclone > .Storm .Tripwire').click(function(){
-		Storm = $(this).parent().parent();
-		Cyclone.isActive = Storm;
-		SC_Footer.reverse();
+	    // Check if method is in the middle of entering/exiting
+		if( typeof(EnterStorm) !== "undefined" && EnterStorm.isActive() ){
+		    // Run when entering the storm
+		    if( !EnterStorm.reversed() ){
+                EnterStorm.reverse().eventCallback("onReverseComplete", function(){
+                    // Deactivate cyclone activation indicator
+                    Cyclone.isActive = false;
+                    // Reappear footer
+                    SC_Footer.reversed(!SC_Footer.reversed());
+                    // Run hover reactions if a storm is hovered after the storm
+                    if( $(".Storm.Download .Tripwire").is(":hover") ){
+                        ToggleDownload();
+                    }
+                    if( $(".Storm.Request .Tripwire").is(":hover") ){
+                        ToggleRequest();
+                    }
+                    if( $(".Storm.Connect .Tripwire").is(":hover") ){
+                        ToggleConnect();
+                    }
+                });
+                CutTripwire.reverse();
+                Ritual.reverse();
+                PostRitual.reverse();
+            }
+		    // Run when exiting the storm
+		    else{
+                EnterStorm.reversed(!EnterStorm.reversed());
+                CutTripwire.reversed(!CutTripwire.reversed());
+                Ritual.reversed(!Ritual.reversed());
+                PostRitual.reversed(!PostRitual.reversed());
+            }
+		    // Prohibit method to rerun mid-fly
+		    return;
+        }
+        Storm = $(this).parent().parent();
+        Cyclone.isActive = Storm;
+        SC_Footer.reverse();
 
 		// Setting fly attributes
 		SC_scale = 3;
@@ -1692,10 +1728,8 @@ function Globe(){
 		Ritual.add(
 			TweenMax.to(Storm.siblings(".Curtain"), 1, {autoAlpha: .7}), 0
 		);
-		// Cutting the tripwire
-		CutTripwire.add(
-			TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 0}),0
-		)
+		// Cut the tripwire
+		CutTripwire
 			.add(
 			TweenMax.to(Storm.find(".Flow"), 1, {autoAlpha: 0, rotation: 360, scale: 0, transformOrigin: "center"}),0
 		);
@@ -1724,11 +1758,13 @@ function Globe(){
 		Asc = Storm.find(".BetaAsset");
 		StormRitual.BetaAsset();
 
-		// Finalizing the Ritual
+		// Finalize the Ritual
 		Ritual.eventCallback("onComplete", function(){
-				PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
-				.fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {y: -20}, {autoAlpha: 1, y: 0}, 0)
-				.to(Storm.not(".Download").find(".Divider"), 1, {autoAlpha: 1}, 0);
+            PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
+            .fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {y: -20}, {autoAlpha: 1, y: 0}, 0)
+            .to(Storm.not(".Download").find(".Divider"), 1, {autoAlpha: 1}, 0);
+            // Disable Definer hover/enter/close asset after enter
+            TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 0}, 0);
 			if (Storm.find(".AlphaAsset:hover").length != 0) {
 				AssetHover(Storm.find(".AlphaAsset"));
 			}
@@ -1850,6 +1886,28 @@ function Globe(){
         )
     });
 	$("#SpaceCyclone > .Storm .Definer").click(function(){
+        // Check if method is in the middle of entering/exiting
+        if( typeof(EnterStorm) !== "undefined" && EnterStorm.isActive() ){
+            // Run when entering
+            if( !EnterStorm.reversed() ){
+                EnterStorm.reverse();
+                CutTripwire.reverse();
+                // Cancel reverse on the renewed Ritual
+                Ritual.reversed(!Ritual.reversed());
+            }
+            // Run when exiting
+            else{
+                EnterStorm.reversed(!EnterStorm.reversed());
+                CutTripwire.reversed(!CutTripwire.reversed());
+                // Since Ritual is renewed in ExitStorm() method is not reversed yet
+                Ritual.reverse().eventCallback("onReverseComplete", function(){
+                    // Run post ritual sequences after resettling
+                    PostRitual.reversed(!PostRitual.reversed());
+                });
+            }
+            // Prohibit calling ExitStorm() method mid-fly
+            return;
+        }
 		ExitStorm($(this).parent().parent());
 	});
 	// Add hover reactions
@@ -4936,7 +4994,6 @@ function Deformer(Class, t, nonstop){
 
 }
 function ExitStorm(t){
-	Cyclone.isActive = false;
 	Storm = t;
 	// Reset the forms
 	if( Form.ActiveDom !== null ){
@@ -4946,20 +5003,26 @@ function ExitStorm(t){
 	}
 	// Reset the animations played after ritual is completed
     if( !PostRitual.reversed() ){
-        PostRitual.duration(.2).reverse( PostRitual.time() );
+        PostRitual.reverse( PostRitual.time() );
     }
-    // Stop ritual animation
-    Ritual.pause();
-	$(Ritual.getChildren()).each(function(i){
-		if( $(this.target[0]).hasClass("Curtain") ){
-			TweenMax.to(this.target[0], this.duration(), {autoAlpha: 0,ease: Sine. easeOut});
+    // Save the current Ritual animation
+    var tmp = Ritual;
+    // Reset the Ritual animation
+    Ritual = new TimelineMax();
+    // Fill the new Ritual animation with updated values
+	$(tmp.getChildren()).each(function(i){
+	    // Set a variable to unify objects and other types of subjects passed to the Tween
+	    var asset = ( typeof(this.target[0]) !== "undefined" ) ? this.target : this.target[0],
+            dur = EnterStorm.duration();
+		if( $(asset).hasClass("Curtain") ){
+            Ritual.to(asset, dur, {autoAlpha: 0,ease: Sine. easeOut});
 		}else{
-			if( $(this.target[0]).parent().hasClass("Resume") ){
-				TweenMax.to(this.target[0], this.duration(), {rotation: 35,rotationY: 0, y: "-10%", x: "15%", transformOrigin: "15% 35%",ease: Sine. easeOut});
-			}else if( $(this.target[0]).parent().hasClass("CV") ){
-				TweenMax.to(this.target[0], this.duration(), {rotation: 0,rotationY: 0,y: "0%",x: "0%", transformOrigin: "80% 0%",ease: Sine. easeOut});
+			if( $(asset).parent().hasClass("Resume") ){
+                Ritual.to(asset, dur, {rotation: 35,rotationY: 0, y: "-10%", x: "15%", transformOrigin: "15% 35%",ease: Sine. easeOut}, 0);
+			}else if( $(asset).parent().hasClass("CV") ){
+                Ritual.to(asset, dur, {rotation: 0,rotationY: 0,y: "0%",x: "0%", transformOrigin: "80% 0%",ease: Sine. easeOut}, 0);
 			}else{
-				TweenMax.to(this.target[0], this.duration(), {autoAlpha: 1,opacity: 1,scale: 1,scaleX: 1,x: "0%",y: "0%",rotationY: 0,rotation: 0,ease: Sine. easeOut});
+                Ritual.to(asset, dur, {autoAlpha: 1,opacity: 1,scale: 1,scaleX: 1,x: "0%",y: "0%",rotationY: 0,rotation: 0,ease: Sine. easeOut}, 0);
 			}
 		}
 	});
@@ -4983,7 +5046,12 @@ function ExitStorm(t){
 		    Glitch.on("#Gandalf", null);
         }
 	});
-	EnterStorm.reverse();
+	EnterStorm.reverse().eventCallback("onReverseComplete", function(){
+        // Re-enable Definer hover/enter/close asset after exit
+        TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 1}, 0);
+        // Reactivate cyclone activation indicator
+        Cyclone.isActive = false;
+    });
 	// Reset and disable Definer asset hover reactions
 	Area69.reset(Storm.find(".Area69")).enabled(false);
 }
