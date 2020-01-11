@@ -617,24 +617,16 @@ body{
     width: 1px; height: 20%;
     position: absolute;
     left: 50%; bottom: 20%;
-    transform: translate(-50%, -50%) scale(0);
-    transform-origin: bottom;
-    transition: .2s all ease-in-out;
+    transform: translate(-50%, -50%) scaleY(0);
     background: #fff;
 }
 #Footer > a img{
     height: 2em;
     display: block;
     margin: 0 auto; padding-bottom: 1em;
-    transition: .2s all ease-in-out;
 }
-#Footer > a:hover img{
-    transform: scale(1.4);
-    transform-origin: bottom;
+#Footer > a:hover{
     cursor: pointer;
-}
-#Footer > a:hover .Line{
-    transform: translate(-50%, -50%) scale(1);
 }
 #Footer .CopyRight{
     margin-bottom: -2em;

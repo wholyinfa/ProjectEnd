@@ -1197,7 +1197,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	OnLoadActive = $("#SpaceCyclone");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -1846,6 +1846,27 @@ function Globe(){
 	$("#SpaceCyclone > .Storm .Definer").click(function(){
 		ExitStorm($(this).parent().parent());
 	});
+	$("#Footer > a").mouseenter(function(){
+	    TweenMax.to($(this).find("img"), .15, {
+	        scale: 1.3,
+	        transformOrigin: "50% 100%",
+            ease: Power1.easeOut
+        });
+	    TweenMax.to($(this).find(".Line"), .15, {
+	        scaleY: 1,
+	        transformOrigin: "50% 100%",
+            ease: Power1.easeOut
+        });
+    }).mouseleave(function(){
+        TweenMax.to($(this).find("img"), .15, {
+            scale: 1,
+            ease: Power1.easeOut
+        });
+        TweenMax.to($(this).find(".Line"), .15, {
+            scaleY: 0,
+            ease: Power1.easeOut
+        });
+    });
 
 		// Skillometer
 	CoreClick = [false]; AffectedCores = {Core: [], Waya: []};
