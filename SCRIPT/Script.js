@@ -1188,7 +1188,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#AntiToxins");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2257,8 +2257,9 @@ function Globe(){
         fade: function(){
             // Check to see which TrackLine group is active and save it's assets
             $.each(this.isActive, function(k,v){
+                // Find the active group
                 if( v === true ){
-                    TweenMax.to(TrackLines.obj[k], .4, {autoAlpha: 0});
+                    TweenMax.to(TrackLines.obj[k], .2, {autoAlpha: 0});
                 }
             });
         }
@@ -3241,6 +3242,7 @@ function DivisionSequence(reset,undone){
 				AntiToxins.invalidate().pause();
 			}
 			StarRotation.pause();
+			TrackLines.fade();
 		}
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "AntiToxins" ){
 		// DO after left the current dimension
