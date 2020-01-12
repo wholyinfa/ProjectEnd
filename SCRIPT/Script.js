@@ -5110,7 +5110,8 @@ function ParticleActivation(T, e){
 	// When the particle's container is clicked and not the particle itself
 	if(
 		( typeof(Particle.isActive) !== "boolean" && !T.hasClass(Particle.isActive) ) ||
-		( e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) )
+		( e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) ) ||
+        Particle.Navigated
 	){
 		return;
 	}
