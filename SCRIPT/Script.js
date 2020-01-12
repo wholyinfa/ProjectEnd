@@ -5362,7 +5362,7 @@ function PrepClone(){
 							(typeof(Navigation) !== "undefined" && Navigation.isActive())
 						){ return; }
 						ExpandPreview = new TimelineMax();
-						ExpandPreview.to("#AntiToxins .Preview .Cover", .2, {autoAlpha: 0}, 0)
+						ExpandPreview.to("#AntiToxins .Preview .Cover", .01, {autoAlpha: 0}, 0)
 							.to(imgContainer.find(".img.active"), .2, {height: window.innerHeight,width: window.innerWidth,
 								top: -imgContainer.find(".img.active").offset().top,
 								left: -imgContainer.find(".img.active").offset().left,
