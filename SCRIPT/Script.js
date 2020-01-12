@@ -59,11 +59,11 @@ Gandalf = [
     ],
     [
         ".ArtParticle, .DevParticle",
-        "Opening..."
+        ["Opening...", "Cancelling..."]
     ],
     [
         "#AntiToxins .SingleParticle .PrevProject, #AntiToxins .SingleParticle .NextProject",
-        "Openning..."
+        "Switching..."
     ],
 	// Analyzer
 	[
@@ -5108,6 +5108,7 @@ function ParticleActivation(T, e){
 	// Cancelling click process on 2 conditions :
 	// When SingleParticle is active and another particle is clicked mid-process or when active
 	// When the particle's container is clicked and not the particle itself
+    // When navigating
 	if(
 		( typeof(Particle.isActive) !== "boolean" && !T.hasClass(Particle.isActive) ) ||
 		( e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) ) ||
@@ -5118,9 +5119,14 @@ function ParticleActivation(T, e){
 	// Unbluring the blur effect given to sibling elements on mouseenter method
 	var FadeAssets = T.siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
 	TweenMax.to(FadeAssets, .5, {opacity: 1});
+	// Cancel other Particle's Gandalf reactions
+    FadeAssets.data({GandalfActive: false});
+	// Cancelling entrance
 	if( Particle.isActive ){
 		// This var prevents default reset due to user flying to another division while particle was resetting
 		var theEvent = ( e === null ) ? true : null;
+		// Set opt 1 to display when clicked and switch to opt 0 after click
+		T.data({GandalfOpt: 1, PostClickOpt: 0});
 		ResetParticle(Asc.parent().parent(), theEvent);
 		return;
 	}
@@ -5203,11 +5209,11 @@ function TriggerDiamond(asset){
 	// Prepping the original particle and the clone for replacement
 	TweenMax.set(CurrentParticle, {zIndex: 3});
     ExpandParticle.to(CurrentParticle, .3, {autoAlpha: 0,delay : ExpandParticle.duration()/4}, 0);
-    ExpandParticle.to(".QuickAccess", .5, {y: "100%"}, 0);
+    TweenMax.to(".QuickAccess", .5, {y: "100%"}, 0);
 	// Calling the function that prepares clone's children using the related particle's database
 	PrepClone();
 	ExpandParticle.eventCallback("onComplete", function(){
-		// Replacing the original partile with the clone
+		// Replacing the original particle with the clone
 		TweenMax.set($("#AntiToxins .SingleParticle > .Clone > div"), {autoAlpha: 1});
 	});
 	ExpandParticle.eventCallback("onReverseComplete", function(){
@@ -5417,7 +5423,10 @@ function ResetParticle(asset, e){
 		ExpandParticle.duration(.1).reverse();
 	}
     TweenMax.set(asset, {autoAlpha: 1});
+	TweenMax.to(".QuickAccess", .5, {y: "0%"});
 	ParticleRotation.reverse();
+	// Re-activate Particle's Gandalf reaction
+    asset.data({GandalfActive: true});
 	function ReverseToDefault(){
 		// Re-activating TrackLines
 		TrackLines.isActive = [];
@@ -5462,6 +5471,8 @@ function ResetParticle(asset, e){
 		if( e !== true ){
 			ReverseToDefault();
 		}
+		// Re-activate other Particles' Gandalf reactions when fully reversed
+        asset.siblings(".ArtParticle, .DevParticle").data({GandalfActive: true, GandalfOpt: 0});
 	});
 
 }
