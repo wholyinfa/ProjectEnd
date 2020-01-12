@@ -2252,14 +2252,23 @@ function Globe(){
 	});
 	TrackLines = {
 		obj: [],
-		isActive : []
+        isActive : {},
+		disabled : false,
+        fade: function(){
+            // Check to see which TrackLine group is active and save it's assets
+            $.each(this.isActive, function(k,v){
+                if( v === true ){
+                    TweenMax.to(TrackLines.obj[k], .4, {autoAlpha: 0});
+                }
+            });
+        }
 	};
 
 	$(".ArtStar, .DevStar").click(function(){
 		var Particles = ( $(this).hasClass("DevStar") ) ? $("#AntiToxins .DevParticle:not(.CLONED)") : $("#AntiToxins .ArtParticle:not(.CLONED)"),
 			Star = $(this),
 			Class = $(this).attr("class");
-		if( TrackLines.isActive === null || TrackLines.isActive[Class] ){
+		if( TrackLines.disabled === true || TrackLines.isActive[Class] ){
 			$(this).data({GandalfActive: false});
 			return;
 		}
@@ -2301,6 +2310,7 @@ function Globe(){
 			});
 
 			TweenMax.fromTo(TrackLines.obj[Class][i], .4, {
+			    autoAlpha: 1,
 				scaleX: 0,
 				transformOrigin: Origin
 			},{
@@ -2317,22 +2327,12 @@ function Globe(){
 						top: "+="+( ( SP.Y ) - TP.Y ),
 						right: "+="+((window.innerWidth - SP.X) - ( window.innerWidth - TP.X ))
 					});
-					if( i+1 === Particles.length ){
-						TweenMax.to(obj, .4, {
-							scaleX: 0,
-							ease: Sine. easeOut,
-							onComplete: function(){
-							    if( TrackLines.isActive !== null ){
-                                    TrackLines.isActive[Class] = false;
-                                }
-						}
-						});
-					}else{
-						TweenMax.to(obj, .4, {
-							scaleX: 0,
-							ease: Sine. easeOut
-						});
-					}
+                    tween.reverse();
+                    if( i+1 === Particles.length ){
+                        tween.eventCallback("onReverseComplete", function(){
+                            TrackLines.isActive[Class] = false;
+                        });
+                    }
 					TweenMax.fromTo(Particle, .2,{
 						scale: 1
 					},{
@@ -5162,14 +5162,15 @@ function ParticleActivation(T, e){
 		Particle.activeObj = T;
 		return;
 	}
-	// De-activating TrackLines
-	TrackLines.isActive = null;
 	AntiToxins.invalidate().pause();
     // When Sign is glitching
     if( typeof(SignGlitch) !== "undefined" ){
         // Stop the glitch
         SignGlitch.kill();
     }
+    TrackLines.fade();
+    // De-activating TrackLines
+    TrackLines.disabled = true;
 
 	// Enter a new particle
 	EnterParticle = new TimelineMax();
@@ -5463,9 +5464,6 @@ function ResetParticle(asset, e){
 	// Re-activate Particle's Gandalf reaction
     asset.data({GandalfActive: true});
 	function ReverseToDefault(){
-		// Re-activating TrackLines
-		TrackLines.isActive = [];
-
 		AntiToxins.duration(AntiToxins.duration()).restart();
 		TweenMax.to(".QuickAccess", .5, {y: "0%"});
 		Particle.Navigated = false;
@@ -5510,6 +5508,8 @@ function ResetParticle(asset, e){
         asset.siblings(".ArtParticle, .DevParticle").data({GandalfActive: true, GandalfOpt: 0});
 		// At this point no Particle is active
         Particle.activeObj = null;
+        // Re-activating TrackLines
+        TrackLines.disabled = false;
 	});
 	if( e !== true ){
         Glitch.on("#Gandalf", "Closing...");
