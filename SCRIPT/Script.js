@@ -5103,11 +5103,11 @@ function DefaultScale(asset){
 }
 function ParticleActivation(T, e){
 	// Cancelling click process on 2 conditions :
-	// When SingleParticle is active and another particle is clicked mid-process or when active
+	// When clicked on another Particle while entering
 	// When the particle's container is clicked and not the particle itself
     // When navigating
 	if(
-		( typeof(Particle.isActive) !== "boolean" && !T.hasClass(Particle.isActive) ) ||
+		( Particle.activeObj !== null && !$(Particle.activeObj).hasClass(T.attr("class")) ) ||
 		( e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) ) ||
         Particle.Navigated
 	){
