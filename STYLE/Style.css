@@ -1948,18 +1948,20 @@ body{
     position: absolute; top: 0; left: 0;
 }
 #Analyzer .TheStorm .LeftWing{
-    width: 63.02%; padding-bottom: 52.18%;
-    position: absolute; top: -5.5%; left: -20%;
-    background: url("../ASSETS/Analyzer/LeftWing.png") no-repeat 26% 0%;
+    width: 65%; padding-bottom: 63.07%;
+    position: absolute; top: 15%; right: 50%;
+    background: url("../ASSETS/Analyzer/LeftWing.png") no-repeat 26.5% 0%;
+    transform: translate(-9.9%, -9%);
 }
 /* RATIO 0.9703153988868275 */
 #Analyzer .TheStorm .RightWing{
-    width: 53.64%; padding-bottom: 51.04%;
-    position: absolute; top: -1%; left: 56.9%;
+    width: 55%; padding-bottom: 53.36%;
+    position: absolute; top: 15%; left: 50%;
     background: url("../ASSETS/Analyzer/RightWing.png") no-repeat 24% 0%;
+    transform: translate(12.4%, -11.2%);
 }
 #Analyzer .TheStorm .LeftWing, #Analyzer .TheStorm .RightWing {
-    background-size: 250%;
+    background-size: 100%;
 }
 /* RATIO 0.5955056179775281 */
 #Analyzer .Particles > div{
@@ -2028,7 +2030,9 @@ body{
 }
 #Analyzer .Core{
     width: 20.83%; padding-bottom: 20.83%;
-    position: relative; margin: 0 auto; top: 19.53%;
+    margin: 0 auto;
+    position: absolute; top: 15%; left: 50%;
+    transform: translateX(-50%);
 }
 #Analyzer .Core > div{
     position: absolute;
