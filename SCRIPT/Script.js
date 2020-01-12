@@ -2322,7 +2322,9 @@ function Globe(){
 							scaleX: 0,
 							ease: Sine. easeOut,
 							onComplete: function(){
-								TrackLines.isActive[Class] = false;
+							    if( TrackLines.isActive !== null ){
+                                    TrackLines.isActive[Class] = false;
+                                }
 						}
 						});
 					}else{
@@ -2344,12 +2346,15 @@ function Globe(){
 		});
 	});
 	$("#AntiToxins .ArtSign, #AntiToxins .DevSign").click(function(){
+	    if( typeof(SignGlitch) !== "undefined" && ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){
+            SignGlitch.invalidate().pause();
+        }
 		var beam = ( $(this).hasClass("ArtSign") ) ? $(this).siblings(".ArtSignBeam") : $(this).siblings(".DevSignBeam");
-		var SignGlitch = new TimelineMax();
+		SignGlitch = new TimelineMax();
 		SignGlitch
-			.set($(this), {autoAlpha: .4})
-			.set(beam, {autoAlpha: 0})
-			.to( [ beam, $(this) ], .5, {
+			.fromTo( [ beam, $(this) ], .5, {
+				autoAlpha: 0
+			}, {
 				autoAlpha: 1,
 				ease: RoughEase.ease.config({ template:
 					Power0. easeOut,
@@ -2362,9 +2367,7 @@ function Globe(){
 					randomize: false,
 					clamp: false
 				})
-			}, 0)
-			.set(beam, {autoAlpha: 1})
-			.set($(this), {autoAlpha: 1});
+			}, 0);
 	});
 
 	// Analyzer
@@ -3230,7 +3233,12 @@ function DivisionSequence(reset,undone){
 		}else{
 			// DO when about to leave
 			if( !AntiToxins.reversed() ){
-				AntiToxins.restart().pause();
+                // When Sign is glitching
+                if( typeof(SignGlitch) !== "undefined" ){
+                    // Stop the glitch
+                    SignGlitch.kill();
+                }
+				AntiToxins.invalidate().pause();
 			}
 			StarRotation.pause();
 		}
@@ -3239,7 +3247,7 @@ function DivisionSequence(reset,undone){
 		if( !AntiToxins.reversed() ){
 			AntiToxins.reversed( !AntiToxins.reversed() );
 		}
-		AntiToxins.restart().pause();
+		AntiToxins.invalidate().pause();
 	}
 	if( PreDivision == "AntiToxins" && !PreFlyIsSet ){
 		PreFlyAssociates = Ascs;
@@ -5156,7 +5164,12 @@ function ParticleActivation(T, e){
 	}
 	// De-activating TrackLines
 	TrackLines.isActive = null;
-	AntiToxins.duration(.1).reverse();
+	AntiToxins.invalidate().pause();
+    // When Sign is glitching
+    if( typeof(SignGlitch) !== "undefined" ){
+        // Stop the glitch
+        SignGlitch.kill();
+    }
 
 	// Enter a new particle
 	EnterParticle = new TimelineMax();
