@@ -2527,6 +2527,58 @@ function Globe(){
 								$("#Analyzer .Plate .Content > div").html(this.content);
 								AnalyzePlate.reverse();
 								Glitch.on("#Analyzer .Core .Cloud", this.title);
+
+
+                                var plate = $("#Analyzer .Plate .Content"),
+                                    content = plate.find("> div"),
+                                    formula = content.innerHeight() - plate.innerHeight();
+                                TweenMax.set(plate, {overflow: "hidden"});
+                                // Move the content to the first line
+                                TweenMax.set(content, {y: 0});
+                                // Check if the content overflows it's container
+                                if( formula > 0 ){
+                                    // Enable dragging feature
+                                    Draggable.create(content,{
+                                        type: "y",
+                                        dragClickables: true,
+                                        dragResistance: .5,
+                                        onDragEndScope: this.target,
+                                        onDragScope: this.target,
+                                        onDrag: function(){
+                                            var gap = plate.innerHeight()*.2;
+                                            // Prevent user to drag more or less than the "gap" variable added or subtracted from each side
+                                            if( this.y < -formula-gap || this.y > gap ){
+                                                this.endDrag();
+                                            }
+                                        },
+                                        onDragEnd: function(){
+                                            var yvalue = null;
+                                            // Reverse the path to the left side if user is far left
+                                            if( this.y < -formula ){
+                                                yvalue = -formula;
+                                            }
+                                            // Do the same above to the right side
+                                            if( this.y > 0 ){
+                                                yvalue = 0;
+                                            }
+                                            TweenMax.to(content, .5,
+                                                {
+                                                    y: yvalue
+                                                });
+                                        }
+                                    });
+                                }else{
+                                    if( Draggable.get(content) ){
+                                        // Remove drag feature when path doesn't overflow it's container
+                                        Draggable.get(content).kill();
+                                    }
+                                    // Move1 the path back to it's original position if it was altered
+                                    TweenMax.to(content, .5, {
+                                        y: 0,
+                                        ease: Back. easeInOut
+                                    });
+                                }
+
 							}
 						}
 					});
