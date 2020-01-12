@@ -5116,7 +5116,6 @@ function ParticleActivation(T, e){
 	}
 	// Unbluring the blur effect given to sibling elements on mouseenter method
 	var FadeAssets = T.siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
-	FadeAssets.children().removeClass("NoTouchin");
 	TweenMax.to(FadeAssets, .5, {opacity: 1});
 	if( Particle.isActive ){
 		// This var prevents default reset due to user flying to another division while particle was resetting
@@ -5163,7 +5162,6 @@ function ParticleActivation(T, e){
 	// Current particle animations
 	Asc = T.children();
 	AddFly.ParticleEntrance(true);
-	Asc.removeClass("NoTouchin");
 	Asc = T.children().children();
 	AddFly.ParticleEntrance(false, true);
 	// Appearing the single particle panel
@@ -5260,7 +5258,7 @@ function TriggerDiamond(asset){
 				AddFly.ParticleNavigate(false, true);
 				ParticleRotation.reverse();
 			}
-			// This disables visual hover effects
+			// Disables cursor pointer
 			Asc.addClass("NoTouchin");
 		});
 		GoToParticle.siblings(".DevStar, .ArtStar").each(function(){
@@ -5426,6 +5424,8 @@ function ResetParticle(asset, e){
 		AntiToxins.duration(AntiToxins.duration()).restart();
 		TweenMax.to(".QuickAccess", .5, {y: "0%"});
 		Particle.Navigated = false;
+		// Re-enable cursor pointer
+        $("#AntiToxins").find(".NoTouchin").removeClass("NoTouchin");
 		// Reset Gandalf after all assets are back to their default position
 		Glitch.on("#Gandalf", null);
 	}
