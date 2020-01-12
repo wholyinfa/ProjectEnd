@@ -1188,7 +1188,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	OnLoadActive = $("#Analyzer");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2606,6 +2606,28 @@ function Globe(){
 	$(".Analyzer .Crystal").click(function(){
 		if( Analyzer.isActive ){
 			Analyzer.Reverse(Analyzer.object, true);
+		}else{
+			EmptyAnalyzer = new TimelineMax();
+			EmptyAnalyzer.to(".Analyzer .Crystal", 1, {
+				rotation: "+=360",
+				ease: Power3. easeOut
+			}, 0);
+			EmptyAnalyzer.fromTo(".LeftWing, .RightWing", .4, {
+				autoAlpha: 1
+			}, {
+				autoAlpha: .5
+			}, 0);
+			TweenMax.staggerFromTo(".TheStorm .Particles > *", .2, {autoAlpha: 1, scale: 1}, {
+				autoAlpha: 0,
+				scale: 1.5,
+				onComplete: function(t){
+					// Reverse each tween individually after their done
+					t.reverse();
+					// Reverse Analyzer and WindStorm effects after the last tween is done
+					if( $(t.target).is(":last-child") ){
+						EmptyAnalyzer.reverse();
+					}
+				}, onCompleteParams: ["{self}"]}, .1, 0);
 		}
 	});
 
