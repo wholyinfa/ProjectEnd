@@ -3216,9 +3216,6 @@ function DivisionSequence(reset,undone){
 			if( !AntiToxins.reversed() ){
 				AntiToxins.duration(.25).reverse();
 			}
-			if( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ){
-				ParticleActivation(Particle.activeObj, null);
-			}
 		}
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "AntiToxins" ){
 		// DO after left the current dimension
@@ -5119,6 +5116,7 @@ function ParticleActivation(T, e){
 	// Unbluring the blur effect given to sibling elements on mouseenter method
 	var FadeAssets = T.siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
 	TweenMax.to(FadeAssets, .5, {opacity: 1});
+    TweenMax.to(".QuickAccess", .5, {y: "100%"});
 	// Cancel other Particle's Gandalf reactions
     FadeAssets.data({GandalfActive: false});
 	// Cancelling entrance
@@ -5417,13 +5415,11 @@ function PrepClone(){
 }
 function ResetParticle(asset, e){
 	Particle.isActive = false;
-	Particle.activeObj = null;
 	// If EnterParticle process is still running, then SingleParticle is not expanded yet
 	if( !EnterParticle.isActive() ){
 		ExpandParticle.duration(.1).reverse();
 	}
     TweenMax.set(asset, {autoAlpha: 1});
-	TweenMax.to(".QuickAccess", .5, {y: "0%"});
 	ParticleRotation.reverse();
 	// Re-activate Particle's Gandalf reaction
     asset.data({GandalfActive: true});
@@ -5473,6 +5469,8 @@ function ResetParticle(asset, e){
 		}
 		// Re-activate other Particles' Gandalf reactions when fully reversed
         asset.siblings(".ArtParticle, .DevParticle").data({GandalfActive: true, GandalfOpt: 0});
+		// At this point no Particle is active
+        Particle.activeObj = null;
 	});
 
 }
