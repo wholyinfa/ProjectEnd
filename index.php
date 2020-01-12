@@ -510,7 +510,7 @@
                 <div class="ArtParticle D"><div><div></div></div></div>
                 <div class="ArtParticle E"><div><div></div></div></div>
                 <div class="ArtParticle F"><div><div></div></div></div>
-                <div  class="SingleParticle">
+                <div class="SingleParticle">
                     <div class="Clone"></div>
                     <div class="Navigate">
                         <div class="PrevProject">
@@ -583,6 +583,7 @@
                         </div>
                     </div>
                 </div>
+                <div id="ParticleAura"></div>
             </div>
         </div>
 

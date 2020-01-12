@@ -205,7 +205,7 @@ Peek = [
 		"Close project"
 	],
 	[
-		".SingleParticle .Clone",
+		"#ParticleAura",
 		"Close project"
 	],
 	// Analyzer
@@ -5181,6 +5181,8 @@ function TriggerDiamond(asset){
 	CurrentParticle = asset;
 	// Expanding the SingleParticle and it's children
 	ExpandParticle.add(
+		TweenMax.fromTo($("#AntiToxins #ParticleAura"), .01, {zIndex: 1, autoAlpha: 0}, {zIndex: 1, autoAlpha: 1}), 0
+	).add(
 		TweenMax.fromTo($("#AntiToxins .SingleParticle"), .3, {zIndex: 1, autoAlpha: 0, scale: 0, transformOrigin: "50% 10%"}, {zIndex: 2, autoAlpha: 1, scale: 1, transformOrigin: "50% 10%"}), 0
 	).add(
 		TweenMax.staggerFromTo($("#AntiToxins .SingleParticle > *"), .3, { autoAlpha: 0 }, {autoAlpha: 1}, .1), 0
@@ -5204,6 +5206,12 @@ function TriggerDiamond(asset){
 			return;
 		}
 	});
+    $("#AntiToxins #ParticleAura").unbind("click").click(function(e){
+        Glitch.on("#Gandalf", "Closing...");
+        if( Particle.isActive ){
+            ResetParticle(asset);
+        }
+    });
 	// Prepping the original particle and the clone for replacement
 	TweenMax.set(CurrentParticle, {zIndex: 3});
     ExpandParticle.to(CurrentParticle, .3, {autoAlpha: 0,delay : ExpandParticle.duration()/4}, 0);
@@ -5472,7 +5480,9 @@ function ResetParticle(asset, e){
 		// At this point no Particle is active
         Particle.activeObj = null;
 	});
-
+	if( e !== true ){
+        Glitch.on("#Gandalf", "Closing...");
+    }
 }
 
 // DekcCloud
