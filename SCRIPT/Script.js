@@ -622,7 +622,7 @@ function Varia(){
 		};
 		Angle = ( $(this).hasClass("DevParticle") ) ? Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI :
 			Math.atan2( SP.Y - TP.Y , SP.X - TP.X ) * 180 / Math.PI;
-		TweenMax.set($(this).children().children(), {rotation: Angle});
+		TweenMax.set($(this).children(".Container").children(), {rotation: Angle});
 	});
 }
 
@@ -2234,21 +2234,74 @@ function Globe(){
 	});
 
 	// AntiToxins
+	NameTag = {
+		play: function(t){
+			var Name = t.find(".Name"),
+				NameT = t.find(".NameTag"),
+				Divider = t.find(".Divider"),
+				Cont = t.find(".Container"),
+				Diaml = t.find(".Diamond").offset().left,
+				PageW = window.innerWidth;
+			// Whether current Particle is far to the left half of the page
+			if( Diaml < PageW / 2 ){
+				var DX = -40, // Divider X
+					NTX = -20; // NameTag X
+				TweenMax.set( NameT, {left: Cont.width()} );
+				TweenMax.set( Divider, {left: 0} );
+			}
+			// Or it's far to the right half of teh page
+			else{
+				var DX = 40, // Divider X
+					NTX = 20; // NameTag X
+				TweenMax.set( NameT, {right: Cont.width()} );
+				TweenMax.set( Divider, {right: 0} );
+			}
+			DeployNameTag = new TimelineMax();
+			DeployNameTag.fromTo(Divider, .35,{
+				autoAlpha: 0,
+				x: DX
+			},{
+				autoAlpha: 1,
+				x: 0
+			}).fromTo(Name, .35,{
+				autoAlpha: 0,
+				x: NTX
+			},{
+				autoAlpha: 1,
+				x: -NTX
+			}, "-=.2");
+		},
+		reverse: function(duration){
+			var dur = ( typeof(duration) === "number" ) ? duration : null ;
+			// Reverse TagName deployment if already not reversed
+			if( !DeployNameTag.reversed() ){
+				if( dur !== null ){ DeployNameTag.duration(dur); }
+				DeployNameTag.reverse();
+			}
+		}
+	}
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").mouseenter(function(){
-		if( Particle.isActive ){ return; }
+		// Abort reaction if SingleParticle is open or when entering particle
+		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
 		// Get and fade the stars and all other particles but the current one
 		var FadeAssets = ( $(this).hasClass("DevParticle") ) ? $(this).siblings(".DevParticle, .ArtStar, .ArtParticle") : $(this).siblings(".DevStar, .DevParticle, .ArtParticle");
 		TweenMax.to(FadeAssets, .5, {opacity: .2});
+		NameTag.play($(this));
 	})
-		.mouseleave(function(){
-			if( Particle.isActive ){ return; }
-			// Resetting blurred assets on mouseleave
-			var FadeAssets = $(this).siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
-			TweenMax.to(FadeAssets, .5, {opacity: 1});
+	.mouseleave(function(){
+		// Abort reaction if SingleParticle is open or when entering particle
+		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
+		// Resetting blurred assets on mouseleave
+		var FadeAssets = $(this).siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
+		TweenMax.to(FadeAssets, .5, {opacity: 1});
+		// Remove NameTag
+		NameTag.reverse();
 	});
 	Particle = {isActive : false, activeObj: null, Navigated: false};
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").click(function(e){
 		ParticleActivation($(this), e);
+		// Remove NameTag
+		NameTag.reverse(.2);
 	});
 	TrackLines = {
 		obj: [],
@@ -2284,11 +2337,11 @@ function Globe(){
 			});
 		}
 		$( Particles ).each(function(i){
-			var Particle = $(this).children().children();
+			var Particle = $(this).children(".Container").children();
 			var Origin = "right" ,
 				SP = {
-				X : $(this).children().children().offset().left + ( $(this).width() / 2 ),
-				Y : $(this).children().children().offset().top + ( $(this).width() / 2 )
+				X : Particle.offset().left + ( $(this).width() / 2 ),
+				Y : Particle.offset().top + ( $(this).width() / 2 )
 			},
 			TP = {
 				X : Star.offset().left + ( Star.width() / 2 ),
@@ -5190,7 +5243,7 @@ function ParticleActivation(T, e){
 	// Applying SingleParticle entrance effects
 	// Siblings animations
 	T.siblings(".DevParticle, .ArtParticle").each(function(){
-		Asc = $(this).children();
+		Asc = $(this).children(".Container");
 		AddFly.ParticleEntrance();
 		Asc.addClass("NoTouchin");
 	});
@@ -5199,9 +5252,9 @@ function ParticleActivation(T, e){
 		AddFly.ParticleEntrance();
 	});
 	// Current particle animations
-	Asc = T.children();
+	Asc = T.children(".Container");
 	AddFly.ParticleEntrance(true);
-	Asc = T.children().children();
+	Asc = T.children(".Container").children();
 	AddFly.ParticleEntrance(false, true);
 	// Appearing the single particle panel
 	EnterParticle.eventCallback("onComplete",function(){
@@ -5225,14 +5278,14 @@ function TriggerDiamond(asset){
 	var clone = CurrentParticle.clone();
 	// Emptying the clone's style attributes
 	clone.attr("style","");
-	clone.children().attr("style","");
-	clone.children().children().attr("style","");
+	clone.children(".Container").attr("style","");
+	clone.children(".Container").children().attr("style","");
 	// Adding the clone and its new attributes
 	$("#AntiToxins .SingleParticle > .Clone").html("");
 	$("#AntiToxins .SingleParticle > .Clone").append(clone);
 	$("#AntiToxins .SingleParticle > .Clone > div").addClass("CLONED").css({
-		width : asset.children().innerWidth(),
-		paddingBottom: asset.children().innerWidth()
+		width : asset.children(".Container").innerWidth(),
+		paddingBottom: asset.children(".Container").innerWidth()
 	}).click(function(){
 		Glitch.on("#Gandalf", "Closing...");
 		if( Particle.isActive ){
@@ -5295,7 +5348,7 @@ function TriggerDiamond(asset){
 
 		// Animating siblings and stars
 		GoToParticle.siblings(".DevParticle, .ArtParticle").each(function(){
-			Asc = $(this).children();
+			Asc = $(this).children(".Container");
 			// Applying new properties to sibling particles
 			if( !CurrentParticle.hasClass($(this).attr("class")) ){
 				AddFly.ParticleNavigate();
@@ -5483,7 +5536,7 @@ function ResetParticle(asset, e){
 			h : asset.innerHeight()
 		};
 		asset.siblings(".ArtParticle, .DevParticle").each(function(){
-			Asc = $(this).children();
+			Asc = $(this).children(".Container");
 			AddFly.ParticleEntrance(false, false, true);
 		});
 		asset.siblings(".DevStar, .ArtStar").each(function(){
@@ -5512,6 +5565,12 @@ function ResetParticle(asset, e){
         Particle.activeObj = null;
         // Re-activating TrackLines
         TrackLines.disabled = false;
+		// Manually reappear NameTag if an asset is hovered after exit
+		asset.parent().children(".ArtParticle, .DevParticle").each(function(){
+			if( $(this).is(":hover") ){
+				NameTag.play($(this));
+			}
+		});
 	});
 	if( e !== true ){
         Glitch.on("#Gandalf", "Closing...");

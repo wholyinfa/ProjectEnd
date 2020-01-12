@@ -1484,14 +1484,14 @@ body{
 #AntiToxins .DevParticle{
     position: absolute;
 }
-#AntiToxins .DevParticle > div:not(.NoTouchin):hover{
+#AntiToxins .DevParticle > .Container:not(.NoTouchin):hover{
     cursor: pointer;
 }
-#AntiToxins .DevParticle div{
+#AntiToxins .DevParticle .Container, #AntiToxins .DevParticle .Diamond{
     width: 100%; height: 100%;
     position: absolute;
 }
-#AntiToxins .DevParticle > div > div{
+#AntiToxins .DevParticle .Diamond{
     background: url("../ASSETS/AntiToxins/DevParticle.png") no-repeat;
     transform-origin: center;
 }
@@ -1519,7 +1519,7 @@ body{
     width: 10%; padding-bottom: 10%;
     top: 16%; right: 34%;
 }
-#AntiToxins .DevStar > div > div, #AntiToxins .DevStar .Star div, #AntiToxins .DevParticle > div > div{
+#AntiToxins .DevStar > div > div, #AntiToxins .DevStar .Star div, #AntiToxins .DevParticle .Diamond{
     background-size: 100%;
 }
 #AntiToxins .DevStar .Star .DevGlow{
@@ -1568,15 +1568,15 @@ body{
 #AntiToxins .ArtParticle{
     position: absolute;
 }
-#AntiToxins .ArtParticle div{
+#AntiToxins .ArtParticle .Container, #AntiToxins .ArtParticle .Diamond{
     width: 100%; height: 100%;
     position: absolute;
 }
-#AntiToxins .ArtParticle > div > div{
+#AntiToxins .ArtParticle .Diamond{
     background: url("../ASSETS/AntiToxins/ArtParticle.png") no-repeat;
     transform-origin: center;
 }
-#AntiToxins .ArtParticle > div:not(.NoTouchin):hover{
+#AntiToxins .ArtParticle > .Container:not(.NoTouchin):hover{
     cursor: pointer;
 }
 #AntiToxins .ArtParticle.A{
@@ -1603,11 +1603,42 @@ body{
     width: 10%; padding-bottom: 10%;
     top: 16%; left: 32%;
 }
-#AntiToxins .ArtStar > div > div, #AntiToxins .ArtStar .Star div, #AntiToxins .ArtParticle > div > div{
+#AntiToxins .ArtStar > div > div, #AntiToxins .ArtStar .Star div, #AntiToxins .ArtParticle .Diamond{
     background-size: 100%;
 }
 #AntiToxins .ArtStar .Star .ArtGlow{
     background-size: 128%;
+}
+#AntiToxins div .NameTag{
+    height: auto; width: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: Ocr;
+}
+#AntiToxins div .NameTag .Name{
+    position: relative;
+    opacity: 0; visibility: hidden;
+    white-space: nowrap;
+}
+#AntiToxins div .NameTag .Divider{
+    height: 120%; width: 1px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0; visibility: hidden;
+}
+#AntiToxins div.DevParticle .NameTag .Divider{
+    background: #f50057;
+}
+#AntiToxins div.ArtParticle .NameTag .Divider{
+    background: #aa00ff;
+}
+#AntiToxins div.DevParticle .NameTag{
+    color: #f50057;
+}
+#AntiToxins div.ArtParticle .NameTag{
+    color: #aa00ff;
 }
 
 

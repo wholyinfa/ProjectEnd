@@ -506,14 +506,78 @@
                         <div class="ArtSign"></div>
                     </div>
                 </div>
-                <div class="DevParticle C"><div><div></div></div></div>
-                <div class="DevParticle D"><div><div></div></div></div>
-                <div class="DevParticle F"><div><div></div></div></div>
-                <div class="ArtParticle B"><div><div></div></div></div>
-                <div class="ArtParticle C"><div><div></div></div></div>
-                <div class="ArtParticle D"><div><div></div></div></div>
-                <div class="ArtParticle E"><div><div></div></div></div>
-                <div class="ArtParticle F"><div><div></div></div></div>
+                <div class="DevParticle C">
+                    <div class="NameTag">
+                        <div class="Name">FOLD<br>(FRONT-END)</div>
+                        <div class="Divider"></div>
+                    </div>
+                    <div class="Container">
+                        <div class="Diamond"></div>
+                    </div>
+                </div>
+                <div class="DevParticle D">
+                    <div class="NameTag">
+                        <div class="Name">LIOLT<br>(FRONT-END)</div>
+                        <div class="Divider"></div>
+                    </div>
+                    <div class="Container">
+                        <div class="Diamond"></div>
+                    </div>
+                </div>
+                <div class="DevParticle F">
+                    <div class="NameTag">
+                        <div class="Name">TIDE<br>(FRONT-END)</div>
+                        <div class="Divider"></div>
+                    </div>
+                    <div class="Container">
+                        <div class="Diamond"></div>
+                    </div>
+                </div>
+                <div class="ArtParticle B">
+                    <div class="NameTag">
+                        <div class="Name">FOLD<br>(UI/UX)</div>
+                        <div class="Divider"></div>
+                    </div>
+                    <div class="Container">
+                        <div class="Diamond"></div>
+                    </div>
+                </div>
+                <div class="ArtParticle C">
+                    <div class="NameTag">
+                        <div class="Name">TIDE<br>(UI/UX)</div>
+                        <div class="Divider"></div>
+                    </div>
+                    <div class="Container">
+                        <div class="Diamond"></div>
+                    </div>
+                </div>
+                <div class="ArtParticle D">
+                    <div class="NameTag">
+                        <div class="Name">GLARE<br>(UI/UX)</div>
+                        <div class="Divider"></div>
+                    </div>
+                    <div class="Container">
+                        <div class="Diamond"></div>
+                    </div>
+                </div>
+                <div class="ArtParticle E">
+                    <div class="NameTag">
+                        <div class="Name">LIOLT<br>(UI/UX)</div>
+                        <div class="Divider"></div>
+                    </div>
+                    <div class="Container">
+                        <div class="Diamond"></div>
+                    </div>
+                </div>
+                <div class="ArtParticle F">
+                    <div class="NameTag">
+                        <div class="Name">CRYSTAL VOID<br>(UI/UX)</div>
+                        <div class="Divider"></div>
+                    </div>
+                    <div class="Container">
+                        <div class="Diamond"></div>
+                    </div>
+                </div>
                 <div class="SingleParticle">
                     <div class="Clone"></div>
                     <div class="Navigate">
