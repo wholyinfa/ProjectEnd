@@ -1197,7 +1197,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	OnLoadActive = $("#AntiToxins");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2247,13 +2247,13 @@ function Globe(){
 		if( Particle.isActive ){ return; }
 		// Get and fade the stars and all other particles but the current one
 		var FadeAssets = ( $(this).hasClass("DevParticle") ) ? $(this).siblings(".DevParticle, .ArtStar, .ArtParticle") : $(this).siblings(".DevStar, .DevParticle, .ArtParticle");
-		TweenMax.to(FadeAssets, .5, {opacity: .8,filter: "blur(10px)"});
+		TweenMax.to(FadeAssets, .5, {opacity: .2});
 	})
 		.mouseleave(function(){
 			if( Particle.isActive ){ return; }
 			// Resetting blurred assets on mouseleave
 			var FadeAssets = $(this).siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
-			TweenMax.to(FadeAssets, .5, {opacity: 1,filter: "blur(0px)"});
+			TweenMax.to(FadeAssets, .5, {opacity: 1});
 	});
 	Particle = {isActive : false, activeObj: null, Navigated: false};
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").click(function(e){
@@ -5117,7 +5117,7 @@ function ParticleActivation(T, e){
 	// Unbluring the blur effect given to sibling elements on mouseenter method
 	var FadeAssets = T.siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
 	FadeAssets.children().removeClass("NoTouchin");
-	TweenMax.to(FadeAssets, .5, {opacity: 1,filter: "blur(0px)"});
+	TweenMax.to(FadeAssets, .5, {opacity: 1});
 	if( Particle.isActive ){
 		// This var prevents default reset due to user flying to another division while particle was resetting
 		var theEvent = ( e === null ) ? true : null;
@@ -5173,7 +5173,6 @@ function ParticleActivation(T, e){
 	});
 }
 function TriggerDiamond(asset){
-	TweenMax.to(".QuickAccess", .5, {y: "100%"});
 
 	ExpandParticle = new TimelineMax();
 	CurrentParticle = asset;
@@ -5204,7 +5203,8 @@ function TriggerDiamond(asset){
 	});
 	// Prepping the original particle and the clone for replacement
 	TweenMax.set(CurrentParticle, {zIndex: 3});
-	TweenMax.to(CurrentParticle, .3, {autoAlpha: 0,delay : ExpandParticle.duration()/4});
+    ExpandParticle.to(CurrentParticle, .3, {autoAlpha: 0,delay : ExpandParticle.duration()/4}, 0);
+    ExpandParticle.to(".QuickAccess", .5, {y: "100%"}, 0);
 	// Calling the function that prepares clone's children using the related particle's database
 	PrepClone();
 	ExpandParticle.eventCallback("onComplete", function(){
@@ -5417,7 +5417,7 @@ function ResetParticle(asset, e){
 	if( !EnterParticle.isActive() ){
 		ExpandParticle.duration(.1).reverse();
 	}
-	TweenMax.set(asset, {autoAlpha: 1});
+    TweenMax.set(asset, {autoAlpha: 1});
 	ParticleRotation.reverse();
 	function ReverseToDefault(){
 		// Re-activating TrackLines
