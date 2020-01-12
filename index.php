@@ -485,8 +485,10 @@
                 <div class="DevStar">
                     <div>
                         <div class="Star">
-                            <div class="DevGlow"></div>
-                            <div class="TheStar"></div>
+                            <div>
+                                <div class="DevGlow"></div>
+                                <div class="TheStar"></div>
+                            </div>
                         </div>
                         <div class="DevSignBeam"></div>
                         <div class="DevSign"></div>
@@ -495,8 +497,10 @@
                 <div class="ArtStar">
                     <div>
                         <div class="Star">
-                            <div class="ArtGlow"></div>
-                            <div class="TheStar"></div>
+                            <div>
+                                <div class="ArtGlow"></div>
+                                <div class="TheStar"></div>
+                            </div>
                         </div>
                         <div class="ArtSignBeam"></div>
                         <div class="ArtSign"></div>

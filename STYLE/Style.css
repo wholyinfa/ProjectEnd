@@ -1519,14 +1519,15 @@ body{
     width: 10%; padding-bottom: 10%;
     top: 16%; right: 34%;
 }
-#AntiToxins .DevStar > div > div, #AntiToxins .DevStar .Star > div, #AntiToxins .DevParticle > div > div{
+#AntiToxins .DevStar > div > div, #AntiToxins .DevStar .Star div, #AntiToxins .DevParticle > div > div{
     background-size: 100%;
 }
-#AntiToxins .DevStar .Star > .DevGlow{
+#AntiToxins .DevStar .Star .DevGlow{
     background-size: 128%;
 }
 
-#AntiToxins .ArtStar .Star,#AntiToxins .DevStar .Star{
+#AntiToxins .ArtStar .Star,#AntiToxins .DevStar .Star,
+#AntiToxins .ArtStar .Star > div,#AntiToxins .DevStar .Star > div{
     width: 100%; height: 100%;
     position: absolute; top: 0; left: 0;
 }
@@ -1602,10 +1603,10 @@ body{
     width: 10%; padding-bottom: 10%;
     top: 16%; left: 32%;
 }
-#AntiToxins .ArtStar > div > div, #AntiToxins .ArtStar .Star > div, #AntiToxins .ArtParticle > div > div{
+#AntiToxins .ArtStar > div > div, #AntiToxins .ArtStar .Star div, #AntiToxins .ArtParticle > div > div{
     background-size: 100%;
 }
-#AntiToxins .ArtStar .Star > .ArtGlow{
+#AntiToxins .ArtStar .Star .ArtGlow{
     background-size: 128%;
 }
 

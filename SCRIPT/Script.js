@@ -937,7 +937,7 @@ function Globe(){
 				y: "+=100%"
 			}), 0
 	    ).add(
-			TweenMax.fromTo($(".DevSignBeam, .ArtSignBeam"), .5, {
+			TweenMax.fromTo($(".DevSignBeam, .ArtSignBeam, .DevSign, .ArtSign"), .5, {
 				autoAlpha: 0,
 				ease: RoughEase.ease.config({ template:
 					Power0.easeNone,
@@ -964,21 +964,12 @@ function Globe(){
 					clamp: false
 				})
 			}), 0
-		)
-		.add(
-			TweenMax.fromTo($(".ArtSign"), 1, {
-				autoAlpha: 0
-			}, {
-				autoAlpha: 1
-			}), 0
-		)
-		.add(
-			TweenMax.fromTo($(".DevSign"), 1, {
-				autoAlpha: 0
-			}, {
-				autoAlpha: 1
-			}), 0
 		);
+	StarRotation = new TimelineMax({paused:true ,repeat: -1});
+	StarRotation.to("#AntiToxins .Star > div", 20, {
+		rotation: 360,
+		ease: Power0.easeNone
+	}, 0);
 	AnalyzerFly = new TimelineMax({paused: true});
 	AnalyzerFly.add(
 		TweenMax.fromTo("#PrevFace", .1, {
@@ -2263,6 +2254,7 @@ function Globe(){
 		obj: [],
 		isActive : []
 	};
+
 	$(".ArtStar, .DevStar").click(function(){
 		var Particles = ( $(this).hasClass("DevStar") ) ? $("#AntiToxins .DevParticle:not(.CLONED)") : $("#AntiToxins .ArtParticle:not(.CLONED)"),
 			Star = $(this),
@@ -2350,6 +2342,29 @@ function Globe(){
 				}
 			})
 		});
+	});
+	$("#AntiToxins .ArtSign, #AntiToxins .DevSign").click(function(){
+		var beam = ( $(this).hasClass("ArtSign") ) ? $(this).siblings(".ArtSignBeam") : $(this).siblings(".DevSignBeam");
+		var SignGlitch = new TimelineMax();
+		SignGlitch
+			.set($(this), {autoAlpha: .4})
+			.set(beam, {autoAlpha: 0})
+			.to( [ beam, $(this) ], .5, {
+				autoAlpha: 1,
+				ease: RoughEase.ease.config({ template:
+					Power0. easeOut,
+					strength:
+						1,
+					points:
+						10,
+					taper:
+						"none",
+					randomize: false,
+					clamp: false
+				})
+			}, 0)
+			.set(beam, {autoAlpha: 1})
+			.set($(this), {autoAlpha: 1});
 	});
 
 	// Analyzer
@@ -3207,6 +3222,7 @@ function DivisionSequence(reset,undone){
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
 			if( reset ){
+				StarRotation.restart();
 				AntiToxins.duration(.5).restart().resume();
 			}else{
 				Order.ID = DiviSection;
@@ -3214,8 +3230,9 @@ function DivisionSequence(reset,undone){
 		}else{
 			// DO when about to leave
 			if( !AntiToxins.reversed() ){
-				AntiToxins.duration(.25).reverse();
+				AntiToxins.restart().pause();
 			}
+			StarRotation.pause();
 		}
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "AntiToxins" ){
 		// DO after left the current dimension
@@ -3888,6 +3905,7 @@ function DiviOrders(){
     }
 	if( Order.ID === "AntiToxins" ){
 		AntiToxins.duration(.5).restart().resume();
+		StarRotation.resume();
 	}
 	if( Order.ID === "Analyzer" ){
 		AnalyzerFly.restart().resume();
