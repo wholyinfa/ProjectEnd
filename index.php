@@ -716,62 +716,74 @@
                 <div class="Entry"></div>
                 <div class="Deck Work">
                     <div class="Cards">
+                        <div class="RoyalPillow">
+                            <div>
+                                <div class="GravityForce"></div>
+                                <div class="GravityForceX"></div>
+                                <div class="Glow"></div>
+                                <div class="Pillow"></div>
+                                <div></div>
+                            </div>
+                        </div>
                         <div class="TheDesigner Card No6">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">Bing able to bring a mythical creature to life, give it a name, color it, base it on a story and share it to the world or sometimes form an ecosystem of elements and witness them interactive and harmonize with each other flawlessly, is definitely a skill worth mastering.</div></div>
                             </div>
+                            </div>
                         </div>
                         <div class="TheFixer Card No5">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">Most things break or malfunction on a regular basis, if even when intensely engaged on a target, a short period of time is dedicated to better understand the source of the problem, next time it breaks, we know where to look.</div></div>
                             </div>
+                            </div>
                         </div>
                         <div class="TheStudent Card No4">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">Stories have multiple characters and each character has a different perspective, as the main character, it's foolish to refuse to learn other character's perspectives and experiences, as they may offer an insight that prevents one from falling where they fell before.</div></div>
                             </div>
+                            </div>
                         </div>
                         <div class="TheTechSavvy Card No3">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">Most electronic devices do what humans are unable to do, they grant us extra abilities making our lives easier and our pockets greasier; Harnessing the power of a tiny bit of this digital ocean of information ensures entrance to the future era in a ready state.</div></div>
                             </div>
+                            </div>
                         </div>
                         <div class="TheSinger Card No2">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">Words offer the ability to interact with people, when combined with music, interaction with souls is made possible; To sing from the deepest note of the heart and relate to someone far in the world and fill their heart with compassion and inform them of not being alone in their journey, makes one pick up the mic...</div></div>
                             </div>
+                            </div>
                         </div>
                         <div class="TheCoder Card No1">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">In a universe where every life form is structured to get something done it’s empowering to be the one who defines the structure; Today, many every-day items that operate the simplest reactions contain the most complex code either in them, or in the process of making them.</div></div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="RoyalPillow">
-                        <div>
-                            <div class="GravityForce"></div>
-                            <div class="GravityForceX"></div>
-                            <div class="Glow"></div>
-                            <div class="Pillow"></div>
-                            <div></div>
+                            </div>
                         </div>
                     </div>
                     <div class="Sign"></div>
@@ -790,54 +802,64 @@
                 </div>
                 <div class="Deck Life">
                     <div class="Cards">
+                        <div class="RoyalPillow">
+                            <div>
+                                <div class="GravityForce"></div>
+                                <div class="GravityForceX"></div>
+                                <div class="Glow"></div>
+                                <div class="Pillow"></div>
+                                <div></div>
+                            </div>
+                        </div>
                         <div class="DaBoss Card No5">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">It feels secure to have control over life and to be able to set goals and design plans to reach them how and when desired without accepting any obstacles or speed bumps along the way.</div></div>
                             </div>
+                            </div>
                         </div>
                         <div class="TheChef Card No4">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">The process of making good food comes to how passionately it's being made, along with passion, patience is key when preparing the perfect meal; In the end the relief of a tasty self-made food after a cooking session washes all the fatigue away.</div></div>
                             </div>
+                            </div>
                         </div>
                         <div class="TheDreamer Card No3">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">Dreams that are visualized to be real eventually become part of reality, it's a matter of how bad one wants it and how hard he is willing to work for it, one should never stop dreaming, this life we know would not expand to this extent without our ancestors' dreams supporting their hard work.</div></div>
                             </div>
+                            </div>
                         </div>
                         <div class="TheGamer Card No2">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">Being a mutant hunting monsters, a soldier in an apocalyptic world, an eagle flying over the ancient greece, a survivor in a future with dinosaurs, these are all unknown scenarios to our form of world and games can visualize them making exploring these worlds an amusing yet informative hobby.</div></div>
                             </div>
+                            </div>
                         </div>
                         <div class="TheAthlete Card No1">
                             <div>
+                            <div class="Fader">
                             <div class="The"></div>
                             <div class="Title"></div>
                             <div class="Icon"></div>
                                 <div class="Description"><div class="Content">Feeling the hard cold ground as it reflects "power" for each pushup, hearing the sky yell “higher” at every pullup, fighting the wind, the rain, the snow, the dust while running towards a superior shape of body and mind is worth hustling for everyday.</div></div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="RoyalPillow">
-                        <div>
-                            <div class="GravityForce"></div>
-                            <div class="GravityForceX"></div>
-                            <div class="Glow"></div>
-                            <div class="Pillow"></div>
-                            <div></div>
+                            </div>
                         </div>
                     </div>
                     <div class="Sign"></div>

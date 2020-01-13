@@ -1043,7 +1043,7 @@ function Globe(){
 	);
 	DeckCloudFly = new TimelineMax({paused: true});
 	DeckCloudFly.add(
-		TweenMax.fromTo("#DeckCloud .Sign, #DeckCloud .Cards, #DeckCloud .GravityForce, #DeckCloud .GravityForceX, #DeckCloud .ShuffleFire", .1, {
+		TweenMax.fromTo("#DeckCloud .Sign, #DeckCloud .Cards .Fader, #DeckCloud .GravityForce, #DeckCloud .GravityForceX, #DeckCloud .ShuffleFire", .1, {
 			autoAlpha: 0
 		}, {
 			autoAlpha: 1
@@ -1091,9 +1091,9 @@ function Globe(){
 	);
 	Gravity.add( GravityX, .4 );
 	PlaceDeck = new TimelineMax({paused: true});
-	DeckX = -($("#DeckCloud .Work .Cards > div").length * 4);
+	DeckX = -($("#DeckCloud .Work .Cards .Card").length * 4);
 	PlaceDeck.add(
-		TweenMax.staggerFromTo("#DeckCloud .Work .Cards > div", .3, {
+		TweenMax.staggerFromTo("#DeckCloud .Work .Cards .Card", .3, {
 			cycle:{y: function(){
 					return DeckX-50+"%";
 				}},
@@ -1113,9 +1113,9 @@ function Globe(){
 			ease: Back. easeOut.config( 1.7)
 		}, .1)
 	);
-	DeckX = -($("#DeckCloud .Life .Cards > div").length * 4);
+	DeckX = -($("#DeckCloud .Life .Cards .Card").length * 4);
 	PlaceDeck.add(
-		TweenMax.staggerFromTo("#DeckCloud .Life .Cards > div", .3, {
+		TweenMax.staggerFromTo("#DeckCloud .Life .Cards .Card", .3, {
 			cycle:{y: function(){
 					return DeckX-50+"%";
 				}},
@@ -2690,7 +2690,7 @@ function Globe(){
 	// DeckCloud
 	CardHover = { isActive: [], append: [], AlreadyActive: [], HoverReveal: [] };
 	CardSelect = { isActive: [], object: [], mdReset: [], validator: [] };
-	$(".Cards > div").mouseenter(function(){
+	$(".Cards .Card").mouseenter(function(){
 		CardHoverIn( $(this) );
 	})
 		.mouseleave(function(e){
@@ -2777,7 +2777,7 @@ function Globe(){
 		CardHover.AlreadyActive[T] = [];
 		CardHover.HoverReveal[T].reverse();
 	});
-	$(".Cards > div").mousedown(function(e){
+	$(".Cards .Card").mousedown(function(e){
 		var T = $(this).parent().parent().attr("class"),
 			siblings = $(this).nextAll();
 		mdevent = e;
@@ -2791,7 +2791,7 @@ function Globe(){
 		}
 		CardSelect.mdReset[T] = $(this);
 	});
-	$(".Cards > div").mouseup(function(e){
+	$(".Cards .Card").mouseup(function(e){
 		var T = $(this).parent().parent().attr("class");
 		CardSelect.validator[T] = 0;
 		// Declaring account state only when not declared
