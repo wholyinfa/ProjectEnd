@@ -1190,7 +1190,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#DeckCloud");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2697,7 +2697,7 @@ function Globe(){
 			var T = $(this).parent().parent().attr("class");
 		if( ( typeof(CardSelect.isActive[T]) !== "undefined" && CardSelect.isActive[T] ) || CardSelect.validator[T] ){
 
-			var ischildhovered = CardSelect.validator[T] && !$(this).parent().children().filter(function() { return $(this).is(":hover"); }).length;
+			var ischildhovered = CardSelect.validator[T] && !$(this).parent().children(".Card").filter(function() { return $(this).is(":hover"); }).length;
 			// Enable hover reactions when:
 			if(
 				// Mousedown is triggered and cursor leaves the cards area
@@ -2711,10 +2711,11 @@ function Globe(){
 				return;
 			}
 		}
-		var nextsiblings = $(this).nextAll(),
+		var nextsiblings = $(this).nextAll(".Card"),
 			ActiveHover = $(nextsiblings).filter(function() { return $(this).is(":hover"); }),
-			prevsiblings = ActiveHover.prevAll().toArray().reverse();
+			prevsiblings = ActiveHover.prevAll(".Card").toArray().reverse();
 		// Resetting the hovered element back to it's original state
+            console.log(prevsiblings);
 		TweenMax.to( ActiveHover.children(), .1, {
 			scaleY: 1,
 			transformOrigin: "50% 100%"
@@ -2755,7 +2756,7 @@ function Globe(){
 			});
 		}
 		// Setting a variable that indicates if other cards are hovered
-		var OtherCardsHovered = (CardHover.isActive[T] && CardHover.isActive[T].parent().find(">div:hover").length === 1);
+		var OtherCardsHovered = (CardHover.isActive[T] && CardHover.isActive[T].parent().find(">.Card:hover").length === 1);
 		// Aborting reverse sequence when :
 		// There's no timeline to reverse yet
 		// Decks are currently placing and haven't finished
@@ -2779,7 +2780,7 @@ function Globe(){
 	});
 	$(".Cards .Card").mousedown(function(e){
 		var T = $(this).parent().parent().attr("class"),
-			siblings = $(this).nextAll();
+			siblings = $(this).nextAll(".Card");
 		mdevent = e;
 		CardSelect.validator[T] = 1;
 		// Making sure a card is selected to run the de-select process
@@ -2807,11 +2808,11 @@ function Globe(){
 			CardSelect.mdReset[T] = false;
 			return;
 		}
-		var siblings = CardSelect.mdReset[T].nextAll();
+		var siblings = CardSelect.mdReset[T].nextAll(".Card");
 		// De-selecting
 		if( CardSelect.isActive[T] || !$(this).hasClass(CardSelect.mdReset[T].attr("class")) || !$(this).hasClass(CardSelect.mdReset[T].attr("class")) ){
 			if( CardSelect.mdReset[T] ){
-				siblings = CardSelect.mdReset[T].nextAll();
+				siblings = CardSelect.mdReset[T].nextAll(".Card");
 			}
 			CardDeSelect( T, $(this), siblings );
 			// Exclusive commands for Peek
@@ -3387,7 +3388,7 @@ function DivisionSequence(reset,undone){
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
 			if( reset ){
-				StarRotation.restart();
+				StarRotation.invalidate();
 				AntiToxins.duration(.5).restart().resume();
 			}else{
 				Order.ID = DiviSection;
@@ -3400,7 +3401,7 @@ function DivisionSequence(reset,undone){
                     // Stop the glitch
                     SignGlitch.kill();
                 }
-				AntiToxins.invalidate().pause();
+				AntiToxins.restart().pause();
 			}
 			StarRotation.pause();
 			TrackLines.fade();
@@ -3410,7 +3411,7 @@ function DivisionSequence(reset,undone){
 		if( !AntiToxins.reversed() ){
 			AntiToxins.reversed( !AntiToxins.reversed() );
 		}
-		AntiToxins.invalidate().pause();
+		AntiToxins.restart().pause();
 	}
 	if( PreDivision == "AntiToxins" && !PreFlyIsSet ){
 		PreFlyAssociates = Ascs;
@@ -3467,8 +3468,8 @@ function DivisionSequence(reset,undone){
 					if( this == true ){
 						CardSelect.mdReset[KeyName[i]] = false;
 						CardSelect.validator[KeyName[i]] = 0;
-						TweenMax.set(CardSelect.object[KeyName[i]].nextAll(), {autoAlpha: 1});
-						CardDeSelect( CardSelect.object[KeyName[i]].parent().parent().attr("class"), CardSelect.object[KeyName[i]], CardSelect.object[KeyName[i]].nextAll() );
+						TweenMax.set(CardSelect.object[KeyName[i]].nextAll(".Card"), {autoAlpha: 1});
+						CardDeSelect( CardSelect.object[KeyName[i]].parent().parent().attr("class"), CardSelect.object[KeyName[i]], CardSelect.object[KeyName[i]].nextAll(".Card") );
 					}
 				});
 			if( PlaceDeck.isActive() ){
@@ -5682,7 +5683,7 @@ function ResetParticle(asset, e){
 // DekcCloud
 function CardHoverIn(This){
 	var T = This.parent().parent().attr("class"),
-		siblings = This.nextAll().toArray().reverse();
+		siblings = This.nextAll(".Card").toArray().reverse();
 	if( (typeof(CardSelect.isActive[T]) !== "undefined" && CardSelect.isActive[T]) || (typeof(CardSelect.mdReset[T]) !== "undefined" && CardSelect.mdReset[T]) ){
 		return;
 	}
@@ -5746,10 +5747,10 @@ function CardDeSelect(theT, This, ResetTargets){
 		CardHover.isActive[theT] = false;
 		CardHover.AlreadyActive[theT] = [];
 		// Only the front card needs a fully empty timeline
-		if( !This.nextAll().length || !$(This).parent().children().filter(function(){ return $(this).is(":hover") }).length ){
+		if( !This.nextAll(".Card").length || !$(This).parent().children(".Card").filter(function(){ return $(this).is(":hover") }).length ){
 			delete CardHover.HoverReveal[theT];
 		}
-		if( $(This).parent().children().filter(function(){ return $(this).is(":hover") }).length ){
+		if( $(This).parent().children(".Card").filter(function(){ return $(this).is(":hover") }).length ){
 			CardHoverIn(This);
 		}
 	} );
