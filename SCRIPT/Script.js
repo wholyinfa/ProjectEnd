@@ -2839,6 +2839,21 @@ function Globe(){
         // Exclusive commands for Gandalf
         $("#DeckCloud .Card").data({GandalfOpt: 0});
 	});
+	$("#DeckCloud .Sign").click(function(){
+	    // CardWave effect
+        TweenMax.staggerFromTo($(this).siblings(".Cards").find(".Card"), .1,{
+            y: 0
+        },{
+            y: "-=20",
+            onComplete: function(t){
+                // Reverse each tween individually after complete
+                if( !t.reversed() ){
+                    t.reverse();
+                }
+            },
+            onCompleteParams: ["{self}"]
+        }, .05);
+    });
 
 	// DivisionExpress
 	$(".DivisionExpress .Content").each(function(){
