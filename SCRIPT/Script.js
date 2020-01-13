@@ -2696,9 +2696,14 @@ function Globe(){
 		.mouseleave(function(e){
 			var T = $(this).parent().parent().attr("class");
 		if( ( typeof(CardSelect.isActive[T]) !== "undefined" && CardSelect.isActive[T] ) || CardSelect.validator[T] ){
-			// if( CardSelect.validator[T] && !$(this).parent().children().filter(function() { return $(this).is(":hover"); }).length ){
-			if( CardSelect.validator[T] && !$(this).parent().children().filter(function() { return $(this).is(":hover"); }).length ){
-				// Hover is enabled when when mousedown is triggered and cursor leaves the cards area
+
+			var ischildhovered = CardSelect.validator[T] && !$(this).parent().children().filter(function() { return $(this).is(":hover"); }).length;
+			// Enable hover reactions when:
+			if(
+				// Mousedown is triggered and cursor leaves the cards area
+				ischildhovered ||
+				// Drag exits the Card area
+				( ischildhovered && $(mdevent.target).hasClass("Content") ) ){
 				// Resetting mousedown variables
 				CardSelect.validator[T] = 0; CardSelect.mdReset[T] = false;
 			}else{
@@ -2775,9 +2780,12 @@ function Globe(){
 	$(".Cards > div").mousedown(function(e){
 		var T = $(this).parent().parent().attr("class"),
 			siblings = $(this).nextAll();
+		mdevent = e;
 		CardSelect.validator[T] = 1;
 		// Making sure a card is selected to run the de-select process
-		if( typeof(CardSelect.isActive[T]) !== "undefined" && CardSelect.isActive[T] ) {
+		if( typeof(CardSelect.isActive[T]) !== "undefined" && CardSelect.isActive[T] &&
+			// Prevent other cards from appearing when content is clicked
+			!$(mdevent.target).hasClass("Content") ) {
 			// Prepping the handlers so we can read what mouse is hovering on after de-select
 			TweenMax.set(siblings, {autoAlpha: 1});
 		}
@@ -2791,6 +2799,12 @@ function Globe(){
 			CardSelect.isActive[T] = false;
 		}
 		if( typeof(CardSelect.mdReset[T]) == "undefined" || CardSelect.mdReset[T] === false ){
+			return;
+		}
+		// Abort method when content dragging is in process
+		if( (typeof(Draggable.get(CardSelect.mdReset[T].find(".Content"))) !== "undefined" && Draggable.get(CardSelect.mdReset[T].find(".Content")).timeSinceDrag() < .005) || $(mdevent.target).hasClass("Content") ){
+			// Prevent hover reactions on decsending cards
+			CardSelect.mdReset[T] = false;
 			return;
 		}
 		var siblings = CardSelect.mdReset[T].nextAll();
@@ -2854,6 +2868,7 @@ function Globe(){
             onCompleteParams: ["{self}"]
         }, .05);
     });
+	CardDraggable();
 
 	// DivisionExpress
 	$(".DivisionExpress .Content").each(function(){
@@ -5723,7 +5738,8 @@ function CardHoverIn(This){
 function CardDeSelect(theT, This, ResetTargets){
 	// Reversing all next siblings to their default position
 	TweenMax.staggerTo( ResetTargets.children(), .15, {
-		scaleY: 1
+		scaleY: 1,
+		transformOrigin: "bottom"
 	}, "-=.075", function(){
 		// Resetting all the hover variables except the HoverReveal after the siblings switched back to their place
 		CardHover.append[theT] = false;
@@ -5742,6 +5758,85 @@ function CardDeSelect(theT, This, ResetTargets){
 	CardSelect.isActive[theT] = false;
 	CardSelect.object[theT] = false;
 	return;
+}
+function CardDraggable(){
+    var container = $("#DeckCloud .Card .Description"),
+        content = container.find(".Content");
+    $(content).each(function(){
+        var formula = $(this).innerHeight() - $(this).parent().innerHeight();
+        // TweenMax.set($(this).parent(), {overflow: "hidden"});
+        // Move the $(this) to the first line
+        // Check if the content overflows it's container
+        if( formula > 0 ){
+            // Enable dragging feature
+            Draggable.create($(this),{
+                type: "y",
+                bounds: {minY: -formula-20, maxY: 20},
+                dragResistance: .5,
+                onPress: function(){
+                    var activetweens = TweenMax.getTweensOf(this.target);
+                    // Kill the running hover indicator
+                    if( activetweens.length ){
+                        activetweens[0].kill();
+                    }
+                },
+                onDragEnd: function(){
+                    var yvalue = null;
+                    // Reverse the path to the top side if user is far up
+                    if( this.y < -formula ){
+                        yvalue = -formula;
+                    }
+                    // Do the same above to lower side
+                    if( this.y > 0 ){
+                        yvalue = 0;
+                    }
+                    TweenMax.to(this.target, .25,
+                        {
+                            y: yvalue
+                        });
+                }
+            });
+        }
+        else{
+            if( Draggable.get($(this)) ){
+                // Remove drag feature when path doesn't overflow it's container
+                Draggable.get($(this)).kill();
+            }
+            // Move1 the path back to it's original position if it was altered
+            TweenMax.to($(this), .25, {
+                y: 0,
+                ease: Back. easeInOut
+            });
+        }
+    });
+    content.mouseenter(function(){
+        var container = $(this).parent(),
+            content = $(this);
+        // Forbid hover reaction when user is dragging
+        if( typeof(Draggable.get(content)) !== "undefined" && Draggable.get(content).isDragging ){ return; }
+        // Check whether #content overflows it's content
+        if( ( content.innerHeight() - container.innerHeight() ) > 0 ){
+            var y = {
+                from: "-=20",
+                to: "+=20"
+            };
+            // Check if the content is not near the top
+            if( content.position().top+20 < 0 ){
+                // Reverse animation's direction
+                var y = {
+                    from: "+=20",
+                    to: "-=20"
+                };
+            }
+            // Set animations
+            var PlatePasser = new TimelineMax();
+            PlatePasser.to(content, .25, {
+                y: y.from,
+            }).to(content, .25, {
+                y: y.to,
+            });
+        }
+    });
 }
 
 // Gandalf setter
