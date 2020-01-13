@@ -1554,7 +1554,7 @@ function Globe(){
         // Check whether #Path overflows it's content
         if( ( path.innerWidth() - pathfinder.innerWidth() ) > 0 ){
             // Create animation Timeline
-            IdlePath = new TimelineMax({repeat: -1});
+            IdlePath = new TimelineMax();
             var x = {
                 from: "-=20",
                 to: "+=20"
@@ -1578,32 +1578,6 @@ function Globe(){
                     x: x.to,
                 })
             );
-        }
-    })
-	.mouseleave(function(e){
-        var pathfinder = $(".PathFinder"),
-            path = pathfinder.find("#Path"),
-            // Get the difference between Path and it's parent's distance
-            formula = path.innerWidth() - pathfinder.innerWidth(),
-            xvalue = null;
-        // Forbid hover reaction when user is dragging
-        if( typeof(Draggable.get(path)) !== "undefined" && Draggable.get(path).isDragging ){ return; }
-        // Reverse the path to the left side if user is far left
-        if( path.position().left < -formula ){
-            xvalue = -formula;
-        }
-        // Do the same above to the right side
-        if( path.position().left > 0 ){
-            xvalue = 0;
-        }
-        // Run the readjustments
-        TweenMax.to(path, .5,
-            {
-                x: xvalue
-            });
-        // Pause hover reactions
-        if( typeof(IdlePath) !== "undefined" ){
-            IdlePath.pause();
         }
     });
 
