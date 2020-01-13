@@ -1139,12 +1139,14 @@ function Globe(){
 	);
 	ShuffleFire = new TimelineMax({paused: true, repeat: -1, yoyo: true
 	});
-	ShuffleFire.staggerFromTo("#DeckCloud .ShuffleFire .Fire", .5, {
-		scaleY: 1,
+	ShuffleFire.staggerFromTo("#DeckCloud .ShuffleFire .Fire", 1, {
+        cycle:{scaleY: function(){
+                return (Math.random() * .05) + 1;
+            }},
 		transformOrigin: "50% 100%"
 	}, {
 		cycle:{scaleY: function(){
-				return (Math.random() * .3) + 1.1;
+				return (Math.random() * .2) + 1.1;
 		}},
 		transformOrigin: "50% 100%",
 		ease: RoughEase.ease.config({ template:
@@ -1158,7 +1160,7 @@ function Globe(){
 			randomize: true,
 			clamp: false
 		})
-	}, .02);
+	}, .01);
 	UpperBeam = new TimelineMax({paused: false,repeat: -1, repeatDelay: 1});
 	UpperBeam.fromTo(".DivisionExpress .SwitchBeam, .DivisionExpress .Hint", .25,{
 		autoAlpha: .6,
@@ -1188,7 +1190,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	OnLoadActive = $("#DeckCloud");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -3423,7 +3425,7 @@ function DivisionSequence(reset,undone){
 				ShuffleFireFly.restart().resume();
 				Gravity.restart().resume();
 				PlaceDeck.restart().resume();
-				ShuffleFire.restart().resume();
+				ShuffleFire.invalidate().resume();
 			}else{
 				Order.ID = DiviSection;
 			}
@@ -3451,7 +3453,7 @@ function DivisionSequence(reset,undone){
 		DeckCloudFly.restart().pause();
 		ShuffleFireFly.restart().pause();
 		PlaceDeck.restart().pause();
-		ShuffleFire.restart().pause();
+		ShuffleFire.invalidate().pause();
 		Gravity.restart().pause();
 	}
 	if( PreDivision == "DeckCloud" && !PreFlyIsSet ){
