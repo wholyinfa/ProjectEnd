@@ -1188,7 +1188,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Analyzer");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -4986,15 +4986,9 @@ function PocketPath(reset){
 			type: "x",
 			dragClickables: true,
 			dragResistance: .5,
+			bounds: {maxX: pathfinder.innerWidth()*.1, minX: -formula-pathfinder.innerWidth()*.1},
 			onDragEndScope: this.target,
 			onDragScope: this.target,
-			onDrag: function(){
-				var gap = pathfinder.innerWidth()*.1;
-				// preventing user to drag more or less than the "gap" variable added or substracted from each side
-				if( this.x < -formula-gap || this.x > gap ){
-					this.endDrag();
-				}
-			},
 			onDragEnd: function(){
 				var xvalue = null;
 				// Reversing the path to the left side if user is far left
