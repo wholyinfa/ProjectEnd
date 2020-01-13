@@ -2540,46 +2540,74 @@ function Globe(){
                                     // Enable dragging feature
                                     Draggable.create(content,{
                                         type: "y",
-                                        dragClickables: true,
+                                        bounds: {y: 10},
                                         dragResistance: .5,
-                                        onDragEndScope: this.target,
-                                        onDragScope: this.target,
-                                        onDrag: function(){
-                                            var gap = plate.innerHeight()*.2;
-                                            // Prevent user to drag more or less than the "gap" variable added or subtracted from each side
-                                            if( this.y < -formula-gap || this.y > gap ){
-                                                this.endDrag();
-                                            }
+                                        onPress: function(){
+                                            // Kill the running hover indicator
+                                            TweenMax.getTweensOf(content, true)[0].kill();
                                         },
                                         onDragEnd: function(){
                                             var yvalue = null;
-                                            // Reverse the path to the left side if user is far left
+                                            // Reverse the path to the top side if user is far up
                                             if( this.y < -formula ){
                                                 yvalue = -formula;
                                             }
-                                            // Do the same above to the right side
+                                            // Do the same above to lower side
                                             if( this.y > 0 ){
                                                 yvalue = 0;
                                             }
-                                            TweenMax.to(content, .5,
+                                            TweenMax.to(content, .25,
                                                 {
                                                     y: yvalue
                                                 });
                                         }
                                     });
-                                }else{
+                                }
+                                else{
                                     if( Draggable.get(content) ){
                                         // Remove drag feature when path doesn't overflow it's container
                                         Draggable.get(content).kill();
                                     }
                                     // Move1 the path back to it's original position if it was altered
-                                    TweenMax.to(content, .5, {
+                                    TweenMax.to(content, .25, {
                                         y: 0,
                                         ease: Back. easeInOut
                                     });
                                 }
 
-							}
+
+
+                                content.mouseenter(function(){
+                                    var plate = $("#Analyzer .Plate .Content"),
+                                        content = plate.find("> div");
+                                    // Forbid hover reaction when user is dragging
+                                    if( typeof(Draggable.get(content)) !== "undefined" && Draggable.get(content).isDragging ){ return; }
+                                    // Check whether #content overflows it's content
+                                    if( ( content.innerHeight() - plate.innerHeight() ) > 0 ){
+                                        var y = {
+                                            from: "-=20",
+                                            to: "+=20"
+                                        };
+                                        // Check if the content is not near the top
+                                        if( content.position().top+20 < 0 ){
+                                            // Reverse animation's direction
+                                            var y = {
+                                                from: "+=20",
+                                                to: "-=20"
+                                            };
+                                        }
+                                        // Set animations
+                                        var PlatePasser = new TimelineMax();
+                                        PlatePasser.to(content, .25, {
+                                            y: y.from,
+                                        }).to(content, .25, {
+                                            y: y.to,
+                                        });
+                                    }
+                                });
+
+
+                            }
 						}
 					});
 				}
