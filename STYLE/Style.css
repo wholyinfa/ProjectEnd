@@ -443,6 +443,7 @@ body{
     position: fixed; bottom: 0; right: 0;
     font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
+    white-space: nowrap;
 }
 #Peek{
     padding: 15px;
@@ -2546,8 +2547,13 @@ body{
         height: 121.6px;
         font-size: .95em;
     }
-    #Gandalf, #Peek{
-        bottom: inherit; top: 0;
+    #Peek{
+        display: none;
+    }
+    #Gandalf{
+        bottom: inherit; bottom: 121.6px;
+        right: 50%;
+        transform: translateX(50%);
     }
 
 }
