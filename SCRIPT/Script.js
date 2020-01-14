@@ -636,6 +636,8 @@ function Varia(){
             this.data({ notouch: false });
         }
     });
+    // Reset coordinates of the DivisionExpress' content
+    DivisionExpress.set.Position(true);
 }
 
 function Globe(){
@@ -940,15 +942,6 @@ function Globe(){
 	);
 	AntiToxins = new TimelineMax({paused: true});
 	AntiToxins.add(
-		TweenMax.fromTo($("#AntiToxins .DivisionExpress"), .5, {
-				autoAlpha: 0,
-				y: "-=100%"
-			},
-			{
-				autoAlpha: 1,
-				y: "+=100%"
-			}), 0
-	    ).add(
 			TweenMax.fromTo($(".DevSignBeam, .ArtSignBeam, .DevSign, .ArtSign"), .5, {
 				autoAlpha: 0,
 				ease: RoughEase.ease.config({ template:
@@ -999,15 +992,6 @@ function Globe(){
 			autoAlpha: 1,
 			x: "+=100%"
 		}), 0
-	).add(
-		TweenMax.fromTo("#Analyzer > .DivisionExpress", .5, {
-				autoAlpha: 0,
-				y: "-=100%"
-			},
-			{
-				autoAlpha: 1,
-				y: "+=100%"
-			}), 0
 	).add(
 		TweenMax.staggerFromTo("#Analyzer .Express", .2, {
 				autoAlpha: 0,
@@ -1173,23 +1157,6 @@ function Globe(){
 			clamp: false
 		})
 	}, .01);
-	UpperBeam = new TimelineMax({paused: false,repeat: -1, repeatDelay: 1});
-	UpperBeam.fromTo(".DivisionExpress .SwitchBeam, .DivisionExpress .Hint", .25,{
-		autoAlpha: .6,
-		transformOrigin: "50% 0%"
-	}, {
-		autoAlpha: 1,
-		transformOrigin: "50% 0%"
-	}).to(".DivisionExpress .SwitchBeam, .DivisionExpress .Hint", .25,{
-		autoAlpha: .6,
-		transformOrigin: "50% 0%"
-	}).to(".DivisionExpress .SwitchBeam, .DivisionExpress .Hint", .25,{
-		autoAlpha: 1,
-		transformOrigin: "50% 0%"
-	}).to(".DivisionExpress .SwitchBeam, .DivisionExpress .Hint", .25,{
-		autoAlpha: .6,
-		transformOrigin: "50% 0%"
-	});
 	PedalPrism = new TimelineMax({paused: true, repeat: -1});
 	PedalPrism.add(
 		TweenMax.fromTo(".Pedal", 1, {
@@ -2727,7 +2694,6 @@ function Globe(){
 			ActiveHover = $(nextsiblings).filter(function() { return $(this).is(":hover"); }),
 			prevsiblings = ActiveHover.prevAll(".Card").toArray().reverse();
 		// Resetting the hovered element back to it's original state
-            console.log(prevsiblings);
 		TweenMax.to( ActiveHover.children(), .1, {
 			scaleY: 1,
 			transformOrigin: "50% 100%"
@@ -2882,15 +2848,6 @@ function Globe(){
         }, .05);
     });
 	CardDraggable();
-
-	// DivisionExpress
-	$(".DivisionExpress .Content").each(function(){
-		TweenMax.set($(this), {
-			y: -$(this).innerHeight(),
-			autoAlpha: 0,
-			transformOrigin: "50% 0%"
-		});
-	});
 
 	$(".DivisionExpress").click(function(){
 		ExpressTheDivision($(this));
@@ -3293,6 +3250,7 @@ function SwitchDivision(target,Manual){
 	ReverseSequence();
 	DivisionSequence(true,target);
 	Pathfinder();
+    DivisionExpress.set.Beam();
 	URI(true);
 }
   // Division sequences
@@ -3520,6 +3478,7 @@ function DivisionSequence(reset,undone){
 			y: "-200%",
 			autoAlpha: 1
 		});
+        DivisionExpress.set.Beam(true);
 	}
 }
   // Fly action
@@ -4114,6 +4073,7 @@ function DiviOrders(){
 			y: "0%",
 			autoAlpha: 1
 		});
+        DivisionExpress.set.Beam(false);
 	}
 }
 
@@ -4644,11 +4604,96 @@ function ToggleConnect(Rev){
 }
 
 // DivisionExpress
+DivisionExpress = {
+    active: false,
+    // Check or Set the target expand state
+    isExpanded: function(state){
+        if( typeof(state) === "boolean" ){
+            this.active = state;
+            return state;
+        }
+        return this.active;
+    },
+    set: {
+        // Set the Beam effect for .Trigger
+        Beam: function (pause) {
+            // Abort if current division doesn't have a DivisionExpress
+            if( !DivisionExpress.CHECK() ){ return this; }
+            // Check if pause is requested
+            if( typeof(pause) !== "undefined" ){
+                if( pause ){
+                    UpperBeam.invalidate().pause();
+                    return this;
+                }else if( pause === false ){
+                    UpperBeam.resume();
+                    return this;
+                }
+            }
+            // Set the beam
+            var beamies = ActiveDivision.find(".DivisionExpress .Trigger");
+            TweenMax.set(beamies, {autoAlpha: 0});
+            UpperBeam = new TimelineMax({paused: false, repeat: -1, repeatDelay: 1});
+            UpperBeam.fromTo(beamies, .25, {
+                autoAlpha: .6,
+                transformOrigin: "50% 0%"
+            }, {
+                autoAlpha: 1,
+                transformOrigin: "50% 0%"
+            }).to(beamies, .25, {
+                autoAlpha: .6,
+                transformOrigin: "50% 0%"
+            }).to(beamies, .25, {
+                autoAlpha: 1,
+                transformOrigin: "50% 0%"
+            }).to(beamies, .25, {
+                autoAlpha: .6,
+                transformOrigin: "50% 0%"
+            });
+            return this;
+        },
+        // Set target position
+        Position: function(){
+            // Get all targets and
+                    $(".DivisionExpress").each(function(){
+                        // Reposition this asset when
+                        if (
+                            // Page is loaded
+                            typeof (ExpressSequence) == "undefined" ||
+                            // Or when an asset is expanded but not this one (exclude the expanded asset)
+                            (DivisionExpress.isExpanded() &&
+                            ActiveDivision.attr("id") !== $(this).parent().attr("id")) ||
+                            // Or when no asset is expanded (so all are included)
+                            (!DivisionExpress.isExpanded())
+                        ) {
+                            // Hide this asset with it's content's height
+                            TweenMax.set([$(this).find(".Trigger"), $(this).find(".Content")], {
+                                y: -$(this).find(".Content").innerHeight(),
+                                transformOrigin: "50% 0%"
+                            });
+                        }
+                    });
+            return this;
+        }
+    },
+    CHECK: function(){
+        // Checks the current active division for DivisionExpress element
+        if( ActiveDivision.find(".DivisionExpress").length ){
+            // Retruns true when the division has DivisionExpress
+            return true;
+        }
+        // And false when it doesn't
+        return false;
+    }
+};
 function ExpressTheDivision(This){
+    // Create new animations when
 	if(
+	    // Page is loaded
 		typeof(ExpressSequence) == "undefined" ||
+        // Previous animation is static and is at it's start point
 		(!ExpressSequence.isActive() && ExpressSequence.progress() !== 1)
 	){
+	    // Set .Hint element's wiggle effect
 		HintWiggle = new TimelineMax();
 		HintWiggle
 			.to(This.find(".Hint"), .05, {
@@ -4658,31 +4703,45 @@ function ExpressTheDivision(This){
 			}).to(This.find(".Hint"), .05, {
 				x: 0
 			});
+		// Set content opening effect
 		ExpressSequence = new TimelineMax({paused: true});
 		ExpressSequence.add(
-			TweenMax.to([This.find(".Hint"),This.find(".SwitchBeam")], .3, {
+			TweenMax.fromTo([This.find(".Trigger"),This.find(".Content")], .2, {
 				autoAlpha: 1,
-				y: This.find(".Content").innerHeight(),
-				ease:  Power1. easeOut
-			}), 0
-		).add(
-			TweenMax.staggerTo(This.find(".Content"), .3, {
+                // Set responsive value to be able to reverse back to the currect position after page is resized
+				y: function(){ return -This.find(".Content").innerHeight(); }
+			}, {
 				autoAlpha: 1,
 				y: 0,
-				ease:  Power1. easeOut
-			}, .1), 0
+				ease:  Power1.easeOut
+			}), 0
 		);
 	}
-	if( UpperBeam.isActive() ){
+    // Run when DivisionExpress is collapsed or collapsing
+	if( !DivisionExpress.isExpanded() ){
 		This.find(".Hint").html("CLOSE");
 		TweenMax.set(This, {autoAlpha: 1});
-		UpperBeam.pause();
+		UpperBeam.progress(.2).pause();
+		// Reset the recorded valuse when static
+		if( !ExpressSequence.isActive() ){
+		    ExpressSequence.invalidate();
+        }
+		// Set current state
+		DivisionExpress.isExpanded(true);
 		ExpressSequence.play();
 		HintWiggle.play();
-	}else{
+	}
+    // Run when DivisionExpress is expanded or expanding
+	else{
 		This.find(".Hint").html("READ!");
 		This.attr("style","");
-		UpperBeam.play();
+        UpperBeam.play();
+        // Reset the recorded valuse when static
+        if( !ExpressSequence.isActive() ){
+            ExpressSequence.invalidate().progress(1);
+        }
+        // Set current state
+        DivisionExpress.isExpanded(false);
 		ExpressSequence.reverse();
 		HintWiggle.reverse();
 	}
