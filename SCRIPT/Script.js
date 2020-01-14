@@ -5898,6 +5898,8 @@ Peeker = {
 		// A variable indicating mouseover is off, so mouseleave would be deactivated as well
 		var Deactivate = false;
 		$(PeekRow[0]).mouseover(function(){
+		    // Check if touch allowed for touch devices
+		    if( Is.NoTouch("#Peek") ){ return; }
 			var content = PeekRow[1];
 			// Prohibiting calling the function for every child hover
 			if( Global.PeekActive === PeekRow[0] ){ return false; }
@@ -5915,6 +5917,8 @@ Peeker = {
 			// Placing Peek's content
 			Glitch.on("#Peek", content);
 		}).mouseleave(function(){
+            // Check if touch allowed for touch devices
+		    if( Is.NoTouch("#Peek") ){ return; }
 			// Disabling further commands in case mouseover is deactive
 			if( Deactivate ){ Deactivate = false; return false; }
 			// Resetting the PeekActive indicator

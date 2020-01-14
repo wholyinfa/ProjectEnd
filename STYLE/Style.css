@@ -435,13 +435,13 @@ body{
     background: url('../Assets/EmryoS/EmbryoniC_JourNey.png');
 }
 #Gandalf{
-    padding: 30px;
+    padding: 15px;
     position: fixed; bottom: 0; right: 0;
     font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
 }
 #Peek{
-    padding: 30px;
+    padding: 15px;
     position: fixed; bottom: 0; left: 0;
     font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
@@ -2541,6 +2541,9 @@ body{
     .QuickAccess {
         height: 121.6px;
         font-size: .95em;
+    }
+    #Gandalf, #Peek{
+        bottom: inherit; top: 0;
     }
 
 }
