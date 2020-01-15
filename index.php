@@ -122,11 +122,6 @@
 
         <div id='Trilogies'>
 
-            <h1 class='Portalian'>
-                This is the InfamousRocket<br>
-                Front-end web developer<br>
-                & Digital designer</h1>
-
             <div id="SpaceCyclone">
                 <div class="BreathinFragment Entry">
                     <div>
@@ -302,6 +297,11 @@
                 </div>
             </div>
             <div id="Temporary">
+
+                <h1 class='Portalian'>
+                    This is the InfamousRocket<br>
+                    Front-end web developer<br>
+                    & Digital designer</h1>
                 <div class="Void"></div>
 
                 <div class="BreathinFragment Entry">

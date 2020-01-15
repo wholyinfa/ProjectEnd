@@ -474,9 +474,9 @@ body{
 }
 #Trilogies .Portalian{
     padding: 30px; margin: 0;
-    position: fixed; top: 0; left: 0;
     font-family: Ocr; font-size: 1.1em; font-weight: normal; color: #fff;
     transition: color .5s ease-in-out; z-index: -1;
+    grid-area: 2 / 1 / 3 / 3;
 }
 
 #Temporary > div .Shrinker {
