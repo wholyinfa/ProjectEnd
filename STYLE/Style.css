@@ -61,7 +61,7 @@ body{
 
 /*   Dimensionz   */
 #Dimensionz{
-    width: 100%; height: 100%;
+    width: 100vw; height: 100vh;
     position: fixed; top: 0; left: 0; z-index: 2;
     fill: #fff;
 }
@@ -306,6 +306,28 @@ body{
 #Ditch .Handle:after{
     transform: scaleX(-1); left: -25%;
 }
+/*   Dimensionz   */
+
+.BreathinFragment{
+    /*     RATIO 0.8     */
+    position: relative;
+    grid-area: 5 / 5 / 6 / 6;
+    align-items: center;
+}
+.BreathinFragment .Eyez{
+    width: 93.40%; height: 34.93%;
+    position: relative; left: 4.39%; top: 0;
+    background: url("../ASSETS/BlackHole/See.png") center center no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+.BreathinFragment .Laugh{
+    width: 100%; height: 84.93%;
+    position: relative; left: 0; top: -20%;
+    background: url("../ASSETS/BlackHole/Laugh.png") center center no-repeat;
+    background-size: contain;
+    background-position: center;
+}
 .QuickAccess .PathFinder{
     max-width: 50%;
     position: absolute; left: 50%; top: 83%;
@@ -443,7 +465,6 @@ body{
     position: fixed; bottom: 0; right: 0;
     font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
-    white-space: nowrap;
 }
 #Peek{
     padding: 15px;
@@ -458,11 +479,18 @@ body{
     transition: color .5s ease-in-out; z-index: -1;
 }
 
-#Temporary , #Temporary > div .Shrinker {
+#Temporary > div .Shrinker {
     width: 100%; height: 100%;
     position: absolute; top: 0; left: 0;
 }
-#Temporary > div div {
+#Temporary {
+    width: 100vw; height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 7fr 2fr 1fr 4fr 5fr 80px;
+    grid-template-columns:  5fr 4fr 1.4fr 1.25fr 2.5fr 1.25fr 1.4fr 4fr 5fr;
+    justify-content: center;
+}
+#Temporary > .Portal div {
     position: absolute;
 }
 #Temporary > .Void {
@@ -474,8 +502,8 @@ body{
 }
 #Temporary .JourNey{
     /* RATIO 0.6166077738515901 */
-    width: 29.47%; padding-bottom: 18.17%; min-width: 200px;
-    position: absolute; top: 5.61%; left: 35.05%;
+    grid-area: 2 / 3 / 4 / 8;
+    position: relative;
 }
 #Temporary .JourNey .Flow{
     width: 100%; height: 100%;
@@ -509,14 +537,15 @@ body{
     background: url("../ASSETS/Temporary/Journey_Ship.png") no-repeat;
 }
 #Temporary .Portal.JourNey div{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 
 
 #Temporary .Artery{
     /* RATIO 1.223118279569892 */
-    width: 19.37%; padding-bottom: 23.69%; min-width: 200px;
-    position: absolute; top: 41.57%; left: 58.64%;
+    position: relative;
+    grid-area: 3 / 7 / 7 / 9;
 }
 #Temporary .Artery .Flow{
     width: 87.63%; height: 81.53%;
@@ -559,13 +588,16 @@ body{
     background: url("../ASSETS/Temporary/Artery_Barry.png") no-repeat;
 }
 #Temporary .Portal.Artery div{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 
 #Temporary .BigMo{
-    /* RATIO 0.9319899244332494*/
-    width: 20.67%; padding-bottom: 22.17%; min-width: 200px;
-    position: absolute; top: 46.01%; left: 21.14%;
+    /* RATIO 0.9319899244332494 */
+    position: relative;
+    grid-area: 3 / 2 / 7 / 4;
+    height: 90%;
+    align-self: center;
 }
 #Temporary .BigMo .Flow{
     width: 100%; height: 99.45%;
@@ -598,13 +630,14 @@ body{
     background: url("../ASSETS/Temporary/Bigmo_Jaccuzi.png") no-repeat;
 }
 #Temporary .Portal.BigMo div{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 /*Setting the default dimensions styles*/
 
 #BigMo , #Artery , #JourNey{
     width: 100%; height: 100%;
-    position: absolute; left: 0; top: 0;
+    display: grid;
 }
 
 #Footer {
@@ -1363,29 +1396,6 @@ body{
 }
 #Skillometer .Core .Strikes{
     cursor: crosshair;
-}
-/*   Dimensionz   */
-
-.BreathinFragment{
-    /*     RATIO 0.8     */
-    width: 9.37%; padding-bottom: 7.49%;
-    position: absolute; top: 45.83%; left: 45.41%;
-}
-.BreathinFragment > div{
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
-}
-.BreathinFragment .Eyez{
-    width: 93.40%; height: 34.93%;
-    position: absolute; left: 4.39%; top: 0;
-    background: url("../ASSETS/BlackHole/See.png") center center no-repeat;
-    background-size: 100% 100%;
-}
-.BreathinFragment .Laugh{
-    width: 100%; height: 84.93%;
-    position: absolute; left: 0; top: 14.38%;
-    background: url("../ASSETS/BlackHole/Laugh.png") center center no-repeat;
-    background-size: 100% 100%;
 }
 @-webkit-keyframes White{
     0%{opacity:1; margin: 0}
