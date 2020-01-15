@@ -2561,7 +2561,8 @@ body{
     #Temporary {
         overflow: auto;
         grid-template-columns: 3fr 4fr 3fr;
-        grid-template-rows: 20px 2fr auto 4fr 4fr 4fr 160px;
+        grid-template-rows: 20px 2fr auto 4fr 4fr 4fr;
+        margin-top: -160px;
     }
     #Temporary .Portalian{
         grid-area: 3 / 1 / 4 / 4;
@@ -2571,6 +2572,7 @@ body{
     #Temporary .BreathinFragment{
         grid-area: 2 / 2 / 3 / 3;
         padding-top: 30%;
+        margin-top: 160px;
     }
     #Temporary .JourNey{
         grid-area: 4 / 2 / 5 / 3;
