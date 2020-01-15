@@ -312,7 +312,7 @@ body{
     /*     RATIO 0.8     */
     position: relative;
     grid-area: 5 / 5 / 6 / 6;
-    align-items: center;
+    padding-top: 74%;
 }
 .BreathinFragment .Eyez{
     width: 93.40%; height: 34.93%;
@@ -473,10 +473,11 @@ body{
     transition: color .5s ease-in-out; z-index: 2;
 }
 #Trilogies .Portalian{
-    padding: 30px; margin: 0;
+    padding: 20px; margin: 0;
     font-family: Ocr; font-size: 1.1em; font-weight: normal; color: #fff;
     transition: color .5s ease-in-out; z-index: -1;
-    grid-area: 2 / 1 / 3 / 3;
+    grid-area: 1 / 1 / 3 / 3;
+    align-self: start;
 }
 
 #Temporary > div .Shrinker {
@@ -488,7 +489,7 @@ body{
     display: grid;
     grid-template-rows: 1fr 7fr 2fr 1fr 4fr 5fr 80px;
     grid-template-columns:  5fr 4fr 1.4fr 1.25fr 2.5fr 1.25fr 1.4fr 4fr 5fr;
-    justify-content: center;
+    align-items: center;
 }
 #Temporary > .Portal div {
     position: absolute;
@@ -504,6 +505,7 @@ body{
     /* RATIO 0.6166077738515901 */
     grid-area: 2 / 3 / 4 / 8;
     position: relative;
+    padding-top: 58%;
 }
 #Temporary .JourNey .Flow{
     width: 100%; height: 100%;
@@ -546,6 +548,7 @@ body{
     /* RATIO 1.223118279569892 */
     position: relative;
     grid-area: 3 / 7 / 7 / 9;
+    padding-top: 115%;
 }
 #Temporary .Artery .Flow{
     width: 87.63%; height: 81.53%;
