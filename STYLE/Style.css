@@ -1094,8 +1094,8 @@ body{
     margin: -1.8em 0 .5em 0;
 }
 #SpaceCyclone .Connect .Definer{
-    width: 75%; height: 70%;
-    position: absolute; top: 0; left: 10.83%;
+    width: 60%; height: 70%;
+    position: absolute; top: 0; left: 20.83%;
 }
 #SpaceCyclone .Connect .Definer .Asset .Indicator{
     background: url("../ASSETS/SpaceCyclone/Con_WiFi.png") no-repeat center;
@@ -2593,8 +2593,7 @@ body{
     }
     #Temporary .BreathinFragment{
         grid-area: 2 / 2 / 3 / 3;
-        width: 40%;
-        padding-top: 30%; margin-bottom: 4%;
+        padding-top: 30%;
         align-self: end;
     }
     #Temporary .JourNey{
@@ -2687,7 +2686,7 @@ body{
 
 /*SPACECYCLONE*/
 
-@media screen and (max-height: 600px){
+@media screen and (min-width: 600px) and (max-height: 600px){
     #SpaceCyclone {
         grid-template-rows: .5fr 2fr 1.5fr 130px;
         grid-template-columns: .25fr 2fr 2fr 2fr 2fr .25fr  ;
@@ -2725,7 +2724,40 @@ body{
     }
 
 }
-@media screen and (max-width: 800px) and (min-height: 450px) and (max-height: 600px){
+@media screen and (max-width: 1024px) and (min-height: 450px), (max-width: 600px) and (max-height: 600px){
+    #SpaceCyclone {
+        overflow: auto;
+        grid-template-columns: 3fr 1.4fr 3fr;
+        grid-template-rows: 20px 2fr auto 0.2fr 4fr 4fr 4fr 0.5fr 160px;
+    }
+    #Footer{
+        height: 6.5em;
+        grid-area: 3 / 1 / 4 / 4;
+        text-align: center;
+        font-size: 0.7em;
+    }
+    #SpaceCyclone .BreathinFragment{
+        grid-area: 2 / 2 / 3 / 3;
+        padding-top: 40%;
+    }
+    #SpaceCyclone .Download.Storm{
+        grid-area: 5 / 2 / 6 / 3;
+    }
+    #SpaceCyclone .Request.Storm{
+        grid-area: 6 / 2 / 7 / 3;
+    }
+    #SpaceCyclone .Connect.Storm{
+        grid-area: 7 / 2 / 8 / 3;
+    }
+    #SpaceCyclone form{
+        height: 0;
+        overflow: hidden;
+    }
+    #SpaceCyclone .Divider{
+        height: 0;
+    }
+}
+@media screen and (min-width: 600px) and (max-width: 800px) and (min-height: 450px) and (max-height: 600px){
     #SpaceCyclone {
         grid-template-rows: 0.5fr 2fr 2fr .5fr 6fr 130px;
         grid-template-columns: .25fr 2fr .4fr 1.2fr .4fr 2fr .25fr;
@@ -2746,5 +2778,19 @@ body{
         font-size: 0.6em;
         text-align: center;
         grid-area: 3 / 2 / 4 / 7;
+    }
+}
+@media screen and (max-width: 600px){
+    #SpaceCyclone {
+        grid-template-rows: 20px 2fr auto 0.2fr 4fr 4fr 4fr 0.5fr 120px;
+        grid-template-columns: 3fr 2fr 3fr;
+    }
+    .QuickAccess .Cells {
+        top: 20%;
+    }
+    #Gandalf {
+        width: 100%;
+        text-align: center;
+        bottom: 87.5px;
     }
 }
