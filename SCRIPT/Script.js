@@ -3163,14 +3163,16 @@ function SwitchDivision(target,Manual){
 		if( !Manual ) {
 			// Keeping the current division in target variable
 			target = ActiveDivision;
-			if ((Reverse.pedal == false &&
-				(ChildrenLen > 1 && ActiveDivision.index() + 1 < ChildrenLen))) {
+			// Set upcoming sibling of the last division as current division when:
+			if (
+                // Last division isn't reversed to this division
+				Reverse.pedal === false &&
+                // Current division has upcoming siblings
+                ( ActiveDivision.index() + 1 < ChildrenLen &&
+                // Next division when set, isn't the Temporary division (Current main division)
+				Dimension.children().eq(ActiveDivision.index() + 1).attr("id") !== "Temporary" )
+			) {
 				ActiveDivision = Dimension.children().eq(ActiveDivision.index() + 1);
-				if ( ActiveDivision.index() + 1 < ChildrenLen ) {
-					Forward.obj = Dimension.children().eq(ActiveDivision.index() + 1);
-				}else{
-					Forward.obj = $("#Temporary");
-				}
 			} else if ((ActivePortal[0] == false && Reverse.pedal == false)) {
 				ActiveDivision = Subject = $("#Temporary");
 				Forward.isAvailable = false;
@@ -3203,8 +3205,13 @@ function SwitchDivision(target,Manual){
 					}
 				}
 			}
-			if ( Forward.obj == false && (ChildrenLen > 1 && ActiveDivision.index() + 1 <= ChildrenLen) ) {
+			// Set the upcoming sibling as next division when current division has followed siblings
+			if ( ActiveDivision.index() + 1 < ChildrenLen ) {
 				Forward.obj = Dimension.children().eq(ActiveDivision.index() + 1);
+			}
+			// Or reset to the main division
+			else if( ActiveDivision.attr("id") !== "Temporary" ){
+				Forward.obj = $("#Temporary");
 			}
 		}
 		else{
