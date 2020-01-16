@@ -2725,3 +2725,26 @@ body{
     }
 
 }
+@media screen and (max-width: 800px) and (min-height: 450px) and (max-height: 600px){
+    #SpaceCyclone {
+        grid-template-rows: 0.5fr 2fr 2fr .5fr 6fr 130px;
+        grid-template-columns: .25fr 2fr .4fr 1.2fr .4fr 2fr .25fr;
+    }
+    #SpaceCyclone .BreathinFragment {
+        grid-area: 2 / 4 / 3 / 5;
+    }
+    #SpaceCyclone .Download.Storm {
+        grid-area: 6 / 3 / 5 / 6;
+    }
+    #SpaceCyclone .Request.Storm {
+        grid-area: 5 / 2 / 6 / 3;
+    }
+    #SpaceCyclone .Connect.Storm {
+        grid-area: 5 / 6 / 6 / 7;
+    }
+    #Footer {
+        font-size: 0.6em;
+        text-align: center;
+        grid-area: 3 / 2 / 4 / 7;
+    }
+}
