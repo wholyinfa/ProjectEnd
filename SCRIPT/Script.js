@@ -4620,7 +4620,7 @@ DivisionExpress = {
             // Abort if current division doesn't have a DivisionExpress
             if( !DivisionExpress.CHECK() ){ return this; }
             // Check if pause is requested
-            if( typeof(pause) !== "undefined" ){
+            if( typeof(pause) !== "undefined" && typeof(UpperBeam) !== "undefined" ){
                 if( pause ){
                     UpperBeam.invalidate().pause();
                     return this;
