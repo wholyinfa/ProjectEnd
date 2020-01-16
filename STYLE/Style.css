@@ -308,7 +308,7 @@ body{
 }
 /*   Dimensionz   */
 
-.BreathinFragment{
+#Temporary .BreathinFragment{
     /*     RATIO 0.8     */
     position: relative;
     grid-area: 4 / 5 / 4 / 6;
@@ -471,6 +471,9 @@ body{
     position: fixed; bottom: 0; left: 0;
     font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
+}
+#Trilogies > div{
+    position: absolute; top: 0; left: 0;
 }
 #Trilogies .Portalian{
     padding: 20px; margin: 0;
@@ -644,10 +647,10 @@ body{
 }
 
 #Footer {
-    width: 20em;
-    position: absolute; top: 70%; left: 50%;
-    transform: translate(-50%,-50%); text-align: center;
-    font-family: Ocr; font-size: .8em;
+    text-align: center;
+    font-family: Ocr;
+    font-size: .8em;
+    grid-area: 4 / 3 / 5 / 8;
 }
 #Footer > a{
     width: 6em;
@@ -676,11 +679,18 @@ body{
 }
 
 #SpaceCyclone {
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 4fr 2fr 4fr 4fr 2fr 130px;
+    grid-template-columns: 4.1fr 4.4fr 3fr 1fr 2.5fr 1fr 3fr 4fr 4.5fr;
+    align-items: center;
 }
 #SpaceCyclone .BreathinFragment{
     z-index: 2;
+    position: relative;
+    grid-area: 3 / 5 / 4 / 6;
+    padding-top: 74%;
 }
 #SpaceCyclone .Curtain{
     visibility: hidden; opacity: 0;
@@ -880,8 +890,10 @@ body{
 
 #SpaceCyclone .Request{
     /*RATIO 0.7915309446254072*/
-    width: 15.98%; padding-bottom: 12.64866449511401%;
-    position: absolute; top: 44.44%; left: 16.25%;
+    position: relative;
+    grid-area: 2 / 2 / 6 / 3;
+    padding-top: 80%;
+    align-self: center;
 }
 #SpaceCyclone .Request .StarFlow{
     width: 200%; height: 277.77%;
@@ -965,13 +977,15 @@ body{
     opacity: 1;
 }
 #SpaceCyclone .Storm.Request > div div,#SpaceCyclone .Storm.Request > div .Asset{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 
 #SpaceCyclone .Download{
     /*RATIO 0.99*/
-    width: 15.98%; padding-bottom: 15.8202%;
-    position: absolute; top: 9.25%; left: 42.65%;
+    grid-area: 1 / 4 / 2 / 7;
+    position: relative;
+    padding-top: 100%;
 }
 #SpaceCyclone .Download .StarFlow{
     width: 286.66%; height: 169.36%;
@@ -1023,7 +1037,8 @@ body{
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 564.25'%3e%3cdefs%3e%3cradialGradient id='a' cx='.5' cy='282.12' r='199.49' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0' stop-color='%238fffff'/%3e%3cstop offset='.08' stop-color='%238af6f6'/%3e%3cstop offset='.22' stop-color='%237cdede'/%3e%3cstop offset='.4' stop-color='%2366b6b6'/%3e%3cstop offset='.6' stop-color='%23477f7f'/%3e%3cstop offset='.83' stop-color='%23203939'/%3e%3cstop offset='1'/%3e%3c/radialGradient%3e%3c/defs%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cg%3e%3cpath fill='none' stroke-miterlimit='10' stroke='url(%23a)' d='M.5 0v564.25'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat;
 }
 #SpaceCyclone .Storm.Download > div div,#SpaceCyclone .Storm.Download > div .Asset{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 #SpaceCyclone .Storm.Download > div .Resume div{
     background-size: auto 180%;
@@ -1034,8 +1049,9 @@ body{
 
 #SpaceCyclone .Connect{
     /*RATIO 0.975*/
-    width: 12.5%; padding-bottom: 12.1875%;
-    position: absolute; top: 46.01%; left: 70.93%;
+    position: relative;
+    grid-area: 2 / 8 / 6 / 9;
+    padding-top: 100%;
 }
 #SpaceCyclone .Connect .StarFlow{
     width: 277.08%; height: 290.59%;
@@ -1123,7 +1139,8 @@ body{
     opacity: 1;
 }
 #SpaceCyclone .Storm.Connect > div div,#SpaceCyclone .Storm.Connect > div .Asset{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 
 
