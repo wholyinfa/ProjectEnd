@@ -2684,3 +2684,44 @@ body{
         bottom: 87.5px;
     }
 }
+
+/*SPACECYCLONE*/
+
+@media screen and (max-height: 600px){
+    #SpaceCyclone {
+        grid-template-rows: .5fr 2fr 1.5fr 130px;
+        grid-template-columns: .25fr 2fr 2fr 2fr 2fr .25fr  ;
+        align-items: center; justify-items: center;
+    }
+    #Footer{
+        font-size: 0.7em; text-align: center;
+        grid-area: 3 / 2 / 4 / 3;
+        padding: 0; margin-top: 4%;
+        align-self: start;
+    }
+    #SpaceCyclone .BreathinFragment{
+        grid-area: 2 / 2 / 3 / 3;
+        width: 40%;
+        padding-top: 30%; margin-bottom: 4%;
+        align-self: end;
+    }
+    #SpaceCyclone .Download.Storm{
+        grid-area: 2 / 4 / 4 / 5;
+        width: 60%;
+        padding-top: 60%;
+    }
+    #SpaceCyclone .Connect.Storm{
+        grid-area: 2 / 5 / 4 / 6;
+        width: 55%;
+        padding-top: 55%;
+    }
+    #SpaceCyclone .Connect .Definer .Asset .Indicator{
+        background-size: contain;
+    }
+    #SpaceCyclone .Request.Storm{
+        grid-area: 2 / 3 / 4 / 4;
+        width: 60%;
+        padding-top: 50%;
+    }
+
+}
