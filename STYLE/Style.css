@@ -2647,3 +2647,23 @@ body{
     }
 
 }
+@media screen and (max-width: 500px){
+    #Temporary {
+        margin-top: -122px;
+    }
+    #Temporary .BreathinFragment{
+        margin-top: 122px;
+        padding-top: 40%;
+    }
+    #Temporary .Eyez{
+        top: -5%;
+    }
+    .QuickAccess .Cells {
+        top: 20%;
+    }
+    #Gandalf {
+        width: 100%;
+        text-align: center;
+        bottom: 87.5px;
+    }
+}
