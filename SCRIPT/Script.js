@@ -5328,6 +5328,8 @@ function ExitStorm(t){
         Cyclone.isActive = false;
 		// Prevent scrolling on SpaceCyclone
 		TweenMax.set($("#SpaceCyclone"), {overflow: ""});
+		// Reset storm priorities
+		Storm.siblings(".Storm").children()[0].style = "";
     });
 	// Reset and disable Definer asset hover reactions
 	Area69.reset(Storm.find(".Area69")).enabled(false);
@@ -5368,6 +5370,7 @@ function StormSequence(){
 	// Current storms
 	Asc = Storm.find(".StarFlow");
 	AddFly.StormEntrance(true);
+    // Set highest priority for the current storm
 	EnterStorm.set(Storm, {zIndex: 2});
 	// Apply storm ritual
 	Asc = Storm.find(".Definer");
