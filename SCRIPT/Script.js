@@ -638,6 +638,19 @@ function Varia(){
     });
     // Reset coordinates of the DivisionExpress' content
     DivisionExpress.set.Position(true);
+    // Resize & reposition Storm assets when in a storm
+    if( typeof(EnterStorm) !== "undefined" && !EnterStorm.isActive() && EnterStorm.progress() == 1 ){
+		// Reset assets to their original positions
+        EnterStorm.progress(0).pause();
+		Ritual.progress(0).pause();
+		CutTripwire.progress(0).pause();
+        // Run the calculations and re-make the animations
+    	StormSequence();
+        // Set immediately to their final position
+		EnterStorm.progress(1);
+		Ritual.progress(1);
+		CutTripwire.progress(1);
+    }
 }
 
 function Globe(){
@@ -1654,55 +1667,17 @@ function Globe(){
         Cyclone.isActive = Storm;
         SC_Footer.reverse();
 
-		// Setting fly attributes
-		SC_scale = 3;
-		SC_HoldMyState = {
-			ot : Storm.offset().top,
-			ol : Storm.offset().left,
-			w : Storm.innerWidth(),
-			h : Storm.innerHeight()
-		};
-		EnterStorm = new TimelineMax();
-		CutTripwire = new TimelineMax();
-		Ritual = new TimelineMax();
+        // Prevent scrolling on SpaceCyclone
+		TweenMax.set($("#SpaceCyclone"), {overflow: "hidden"});
+
 		PostRitual = new TimelineMax();
 		// Applying the curtain
 		CurClass = ( Storm.hasClass("Request") ) ? "Req" :
 			( Storm.hasClass("Download") ) ? "DL" :
 				( Storm.hasClass("Connect") ) ? "Con" : "BOZ";
 		Storm.siblings(".Curtain").addClass(CurClass);
-		Ritual.add(
-			TweenMax.to(Storm.siblings(".Curtain"), 1, {autoAlpha: .7}), 0
-		);
-		// Cut the tripwire
-		CutTripwire
-			.add(
-			TweenMax.to(Storm.find(".Flow"), 1, {autoAlpha: 0, rotation: 360, scale: 0, transformOrigin: "center"}),0
-		);
-		// Pausing current running animations
-		ToggleConnect(false);
-		ToggleDownload(false);
-		ToggleRequest(false);
-		// Applying storm entrance effects
-			// siblings storms
-		Storm.siblings(".Storm").each(function(){
-			Asc = $(this).children();
-			AddFly.StormEntrance();
-		});
-			// BreathingFragment
-		Asc = Storm.siblings(".BreathinFragment").children();
-		AddFly.StormEntrance();
-			// Current storms
-		Asc = Storm.find(".StarFlow");
-		AddFly.StormEntrance(true);
-		EnterStorm.set(Storm, {zIndex: 2});
-		// Apply storm ritual
-		Asc = Storm.find(".Definer");
-		StormRitual.Definer();
-		Asc = Storm.find(".AlphaAsset");
-		StormRitual.AlphaAsset();
-		Asc = Storm.find(".BetaAsset");
-		StormRitual.BetaAsset();
+		// Create new animations for storm entrance assets
+		StormSequence();
 
 		// Finalize the Ritual
 		Ritual.eventCallback("onComplete", function(){
@@ -5351,9 +5326,56 @@ function ExitStorm(t){
         TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 1}, 0);
         // Reactivate cyclone activation indicator
         Cyclone.isActive = false;
+		// Prevent scrolling on SpaceCyclone
+		TweenMax.set($("#SpaceCyclone"), {overflow: ""});
     });
 	// Reset and disable Definer asset hover reactions
 	Area69.reset(Storm.find(".Area69")).enabled(false);
+}
+function StormSequence(){
+	// Setting fly attributes
+	SC_scale = 3;
+	SC_HoldMyState = {
+		ot : Storm.offset().top,
+		ol : Storm.offset().left,
+		w : Storm.innerWidth(),
+		h : Storm.innerHeight()
+	};
+	EnterStorm = new TimelineMax();
+	CutTripwire = new TimelineMax();
+	Ritual = new TimelineMax();
+	Ritual.add(
+		TweenMax.to(Storm.siblings(".Curtain"), 1, {autoAlpha: .7}), 0
+	);
+	// Cut the tripwire
+	CutTripwire
+		.add(
+			TweenMax.to(Storm.find(".Flow"), 1, {autoAlpha: 0, rotation: 360, scale: 0, transformOrigin: "center"}),0
+		);
+	// Pausing current running animations
+	ToggleConnect(false);
+	ToggleDownload(false);
+	ToggleRequest(false);
+	// Applying storm entrance effects
+	// siblings storms
+	Storm.siblings(".Storm").each(function(){
+		Asc = $(this).children();
+		AddFly.StormEntrance();
+	});
+	// BreathingFragment
+	Asc = Storm.siblings(".BreathinFragment").children();
+	AddFly.StormEntrance();
+	// Current storms
+	Asc = Storm.find(".StarFlow");
+	AddFly.StormEntrance(true);
+	EnterStorm.set(Storm, {zIndex: 2});
+	// Apply storm ritual
+	Asc = Storm.find(".Definer");
+	StormRitual.Definer();
+	Asc = Storm.find(".AlphaAsset");
+	StormRitual.AlphaAsset();
+	Asc = Storm.find(".BetaAsset");
+	StormRitual.BetaAsset();
 }
 
 // AntiToxins
