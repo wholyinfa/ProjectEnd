@@ -1668,7 +1668,7 @@ function Globe(){
         SC_Footer.reverse();
 
         // Prevent scrolling on SpaceCyclone
-		TweenMax.set($("#SpaceCyclone"), {overflow: "hidden"});
+		TweenMax.set($("#SpaceCyclone"), {overflow: "inherit"});
 
 		PostRitual = new TimelineMax();
 		// Applying the curtain
