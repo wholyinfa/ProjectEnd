@@ -626,7 +626,8 @@ function Varia(){
 	});
 	// Disable assets not supported in touch devices
     NoTouchList = [
-      $("#Peek")
+      $("#Peek"),
+      $(".Area69")
     ];
     $.each(NoTouchList, function(){
         // Disable touch for most mobile devices (not tablets)
@@ -650,6 +651,10 @@ function Varia(){
 		EnterStorm.progress(1);
 		Ritual.progress(1);
 		CutTripwire.progress(1);
+		// Change indicator to close in smaller devices
+		if( Is.ThisSize(768) ){
+			Area69.set(Storm.find(".Area69"));
+		}
     }
 }
 
@@ -1699,6 +1704,10 @@ function Globe(){
 			if( Storm.find(".Area69").is(":hover") ){
 				Area69.set(Storm.find(".Area69"));
 			}
+			// Switch indicator with close in smaller devices
+			if( Is.ThisSize(768) ){
+				Area69.set(Storm.find(".Area69"));
+			}
 		});
 	});
 	StormForm = [];
@@ -1833,8 +1842,10 @@ function Globe(){
 	});
 	// Add hover reactions
     $("#SpaceCyclone > .Storm .Definer .Area69").mouseenter(function(){
+    	if( Is.NoTouch($(this)) ){ return false; }
 		Area69.set($(this));
     }).mouseleave(function(){
+    	if( Is.NoTouch($(this)) ){ return false; }
     	Area69.reset($(this));
     });
 	$("#Footer > a").mouseenter(function(){
@@ -5148,15 +5159,16 @@ FormEffects = {
 function AssetHover(t,reverse){
 	if( Cyclone.isActive == false || EnterStorm.isActive() || ( t.children(".Title").hasClass("active") && !reverse ) ){ return; }
 	AssetAlpha = (!reverse) ? .3 : 0;
+	if( t.parent().parent().hasClass("Download") ){
+		TweenMax.to($(".Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
+		return;
+	}
 	if( t.hasClass("AlphaAsset") ){
 		TweenMax.to($(".Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
 	}
 	if( t.hasClass("BetaAsset") ){
 		TweenMax.to($(".Curtain > .Beta"), .2, {autoAlpha: AssetAlpha});
 	}
-	if( t.parent().parent().hasClass("Download") ){
-        TweenMax.to($(".Curtain > .Beta, .Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
-    }
 }
 Area69 = {
 	enable: null,
@@ -5179,6 +5191,7 @@ Area69 = {
 			autoAlpha: alpha0
 		} );
 		TweenMax.to( close, .15, {
+			y: "-50%",
 			rotation: rotation,
 			autoAlpha: alpha1
 		} );

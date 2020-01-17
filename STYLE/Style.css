@@ -707,6 +707,9 @@ body{
 #SpaceCyclone .Curtain > .Alpha{
     right: 0;
 }
+#SpaceCyclone .Curtain.DL > .Alpha{
+    width: 100%;
+}
 #SpaceCyclone .Curtain > .Beta{
     left: 0;
 }
