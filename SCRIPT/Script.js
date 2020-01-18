@@ -1699,6 +1699,8 @@ function Globe(){
             PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
             .fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {y: -20}, {autoAlpha: 1, y: 0}, 0)
             .fromTo(Storm.not(".Download").find(".Divider"), .4, {scaleY: 0}, {scaleY: 1}, 0);
+            // Set the titles' position fix
+            TweenMax.set( Storm.find(".Sub"), {x: "-50%"} );
             // Disable Definer hover/enter/close asset after enter
             TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 0}, 0);
 			if (Storm.find(".AlphaAsset:hover").length != 0) {
@@ -4388,6 +4390,11 @@ StormRitual = {
             nthofpageh = .5;
             qa = $(".QuickAccess").innerHeight()/2;
         }
+        if( Is.ThisSize(600) ){
+            nthofpagew = .5;
+            nthofpageh = .1;
+            qa = 0;
+        }
         Ato_y =
             (
                 (
@@ -4407,8 +4414,15 @@ StormRitual = {
 		AssetX = "0%";
 		AssetY = "0%";
 		this.Ritual();
-		if( !Storm.hasClass("Download") ){
+		// Call divider for Storms other than Download Storm for higher than 600px width screens
+		if( !Storm.hasClass("Download") && !Is.ThisSize(600) ){
             this.Divider();
+        }
+		// Reset Divider's height in case entering 600px screen from a higher screen size
+		else{
+            TweenMax.set(Asc.find(".Divider"), {
+                height: 0
+            });
         }
 	},
 	Divider : function(){
@@ -4458,6 +4472,11 @@ StormRitual = {
             nthofpageh = 2;
             qa = $(".QuickAccess").innerHeight()/2;
         }
+        if( Is.ThisSize(600) ){
+            nthofpagew = .5;
+            if( !Asc.hasClass("Resume") ){ nthofpageh = 3 }
+            qa = 0;
+        }
         Ato_y = (
             (
                 (
@@ -4491,6 +4510,11 @@ StormRitual = {
             nthofpagew = .5;
             nthofpageh = 2;
             qa = $(".QuickAccess").innerHeight()/2;
+        }
+        if( Is.ThisSize(600) ){
+            nthofpagew = .5;
+            if( !Asc.hasClass("CV") ){ nthofpageh = 1.5 }
+            qa = 0;
         }
         Ato_y = (
             (
