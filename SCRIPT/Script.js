@@ -4412,27 +4412,32 @@ StormRitual = {
 	AlphaAsset : function(){
 	    // Add exceptions for one section storm
 	    var nthofpagew = ( Asc.hasClass("Resume") ) ? .5 : .75,
-            nthofpageh = ( Asc.hasClass("Resume") ) ? 1.85 : 2;
-		Ato_y = (
+            nthofpageh = ( Asc.hasClass("Resume") ) ? 1.85 : 2,
+            qa = 0;
+        if( Is.ThisSize(null, 600) && !Is.ThisSize(850) ) {
+            if( !Asc.hasClass("Resume") ){ nthofpagew = .8333333333333335 }
+            nthofpageh = 2;
+            qa = $(".QuickAccess").innerHeight()/2;
+        }
+        Ato_y = (
+            (
                 (
-                    (
-                        (window.innerHeight / nthofpageh) -
-                        (
-                            ( Math.abs(Storm.find(".AlphaAsset.clone").position().top) * (window.innerHeight / Storm.innerHeight()) ) + Storm.find(".AlphaAsset.clone").innerHeight() / 2
-                        )
-                    ) * 100
-                ) / Storm.find(".AlphaAsset.clone").innerHeight()
-            );
-		Ato_x = (
+                    (window.innerHeight / nthofpageh - qa ) -
+                    ((Math.abs(Storm.find(".AlphaAsset.clone").position().top) * (window.innerHeight / Storm.innerHeight())) + Storm.find(".AlphaAsset.clone").innerHeight() / 2) -
+                    Math.abs(Asc.find(".Sub").position().top-Asc.innerHeight())
+                ) * 100
+            ) / Storm.find(".AlphaAsset.clone").innerHeight()
+        );
+        Ato_x = (
+            (
                 (
+                    ( window.innerWidth * nthofpagew ) -
                     (
-                        (window.innerWidth * nthofpagew) -
-                        (
-                            ( Math.abs(Storm.find(".AlphaAsset.clone").position().left+Storm.find(".AlphaAsset.clone").innerWidth()) * (window.innerWidth / Storm.innerWidth()) ) - Storm.find(".AlphaAsset.clone").innerWidth() / 2
-                        )
-                    ) * 100
-                ) / Storm.find(".AlphaAsset.clone").innerWidth()
-            );
+                        (Math.abs(Storm.find(".AlphaAsset.clone").position().left + Storm.find(".AlphaAsset.clone").innerWidth()) * (window.innerWidth / Storm.innerWidth())) - Storm.find(".AlphaAsset.clone").innerWidth() / 2
+                    )
+                ) * 100
+            ) / Storm.find(".AlphaAsset.clone").innerWidth()
+        );
 		AssetRotation = ( Asc.hasClass("Resume") ) ? 0 : ( Asc.hasClass("CodeProject") ) ? 9 : ( Asc.hasClass("Envelope") ) ? 12 : 0;
 		AssetX = ( Asc.hasClass("Resume") ) ? "5%" : ( Asc.hasClass("Envelope") ) ? "-3%" : "0%";
 		AssetY = ( Asc.hasClass("Resume") ) ? "-8%" : ( Asc.hasClass("Envelope") ) ? "25%" : "0%";
@@ -4440,15 +4445,20 @@ StormRitual = {
 	},
 	BetaAsset : function(){
         // Add exceptions for one section storm
-	    var nthofpagew = ( Asc.hasClass("CV") ) ? .5 : .25,
-            nthofpageh = ( Asc.hasClass("CV") ) ? 1.85 : 2;
+        var nthofpagew = ( Asc.hasClass("CV") ) ? .5 : .25,
+            nthofpageh = ( Asc.hasClass("CV") ) ? 1.85 : 2,
+            qa = 0;
+        if( Is.ThisSize(null, 600) && !Is.ThisSize(850) ) {
+            nthofpagew = .5;
+            nthofpageh = 2;
+            qa = $(".QuickAccess").innerHeight()/2;
+        }
         Ato_y = (
             (
                 (
-                    (window.innerHeight / nthofpageh) -
-                    (
-                        ( Math.abs(Storm.find(".BetaAsset.clone").position().top) * (window.innerHeight / Storm.innerHeight()) ) + Storm.find(".BetaAsset.clone").innerHeight() / 2
-                    )
+                    (window.innerHeight / nthofpageh - qa) -
+                    ((Math.abs(Storm.find(".BetaAsset.clone").position().top) * (window.innerHeight / Storm.innerHeight())) + Storm.find(".BetaAsset.clone").innerHeight() / 2) -
+                    Math.abs(Asc.find(".Sub").position().top-Asc.innerHeight())
                 ) * 100
             ) / Storm.find(".BetaAsset.clone").innerHeight()
         );
@@ -4458,7 +4468,7 @@ StormRitual = {
                 (
                     (window.innerWidth * nthofpagew) +
                     (
-                        ( Math.abs(Storm.find(".BetaAsset.clone").position().left) * (window.innerWidth / Storm.innerWidth()) ) - Storm.find(".BetaAsset.clone").innerWidth() / 2
+                        (Math.abs(Storm.find(".BetaAsset.clone").position().left) * (window.innerWidth / Storm.innerWidth())) - Storm.find(".BetaAsset.clone").innerWidth() / 2
                     )
                 ) * 100
             ) / Storm.find(".BetaAsset.clone").innerWidth()
