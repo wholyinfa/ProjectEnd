@@ -2695,6 +2695,19 @@ body{
 
 /*SPACECYCLONE*/
 
+@media screen and (min-width: 850px) and (max-height: 600px) {
+    #SpaceCyclone .Curtain > * {
+        width: 33.33333333%;
+    }
+
+    #SpaceCyclone .Curtain > .Alpha {
+        right: 0;
+    }
+
+    #SpaceCyclone .Curtain > .Beta {
+        left: 33.33333333%;
+    }
+}
 @media screen and (min-width: 600px) and (max-height: 600px){
     #SpaceCyclone {
         grid-template-rows: .5fr 2fr 1.5fr 130px;
@@ -2805,5 +2818,8 @@ body{
     }
     #SpaceCyclone .Sub{
         font-size: .8em;
+    }
+    #SpaceCyclone .Curtain > *{
+        display: none;
     }
 }
