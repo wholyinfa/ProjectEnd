@@ -4380,26 +4380,30 @@ StormRitual = {
 		);
 	},
 	Definer : function(){
+        // Add exceptions for one section storm
+        var nthofpagew = .5,
+            nthofpageh = .2,
+            qa = 0;
         if( Is.ThisSize(null, 600) && !Is.ThisSize(850) ){
-            console.log(Is.ThisSize(null, 600));
-            Ato_y =
-                (
-                    (
-                        ( ActiveDivision.height() / 2 - $(".QuickAccess").innerHeight()/2 ) -
-                        ( Asc.offset().top + Asc.innerHeight()/2 )
-                    ) * 100
-                ) / Asc.innerHeight();
-            Ato_x =
-                (
-                    (
-                        ( ActiveDivision.width() * .15 ) -
-                        ( Asc.offset().left + Asc.innerWidth()/2 )
-                    ) * 100
-                ) / Asc.innerWidth();
-        }else{
-            Ato_y = ( ( ( ( ( ActiveDivision.height() * 8 ) / 100 ) - Asc.offset().top ) ) * 100 ) / Asc.innerHeight();
-            Ato_x = ( ( ( ( ActiveDivision.width() / 2 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+            nthofpagew = .1666666666666667;
+            nthofpageh = .5;
+            qa = $(".QuickAccess").innerHeight()/2;
         }
+        Ato_y =
+            (
+                (
+                    ( ActiveDivision.height() * nthofpageh - qa ) -
+                    ( Asc.offset().top + Asc.innerHeight()/2 ) +
+                    Math.abs(Asc.find(".Sub").position().top)
+                ) * 100
+            ) / Asc.innerHeight();
+        Ato_x =
+            (
+                (
+                    ( ActiveDivision.width() * nthofpagew ) -
+                    ( Asc.offset().left + Asc.innerWidth()/2 )
+                ) * 100
+            ) / Asc.innerWidth();
 		AssetRotation = 0;
 		AssetX = "0%";
 		AssetY = "0%";
@@ -4459,7 +4463,6 @@ StormRitual = {
                 ) * 100
             ) / Storm.find(".BetaAsset.clone").innerWidth()
         );
-		// Ato_x = ( ( ( ( ActiveDivision.width() * nthofpagew ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
 		AssetRotation = ( Asc.hasClass("CV") ) ? 40 : ( Asc.hasClass("DesignProject") ) ? -20 : 0;
 		AssetX = ( Asc.hasClass("CV") ) ? "15%" : "0%";
 		AssetY = ( Asc.hasClass("CV") ) ? "12%" : "0%";
