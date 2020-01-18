@@ -4391,8 +4391,26 @@ StormRitual = {
 	    // Add exceptions for one section storm
 	    var nthofpagew = ( Asc.hasClass("Resume") ) ? .5 : .75,
             nthofpageh = ( Asc.hasClass("Resume") ) ? 1.85 : 2;
-		Ato_y = ( ( ( ( ActiveDivision.height() / nthofpageh ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveDivision.width() * nthofpagew ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+		Ato_y = (
+                (
+                    (
+                        (window.innerHeight / nthofpageh) -
+                        (
+                            ( Storm.find(".AlphaAsset.clone").position().top * (window.innerHeight / Storm.innerHeight()) ) + Storm.find(".AlphaAsset.clone").innerHeight() / 2
+                        )
+                    ) * 100
+                ) / Storm.find(".AlphaAsset.clone").innerHeight()
+            );
+		Ato_x = (
+                (
+                    (
+                        (window.innerWidth * nthofpagew) -
+                        (
+                            ( (Storm.find(".AlphaAsset.clone").position().left+Storm.find(".AlphaAsset.clone").innerWidth()) * (window.innerWidth / Storm.innerWidth()) ) - Storm.find(".AlphaAsset.clone").innerWidth() / 2
+                        )
+                    ) * 100
+                ) / Storm.find(".AlphaAsset.clone").innerWidth()
+            );
 		AssetRotation = ( Asc.hasClass("Resume") ) ? 0 : ( Asc.hasClass("CodeProject") ) ? 9 : ( Asc.hasClass("Envelope") ) ? 12 : 0;
 		AssetX = ( Asc.hasClass("Resume") ) ? "5%" : ( Asc.hasClass("Envelope") ) ? "-3%" : "0%";
 		AssetY = ( Asc.hasClass("Resume") ) ? "-8%" : ( Asc.hasClass("Envelope") ) ? "25%" : "0%";
@@ -4402,8 +4420,27 @@ StormRitual = {
         // Add exceptions for one section storm
 	    var nthofpagew = ( Asc.hasClass("CV") ) ? .5 : .25,
             nthofpageh = ( Asc.hasClass("CV") ) ? 1.85 : 2;
-		Ato_y = ( ( ( ( ActiveDivision.height() / nthofpageh ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveDivision.width() * nthofpagew ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+        Ato_y = (
+            (
+                (
+                    (window.innerHeight / nthofpageh) -
+                    (
+                        ( Storm.find(".BetaAsset.clone").position().top * (window.innerHeight / Storm.innerHeight()) ) + Storm.find(".BetaAsset.clone").innerHeight() / 2
+                    )
+                ) * 100
+            ) / Storm.find(".BetaAsset.clone").innerHeight()
+        );
+        Ato_x = (
+            (
+                (
+                    (window.innerWidth * nthofpagew) +
+                    (
+                        ( Storm.find(".BetaAsset.clone").position().left * (window.innerWidth / Storm.innerWidth()) ) - Storm.find(".BetaAsset.clone").innerWidth() / 2
+                    )
+                ) * 100
+            ) / Storm.find(".BetaAsset.clone").innerWidth()
+        );
+		// Ato_x = ( ( ( ( ActiveDivision.width() * nthofpagew ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
 		AssetRotation = ( Asc.hasClass("CV") ) ? 40 : ( Asc.hasClass("DesignProject") ) ? -20 : 0;
 		AssetX = ( Asc.hasClass("CV") ) ? "15%" : "0%";
 		AssetY = ( Asc.hasClass("CV") ) ? "12%" : "0%";
