@@ -138,6 +138,7 @@
                     <div class="Tripwire"></div>
                     <div class="StarFlow"></div>
                     <div class="Flow"></div>
+                    <div class="AssetContainer">
                     <a href="" class="AlphaAsset Resume">
                         <div class="Asset"></div>
                         <div class="Sub">RESUME</div>
@@ -146,6 +147,7 @@
                         <div class="Asset"></div>
                         <div class="Sub">CV</div>
                     </a>
+                    </div>
                     <div class="Definer">
                         <div class="Asset">
                             <div class="Indicator"></div>
@@ -162,6 +164,7 @@
                         <div class="Tripwire"></div>
                         <div class="StarFlow"></div>
                         <div class="Flow"></div>
+                        <div class="AssetContainer">
                         <div class="AlphaAsset CodeProject">
                             <div class="Title">
                                 <div class="Asset"></div>
@@ -220,6 +223,7 @@
                                 <button class="Submit" type="submit">SEND</button>
                             </form>
                         </div>
+                        </div>
                         <div class="Definer">
                             <div class="Asset">
                                 <div class="Indicator"></div>
@@ -236,6 +240,7 @@
                     <div class="Tripwire"></div>
                     <div class="StarFlow"></div>
                     <div class="Flow"></div>
+                    <div class="AssetContainer">
                     <div class="AlphaAsset Envelope">
                         <div class="Title">
                             <div class="Asset"></div>
@@ -270,6 +275,7 @@
                             <div class="TinyHint">(Only WhatsApp)</div>
                             +98 912 206 4451
                         </div>
+                    </div>
                     </div>
                     <div class="Definer">
                         <div class="Asset">
