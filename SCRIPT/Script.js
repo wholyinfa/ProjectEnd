@@ -4380,8 +4380,26 @@ StormRitual = {
 		);
 	},
 	Definer : function(){
-		Ato_y = ( ( ( ( ( ActiveDivision.height() * 8 ) / 100 ) - Asc.offset().top ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveDivision.width() / 2 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+        if( Is.ThisSize(null, 600) && !Is.ThisSize(850) ){
+            console.log(Is.ThisSize(null, 600));
+            Ato_y =
+                (
+                    (
+                        ( ActiveDivision.height() / 2 - $(".QuickAccess").innerHeight()/2 ) -
+                        ( Asc.offset().top + Asc.innerHeight()/2 )
+                    ) * 100
+                ) / Asc.innerHeight();
+            Ato_x =
+                (
+                    (
+                        ( ActiveDivision.width() * .15 ) -
+                        ( Asc.offset().left + Asc.innerWidth()/2 )
+                    ) * 100
+                ) / Asc.innerWidth();
+        }else{
+            Ato_y = ( ( ( ( ( ActiveDivision.height() * 8 ) / 100 ) - Asc.offset().top ) ) * 100 ) / Asc.innerHeight();
+            Ato_x = ( ( ( ( ActiveDivision.width() / 2 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+        }
 		AssetRotation = 0;
 		AssetX = "0%";
 		AssetY = "0%";
@@ -6134,7 +6152,7 @@ Is = {
         // Check if at least one variable is set
         if(
 			( width !== null && w <= width ) ||
-			( width !== null && h <= height )
+			( height !== null && h <= height )
 		){
         	// Respond the result for than variable
             return true;
