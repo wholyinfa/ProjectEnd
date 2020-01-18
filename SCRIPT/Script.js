@@ -1694,12 +1694,11 @@ function Globe(){
         }
 		// Create new animations for storm entrance assets
 		StormSequence();
-
 		// Finalize the Ritual
 		Ritual.eventCallback("onComplete", function(){
             PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
             .fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {y: -20}, {autoAlpha: 1, y: 0}, 0)
-            .to(Storm.not(".Download").find(".Divider"), 1, {autoAlpha: 1}, 0);
+            .fromTo(Storm.not(".Download").find(".Divider"), .4, {scaleY: 0}, {scaleY: 1}, 0);
             // Disable Definer hover/enter/close asset after enter
             TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 0}, 0);
 			if (Storm.find(".AlphaAsset:hover").length != 0) {
@@ -4408,6 +4407,46 @@ StormRitual = {
 		AssetX = "0%";
 		AssetY = "0%";
 		this.Ritual();
+		if( !Storm.hasClass("Download") ){
+            this.Divider();
+        }
+	},
+	Divider : function(){
+        // Add exceptions for one section storm
+        var nthofpagew = .3333333333,
+            nthofpageh = .2,
+            qa = 0;
+        if( Is.ThisSize(null, 600) && !Is.ThisSize(850) ){
+            nthofpageh = 1.2;
+                TweenMax.set(Asc.find(".Divider"), {
+                    height: $(".QuickAccess").offset().top * nthofpageh,
+                    y: (
+                        ( $(".QuickAccess").offset().top * (1-nthofpageh) ) -
+                        ( Asc.offset().top + Asc.innerHeight() )  -
+                        (
+                            (Ato_y * Asc.innerHeight()) / 100
+                        ) -
+                        ( $(".QuickAccess").offset().top * (1-nthofpageh) ) / 2
+                    ),
+                    x: (
+                        ( window.innerWidth * nthofpagew ) -
+                        ( Asc.offset().left + Asc.innerWidth() / 2 )  -
+                        (
+                            (Ato_x * Asc.innerWidth()) / 100
+                        )
+                    ),
+                    ease: A_ease
+                });
+        }else {
+                TweenMax.set(Asc.find(".Divider"), {
+                    y: "",
+                    x: "",
+                    height: $(".QuickAccess").offset().top -
+                        ((ActiveDivision.height() * nthofpageh - qa) + Asc.innerHeight()) +
+                        Math.abs(Asc.find(".Sub").position().top),
+                    ease: A_ease
+                });
+        }
 	},
 	AlphaAsset : function(){
 	    // Add exceptions for one section storm
