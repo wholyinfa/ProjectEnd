@@ -796,7 +796,7 @@ body{
 }
 #SpaceCyclone .Definer .Sub{
     position: absolute; bottom: 110%; left: 50%;
-    font-family: Ocr; font-size: 1em;
+    font-family: Ocr;
     transform: translateX(-50%);
     white-space: nowrap;
 }
@@ -893,6 +893,7 @@ body{
 }
 #SpaceCyclone .Sub{
     visibility: hidden; opacity: 0;
+    font-size: 1em;
 }
 
 
@@ -935,7 +936,7 @@ body{
 #SpaceCyclone .Request .CodeProject .Sub,
 #SpaceCyclone .Request .DesignProject .Sub{
     position: absolute; top: 130%; left: 50%;
-    font-family: Ocr; font-size: 1.3em; color: #b3ffb3;
+    font-family: Ocr;color: #b3ffb3;
     transform: translateX(-50%);
     white-space: nowrap;
 }
@@ -1026,7 +1027,7 @@ body{
 #SpaceCyclone .Download .Resume .Sub,
 #SpaceCyclone .Download .CV .Sub{
     position: absolute; top: 100%; left: 50%;
-    font-family: Ocr; font-size: 1.3em; color: #8fffff;
+    font-family: Ocr; color: #8fffff;
     transform: translateX(-50%);
     white-space: nowrap;
 }
@@ -1092,7 +1093,7 @@ body{
 #SpaceCyclone .Connect .Envelope .Sub,
 #SpaceCyclone .Connect .Phone .Sub{
     position: absolute; top: 130%; left: 50%;
-    font-family: Ocr; font-size: 1.3em; color: #ff8f8f;
+    font-family: Ocr; color: #ff8f8f;
     transform: translateX(-50%);
     white-space: nowrap;
 }
@@ -2801,5 +2802,8 @@ body{
         width: 100%;
         text-align: center;
         bottom: 87.5px;
+    }
+    #SpaceCyclone .Sub{
+        font-size: .8em;
     }
 }
