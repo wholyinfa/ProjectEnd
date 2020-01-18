@@ -772,8 +772,9 @@ body{
     background: #ff8f8f;
 }
 #SpaceCyclone .Divider{
-    width: 1px; height: 400%;
-    position: absolute; top: 50%; left: 50%; z-index: -1;
+    width: 1px; height: 0;
+    position: absolute; top: 100%; left: 50%; z-index: -1;
+    transform: scaleY(0);
 }
 #SpaceCyclone .Tripwire{
     width: 120%; height: 120%;
@@ -890,8 +891,7 @@ body{
 #SpaceCyclone .Submit:hover:before{
     opacity: 1;
 }
-#SpaceCyclone .Sub,
-#SpaceCyclone .Divider{
+#SpaceCyclone .Sub{
     visibility: hidden; opacity: 0;
 }
 
@@ -2708,8 +2708,8 @@ body{
     }
     #SpaceCyclone .BreathinFragment{
         grid-area: 2 / 2 / 3 / 3;
-        width: 40%;
-        padding-top: 30%; margin-bottom: 4%;
+        width: 32%;
+        padding-top: 26%; margin-bottom: 4%;
         align-self: end;
     }
     #SpaceCyclone .Download.Storm{
@@ -2746,7 +2746,7 @@ body{
     }
     #SpaceCyclone .BreathinFragment{
         grid-area: 2 / 2 / 3 / 3;
-        padding-top: 40%;
+        padding-top: 46%;
     }
     #SpaceCyclone .Download.Storm{
         grid-area: 5 / 2 / 6 / 3;
@@ -2771,6 +2771,7 @@ body{
         grid-template-columns: .25fr 2fr .4fr 1.2fr .4fr 2fr .25fr;
     }
     #SpaceCyclone .BreathinFragment {
+        width: 42%; padding-top: 34%;
         grid-area: 2 / 4 / 3 / 5;
     }
     #SpaceCyclone .Download.Storm {
