@@ -1653,6 +1653,8 @@ function Globe(){
                     if( $(".Storm.Connect .Tripwire").is(":hover") ){
                         ToggleConnect();
                     }
+                    // Remove cloned assets
+                    Storm.find(".AlphaAsset.clone, .BetaAsset.clone").remove();
                 });
                 CutTripwire.reverse();
                 Ritual.reverse();
@@ -1681,6 +1683,15 @@ function Globe(){
 			( Storm.hasClass("Download") ) ? "DL" :
 				( Storm.hasClass("Connect") ) ? "Con" : "BOZ";
 		Storm.siblings(".Curtain").addClass(CurClass);
+		// Clone assets inside the AssetContainer so their original state is saved after the resize
+        if( Storm.find(".AlphaAsset.clone, .BetaAsset.clone").length === 0 ){
+            // Fetch the clones
+            var Assetclone = Storm.find(".AssetContainer > .AlphaAsset, .AssetContainer > .BetaAsset").clone().addClass("clone").attr("style","");
+            // Insert them before the AssetContainer
+            Assetclone.insertBefore(Storm.find(".AssetContainer"));
+            // Storm.find(".clone, .clone *").attr("style", "");
+            TweenMax.set(Storm.find(".clone"), {autoAlpha: 0});
+        }
 		// Create new animations for storm entrance assets
 		StormSequence();
 
@@ -5159,7 +5170,7 @@ FormEffects = {
 function AssetHover(t,reverse){
 	if( Cyclone.isActive == false || EnterStorm.isActive() || ( t.children(".Title").hasClass("active") && !reverse ) ){ return; }
 	AssetAlpha = (!reverse) ? .3 : 0;
-	if( t.parent().parent().hasClass("Download") ){
+        if( t.parent().parent().parent().hasClass("Download") ){
 		TweenMax.to($(".Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
 		return;
 	}
@@ -5342,12 +5353,25 @@ function ExitStorm(t){
 		// Prevent scrolling on SpaceCyclone
 		TweenMax.set($("#SpaceCyclone"), {overflow: ""});
 		// Reset storm priorities
-		Storm.siblings(".Storm").children()[0].style = "";
+		Storm.siblings(".Storm").children().attr("style","");
+		// Clear Assets' inline attributes
+		Storm.find(".AssetContainer, .AssetContainer > .AlphaAsset, .AssetContainer > .BetaAsset").attr("style","");
+		// Remove the clones
+		Storm.find(".AlphaAsset.clone, .BetaAsset.clone").remove();
     });
 	// Reset and disable Definer asset hover reactions
 	Area69.reset(Storm.find(".Area69")).enabled(false);
 }
 function StormSequence(){
+    // Apply width and height for assets based on their unchanged clones
+    Storm.find(".AssetContainer").children(".AlphaAsset, .BetaAsset").each(function(){
+        var clone = ( $(this).hasClass("AlphaAsset") ) ? $(this).parent().siblings(".AlphaAsset") : $(this).parent().siblings(".BetaAsset");
+        TweenMax.set(this, {
+            width: clone.innerWidth(),
+            height: clone.innerHeight()
+        });
+    });
+    // Set the final attributes for AssetContainer so other animations are calculated based on this
 	// Setting fly attributes
 	SC_scale = 3;
 	SC_HoldMyState = {
@@ -5388,10 +5412,16 @@ function StormSequence(){
 	// Apply storm ritual
 	Asc = Storm.find(".Definer");
 	StormRitual.Definer();
-	Asc = Storm.find(".AlphaAsset");
+	Asc = Storm.find(".AssetContainer .AlphaAsset");
 	StormRitual.AlphaAsset();
-	Asc = Storm.find(".BetaAsset");
+	Asc = Storm.find(".AssetContainer .BetaAsset");
 	StormRitual.BetaAsset();
+    EnterStorm.to(Storm.find(".AssetContainer"), EnterStorm.duration(), {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        top: -Storm.offset().top,
+        left: -Storm.offset().left
+    }, 0);
 }
 
 // AntiToxins
