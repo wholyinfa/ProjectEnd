@@ -4396,7 +4396,7 @@ StormRitual = {
                     (
                         (window.innerHeight / nthofpageh) -
                         (
-                            ( Storm.find(".AlphaAsset.clone").position().top * (window.innerHeight / Storm.innerHeight()) ) + Storm.find(".AlphaAsset.clone").innerHeight() / 2
+                            ( Math.abs(Storm.find(".AlphaAsset.clone").position().top) * (window.innerHeight / Storm.innerHeight()) ) + Storm.find(".AlphaAsset.clone").innerHeight() / 2
                         )
                     ) * 100
                 ) / Storm.find(".AlphaAsset.clone").innerHeight()
@@ -4406,7 +4406,7 @@ StormRitual = {
                     (
                         (window.innerWidth * nthofpagew) -
                         (
-                            ( (Storm.find(".AlphaAsset.clone").position().left+Storm.find(".AlphaAsset.clone").innerWidth()) * (window.innerWidth / Storm.innerWidth()) ) - Storm.find(".AlphaAsset.clone").innerWidth() / 2
+                            ( Math.abs(Storm.find(".AlphaAsset.clone").position().left+Storm.find(".AlphaAsset.clone").innerWidth()) * (window.innerWidth / Storm.innerWidth()) ) - Storm.find(".AlphaAsset.clone").innerWidth() / 2
                         )
                     ) * 100
                 ) / Storm.find(".AlphaAsset.clone").innerWidth()
@@ -4425,17 +4425,18 @@ StormRitual = {
                 (
                     (window.innerHeight / nthofpageh) -
                     (
-                        ( Storm.find(".BetaAsset.clone").position().top * (window.innerHeight / Storm.innerHeight()) ) + Storm.find(".BetaAsset.clone").innerHeight() / 2
+                        ( Math.abs(Storm.find(".BetaAsset.clone").position().top) * (window.innerHeight / Storm.innerHeight()) ) + Storm.find(".BetaAsset.clone").innerHeight() / 2
                     )
                 ) * 100
             ) / Storm.find(".BetaAsset.clone").innerHeight()
         );
+        console.log(Storm.find(".BetaAsset.clone").position().left);
         Ato_x = (
             (
                 (
                     (window.innerWidth * nthofpagew) +
                     (
-                        ( Storm.find(".BetaAsset.clone").position().left * (window.innerWidth / Storm.innerWidth()) ) - Storm.find(".BetaAsset.clone").innerWidth() / 2
+                        ( Math.abs(Storm.find(".BetaAsset.clone").position().left) * (window.innerWidth / Storm.innerWidth()) ) - Storm.find(".BetaAsset.clone").innerWidth() / 2
                     )
                 ) * 100
             ) / Storm.find(".BetaAsset.clone").innerWidth()
