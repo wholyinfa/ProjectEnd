@@ -5368,18 +5368,25 @@ function AssetForm(t,func){
             Form.Arrange[Class].eventCallback("onReverseComplete", null);
         });
     }
+
+    // Disable scroll to prevent calculation errors
+    Storm.find(".AssetContainer").css({overflow: "hidden"});
+    // Revert scroll position to zero
+    TweenMax.to(Storm.find(".AssetContainer"), .3, {
+        scrollTop: 0
+    });
+    // Set form's attributes
+    TweenMax.set(TheForm, {
+        scaleY: 1,
+        left: "50%",
+        x: "-50%"
+    });
 	if( Form.ActiveDom !== null && !Asset.hasClass(Form.ActiveDom.parent().attr("class")) ){
 		var ActiveClass = Form.ActiveDom.parent().attr("class");
 		Deformer(ActiveClass, Form.ActiveDom, true);
 	}
 	if( typeof(Form.Arrange[Class]) !== "undefined" ) {
 		if( Deformer(Class, t) ){ return; }
-		// Using the same animation instead of duplicating
-		Form.Arrange[Class].duration(Form.Arrange[Class].duration()).restart();
-		// Add the active indicator
-		t.addClass("active");
-		Form.ActiveDom = t;
-		return;
 	}
 	// Toggle the active indicator
 	t.toggleClass("active");
@@ -5395,8 +5402,18 @@ function AssetForm(t,func){
 	Form.Arrange[Class]
 		.fromTo(Asset, .6, {y: 0,ease: FormEase}, {y: toY,ease: FormEase}, 0)
 		.fromTo(t, .6, {scale: 1, transformOrigin: "50% 0%",ease: FormEase}, {scale: .6, transformOrigin: "50% 0%",ease: FormEase}, 0)
-		.staggerFromTo(TheForm.children(":not(.Submit)"), .6, {autoAlpha: 0, y: 10,ease: FormEase}, {autoAlpha: 1, y: 0,ease: FormEase}, .1, 0)
-		.fromTo(TheForm.find(".Submit"), .6, {autoAlpha: 0, x: SubmitToX, y: 0,ease: FormEase}, {autoAlpha: 1, x: SubmitToX, y: SubmitToY+"%",ease: FormEase}, "-=.6");
+		.staggerFromTo(TheForm.children(":not(.Submit)"), .6, {autoAlpha: 0, y: 10,ease: FormEase}, {autoAlpha: 1, y: 0,ease: FormEase}, .05 , 0)
+		.fromTo(TheForm.find(".Submit"), .6, {autoAlpha: 0,ease: FormEase}, {autoAlpha: 1,ease: FormEase}, "-=.6");
+    Form.Arrange[Class].eventCallback("onReverseComplete", function(){
+        // Disappear the form after collapsing
+        TweenMax.set(TheForm, {
+            scaleY: 0
+        });
+    });
+    Form.Arrange[Class].eventCallback("onComplete", function(){
+        // Enable scroll for overlapping forms
+        Storm.find(".AssetContainer").css({overflow: "auto"});
+    });
 }
 function Deformer(Class, t, nonstop){
 	var Switch = false;
@@ -5412,7 +5429,6 @@ function Deformer(Class, t, nonstop){
 		if (Form.Arrange[Class].progress() !== 0 && Form.Arrange[Class].progress() === Form.Arrange[Class].totalProgress()) {
 			// Reversing the active asset
 			Form.Arrange[Class].duration(Form.Arrange[Class].duration()/1.6).reverse();
-			TweenMax.set($(Form.Arrange[Class]._first.target[0]).find(".Submit"), {x: "0%"});
 			Switch = true;
 		}
 	}
@@ -5492,6 +5508,8 @@ function ExitStorm(t){
     });
 	// Reset and disable Definer asset hover reactions
 	Area69.reset(Storm.find(".Area69")).enabled(false);
+    // Disable overflowing
+    Storm.find(".AssetContainer").css({overflow: ""});
 }
 function StormSequence(){
     // Apply width and height for assets based on their unchanged clones

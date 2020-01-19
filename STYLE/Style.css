@@ -801,8 +801,8 @@ body{
     white-space: nowrap;
 }
 #SpaceCyclone form{
-    position: absolute; top: 100%; left: 50%;
-    transform: translateX(-50%);
+    position: absolute; top: 100%;
+    transform: scaleY(0);
     font-size: 1rem; margin-top: 2em;
     z-index: -1;
 }
@@ -869,6 +869,7 @@ body{
     font-size: 1.1em; font-family: Ocr;
     background: transparent; position: relative;
     overflow: hidden;
+    margin-bottom: 1em;
 }
 #SpaceCyclone .Attach:before{
     content: "";
