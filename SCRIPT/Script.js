@@ -579,22 +579,6 @@ function Varia(){
 	var   width = window.innerWidth, height = window.innerHeight;
 	bodyw = [$(window).width()];
 	    Ratio = 1920/1480;RatioB = 1920/2015;
-    $("#Skillometer .Core").each(function(){
-        Waya = $(this).find(".Waya");
-        Target = $("#Skillometer .CoreKeepa");
-        WayaOffset = Waya.offset().left;
-        SP = {
-            X : $(this).offset().left + ($(this).width() / 2),
-            Y : $(this).offset().top + ($(this).width() / 2)
-        };
-        TP = {
-            X : Target.offset().left + (Target.width() / 2),
-            Y : Target.offset().top + (Target.width() / 2)
-        };
-        Width = Math.sqrt( (SP.X-TP.X)*(SP.X-TP.X) + (SP.Y-TP.Y)*(SP.Y-TP.Y) );
-        Angle = Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI;
-        Waya.width( Width ).css("transform","rotate("+Angle+"deg)");
-    });
     $("#Analyzer .Particles > div").each(function(){
         if( Particle.isActive ){ return; }
         Target = $("#Analyzer .Core");
@@ -686,6 +670,37 @@ function Varia(){
         AssetForm(Form.ActiveDom);
         Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
     }
+
+    TweenMax.set( "#Skillometer .Device", {
+        width:
+            (
+                $(".QuickAccess")[0].offsetTop -
+                ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() )
+            ) / 0.9904580152671756,
+        height: $(".QuickAccess")[0].offsetTop -
+            ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() )
+    });
+    TweenMax.set( "#Skillometer .Cores .Core", {
+        width: $("#Skillometer .CoreSlot").width(),
+        height: $("#Skillometer .CoreSlot").height(),
+        fontSize: $("#Skillometer .CoreSlot").height() * .13
+    });
+    $("#Skillometer .Cores .Core").each(function(){
+        Waya = $(this).find(".Waya");
+        Target = $("#Skillometer .CoreKeepa");
+        WayaOffset = Waya.offset().left;
+        SP = {
+            X : $(this).offset().left + ($(this).width() / 2),
+            Y : $(this).offset().top + ($(this).width() / 2)
+        };
+        TP = {
+            X : Target.offset().left + (Target.width() / 2),
+            Y : Target.offset().top + (Target.width() / 2)
+        };
+        Width = Math.sqrt( (SP.X-TP.X)*(SP.X-TP.X) + (SP.Y-TP.Y)*(SP.Y-TP.Y) );
+        Angle = Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI;
+        Waya.width( Width ).css("transform","rotate("+Angle+"deg)");
+    });
 }
 
 function Globe(){
@@ -2109,8 +2124,8 @@ function Globe(){
 		CoreClick = CoreElement.attr("class");
 		Core = CoreElement.find(".Extender");
 		Dur = .5;
-		MiddleX = ((CoreElement.parent().find(".CoreKeepa").offset().left+CoreElement.parent().find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().left+CoreElement.innerWidth()/2));
-		MiddleY = ((CoreElement.parent().find(".CoreKeepa").offset().top+CoreElement.parent().find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().top+CoreElement.innerHeight()/2));
+		MiddleX = (($("#Skillometer").find(".CoreKeepa").offset().left+$("#Skillometer").find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().left+CoreElement.innerWidth()/2));
+		MiddleY = (($("#Skillometer").find(".CoreKeepa").offset().top+$("#Skillometer").find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().top+CoreElement.innerHeight()/2));
 		CoreMove = new TimelineMax({paused: true});
 		CoreMove
 			.to(Core, Dur, {
