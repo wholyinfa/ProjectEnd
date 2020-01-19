@@ -5379,7 +5379,8 @@ function AssetForm(t,func){
     TweenMax.set(TheForm, {
         scaleY: 1,
         left: "50%",
-        x: "-50%"
+        x: "-50%",
+        paddingBottom: $(".QuickAccess").innerHeight()
     });
 	if( Form.ActiveDom !== null && !Asset.hasClass(Form.ActiveDom.parent().attr("class")) ){
 		var ActiveClass = Form.ActiveDom.parent().attr("class");
@@ -5391,17 +5392,30 @@ function AssetForm(t,func){
 	// Toggle the active indicator
 	t.toggleClass("active");
 	Form.ActiveDom = t;
-	// Defining animation and related properties
+	// Get the current top offset of the transformed asset related to it's parent
+    var truetop =
+        (
+            (
+                Asset[0]._gsTransform.yPercent * Asset.innerHeight()
+            ) / 100
+        ) + Asset[0].offsetTop;
 	var FormEase =  Back.easeInOut.config( 1.7),
-		toY = ( ( window.innerHeight - ( (t.innerHeight() / .6) + TheForm.outerHeight() ) ) / 2 ) - Asset.offset().top ;
-	if( Math.abs(toY) > Asset.offset().top ){
-        toY = -Asset.offset().top;
+        // Calculate the placement in a way that it's placed in the middle of the page horizontally
+		toY = - truetop +
+                (
+                    window.innerHeight -
+                    ( (Asset.innerHeight() * .6) + TheForm.outerHeight() )
+                ) / 2;
+	// Check if the asset will overlap the page
+	if( toY > 0 || toY < -truetop ){
+	    // Set the highest point as the top of the page
+        toY = -truetop + ( 20 /* offset */ );
     }
-
+    // Define animations
 	Form.Arrange[Class] = new TimelineMax();
 	Form.Arrange[Class]
-		.fromTo(Asset, .6, {y: 0,ease: FormEase}, {y: toY,ease: FormEase}, 0)
-		.fromTo(t, .6, {scale: 1, transformOrigin: "50% 0%",ease: FormEase}, {scale: .6, transformOrigin: "50% 0%",ease: FormEase}, 0)
+		.fromTo(TheForm, .6, {y: 0,ease: FormEase}, {y: toY,ease: FormEase}, 0)
+		.fromTo(t, .6, {y: 0, scale: 1, transformOrigin: "50% 0%",ease: FormEase}, {y: toY, scale: .6, transformOrigin: "50% 0%",ease: FormEase}, 0)
 		.staggerFromTo(TheForm.children(":not(.Submit)"), .6, {autoAlpha: 0, y: 10,ease: FormEase}, {autoAlpha: 1, y: 0,ease: FormEase}, .05 , 0)
 		.fromTo(TheForm.find(".Submit"), .6, {autoAlpha: 0,ease: FormEase}, {autoAlpha: 1,ease: FormEase}, "-=.6");
     Form.Arrange[Class].eventCallback("onReverseComplete", function(){
