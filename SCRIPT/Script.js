@@ -645,13 +645,10 @@ function Varia(){
     }
     // Handle resize mid-animation
     if( typeof(EnterStorm) !== "undefined" && EnterStorm.isActive() && !EnterStorm.reversed() ){
-        Ritual.addCallback(
-            function(){
-				ReCap();
-                // Manually call post entrance sequences because Ritual won't trigger it's default onComplete Event listener
-                PostRitualSequence();
-            }, 1
-        );
+        // Pause the animation and set new ones
+        ReCap();
+        // Manually call post entrance sequences because Ritual won't trigger it's default onComplete Event listener
+        PostRitualSequence();
     }
     function ReCap(){
 		// Reset assets to their original positions
@@ -670,7 +667,22 @@ function Varia(){
 		}
 	}
 
+    var FormTL = false;
+    // Indicate a form is expanded
     if( Form.ActiveDom ){
+        FormTL = Form.Arrange[Form.ActiveDom.parent().attr("class")];
+    }
+    // When the form's placement sequence is completed but not running:
+    if( FormTL && !FormTL.isActive() ){
+        // Recalculate the form's attributes
+        AssetForm(Form.ActiveDom);
+        Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
+    }
+    // When it's still running and is not reversed
+    else if( FormTL && !FormTL.reversed() ){
+        // Pause it's animation and...
+        Form.Arrange[Form.ActiveDom.parent().attr("class")].pause();
+        // Recalculate the form
         AssetForm(Form.ActiveDom);
         Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
     }
