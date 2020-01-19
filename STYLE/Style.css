@@ -877,10 +877,14 @@ body{
     z-index: -1; opacity: .2;
 }
 #SpaceCyclone .Submit{
-    width: 180px; height: 80px;
-    position: absolute; bottom: 0; left: 0;
-    background: transparent; border: none;
-    font-size: 1.4em; font-family: Ocr;
+    width: 30%;
+    position: relative;
+    background: transparent; border: none; outline: none;
+    display: block; margin: 0 auto 0 auto; padding: 4% 0 4.5% 0;
+    font-size: 1.1em; font-family: Ocr;
+}
+#SpaceCyclone button:active, #SpaceCyclone button:focus{
+    outline: 0 !important;  border: 0 !important;
 }
 #SpaceCyclone .Submit:before{
     content: "";

@@ -5386,11 +5386,10 @@ function AssetForm(t,func){
 	Form.ActiveDom = t;
 	// Defining animation and related properties
 	var FormEase =  Back.easeInOut.config( 1.7),
-		toY = ( ( $("#SpaceCyclone").height() - ( (t.innerHeight() / .6) + TheForm.outerHeight() ) ) / 2 ) - Asset.offset().top ;
-
-	TweenMax.set(TheForm.find(".Submit"), {x: "0%"});
-	var SubmitToY = ( ( ( $("#SpaceCyclone").height() * .9 ) - (TheForm.find(".Submit").offset().top + TheForm.find(".Submit").innerHeight()) ) * 100 ) / TheForm.innerHeight(),
-		SubmitToX = ( ( $("#SpaceCyclone").width() * .5 ) - (TheForm.find(".Submit").offset().left + TheForm.find(".Submit").innerWidth() / 2) );
+		toY = ( ( window.innerHeight - ( (t.innerHeight() / .6) + TheForm.outerHeight() ) ) / 2 ) - Asset.offset().top ;
+	if( Math.abs(toY) > Asset.offset().top ){
+        toY = -Asset.offset().top;
+    }
 
 	Form.Arrange[Class] = new TimelineMax();
 	Form.Arrange[Class]
