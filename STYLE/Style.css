@@ -375,6 +375,11 @@ body{
     box-sizing: border-box;
     opacity: .6; z-index: 85;
     transition: opacity .25s ease-in-out;
+    grid-area: 1 / 1 / auto / -1;
+}
+.DivisionExpress .Container{
+    height: 100%;
+    position: relative;
 }
 .DivisionExpress .Trigger{
     width: 100%; height: 100%;
@@ -1192,14 +1197,18 @@ body{
 /*                      BIGMO                        */
 /*                      SKILLOMETER                        */
 #Skillometer {
-    width: 100%; height: 100%;
+    width: 100vw; height: 100vh;
     position: absolute; left: 0; top: 0;
+    display: grid;
+    grid-template-columns: 3fr 2fr 3fr;
+    grid-template-rows: 1fr 2fr 4fr 4fr 130px;
 }
 /*  RATIO 0.2549407114624506 */
 #Skillometer .InfoPanel > *{ position: absolute }
 #Skillometer .InfoPanel{
-    width: 36%; padding-bottom: 8.92%;
+    width: 580PX; padding-bottom: 142.3px;
     position: relative; margin: 0 auto;
+    grid-area: 2 / 1 / auto / -1;
 }
 #Skillometer .RawPanel{
     width: 100%; height: 100%;
@@ -1262,13 +1271,14 @@ body{
     background: url("../ASSETS/Skillometer/Laser.png") no-repeat center center;
 }
 #Skillometer .InfoPanel > div,#Skillometer .InfoPanel > div div {
-    background-size: 100% 100%;
+    background-size: contain;
 }
 /* RATIO 0.9904580152671756 */
 #Skillometer .Device > *{ position: absolute }
 #Skillometer .Device{
-    width: 27.29%; padding-bottom: 27.02%; z-index: 1;
+    width: 100px; height: 99px; z-index: 1;
     position: relative; margin: 2% auto 0 auto;
+    grid-area: 3 / 2 / auto / 3;
 }
 #Skillometer .Glued{
     width: 100%; height: 100%;
@@ -1276,9 +1286,9 @@ body{
     background: url("../ASSETS/Skillometer/Glued.png") no-repeat;
 }
 #Skillometer .GeloV{
-    width: 27.29%; padding-bottom: 27.02%;
+    width: 100%; height: 100%;
     position: relative; z-index: -1;
-    margin: -27.02% auto 0 auto;
+    grid-area: 3 / 2 / auto / 3;
 }
 #Skillometer .GeloV div{
     width: 200%; height: 200%;
@@ -1292,20 +1302,26 @@ body{
     left: 25%; top: 24.7%;
     background: url("../ASSETS/Skillometer/CoreKeepa.png") no-repeat center;
 }
+#Skillometer .Cores{
+    grid-area: 1 / 1 / -1 / -1;
+    display: grid; position: relative;
+    grid-template-columns: repeat(48, 1fr);
+    grid-template-rows: repeat(17, 1fr);
+}
 #Skillometer .Core{
-    width: 7.81%; padding-bottom: 7.81%;
+    width: 100%; height: 100%;
     position: absolute;
 }
 #Skillometer .Core .Shaker > *{ position: absolute }
 #Skillometer .Core > div,#Skillometer .Core > div > *{width: 100%; height: 100%; position: absolute }
-#Skillometer .Core.A{ left: 23%; top: 23%; }
-#Skillometer .Core.B{ left: 8%; top: 40%; }
-#Skillometer .Core.C{ left: 14%; top: 75%; }
-#Skillometer .Core.D{ left: 26%; top: 55%; }
-#Skillometer .Core.E{ left: 65%; top: 30%; }
-#Skillometer .Core.F{ left: 70%; top: 60%; }
-#Skillometer .Core.G{ left: 80%; top: 80%; }
-#Skillometer .Core.H{ left: 86%; top: 36%; }
+#Skillometer .Core.A{ grid-area: 3 / 10 / span 3/ span 3; }
+#Skillometer .Core.B{ grid-area: 6 / 3 / span 3 / span 3; }
+#Skillometer .Core.C{ grid-area: 10 / 11 / span 3 / span 3; }
+#Skillometer .Core.D{ grid-area: 14 / 6 / span 3 / span 3; }
+#Skillometer .Core.E{ grid-area: 3 / -7 / span 3 / span 3; }
+#Skillometer .Core.F{ grid-area: 7 / -14 / span 3 / span 3; }
+#Skillometer .Core.G{ grid-area: 11 / -6 / span 3 / span 3; }
+#Skillometer .Core.H{ grid-area: 13 / -12 / span 3 / span 3; }
 #Skillometer .CoreSlot{
     width: 28.9%; height: 29%;
     left: 35.7%; top: 35.2%;
@@ -2551,7 +2567,7 @@ body{
     #Temporary .BreathinFragment{
         grid-area: 2 / 2 / 3 / 3;
         padding-top: 30%;
-        align-self: end;
+        align-self: end; justify-self: normal;
     }
     #Temporary .JourNey{
         grid-area: 2 / 5 / 4 / 6;

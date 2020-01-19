@@ -391,92 +391,94 @@
                     <div class="CoreSlot"></div>
                     <div class="Glued"></div>
                 </div>
-                <div class="Core A">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>HTML</span></div>
+                <div class="Cores">
+                    <div class="Core A">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>HTML</span></div>
+                        </div>
+                        </div>
                     </div>
+                    <div class="Core B">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>CSS</span></div>
+                        </div>
+                        </div>
                     </div>
-                </div>
-                <div class="Core B">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>CSS</span></div>
+                    <div class="Core C">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>GSAP</span></div>
+                        </div>
+                        </div>
                     </div>
+                    <div class="Core D">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>JQUERY</span></div>
+                        </div>
+                        </div>
                     </div>
-                </div>
-                <div class="Core C">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>GSAP</span></div>
+                    <div class="Core E">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>MYSQL</span></div>
+                        </div>
+                        </div>
                     </div>
+                    <div class="Core F">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>ILLUSTRATOR</span></div>
+                        </div>
+                        </div>
                     </div>
-                </div>
-                <div class="Core D">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>JQUERY</span></div>
+                    <div class="Core G">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>PHOTOSHOP</span></div>
+                        </div>
+                        </div>
                     </div>
-                    </div>
-                </div>
-                <div class="Core E">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>MYSQL</span></div>
-                    </div>
-                    </div>
-                </div>
-                <div class="Core F">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>ILLUSTRATOR</span></div>
-                    </div>
-                    </div>
-                </div>
-                <div class="Core G">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>PHOTOSHOP</span></div>
-                    </div>
-                    </div>
-                </div>
-                <div class="Core H">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>PHP</span></div>
-                    </div>
+                    <div class="Core H">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>PHP</span></div>
+                        </div>
+                        </div>
                     </div>
                 </div>
                 <div class="GeloV"><div></div></div>
