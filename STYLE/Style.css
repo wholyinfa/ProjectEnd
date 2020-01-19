@@ -1189,63 +1189,6 @@ body{
 #SpaceCyclone > .active div.active .Title{
     transform: scale(.6);
 }
-
-#SpaceCyclone > .active .CodeProject{
-    top: 50%;
-    transform: translate(235%,-50%);
-}
-#SpaceCyclone > .active .CodeProject.active{
-    transform: translate(235%,-300%);
-}
-#SpaceCyclone > .active .CodeProject .Asset{
-    transform: translateX(2%) rotate(9deg);
-}
-#SpaceCyclone > .active .DesignProject{
-    top: 50%;
-    transform: translate(-250%,-65%);
-}
-#SpaceCyclone > .active .DesignProject.active{
-    transform: translate(-250%,-270%);
-}
-#SpaceCyclone > .active .DesignProject .Asset{
-    transform: translateX(12%) rotate(-18deg);
-}
-
-#SpaceCyclone > .active .Resume{
-    top: 50%;
-    transform: translate(150%,-50%);
-}
-#SpaceCyclone > .active .Resume .Asset{
-    transform: translateX(14%) rotate(-20deg);
-}
-#SpaceCyclone > .active .CV{
-    top: 50%;
-    transform: translate(-200%,-65%);
-}
-#SpaceCyclone > .active .CV .Asset:nth-child(1){
-    transform: translateX(19%) rotate(20deg);
-}
-#SpaceCyclone > .active .CV .Asset:nth-child(2){
-    transform: translateX(0%) rotate(20deg);
-}
-
-#SpaceCyclone > .active .Envelope{
-    top: 50%;
-    transform: translate(235%,-50%);
-}
-#SpaceCyclone > .active .Envelope.active{
-    transform: translate(235%,-280%);
-}
-#SpaceCyclone > .active .Envelope .Asset{
-    transform: translateX(-1%) rotate(11.5deg);
-}
-#SpaceCyclone > .active .Phone{
-    top: 50%;
-    transform: translate(-350%,-65%);
-}
-#SpaceCyclone > .active .Phone .Asset{
-    transform: translateX(0%) rotate(-14deg);
-}
 /*                      BIGMO                        */
 /*                      SKILLOMETER                        */
 #Skillometer {
