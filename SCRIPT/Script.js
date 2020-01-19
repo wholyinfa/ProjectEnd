@@ -1724,7 +1724,24 @@ function Globe(){
 	});
 	StormForm = [];
 	$("#SpaceCyclone > .Storm .Title").click(function (){
-		AssetForm($(this));
+        var storm = $(this).parent(),
+            Class = storm.attr("class");
+        // Check if another asset is requested while one is expanded
+        if( Form.ActiveDom !== null && !storm.hasClass(Form.ActiveDom.parent().attr("class")) ){
+            // Collapse the other form
+            if( Deformer(Form.ActiveDom, true) ){
+                // Open the requested one
+                AssetForm($(this));
+            }
+        }
+        else{
+            // Collapse the current asset if it's expanded
+            if( typeof(Form.Arrange[Class]) !== "undefined" ) {
+                if( Deformer($(this)) ){ return; }
+            }
+            // Expand current asset
+            AssetForm($(this));
+        }
 	});
 
 	$('#SpaceCyclone .Attach').click(function(){
@@ -5382,13 +5399,6 @@ function AssetForm(t,func){
         x: "-50%",
         paddingBottom: $(".QuickAccess").innerHeight()
     });
-	if( Form.ActiveDom !== null && !Asset.hasClass(Form.ActiveDom.parent().attr("class")) ){
-		var ActiveClass = Form.ActiveDom.parent().attr("class");
-		Deformer(ActiveClass, Form.ActiveDom, true);
-	}
-	if( typeof(Form.Arrange[Class]) !== "undefined" ) {
-		if( Deformer(Class, t) ){ return; }
-	}
 	// Toggle the active indicator
 	t.toggleClass("active");
 	Form.ActiveDom = t;
@@ -5429,8 +5439,9 @@ function AssetForm(t,func){
         Storm.find(".AssetContainer").css({overflow: "auto"});
     });
 }
-function Deformer(Class, t, nonstop){
-	var Switch = false;
+function Deformer(t, nonstop){
+	var Switch = false,
+        Class = t.parent().attr("class");
 	if (Form.Arrange[Class].isActive()) {
 		if (Form.Arrange[Class].reversed()) {
 			Form.Arrange[Class].reversed(!Form.Arrange[Class].reversed());
@@ -5457,7 +5468,7 @@ function ExitStorm(t){
 	Storm = t;
 	// Reset the forms
 	if( Form.ActiveDom !== null ){
-		AssetForm(Form.ActiveDom);
+		Deformer(Form.ActiveDom);
 		// Reset active form indicator variable
         Form.ActiveDom = null;
 	}
