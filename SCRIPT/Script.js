@@ -5443,7 +5443,7 @@ function ExitStorm(t){
 	Storm = t;
 	// Reset the forms
 	if( Form.ActiveDom !== null ){
-		AssetForm($("."+(Form.ActiveDom.parent().attr("class")).replace(" ",".")).find(".Title"));
+		AssetForm(Form.ActiveDom);
 		// Reset active form indicator variable
         Form.ActiveDom = null;
 	}
@@ -5488,7 +5488,7 @@ function ExitStorm(t){
 			SC_Footer.reversed( !SC_Footer.reversed() ).resume();
 		}
 		// Resetting Gandalf only after exit by direct click
-		if( !ActiveFly.isActive() && !ReverseFly.isActive() ){
+		if( (typeof(ActiveFly) !== "undefined" && typeof(ReverseFly) !== "undefined") && !ActiveFly.isActive() && !ReverseFly.isActive() ){
 		    Glitch.on("#Gandalf", null);
         }
 	});
