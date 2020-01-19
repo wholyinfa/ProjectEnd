@@ -641,13 +641,26 @@ function Varia(){
     DivisionExpress.set.Position(true);
     // Resize & reposition Storm assets when in a storm
     if( typeof(EnterStorm) !== "undefined" && !EnterStorm.isActive() && EnterStorm.progress() == 1 ){
+		ReCap();
+    }
+    // Handle resize mid-animation
+    if( typeof(EnterStorm) !== "undefined" && EnterStorm.isActive() && !EnterStorm.reversed() ){
+        Ritual.addCallback(
+            function(){
+				ReCap();
+                // Manually call post entrance sequences because Ritual won't trigger it's default onComplete Event listener
+                PostRitualSequence();
+            }, 1
+        );
+    }
+    function ReCap(){
 		// Reset assets to their original positions
-        EnterStorm.progress(0).pause();
+		EnterStorm.progress(0).pause();
 		Ritual.progress(0).pause();
 		CutTripwire.progress(0).pause();
-        // Run the calculations and re-make the animations
-    	StormSequence();
-        // Set immediately to their final position
+		// Run the calculations and re-make the animations
+		StormSequence();
+		// Set immediately to their final position
 		EnterStorm.progress(1);
 		Ritual.progress(1);
 		CutTripwire.progress(1);
@@ -655,7 +668,7 @@ function Varia(){
 		if( Is.ThisSize(768) ){
 			Area69.set(Storm.find(".Area69"));
 		}
-    }
+	}
 
     if( Form.ActiveDom ){
         AssetForm(Form.ActiveDom);
@@ -1701,30 +1714,7 @@ function Globe(){
 		StormSequence();
 		// Finalize the Ritual
 		Ritual.eventCallback("onComplete", function(){
-            PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
-            .fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {y: -20}, {autoAlpha: 1, y: 0}, 0)
-            .fromTo(Storm.not(".Download").find(".Divider"), .4, {scaleY: 0}, {scaleY: 1}, 0);
-            // Set the titles' position fix
-            TweenMax.set( Storm.find(".Sub"), {x: "-50%"} );
-            // Disable Definer hover/enter/close asset after enter
-            TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 0}, 0);
-			if (Storm.find(".AlphaAsset:hover").length != 0) {
-				AssetHover(Storm.find(".AlphaAsset"));
-			}
-			if (Storm.find(".BetaAsset:hover").length != 0) {
-				AssetHover(Storm.find(".BetaAsset"));
-			}
-			Glitch.on("#Gandalf", null);
-			// Enable Definer asset hover reactions
-			Area69.enabled();
-			// Perform hover reactions if Definer asset is hovered after entrance
-			if( Storm.find(".Area69").is(":hover") ){
-				Area69.set(Storm.find(".Area69"));
-			}
-			// Switch indicator with close in smaller devices
-			if( Is.ThisSize(768) ){
-				Area69.set(Storm.find(".Area69"));
-			}
+            PostRitualSequence();
 		});
 	});
 	StormForm = [];
@@ -4547,7 +4537,6 @@ StormRitual = {
                 ) * 100
             ) / Storm.find(".BetaAsset.clone").innerHeight()
         );
-        console.log(Storm.find(".BetaAsset.clone").position().left);
         Ato_x = (
             (
                 (
@@ -5613,6 +5602,32 @@ function StormSequence(){
         top: -Storm.offset().top,
         left: -Storm.offset().left
     }, 0);
+}
+function PostRitualSequence(){
+    PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
+        .fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {y: -20}, {autoAlpha: 1, y: 0}, 0)
+        .fromTo(Storm.not(".Download").find(".Divider"), .4, {scaleY: 0}, {scaleY: 1}, 0);
+    // Set the titles' position fix
+    TweenMax.set( Storm.find(".Sub"), {x: "-50%"} );
+    // Disable Definer hover/enter/close asset after enter
+    TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 0}, 0);
+    if (Storm.find(".AlphaAsset:hover").length != 0) {
+        AssetHover(Storm.find(".AlphaAsset"));
+    }
+    if (Storm.find(".BetaAsset:hover").length != 0) {
+        AssetHover(Storm.find(".BetaAsset"));
+    }
+    Glitch.on("#Gandalf", null);
+    // Enable Definer asset hover reactions
+    Area69.enabled();
+    // Perform hover reactions if Definer asset is hovered after entrance
+    if( Storm.find(".Area69").is(":hover") ){
+        Area69.set(Storm.find(".Area69"));
+    }
+    // Switch indicator with close in smaller devices
+    if( Is.ThisSize(768) ){
+        Area69.set(Storm.find(".Area69"));
+    }
 }
 
 // AntiToxins
