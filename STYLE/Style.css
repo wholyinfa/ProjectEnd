@@ -2643,6 +2643,23 @@ body{
 
 /*SPACECYCLONE*/
 
+@media screen and (max-width: 1200px){
+    #SpaceCyclone .Input {
+        max-width: 250px;
+        height: 50px;
+    }
+    #SpaceCyclone .TextArea {
+        width: 250px;
+        height: 120px;
+    }
+    #SpaceCyclone .Attach {
+        width: 250px;
+        height: 60px;
+    }
+    #SpaceCyclone form {
+        font-size: 0.75rem;
+    }
+}
 @media screen and (min-width: 850px) and (max-height: 600px) {
     #SpaceCyclone .Curtain > * {
         width: 33.33333333%;
@@ -2718,10 +2735,6 @@ body{
     }
     #SpaceCyclone .Connect.Storm{
         grid-area: 7 / 2 / 8 / 3;
-    }
-    #SpaceCyclone form{
-        height: 0;
-        overflow: hidden;
     }
     #SpaceCyclone .Divider{
         height: 0;

@@ -656,6 +656,11 @@ function Varia(){
 			Area69.set(Storm.find(".Area69"));
 		}
     }
+
+    if( Form.ActiveDom ){
+        AssetForm(Form.ActiveDom);
+        Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
+    }
 }
 
 function Globe(){
@@ -5428,10 +5433,22 @@ function AssetForm(t,func){
 		.fromTo(t, .6, {y: 0, scale: 1, transformOrigin: "50% 0%",ease: FormEase}, {y: toY, scale: .6, transformOrigin: "50% 0%",ease: FormEase}, 0)
 		.staggerFromTo(TheForm.children(":not(.Submit)"), .6, {autoAlpha: 0, y: 10,ease: FormEase}, {autoAlpha: 1, y: 0,ease: FormEase}, .05 , 0)
 		.fromTo(TheForm.find(".Submit"), .6, {autoAlpha: 0,ease: FormEase}, {autoAlpha: 1,ease: FormEase}, "-=.6");
+	if( Is.ThisSize(600) ){
+        TweenMax.to( [ Asset.siblings(), Storm.find(".Definer") ], .4, {
+            autoAlpha: 0
+        }, 0);
+    }else{
+        TweenMax.to( [ Storm.find(".AssetContainer").find(".AlphaAsset, .BetaAsset"), Storm.find(".Definer") ], .4, {
+            autoAlpha: 1
+        }, 0);
+    }
     Form.Arrange[Class].eventCallback("onReverseComplete", function(){
         // Disappear the form after collapsing
         TweenMax.set(TheForm, {
             scaleY: 0
+        });
+        TweenMax.to( [ Storm.find(".AssetContainer").find(".AlphaAsset, .BetaAsset"), Storm.find(".Definer") ], .4, {
+            autoAlpha: 1
         });
     });
     Form.Arrange[Class].eventCallback("onComplete", function(){
