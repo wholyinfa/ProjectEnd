@@ -1206,7 +1206,7 @@ body{
 /*  RATIO 0.2549407114624506 */
 #Skillometer .InfoPanel > *{ position: absolute }
 #Skillometer .InfoPanel{
-    width: 580PX; padding-bottom: 142.3px;
+    width: 560PX; height: 140px;
     position: relative; margin: 0 auto;
     grid-area: 2 / 1 / auto / -1;
 }
@@ -1303,6 +1303,7 @@ body{
     background: url("../ASSETS/Skillometer/CoreKeepa.png") no-repeat center;
 }
 #Skillometer .Cores{
+    height: 100%;
     grid-area: 1 / 1 / -1 / -1;
     display: grid; position: relative;
     grid-template-columns: repeat(48, 1fr);
@@ -1320,7 +1321,7 @@ body{
 #Skillometer .Core.D{ grid-area: 14 / 6 / span 3 / span 3; }
 #Skillometer .Core.E{ grid-area: 3 / -7 / span 3 / span 3; }
 #Skillometer .Core.F{ grid-area: 7 / -14 / span 3 / span 3; }
-#Skillometer .Core.G{ grid-area: 11 / -6 / span 3 / span 3; }
+#Skillometer .Core.G{ grid-area: 10 / -8 / span 3 / span 3; }
 #Skillometer .Core.H{ grid-area: 13 / -12 / span 3 / span 3; }
 #Skillometer .CoreSlot{
     width: 28.9%; height: 29%;
@@ -2725,6 +2726,28 @@ body{
         width: 60%;
         padding-top: 50%;
     }
+    #Skillometer{
+        grid-template-rows: 1fr 10fr 130px;
+        align-items: center;
+    }
+    #Skillometer .Device,#Skillometer .GeloV{
+        grid-area: 2 / 2 / auto / 3;
+        margin-top: 0; z-index: 0;
+    }
+    #Skillometer .GeloV{
+        z-index: -2;
+        justify-self: center;
+    }
+    #Skillometer .Cores{
+        z-index: -1;
+        grid-template-columns: repeat(24, 1fr) 30% repeat(24, 1fr);
+    }
+    #Skillometer .InfoPanel{
+        width: 480PX;
+        height: 118px;
+        z-index: 1;
+        font-size: 0.86em;
+    }
 
 }
 @media screen and (max-width: 1024px) and (min-height: 450px), (max-width: 600px) and (max-height: 600px){
@@ -2798,5 +2821,10 @@ body{
     }
     #SpaceCyclone .Curtain > *{
         display: none;
+    }
+}
+@media screen and (max-height: 350px){
+    #Skillometer{
+        overflow: auto;
     }
 }
