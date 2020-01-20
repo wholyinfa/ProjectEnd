@@ -671,14 +671,17 @@ function Varia(){
         Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
     }
 
-    TweenMax.set( "#Skillometer .Device", {
+    var DeviHeight = $(".QuickAccess")[0].offsetTop -
+        ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() );
+    if( !Is.ThisSize(600) && Is.ThisSize(null, 600) ){
+        DeviHeight = $(".QuickAccess")[0].offsetTop -
+            $("#Skillometer .DivisionExpress").outerHeight();
+		DeviHeight = ( DeviHeight > 350 ) ? 350 : ( DeviHeight < 200 ) ? 200 : DeviHeight;
+    }
+    TweenMax.set( "#Skillometer .Device, #Skillometer .GeloV", {
         width:
-            (
-                $(".QuickAccess")[0].offsetTop -
-                ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() )
-            ) / 0.9904580152671756,
-        height: $(".QuickAccess")[0].offsetTop -
-            ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() )
+            DeviHeight / 0.9904580152671756,
+        height: DeviHeight
     });
     TweenMax.set( "#Skillometer .Cores .Core", {
         width: $("#Skillometer .CoreSlot").width(),
@@ -699,8 +702,15 @@ function Varia(){
         };
         Width = Math.sqrt( (SP.X-TP.X)*(SP.X-TP.X) + (SP.Y-TP.Y)*(SP.Y-TP.Y) );
         Angle = Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI;
-        Waya.width( Width ).css("transform","rotate("+Angle+"deg)");
+        TweenMax.set(Waya, {
+        	width: Width,
+			rotation: Angle
+		});
     });
+    if( typeof(CoreMove) !== "undefined" && !CoreMove.isActive() ){
+		CoreMove.invalidate();
+		CoreMove.progress(1);
+	}
 }
 
 function Globe(){
@@ -1232,7 +1242,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#SpaceCyclone");
+	OnLoadActive = $("#Skillometer");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2072,7 +2082,7 @@ function Globe(){
         }
     });
 	$("#Skillometer .Core .Strikes").mouseenter(function(){
-		CoreElement = $(this).parent().parent().parent();
+		var CoreElement = $(this).parent().parent().parent();
 		if( CoreClick == CoreElement.attr("class") ){return;}
 		OBJ = $(this).siblings(".Title").find(">span");
 		Core = CoreElement.find(".Extender");
@@ -2097,7 +2107,8 @@ function Globe(){
 	});
 	$("#Skillometer .Core .Strikes").click(function(){
 		CoreElement = $(this).parent().parent().parent();
-		// Cancell load when same element is requested
+		CoreElement.addClass("active");
+		// Cancel load when same element is requested
 		if( CoreClick == CoreElement.attr("class") ){
 			ReverseCore(true);
 			CoreClick = false;
@@ -2124,16 +2135,23 @@ function Globe(){
 		CoreClick = CoreElement.attr("class");
 		Core = CoreElement.find(".Extender");
 		Dur = .5;
-		MiddleX = (($("#Skillometer").find(".CoreKeepa").offset().left+$("#Skillometer").find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().left+CoreElement.innerWidth()/2));
-		MiddleY = (($("#Skillometer").find(".CoreKeepa").offset().top+$("#Skillometer").find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().top+CoreElement.innerHeight()/2));
 		CoreMove = new TimelineMax({paused: true});
 		CoreMove
-			.to(Core, Dur, {
-				x: MiddleX,
-				y: MiddleY,
+			.fromTo(Core, Dur, {
+			    x: 0,
+                y: 0
+            }, {
+				x: function(){
+					return (($("#Skillometer").find(".CoreKeepa").offset().left+$("#Skillometer").find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().left+CoreElement.innerWidth()/2));
+				},
+				y: function(){
+					return (($("#Skillometer").find(".CoreKeepa").offset().top+$("#Skillometer").find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().top+CoreElement.innerHeight()/2));
+				},
 				ease:  Back.easeIn.config(2)
 			}, 0)
-			.to(Core.find(".Waya"), Dur, {
+			.fromTo(Core.find(".Waya"), Dur,{
+			    scaleX: 1
+            }, {
 				scaleX: 0,
 				ease:  Back.easeIn.config(2)
 			}, 0);
@@ -5296,6 +5314,7 @@ function ReverseCore(All){
 		CoreGlow.kill();
 		CoreMove.reverse();
 		AffectedCores = {Core: [], Waya: []};
+		$("#Skillometer .Cores .Core.active").removeClass("active");
 	}
 }
 function RemoveCore(Dur){
@@ -5310,6 +5329,7 @@ function RemoveCore(Dur){
 	SkiloBrrr.pause();
 	TweenMax.to(CoreSlider._first.target[0], CoreSliderDur/2, {x: "-50%", ease:  SlowMo.ease.config( 0.2, 0.2, false)});
 	TweenMax.to(SkiloBrrr._first.target[0], .2, {x: 0});
+	$("#Skillometer .Cores .Core.active").removeClass("active");
 }
 function ResetCore(){
 	Emginashun.delay(0).reverse().eventCallback("onReverseComplete",DelCore,[Emginashun._first.target[0]]);
