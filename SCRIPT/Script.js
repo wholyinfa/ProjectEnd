@@ -677,7 +677,7 @@ function Varia(){
         DeviHeight = $(".QuickAccess")[0].offsetTop -
             $("#Skillometer .DivisionExpress").outerHeight();
     }
-    if( !Is.ThisSize(600) &&  Is.ThisSize(1000) ){
+    if( Is.ThisSize(1000) ){
         var DeviHeight =
             (
                 $(".QuickAccess")[0].offsetTop -
@@ -2246,7 +2246,9 @@ function Globe(){
 			// Or InfoPanel is clicked in higher size screens
 			(
 				$(this).hasClass("InfoPanel") &&
-				( Is.ThisSize(600) && !Is.ThisSize(null, 600) )
+				(
+                    ( !Is.ThisSize(1000) && !Is.ThisSize(null, 600) )
+                )
 			)
 		){
 			return false;
