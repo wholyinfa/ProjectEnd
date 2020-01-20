@@ -2119,23 +2119,21 @@ function Globe(){
 		OBJ = $(this).siblings(".Title").find(">span");
 		Core = CoreElement.find(".Extender");
 		Dur = ((OBJ.width()*100)/OBJ.parent().innerWidth())/125;
-		if( typeof(TitleSlider) !== "undefined" && TitleSlider.isActive() ){
+		if( typeof(Flicker) !== "undefined" && Flicker.isActive() ){
 			ReverseCore();
 		}
-		TitleSlider = new TimelineMax({yoyo: true,repeat: -1, paused: true});
-		Flicker = new TimelineMax({yoyo: true,repeat: -1, paused: true});
-		Brrr = new TimelineMax({yoyo: true,repeat: -1, paused: true});
-		TitleSlider
-			.to(OBJ, Dur,  {x: "-100%", ease:  SlowMo.ease.config( 0.2, 0.2, false)}, 0);
+		Flicker = new TimelineMax({yoyo: true,repeat: -1});
+		Brrr = new TimelineMax({yoyo: true,repeat: -1});
 		Flicker
 			.fromTo(Core.children(), .4, {autoAlpha: 1, ease:  SlowMo.ease.config( 0.2, 0.2, false)}, {autoAlpha: .3, ease:  SlowMo.ease.config( 0.2, 0.2, false)});
 		Brrr
 			.fromTo(Core.children(), .06, {x: 0}, {x: 2})
 			.to(Core.children(), .06, {x: -2});
-		TweenMax.to(OBJ, Dur/2, {x: "0%", ease:  SlowMo.ease.config( 0.2, 0.2, false), onComplete: ApplySlider, onCompleteParams: [OBJ]});
+		CoreTitleSlider.pause(OBJ);
 	})
 		.mouseleave(function(){
 		if( CoreClick !== $(this).parent().attr("class") ){ReverseCore();}
+		CoreTitleSlider.play();
 	});
 	$("#Skillometer .Core .Strikes").click(function(){
 		CoreElement = $(this).parent().parent().parent();
@@ -3442,6 +3440,7 @@ function DivisionSequence(reset,undone){
 		FlyAssociates =  Ascs;
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
+			CoreTitleSlider.play();
 		}else{
 			// DO when about to leave
 			if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
@@ -3452,6 +3451,7 @@ function DivisionSequence(reset,undone){
                 LoadedCore = false;
 				AffectedCores = {Core: [], Waya: []};
 			}
+			CoreTitleSlider.pause();
 		}
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "Skillometer" ){
 		// DO after left the current dimension
@@ -5350,13 +5350,9 @@ function CoreArrived(){
 function ApplyCoreSlide(){
 	CoreSlider.play();
 }
-function ApplySlider(){
-	TitleSlider.play(); Flicker.play(); Brrr.play();
-}
 function ReverseCore(All){
-	TitleSlider.kill(); Flicker.kill(); Brrr.kill();
+	Flicker.kill(); Brrr.kill();
 	ReverseDur = 1;
-	TweenMax.to(OBJ, ReverseDur, {x: "-50%"});
 	TweenMax.to(Core.children(), ReverseDur, {autoAlpha: 1,x: 0});
 	if( typeof(CoreMove) !== "undefined" && All ){
 		CoreGlow.kill();
@@ -5388,6 +5384,31 @@ function ResetCore(){
     // Reset Gandalf's content
     Glitch.on("#Gandalf", null);
 }
+CoreTitleSlider = {
+	play: function(){
+		$("#Skillometer .Cores .Core .Title").each(function(){
+			var span = $(this).find("span"),
+				// Set Slider motion duration relative to each slider's width
+				dur = ((span.width()*100)/$(this).innerWidth())/150;
+			// Animate the Title to starting position
+			TweenMax.to(span, dur/2, {x: "0%", ease:  SlowMo.ease.config( 0.2, 0.2, false), onComplete: function(){
+				// Then start the slider
+				TweenMax.to(span, dur, {x: "-100%", ease:  SlowMo.ease.config( 0.2, 0.2, false), repeat: -1, yoyo:true});
+			}});
+		});
+	},
+	pause: function(t){
+		var tokill = (t) ?
+			// If requested, exclude the recieved target
+			$("#Skillometer .Cores .Core .Title span").not(t) :
+			// If not, get the targets which animations will be stopped
+			"#Skillometer .Cores .Core .Title span" ;
+		// Stop the animations
+		TweenMax.killTweensOf(tokill);
+		// Revert to original position
+		TweenMax.to(tokill, .1, {x: "-50%", ease:  SlowMo.ease.config( 0.2, 0.2, false)});
+	}
+};
 
 // SpaceCyclone
 FormEffects = {
