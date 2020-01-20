@@ -1505,6 +1505,8 @@ body{
     grid-area: 1 / 1 / -1 / -1;
     grid-template-rows: 25px repeat(12, 1fr) 50px;
     grid-template-columns: 12fr repeat(22, 1fr) 12fr;
+    align-self: normal;
+    justify-self: normal;
 }
 #AntiToxins .DevParticle, #AntiToxins .ArtParticle{
     height: 0; width: 115%; padding-bottom: 115%;
@@ -2742,6 +2744,16 @@ body{
         font-size: 0.86em;
     }
 
+    #AntiToxins {
+        grid-template-columns: 6fr 5fr 6fr;
+        padding-bottom: 110px;
+    }
+    #AntiToxins .Particles{
+        grid-template-columns: 11fr repeat(26, 1fr) 11.3fr;
+        grid-template-rows: 25px repeat(12, 1fr) 130px;
+    }
+    #AntiToxins .ArtParticle.C{ grid-area: -6 / -7 / span 3 / span 3; }
+    #AntiToxins .ArtParticle.E { grid-area: -5 / 2 / span 3 / span 3;}
 }
 @media screen and (max-width: 1000px){
     #Skillometer{
@@ -2920,5 +2932,12 @@ body{
 @media screen and (max-height: 400px){
     #Skillometer{
         overflow-y: auto;
+    }
+    #AntiToxins {
+        overflow-y: auto;
+        padding-bottom: 0px;
+    }
+    #AntiToxins .Particles{
+        min-height: 400px;
     }
 }
