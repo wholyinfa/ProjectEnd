@@ -375,7 +375,8 @@ body{
     box-sizing: border-box;
     opacity: .6; z-index: 85;
     transition: opacity .25s ease-in-out;
-    grid-area: 1 / 1 / auto / -1;
+    grid-area: 1 / 1 / -1 / -1;
+    align-self: baseline;
 }
 .DivisionExpress .Container{
     height: 100%;
@@ -1448,17 +1449,24 @@ body{
 
 
 #AntiToxins{
-    width: 100%; height: 100%;
-    position: absolute; left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    display: grid;
+    grid-template-columns: 6fr 2fr 6fr;
+    grid-template-rows: 10fr 160px;
+    justify-items: center; align-items: center;
 }
 #AntiToxins > .Entry{
     width: 5%; height: 5%;
     position: absolute; left: 47.5%; top: 47.5%;
     z-index: -11;
 }
+#AntiToxins .DevStar, #AntiToxins .ArtStar{
+    width: 100%; padding-top: 100%;
+    position: relative;
+}
 #AntiToxins .DevStar{
-    width: 40.52%; padding-bottom: 43.12%;
-    position: absolute; top: 13.79%; right: -15.31%;
+    grid-area: 1 / 3 / -1 / 3;
+    left: 40%;
 }
 #AntiToxins .DevStar > .Line{
     height: 2px;
@@ -1476,9 +1484,10 @@ body{
     background: url("../ASSETS/AntiToxins/DevStar.png") no-repeat;
 }
 #AntiToxins .DevGlow{
-    width: 150.38%; height: 151.67%;
-    position: absolute; top: -28.2%; left: -25.65%;
+    width: 188%; height: 187%;
+    position: absolute; top: 49.5%; left: 48%;
     background: url("../ASSETS/AntiToxins/DevGlow.png") no-repeat center;
+    transform: translate(-50%, -50%);
 }
 #AntiToxins .DevSign{
     width: 42.41%; height: 40.48%;
@@ -1486,12 +1495,20 @@ body{
     background: url("../ASSETS/AntiToxins/DevSign.png") no-repeat;
 }
 #AntiToxins .DevSignBeam{
-    width: 46.98%; height: 27.70%;
-    position: absolute; top: 32.87%; left: 8%;
+    width: 39%; height: 25%;
+    position: absolute; top: 34%; left: 12%;
     background: url("../ASSETS/AntiToxins/DevSignBeam.png") no-repeat;
 }
-#AntiToxins .DevParticle{
-    position: absolute;
+#AntiToxins .Particles{
+    width: 100vw; height: 100vh;
+    display: grid;
+    grid-area: 1 / 1 / -1 / -1;
+    grid-template-rows: 25px repeat(12, 1fr) 50px;
+    grid-template-columns: 12fr repeat(22, 1fr) 12fr;
+}
+#AntiToxins .DevParticle, #AntiToxins .ArtParticle{
+    height: 0; width: 115%; padding-bottom: 115%;
+    position: relative;
 }
 #AntiToxins .DevParticle > .Container:not(.NoTouchin):hover{
     cursor: pointer;
@@ -1504,35 +1521,21 @@ body{
     background: url("../ASSETS/AntiToxins/DevParticle.png") no-repeat;
     transform-origin: center;
 }
-#AntiToxins .DevParticle.A{
-    width: 10%; padding-bottom: 10%;
-    top: 32%; right: 26%;
-}
-#AntiToxins .DevParticle.B{
-    width: 8%; padding-bottom: 8%;
-    top: 10%; right: 24%;
-}
 #AntiToxins .DevParticle.C{
-    width: 10%; padding-bottom: 10%;
-    top: 60%; right: 33%;
+    grid-area: -7 / 12 / span 3 / span 3;
 }
 #AntiToxins .DevParticle.D{
-    width: 8%; padding-bottom: 8%;
-    top: 40%; right: 41%;
-}
-#AntiToxins .DevParticle.E{
-    width: 8%; padding-bottom: 8%;
-    top: 80%; right: 27%;
+    width: 95%; padding-bottom: 95%;
+    grid-area: 2 / 4 / span 3 / span 3;
 }
 #AntiToxins .DevParticle.F{
-    width: 10%; padding-bottom: 10%;
-    top: 16%; right: 34%;
+    grid-area: 3 / -6 / span 3 / span 3;
 }
 #AntiToxins .DevStar > div > div, #AntiToxins .DevStar .Star div, #AntiToxins .DevParticle .Diamond{
-    background-size: 100%;
+    background-size: contain;
 }
 #AntiToxins .DevStar .Star .DevGlow{
-    background-size: 128%;
+    background-size: contain;
 }
 
 #AntiToxins .ArtStar .Star,#AntiToxins .DevStar .Star,
@@ -1541,8 +1544,8 @@ body{
     position: absolute; top: 0; left: 0;
 }
 #AntiToxins .ArtStar{
-    width: 40.52%; padding-bottom: 43.12%;
-    position: absolute; top: 13.79%; left: -15.31%;
+    grid-area: 1 / 1 / -1 / 2;
+    left: -40%;
 }
 #AntiToxins .ArtStar > .Line{
     height: 2px;
@@ -1560,9 +1563,10 @@ body{
     background: url("../ASSETS/AntiToxins/ArtStar.png") no-repeat;
 }
 #AntiToxins .ArtGlow{
-    width: 150.38%; height: 151.67%;
-    position: absolute; top: -28.2%; left: -25.65%;
+    width: 190%; height: 185%;
+    position: absolute; top: 48.7%; left: 49.7%;
     background: url("../ASSETS/AntiToxins/ArtGlow.png") no-repeat center;
+    transform: translate(-50%, -50%);
 }
 #AntiToxins .ArtSign{
     width: 42.41%; height: 40.48%;
@@ -1570,12 +1574,9 @@ body{
     background: url("../ASSETS/AntiToxins/ArtSign.png") no-repeat;
 }
 #AntiToxins .ArtSignBeam{
-    width: 46.98%; height: 27.70%;
-    position: absolute; top: 32.87%; right: 12%;
+    width: 41%; height: 27.70%;
+    position: absolute; top: 34%; right: 12%;
     background: url("../ASSETS/AntiToxins/ArtSignBeam.png") no-repeat;
-}
-#AntiToxins .ArtParticle{
-    position: absolute;
 }
 #AntiToxins .ArtParticle .Container, #AntiToxins .ArtParticle .Diamond{
     width: 100%; height: 100%;
@@ -1588,35 +1589,29 @@ body{
 #AntiToxins .ArtParticle > .Container:not(.NoTouchin):hover{
     cursor: pointer;
 }
-#AntiToxins .ArtParticle.A{
-    width: 8%; padding-bottom: 8%;
-    top: 35%; left: 27%;
-}
 #AntiToxins .ArtParticle.B{
-    width: 10%; padding-bottom: 10%;
-    top: 9%; left: 20%;
+    grid-area: 4 / 10 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.C{
-    width: 10%; padding-bottom: 10%;
-    top: 80%; left: 23%;
+    width: 95%; padding-bottom: 95%;
+    grid-area: -5 / -7 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.D{
-    width: 10%; padding-bottom: 10%;
-    top: 46%; left: 37%;
+    width: 95%; padding-bottom: 95%;
+    grid-area: 7 / 5 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.E{
-    width: 8%; padding-bottom: 8%;
-    top: 64%; left: 30%;
+    grid-area: -4 / 2 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.F{
-    width: 10%; padding-bottom: 10%;
-    top: 16%; left: 32%;
+    width: 95%; padding-bottom: 95%;
+    grid-area: 5 / -10 / span 3 / span 3;
 }
 #AntiToxins .ArtStar > div > div, #AntiToxins .ArtStar .Star div, #AntiToxins .ArtParticle .Diamond{
-    background-size: 100%;
+    background-size: contain;
 }
 #AntiToxins .ArtStar .Star .ArtGlow{
-    background-size: 128%;
+    background-size: contain;
 }
 #AntiToxins div .NameTag{
     height: auto; width: auto;
