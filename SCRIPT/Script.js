@@ -670,31 +670,40 @@ function Varia(){
         AssetForm(Form.ActiveDom);
         Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
     }
-
+    // Set Skillometer's height based on the distance between InfoPanel and QuickAccess
     var DeviHeight = $(".QuickAccess")[0].offsetTop -
         ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() );
+
+    // Check if width is higher than 600px and height is lower than 600px
     if( !Is.ThisSize(600) && Is.ThisSize(null, 600) ){
+        // Set it to full screen excluding 2 general assets
         DeviHeight = $(".QuickAccess")[0].offsetTop -
             $("#Skillometer .DivisionExpress").outerHeight();
     }
+    // Check if width is lower than 1000px
     if( Is.ThisSize(1000) ){
+        // Set it to 1.5 of the default size
         var DeviHeight =
             (
                 $(".QuickAccess")[0].offsetTop -
                 ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() )
             )/ 1.5;
     }
+    // Set minimum and maximum values
     DeviHeight = ( DeviHeight > 350 ) ? 350 : ( DeviHeight < 200 ) ? 200 : DeviHeight;
+    // Set the final attributes for both Skillometer and it's Glow asset
     TweenMax.set( "#Skillometer .Device, #Skillometer .GeloV", {
-        width:
-            DeviHeight / 0.9904580152671756,
+        // Set width according to the graphical ratio
+        width: DeviHeight / 0.9904580152671756,
         height: DeviHeight
     });
+    // Set Core attributes according to the Device's attributes
     TweenMax.set( "#Skillometer .Cores .Core", {
         width: $("#Skillometer .CoreSlot").width(),
         height: $("#Skillometer .CoreSlot").height(),
         fontSize: $("#Skillometer .CoreSlot").height() * .13
     });
+    // Connect the wires to the Skillometer's Core
     $("#Skillometer .Cores .Core").each(function(){
         Waya = $(this).find(".Waya");
         Target = $("#Skillometer .CoreKeepa");
@@ -714,9 +723,10 @@ function Varia(){
 			rotation: Angle
 		});
     });
+    // When a Core is loaded but not currently loading:
     if( typeof(CoreMove) !== "undefined" && !CoreMove.isActive() ){
+		// Remove recorded attributes to enable position recalculation
 		CoreMove.invalidate();
-		CoreMove.progress(1);
 	}
 }
 
