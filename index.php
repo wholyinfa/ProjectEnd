@@ -355,12 +355,14 @@
         <div id="BigMo">
             <div id="Skillometer">
                 <div class="DivisionExpress">
-                    <h3 class="Content">
-                        Acquiring a strong foundation based on experience before expanding any skill set demands constant work and dedication, finally after enough effort, the need to upgrade arises, over the years i always outperformed the resist to transform my knowledge to a higher level and centralized both the maintenance and the upgrade of my expertise as main goals in every practise; Somehow exploring every asset i hold and mapping it's limits has become my internal source of power.
-                    </h3>
-                    <div class="Trigger">
-                        <div class="Hint">READ!</div>
-                        <div class="SwitchBeam"></div>
+                    <div class="Container">
+                        <h3 class="Content">
+                            Acquiring a strong foundation based on experience before expanding any skill set demands constant work and dedication, finally after enough effort, the need to upgrade arises, over the years i always outperformed the resist to transform my knowledge to a higher level and centralized both the maintenance and the upgrade of my expertise as main goals in every practise; Somehow exploring every asset i hold and mapping it's limits has become my internal source of power.
+                        </h3>
+                        <div class="Trigger">
+                            <div class="Hint">READ!</div>
+                            <div class="SwitchBeam"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="InfoPanel">
@@ -486,10 +488,12 @@
             <div id="AntiToxins">
                 <div class="Entry"></div>
                 <div class="DivisionExpress">
-                    <h3 class="Content">I've come to discover that most specialists want their creation to be different, whether when partnering with individuals on projects, negotiating with groups or mentoring them, in either case this striking innovative mindset is exceptional about people; However, innovation's purity is delivered when formalized with creativity, many miss that part and follow certain trends and guidelines, in my point of view to be different requires one to outpace these standards and yet explore not too far to fully alienate the work.</h3>
-                    <div class="Trigger">
-                        <div class="Hint">READ!</div>
-                        <div class="SwitchBeam"></div>
+                    <div class="Container">
+                        <h3 class="Content">I've come to discover that most specialists want their creation to be different, whether when partnering with individuals on projects, negotiating with groups or mentoring them, in either case this striking innovative mindset is exceptional about people; However, innovation's purity is delivered when formalized with creativity, many miss that part and follow certain trends and guidelines, in my point of view to be different requires one to outpace these standards and yet explore not too far to fully alienate the work.</h3>
+                        <div class="Trigger">
+                            <div class="Hint">READ!</div>
+                            <div class="SwitchBeam"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="DevStar">
@@ -668,10 +672,12 @@
         <div id="Artery">
             <div id="Analyzer">
                 <div class="DivisionExpress">
-                    <div class="Content">Feelings won't last long, it's their nature, but the impact of the person who radiates them may last forever. It's important to be able to manage our emotions when they're pumping beneath our chest to be let out. When we do let them out, it's important to analyze the reactions we get to build a stronger fortress of attitude & respect, be it from others or the most important person in your life, yourself...</div>
-                    <div class="Trigger">
-                        <div class="Hint">READ!</div>
-                        <div class="SwitchBeam"></div>
+                    <div class="Container">
+                        <div class="Content">Feelings won't last long, it's their nature, but the impact of the person who radiates them may last forever. It's important to be able to manage our emotions when they're pumping beneath our chest to be let out. When we do let them out, it's important to analyze the reactions we get to build a stronger fortress of attitude & respect, be it from others or the most important person in your life, yourself...</div>
+                        <div class="Trigger">
+                            <div class="Hint">READ!</div>
+                            <div class="SwitchBeam"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="TheStorm">
