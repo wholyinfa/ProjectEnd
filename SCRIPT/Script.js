@@ -676,8 +676,15 @@ function Varia(){
     if( !Is.ThisSize(600) && Is.ThisSize(null, 600) ){
         DeviHeight = $(".QuickAccess")[0].offsetTop -
             $("#Skillometer .DivisionExpress").outerHeight();
-		DeviHeight = ( DeviHeight > 350 ) ? 350 : ( DeviHeight < 200 ) ? 200 : DeviHeight;
     }
+    if( !Is.ThisSize(600) &&  Is.ThisSize(1000) ){
+        var DeviHeight =
+            (
+                $(".QuickAccess")[0].offsetTop -
+                ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() )
+            )/ 1.5;
+    }
+    DeviHeight = ( DeviHeight > 350 ) ? 350 : ( DeviHeight < 200 ) ? 200 : DeviHeight;
     TweenMax.set( "#Skillometer .Device, #Skillometer .GeloV", {
         width:
             DeviHeight / 0.9904580152671756,
