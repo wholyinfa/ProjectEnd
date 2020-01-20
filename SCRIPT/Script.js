@@ -728,6 +728,21 @@ function Varia(){
 		// Remove recorded attributes to enable position recalculation
 		CoreMove.invalidate();
 	}
+    // When a core is in the process of loading:
+    if( typeof(CoreMove) !== "undefined" && CoreMove.isActive() ){
+        // Remove recorded attributes to enable position recalculation
+		CoreMove.invalidate();
+		// If unloading
+		if(  CoreMove.reversed() ){
+            // Revert to default position
+			CoreMove.restart().pause();
+		}
+		// If loading
+		else{
+            // Revert to final position
+			CoreMove.restart().progress(1);
+		}
+	}
 }
 
 function Globe(){
@@ -2205,7 +2220,9 @@ function Globe(){
 			randomize: true,
 			clamp: false
 		});
-		Emginashun.to([ActiveCore.find(".ForReactor"),$("#Skillometer .GeloV>div")], .15, {
+		Emginashun.fromTo([ActiveCore.find(".ForReactor"),$("#Skillometer .GeloV>div")], .15, {
+			autoAlpha: 0
+		}, {
 			autoAlpha: 1,
 			ease:   ToughEase
 		}).to([ActiveCore.find(".ForReactor"),$("#Skillometer .GeloV>div")], .15, {
