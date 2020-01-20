@@ -1315,7 +1315,7 @@ body{
 }
 #Skillometer .Core .Shaker > *{ position: absolute }
 #Skillometer .Core > div,#Skillometer .Core > div > *{width: 100%; height: 100%; position: absolute }
-#Skillometer .Core.A{ grid-area: 3 / 10 / span 3/ span 3; }
+#Skillometer .Core.A{ grid-area: 3 / 8 / span 3/ span 3; }
 #Skillometer .Core.B{ grid-area: 6 / 3 / span 3 / span 3; }
 #Skillometer .Core.C{ grid-area: 10 / 11 / span 3 / span 3; }
 #Skillometer .Core.D{ grid-area: 14 / 6 / span 3 / span 3; }
@@ -2658,8 +2658,6 @@ body{
     }
 }
 
-/*SPACECYCLONE*/
-
 @media screen and (max-width: 1200px){
     #SpaceCyclone .Input {
         max-width: 250px;
@@ -2822,9 +2820,67 @@ body{
     #SpaceCyclone .Curtain > *{
         display: none;
     }
+
+    #Skillometer .InfoPanel {
+        width: 250PX;
+        height: 160px; z-index: 2;
+    }
+    #Skillometer .Screen{
+        width: 81%; height: 67%;
+        top: 28%; left: 9.7%;
+        background: url("../ASSETS/Skillometer/Screen_Mobile.png") no-repeat;
+    }
+    #Skillometer .Measure{
+        left: 50%;
+        top: 17%;
+        transform: translateX(-50%);
+    }
+    #Skillometer .Measure div:not(:last-child) {
+        padding-right: 2%;
+    }
+    #Skillometer .Juice {
+        width: 56.5%;
+        height: 17%;
+        left: 15.5%;
+        top: 75%;
+    }
+    #Skillometer .Juice #Thunder{
+        width: 100%; right: 0;
+    }
+    #Skillometer .Juice #Info{
+        display: none;
+    }
+    #Skillometer .RawPanel {
+        height: 100%;
+        background: url("../ASSETS/Skillometer/RP_Mobile.png") no-repeat;
+    }
+    #Skillometer .InfoPanel .Danger {
+        width: 18.19%;
+        height: 30.84%;
+        left: 67.51%;
+        top: 62.75%;
+        background-image: url("../ASSETS/Skillometer/Danger.png");
+    }
+    #Skillometer .InfoPanel .Power {
+        left: 50%;
+        top: 32%;
+        transform: translateX(-50%);
+    }
+    #Skillometer .InfoPanel .Measure {
+        width: 100%;
+        font-family: Ocr;
+        font-size: .59em; color: #00ff00; text-align: center;
+        left: 50%;
+        top: 5%;
+        transform: translateX(-50%);
+    }
+    #Skillometer .InfoPanel .Measure div{
+        float: none;
+        display: inline-block;
+    }
 }
-@media screen and (max-height: 350px){
+@media screen and (max-height: 400px){
     #Skillometer{
-        overflow: auto;
+        overflow-y: auto;
     }
 }
