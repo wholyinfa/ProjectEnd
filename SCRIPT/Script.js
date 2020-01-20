@@ -2076,7 +2076,7 @@ function Globe(){
 	// Variable indicating whether the device is loaded
     LoadedCore = false;
 
-    $("#Skillometer .Glued").click(function(){
+    $("#Skillometer .Glued, #Skillometer .InfoPanel").click(function(){
         if( !DeviceEmpty.isActive() ){
             DeviceEmpty.restart();
         }
@@ -2231,7 +2231,19 @@ function Globe(){
 		TweenMax.set(ActiveCore.find(".ForReactor"), {autoAlpha: 0});
 		Emginashun.delay(GlowOnEnter.duration()).play();
 	});
-	$(".CoreSlot").click(function(){
+	$(".CoreSlot, .InfoPanel").click(function(){
+		// Deny request when:
+		if(
+			// No Core is loaded yet
+			!LoadedCore ||
+			// Or InfoPanel is clicked in higher size screens
+			(
+				$(this).hasClass("InfoPanel") &&
+				( Is.ThisSize(600) && !Is.ThisSize(null, 600) )
+			)
+		){
+			return false;
+		}
 		if( Emginashun.reversed() ){ return; }
 		if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
 			Laser.pause();
