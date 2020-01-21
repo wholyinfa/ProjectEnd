@@ -610,8 +610,9 @@ function Varia(){
 	});
 	// Disable assets not supported in touch devices
     NoTouchList = [
-      $("#Peek"),
-      $(".Area69")
+      	$("#Peek"),
+      	$(".Area69"),
+		$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle"),
     ];
     $.each(NoTouchList, function(){
         // Disable touch for most mobile devices (not tablets)
@@ -1274,7 +1275,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Skillometer");
+	OnLoadActive = $("#AntiToxins");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2337,6 +2338,7 @@ function Globe(){
 		}
 	}
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").mouseenter(function(){
+		if( Is.NoTouch($(this)) ){ return; }
 		// Abort reaction if SingleParticle is open or when entering particle
 		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
 		// Get and fade the stars and all other particles but the current one
@@ -2345,6 +2347,7 @@ function Globe(){
 		NameTag.play($(this));
 	})
 	.mouseleave(function(){
+		if( Is.NoTouch($(this)) ){ return; }
 		// Abort reaction if SingleParticle is open or when entering particle
 		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
 		// Resetting blurred assets on mouseleave
