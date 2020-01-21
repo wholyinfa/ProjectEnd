@@ -5784,6 +5784,7 @@ function ParticleActivation(T, e){
 	var FadeAssets = T.parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(T);
 	TweenMax.to(FadeAssets, .5, {opacity: 1});
     TweenMax.to(".QuickAccess", .5, {y: "100%"});
+    TweenMax.set($("#AntiToxins"), {overflow: "hidden"});
 	// Cancel other Particle's Gandalf reactions
     FadeAssets.data({GandalfActive: false});
 	// Cancelling entrance
@@ -5854,6 +5855,8 @@ function TriggerDiamond(asset){
 	CurrentParticle = asset;
 	// Expanding the SingleParticle and it's children
 	ExpandParticle.add(
+		TweenMax.fromTo($("#AntiToxins .SingleContainer"), .01, {zIndex: -1}, {zIndex: 2}), 0
+	).add(
 		TweenMax.fromTo($("#AntiToxins #ParticleAura"), .01, {zIndex: 1, autoAlpha: 0}, {zIndex: 1, autoAlpha: 1}), 0
 	).add(
 		TweenMax.fromTo($("#AntiToxins .SingleParticle"), .3, {zIndex: 1, autoAlpha: 0, scale: 0, transformOrigin: "50% 10%"}, {zIndex: 2, autoAlpha: 1, scale: 1, transformOrigin: "50% 10%"}), 0
@@ -5875,14 +5878,26 @@ function TriggerDiamond(asset){
 	}).click(function(){
 		Glitch.on("#Gandalf", "Closing...");
 		if( Particle.isActive ){
-			ResetParticle(asset);
+            TweenMax.set($("#AntiToxins"), {overflow: ""});
+            var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400;
+            dur = ( dur > .2 ) ? .2 : dur;
+            TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
+            TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
+                    ResetParticle(asset);
+                }});
 			return;
 		}
 	});
     $("#AntiToxins #ParticleAura").unbind("click").click(function(e){
         Glitch.on("#Gandalf", "Closing...");
         if( Particle.isActive ){
-            ResetParticle(asset);
+            TweenMax.set($("#AntiToxins"), {overflow: ""});
+            var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400;
+            dur = ( dur > .2 ) ? .2 : dur;
+            TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
+            TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
+                    ResetParticle(asset);
+                }});
         }
     });
     // Remove unnecessary cloned assets
@@ -5896,6 +5911,7 @@ function TriggerDiamond(asset){
 	ExpandParticle.eventCallback("onComplete", function(){
 		// Replacing the original particle with the clone
 		TweenMax.set($("#AntiToxins .SingleParticle > .Clone > div"), {autoAlpha: 1});
+        TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "auto"});
 	});
 	ExpandParticle.eventCallback("onReverseComplete", function(){
 		TweenMax.set(CurrentParticle, {zIndex: ""});

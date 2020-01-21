@@ -1649,16 +1649,20 @@ body{
 
 
 #AntiToxins .SingleParticle{
-    width: 1050px; height: 716px;
+    width: 1024px; height: 716px;
     position: absolute; top: 50px; left: 50%;
     transform: translateX(-50%); z-index: 100;
     font-family: Ocr; color: #fff;
     padding: 0 3em 3em 3em; box-sizing: border-box;
     opacity: 0; visibility: hidden;
-    z-index: -1;
     display: grid;
     grid-template-rows: 2fr 1fr 1fr 3fr 4fr 1fr;
     grid-template-columns: 4.5fr 5.5fr;
+}
+#AntiToxins .SingleContainer{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    z-index: -1;
 }
 #AntiToxins #ParticleAura{
     width: 100%; height: 100%;
@@ -1693,6 +1697,7 @@ body{
     position: absolute; top: 0; left: 0;
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1050 716.23'%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cg%3e%3cpath fill='%23320018' d='M0 716.23V176.48L466.33 0h117.34L1050 176.48v539.75H0z'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat; z-index: -1;
     background-size: 100%;
+    opacity: .6;
 }
 #AntiToxins .SingleParticle > .Navigate{
     height: 0; width: 27%; padding-bottom: 10.5em;
@@ -1823,10 +1828,8 @@ body{
 #AntiToxins .Preview .Cover:hover:after{
     opacity: .9;
 }
-#AntiToxins .Detail > div{
-    display: inline-block; height: 160px;
-    float: left; font-size: 1.25em; margin-top: 1em;
-    box-sizing: border-box;
+#AntiToxins .BuiltWith, #AntiToxins .Description{
+    margin-top: 1em; box-sizing: border-box;
 }
 #AntiToxins .BuiltWith{
     padding-right: 1em;
@@ -2773,7 +2776,7 @@ body{
     #AntiToxins .ArtParticle.C{ grid-area: -6 / -7 / span 3 / span 3; }
     #AntiToxins .ArtParticle.E { grid-area: -5 / 2 / span 3 / span 3;}
 }
-@media screen and (max-width: 1000px){
+@media screen and (max-width: 1024px){
     #Skillometer{
         overflow-y: auto;
     }
