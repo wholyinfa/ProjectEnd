@@ -1649,14 +1649,14 @@ body{
 
 
 #AntiToxins .SingleParticle{
-    width: 1024px; height: 716px;
+    width: 1024px; min-height: 716px;
     position: absolute; top: 50px; left: 50%;
     transform: translateX(-50%); z-index: 100;
     font-family: Ocr; color: #fff;
     padding: 0 3em 3em 3em; box-sizing: border-box;
     opacity: 0; visibility: hidden;
     display: grid;
-    grid-template-rows: 2fr 1fr 1fr 3fr 4fr 1fr;
+    grid-template-rows: inherit;
     grid-template-columns: 4.5fr 5.5fr;
 }
 #AntiToxins .SingleContainer{
@@ -1853,8 +1853,8 @@ body{
     transform: scaleX(-1);
 }
 #AntiToxins .BuiltWith .Shiners .Wire{
-    width: 99%; height: 50%;
-    position: absolute; bottom: 0; left: .5%;
+    width: 100%; height: 50%;
+    position: absolute; bottom: 0; left: 0;
     box-sizing: border-box;
     border-left: 1px solid #f50057;
     border-bottom: 1px solid #f50057;
@@ -1927,9 +1927,10 @@ body{
     transform: translateY(-50%);
 }
 #AntiToxins .SingleParticle .State{
-    position: absolute; bottom: 1.5em; left: 50%;
-    transform: translateX(-50%); font-size: .9em;
-    grid-area: -1 / 1 / span 1 / -1;
+    position: relative;
+    font-size: .7em; display: inline;
+    margin: 0 auto;
+    grid-area: 7 / 1 / span 1 / -1;
 }
 #AntiToxins .SingleParticle .State .RealState{
     display: none;
@@ -2811,6 +2812,41 @@ body{
     #Skillometer .Core.F{ grid-area: 8 / -15 / span 3 / span 3; z-index: 1 }
     #Skillometer .Core.G { grid-area: 9 / -6 / span 3 / span 3 }
     #Skillometer .Core.H{ grid-area: 12 / -10 / span 3 / span 3; }
+
+    #AntiToxins .SingleParticle{
+        width: 100%; height: auto;
+        left: 0; transform: translate(0);
+        grid-template-rows: inherit;
+    }
+    #AntiToxins .SingleParticle:after{
+        background: #320018;
+    }
+    #AntiToxins .SingleParticle > .Title{
+        font-size: 1.2em;
+    }
+    #AntiToxins .Preview .Cover{
+        font-size: 1.5em;
+    }
+    #AntiToxins .SingleParticle .Pages{
+        font-size: .9em;
+    }
+    #AntiToxins .SingleParticle > .Navigate{
+        min-width: 250px;
+    }
+    #AntiToxins .SingleParticle .Description{
+        overflow: inherit;
+        grid-area: 5 / 1 / span 1 / -1;
+        margin-bottom: 5%;
+        margin-top: 5%;
+    }
+    #AntiToxins .SingleParticle .BuiltWith{
+        margin-bottom: 5%;
+        grid-area: 6 / 1 / span 1 / -1;
+        min-height: 150px;
+    }
+    #AntiToxins .SingleParticle .BuiltWith .ToolBox > div{
+        width: 6%;
+    }
 }
 @media screen and (max-width: 1024px) and (min-height: 450px), (max-width: 600px) and (max-height: 600px){
     #SpaceCyclone {
@@ -3030,6 +3066,20 @@ body{
     }
     #Skillometer .Core.A { grid-area: 9 / 4 / span 3/ span 3 }
     #Skillometer .Core.G { grid-area: 9 / -8 / span 3 / span 3 }
+    #AntiToxins .SingleParticle .BuiltWith .ToolBox > div {
+        width: 10%;
+    }
+}
+@media screen and (max-width: 768px){
+    #AntiToxins .SingleParticle{
+        padding: 0 1em 1em 1em;
+    }
+    #AntiToxins .BuiltWith{
+        padding-right: 0;
+    }
+    #AntiToxins .SingleParticle .BuiltWith .ToolBox > div{
+        width: 8%;
+    }
 }
 @media screen and (max-height: 400px){
     #Skillometer{

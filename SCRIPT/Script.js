@@ -4388,7 +4388,6 @@ AddFly = {
 				+ 25
 				+ (( (AT_HoldMyState.h * DefaultScale(AT_HoldMyState.w)) - AT_HoldMyState.h ) / 2)
 			) - AT_HoldMyState.ot );
-		console.log($("#AntiToxins .SingleParticle").innerHeight()* .125);
 		Ato_x = ( ( ActiveDivision.width()/2 - AT_HoldMyState.ol ) - AT_HoldMyState.w / 2 );
 		Ato_scale = ( type1 ) ? DefaultScale(AT_HoldMyState.w) : AT_scale;
 		Ato_autoAlpha = ( type1 ) ? 1 : .2;
@@ -5784,7 +5783,7 @@ function ParticleActivation(T, e){
 	var FadeAssets = T.parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(T);
 	TweenMax.to(FadeAssets, .5, {opacity: 1});
     TweenMax.to(".QuickAccess", .5, {y: "100%"});
-    TweenMax.set($("#AntiToxins"), {overflow: "hidden"});
+    TweenMax.set("#AntiToxins", {overflow: "hidden"});
 	// Cancel other Particle's Gandalf reactions
     FadeAssets.data({GandalfActive: false});
 	// Cancelling entrance
@@ -5827,6 +5826,37 @@ function ParticleActivation(T, e){
 		w : T.innerWidth(),
 		h : T.innerHeight()
 	};
+	// Creating the particle's clone
+	CurrentParticle = T;
+	var clone = T.clone();
+	// Emptying the clone's style attributes
+	clone.attr("style","");
+	clone.children(".Container").attr("style","");
+	clone.children(".Container").children().attr("style","");
+	// Adding the clone and its new attributes
+	$("#AntiToxins .SingleParticle > .Clone").html("");
+	$("#AntiToxins .SingleParticle > .Clone").append(clone);
+	$("#AntiToxins .SingleParticle > .Clone > div").addClass("CLONED").css({
+		width : (AT_HoldMyState.w * DefaultScale(AT_HoldMyState.w)),
+		paddingBottom: (AT_HoldMyState.h * DefaultScale(AT_HoldMyState.w))
+	}).click(function(){
+		Glitch.on("#Gandalf", "Closing...");
+		if( Particle.isActive ){
+			TweenMax.set($("#AntiToxins"), {overflow: ""});
+			var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400;
+			dur = ( dur > .2 ) ? .2 : dur;
+			TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
+			TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
+					ResetParticle(T);
+				}});
+			return;
+		}
+	});
+	// Calling the function that prepares clone's children using the related particle's database
+	PrepClone();
+	if( $("#AntiToxins .SingleParticle").innerHeight() < window.innerHeight ){
+		TweenMax.set("#AntiToxins .SingleParticle", {top: "50%",y: "-50%"});
+	}
 	// Applying SingleParticle entrance effects
 	// Siblings animations
 	T.siblings(".DevParticle, .ArtParticle").each(function(){
@@ -5859,35 +5889,10 @@ function TriggerDiamond(asset){
 	).add(
 		TweenMax.fromTo($("#AntiToxins #ParticleAura"), .01, {zIndex: 1, autoAlpha: 0}, {zIndex: 1, autoAlpha: 1}), 0
 	).add(
-		TweenMax.fromTo($("#AntiToxins .SingleParticle"), .3, {zIndex: 1, autoAlpha: 0, scale: 0, transformOrigin: "50% 10%"}, {zIndex: 2, autoAlpha: 1, scale: 1, transformOrigin: "50% 10%"}), 0
+		TweenMax.fromTo($("#AntiToxins .SingleParticle"), .3,{zIndex: 1, autoAlpha: 0, scale: 0, transformOrigin: "50% 10%"}, {zIndex: 2, autoAlpha: 1, scale: 1, transformOrigin: "50% 10%"}), 0
 	).add(
 		TweenMax.staggerFromTo($("#AntiToxins .SingleParticle > *"), .3, { autoAlpha: 0 }, {autoAlpha: 1}, .1), 0
 	);
-	// Creating the particle's clone
-	var clone = CurrentParticle.clone();
-	// Emptying the clone's style attributes
-	clone.attr("style","");
-	clone.children(".Container").attr("style","");
-	clone.children(".Container").children().attr("style","");
-	// Adding the clone and its new attributes
-	$("#AntiToxins .SingleParticle > .Clone").html("");
-	$("#AntiToxins .SingleParticle > .Clone").append(clone);
-	$("#AntiToxins .SingleParticle > .Clone > div").addClass("CLONED").css({
-		width : asset.children(".Container").innerWidth(),
-		paddingBottom: asset.children(".Container").innerWidth()
-	}).click(function(){
-		Glitch.on("#Gandalf", "Closing...");
-		if( Particle.isActive ){
-            TweenMax.set($("#AntiToxins"), {overflow: ""});
-            var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400;
-            dur = ( dur > .2 ) ? .2 : dur;
-            TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
-            TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
-                    ResetParticle(asset);
-                }});
-			return;
-		}
-	});
     $("#AntiToxins #ParticleAura").unbind("click").click(function(e){
         Glitch.on("#Gandalf", "Closing...");
         if( Particle.isActive ){
@@ -5906,8 +5911,6 @@ function TriggerDiamond(asset){
 	TweenMax.set(CurrentParticle, {zIndex: 3});
     ExpandParticle.to(CurrentParticle, .3, {autoAlpha: 0,delay : ExpandParticle.duration()/4}, 0);
     TweenMax.to(".QuickAccess", .5, {y: "100%"}, 0);
-	// Calling the function that prepares clone's children using the related particle's database
-	PrepClone();
 	ExpandParticle.eventCallback("onComplete", function(){
 		// Replacing the original particle with the clone
 		TweenMax.set($("#AntiToxins .SingleParticle > .Clone > div"), {autoAlpha: 1});
@@ -6175,7 +6178,10 @@ function ResetParticle(asset, e){
 				NameTag.play($(this));
 			}
 		});
-		$("#AntiToxins .SingleParticle, #AntiToxins .SingleParticle *").attr("style","");
+		// Reset scale to prevent miscalculations on next request
+		TweenMax.set($("#AntiToxins .SingleParticle"), {
+			scale: 1
+		});
 	});
 	if( e !== true ){
         Glitch.on("#Gandalf", "Closing...");
