@@ -4384,9 +4384,11 @@ AddFly = {
 		Afrom_autoAlpha = 1;
 		Ato_y = (
 			(
-				$("#AntiToxins .SingleParticle").offset().top + ( $("#AntiToxins .SingleParticle").innerHeight() * .125 )
-				- AT_HoldMyState.ot
-			) - AT_HoldMyState.h / 2 );
+				$("#AntiToxins .SingleParticle").offset().top
+				+ 25
+				+ (( (AT_HoldMyState.h * DefaultScale(AT_HoldMyState.w)) - AT_HoldMyState.h ) / 2)
+			) - AT_HoldMyState.ot );
+		console.log($("#AntiToxins .SingleParticle").innerHeight()* .125);
 		Ato_x = ( ( ActiveDivision.width()/2 - AT_HoldMyState.ol ) - AT_HoldMyState.w / 2 );
 		Ato_scale = ( type1 ) ? DefaultScale(AT_HoldMyState.w) : AT_scale;
 		Ato_autoAlpha = ( type1 ) ? 1 : .2;
@@ -4420,7 +4422,12 @@ AddFly = {
 	},
 	ParticleNavigate : function(type1, type2){
 		AnimDur = .75;
-		Ato_y = (( ActiveDivision.height() * .14 - NAV_HoldMyState.ot ) - NAV_HoldMyState.h / 2 );
+		Ato_y = (
+			(
+				$("#AntiToxins .SingleParticle").offset().top
+				+ 25
+				+ (( (NAV_HoldMyState.h * DefaultScale(NAV_HoldMyState.w)) - NAV_HoldMyState.h ) / 2)
+			) - NAV_HoldMyState.ot );
 		Ato_x = (( ActiveDivision.width() / 2 - NAV_HoldMyState.ol ) - NAV_HoldMyState.w / 2 );
 		Ato_autoAlpha = ( type1 ) ? 1 : .2;
 		AscOrigin = ( ( NAV_HoldMyState.ol + NAV_HoldMyState.w / 2 ) - Asc.parent().offset().left ) + "px ";
@@ -5878,6 +5885,8 @@ function TriggerDiamond(asset){
             ResetParticle(asset);
         }
     });
+    // Remove unnecessary cloned assets
+	$("#AntiToxins .SingleParticle > .Clone > div").find(".NameTag").remove();
 	// Prepping the original particle and the clone for replacement
 	TweenMax.set(CurrentParticle, {zIndex: 3});
     ExpandParticle.to(CurrentParticle, .3, {autoAlpha: 0,delay : ExpandParticle.duration()/4}, 0);
@@ -5940,7 +5949,7 @@ function TriggerDiamond(asset){
 			// Disables cursor pointer
 			Asc.addClass("NoTouchin");
 		});
-		GoToParticle.siblings(".DevStar, .ArtStar").each(function(){
+		GoToParticle.parent().siblings(".DevStar, .ArtStar").each(function(){
 			Asc = $(this).find(".Star");
 			AddFly.ParticleNavigate();
 		});
@@ -6024,8 +6033,8 @@ function PrepClone(){
 						}}, 0);
 				});
 			});
-			singleparticle.find(".Detail > .Description").html(this.detail);
-			ToolsType = singleparticle.find(".Detail > .BuiltWith > .Navigate > *");
+			singleparticle.find(".Description").html(this.detail);
+			ToolsType = singleparticle.find(".BuiltWith > .Navigate > *");
 
 			var tools = this.tools,
 				canireset = true;
