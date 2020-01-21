@@ -1656,6 +1656,9 @@ body{
     padding: 0 3em 3em 3em; box-sizing: border-box;
     opacity: 0; visibility: hidden;
     z-index: -1;
+    display: grid;
+    grid-template-rows: 2fr 1fr 1fr 3fr 4fr 1fr;
+    grid-template-columns: 4.5fr 5.5fr;
 }
 #AntiToxins #ParticleAura{
     width: 100%; height: 100%;
@@ -1663,12 +1666,18 @@ body{
     opacity: 0; visibility: hidden;
     z-index: -1;
 }
+#AntiToxins .SingleParticle > .Clone{
+    grid-area: 1 / 1 / span 1 / -1;
+    position: relative; top: 25px;
+    align-self: baseline;
+    justify-self: center;
+}
 #AntiToxins .SingleParticle > .Clone, #AntiToxins .SingleParticle > .Clone *{
     z-index: 2;
 }
 #AntiToxins .SingleParticle > .Clone > div{
-    position: absolute; left: 50%; top: 12.5%;
-    transform: translate(-50%, -50%);
+    position: relative; left: 50%;
+    transform: translateX(-50%);
 }
 #AntiToxins .SingleParticle > .Clone > div > div{
     transition: .1s opacity ease-in-out;
@@ -1683,12 +1692,14 @@ body{
     width: 100%; height: 100%;
     position: absolute; top: 0; left: 0;
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1050 716.23'%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cg%3e%3cpath fill='%23320018' d='M0 716.23V176.48L466.33 0h117.34L1050 176.48v539.75H0z'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat; z-index: -1;
+    background-size: 100%;
 }
 #AntiToxins .SingleParticle > .Navigate{
-    width: 27%; padding-bottom: 10.5em;
+    height: 0; width: 27%; padding-bottom: 10.5em;
     font-size: .8em;
     position: relative;
     margin: 0 auto;
+    grid-area: 1 / 1 / span 1 / -1;
 }
 #AntiToxins .SingleParticle > .Navigate > div{
     padding-top: 18%;
@@ -1732,9 +1743,11 @@ body{
 #AntiToxins .SingleParticle > .Title{
     font-size: 1.6em; text-align: center;
     padding: 1.1em 0;
+    grid-area: 2 / 1 / span 1 / -1;
 }
 #AntiToxins .SingleParticle .Pages{
     text-align: center; font-size: 1.1em; line-height: .8em;
+    grid-area: 3 / 1 / span 1 / -1;
 }
 #AntiToxins .SingleParticle .Pages > div{
     display: inline-block; border-top: 1px solid #808080;
@@ -1763,6 +1776,7 @@ body{
 #AntiToxins .Preview{
     width: 100%; height: 200px;
     position: relative; z-index: 10;
+    grid-area: 4 / 1 / span 1 / -1;
 }
 #AntiToxins .Preview .img{
     width: 100%; height: 100%;
@@ -1814,8 +1828,9 @@ body{
     float: left; font-size: 1.25em; margin-top: 1em;
     box-sizing: border-box;
 }
-#AntiToxins .Detail .BuiltWith{
-    width: 45%; padding-right: 1em;
+#AntiToxins .BuiltWith{
+    padding-right: 1em;
+    grid-area: 5 / 1 / span 1 / span 1;
     position: relative;
 }
 #AntiToxins .BuiltWith .Shiners{
@@ -1911,6 +1926,7 @@ body{
 #AntiToxins .SingleParticle .State{
     position: absolute; bottom: 1.5em; left: 50%;
     transform: translateX(-50%); font-size: .9em;
+    grid-area: -1 / 1 / span 1 / -1;
 }
 #AntiToxins .SingleParticle .State .RealState{
     display: none;
@@ -1938,8 +1954,10 @@ body{
 #AntiToxins .SingleParticle .State .Exc div:last-child{
     float: right; margin-right: -2em;
 }
-#AntiToxins .Detail .Description{
-    width: 55%; text-align: justify; overflow: auto;
+#AntiToxins .Description{
+    text-align: justify; overflow: auto;
+    position: relative;
+    grid-area: 5 / 2 / span 1 / span 1;
 }
 #Analyzer{
     width: 100%; height: 100%;
