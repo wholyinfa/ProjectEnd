@@ -2395,8 +2395,8 @@ function Globe(){
 				TrackLines.obj[Class].push(Line);
 			});
 		}
-		$( Particles ).each(function(i){
-			var Particle = $(this).children(".Container").children();
+		$( Particles ).find(".Diamond").each(function(i){
+			var Particle = $(this);
 			var Origin = "right" ,
 				SP = {
 				X : Particle.offset().left + ( $(this).width() / 2 ),
@@ -2444,6 +2444,7 @@ function Globe(){
                     if( i+1 === Particles.length ){
                         tween.eventCallback("onReverseComplete", function(){
                             TrackLines.isActive[Class] = false;
+                            TweenMax.set($("#AntiToxins .Line"), {clearProps: "all"})
                         });
                     }
 					TweenMax.fromTo(Particle, .2,{
