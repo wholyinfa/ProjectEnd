@@ -2331,7 +2331,7 @@ function Globe(){
 		reverse: function(duration){
 			var dur = ( typeof(duration) === "number" ) ? duration : null ;
 			// Reverse TagName deployment if already not reversed
-			if( !DeployNameTag.reversed() ){
+			if( typeof(DeployNameTag) !== "undefined" && !DeployNameTag.reversed() ){
 				if( dur !== null ){ DeployNameTag.duration(dur); }
 				DeployNameTag.reverse();
 			}
@@ -2342,7 +2342,7 @@ function Globe(){
 		// Abort reaction if SingleParticle is open or when entering particle
 		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
 		// Get and fade the stars and all other particles but the current one
-		var FadeAssets = ( $(this).hasClass("DevParticle") ) ? $(this).siblings(".DevParticle, .ArtStar, .ArtParticle") : $(this).siblings(".DevStar, .DevParticle, .ArtParticle");
+		var FadeAssets = ( $(this).hasClass("DevParticle") ) ? $(this).parent().parent().find(".DevParticle, .ArtStar, .ArtParticle").not(this) : $(this).parent().parent().find(".DevStar, .DevParticle, .ArtParticle").not(this);
 		TweenMax.to(FadeAssets, .5, {opacity: .2});
 		NameTag.play($(this));
 	})
@@ -2351,7 +2351,7 @@ function Globe(){
 		// Abort reaction if SingleParticle is open or when entering particle
 		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
 		// Resetting blurred assets on mouseleave
-		var FadeAssets = $(this).siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
+		var FadeAssets = $(this).parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(this);
 		TweenMax.to(FadeAssets, .5, {opacity: 1});
 		// Remove NameTag
 		NameTag.reverse();
@@ -4381,7 +4381,11 @@ AddFly = {
 		Afrom_x = 0;
 		Afrom_scale = 1;
 		Afrom_autoAlpha = 1;
-		Ato_y = ( ( ActiveDivision.height()*.14 - AT_HoldMyState.ot ) - AT_HoldMyState.h / 2 );
+		Ato_y = (
+			(
+				$("#AntiToxins .SingleParticle").offset().top + ( $("#AntiToxins .SingleParticle").innerHeight() * .125 )
+				- AT_HoldMyState.ot
+			) - AT_HoldMyState.h / 2 );
 		Ato_x = ( ( ActiveDivision.width()/2 - AT_HoldMyState.ol ) - AT_HoldMyState.w / 2 );
 		Ato_scale = ( type1 ) ? DefaultScale(AT_HoldMyState.w) : AT_scale;
 		Ato_autoAlpha = ( type1 ) ? 1 : .2;
@@ -5754,7 +5758,7 @@ function DefaultScale(asset){
 	if( asset instanceof Object && asset instanceof jQuery ){
 		asset = asset.innerWidth();
 	}
-	return 1 + ( 1 - ( asset / ( ActiveDivision.width() * .1 ) ) );
+	return 130 / asset;
 }
 function ParticleActivation(T, e){
 	// Cancelling click process on 2 conditions :
@@ -5769,7 +5773,7 @@ function ParticleActivation(T, e){
 		return;
 	}
 	// Unbluring the blur effect given to sibling elements on mouseenter method
-	var FadeAssets = T.siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
+	var FadeAssets = T.parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(T);
 	TweenMax.to(FadeAssets, .5, {opacity: 1});
     TweenMax.to(".QuickAccess", .5, {y: "100%"});
 	// Cancel other Particle's Gandalf reactions
@@ -5821,7 +5825,7 @@ function ParticleActivation(T, e){
 		AddFly.ParticleEntrance();
 		Asc.addClass("NoTouchin");
 	});
-	T.siblings(".DevStar, .ArtStar").each(function(){
+	T.parent().siblings(".DevStar, .ArtStar").each(function(){
 		Asc = $(this).find(".Star");
 		AddFly.ParticleEntrance();
 	});
@@ -6141,10 +6145,11 @@ function ResetParticle(asset, e){
         TrackLines.disabled = false;
 		// Manually reappear NameTag if an asset is hovered after exit
 		asset.parent().children(".ArtParticle, .DevParticle").each(function(){
-			if( $(this).is(":hover") ){
+			if( $(this).is(":hover") && !Is.NoTouch($(this)) ){
 				NameTag.play($(this));
 			}
 		});
+		$("#AntiToxins .SingleParticle, #AntiToxins .SingleParticle *").attr("style","");
 	});
 	if( e !== true ){
         Glitch.on("#Gandalf", "Closing...");

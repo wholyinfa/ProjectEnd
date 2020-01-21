@@ -1650,8 +1650,8 @@ body{
 
 #AntiToxins .SingleParticle{
     width: 1050px; height: 716px;
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%,-50%); z-index: 100;
+    position: absolute; top: 50px; left: 50%;
+    transform: translateX(-50%); z-index: 100;
     font-family: Ocr; color: #fff;
     padding: 0 3em 3em 3em; box-sizing: border-box;
     opacity: 0; visibility: hidden;
@@ -1667,7 +1667,7 @@ body{
     z-index: 2;
 }
 #AntiToxins .SingleParticle > .Clone > div{
-    left: 50%; top: 12.5%;
+    position: absolute; left: 50%; top: 12.5%;
     transform: translate(-50%, -50%);
 }
 #AntiToxins .SingleParticle > .Clone > div > div{
