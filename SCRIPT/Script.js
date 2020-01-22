@@ -743,7 +743,9 @@ function Varia(){
     // Check if SingleParticle is currently active and showing
     if( typeof(EnterParticle) !== "undefined" && !EnterParticle.isActive() && EnterParticle.progress() === 1 ){
         // Store current active particle's object cause in ResetParticle() method it is removed
-        var prtcle = Particle.activeObj;
+        var prtcle = Particle.activeObj,
+            // Determine whether preview is open
+            preview = ( typeof(ExpandPreview) !== "undefined" && ExpandPreview.progress() === 1 ) ? true : false;
 		Particle.Navigated = false;
         // Reset everything back to their default position
         ResetParticle(Particle.activeObj);
@@ -757,6 +759,11 @@ function Varia(){
         EnterParticle.progress(1);
         ParticleRotation.progress(1);
         ExpandParticle.progress(1);
+        // When preview is open
+        if( preview ){
+            // Skip the animation and go to the final state
+            ExpandPreview.progress(1);
+        }
     }
     // Or if it's in the entrance process
     if( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ){
@@ -6028,22 +6035,38 @@ function PrepClone(){
 						.addClass("active");
 					imgContainer.children(".img").last()
 						.addClass("active");
+                    // Save main container's scroll state
+                    ExpandPreview = new TimelineMax({paused: true});
+                    ExpandPreview.fromTo("#AntiToxins .Preview .Cover", .01, {autoAlpha: 1}, {autoAlpha: 0}, 0)
+                        .to(imgContainer.find(".img.active"), .2, {
+                            height: function(){
+                                return window.innerHeight;
+                            },
+                            width: function(){
+                                return window.innerWidth;
+                            },
+                            top: function(){
+                                return -imgContainer.find(".img.active").offset().top;
+                            },
+                            left: function(){
+                                return -imgContainer.find(".img.active").offset().left;
+                            }
+                        }, 0);
+                    var scrollstate = $("#AntiToxins .SingleContainer").css("overflow-y");
+                    imgContainer.find(".img.active img").click(function(){
+                        // Reverse main container's scroll state to their state
+                        TweenMax.set( $("#AntiToxins .SingleContainer"), {overflowY: scrollstate} );
+                        ExpandPreview.reverse();
+                    });
 					singleparticle.find(".Preview img:active").attr("src", this.image);
 					singleparticle.find(".Cover").unbind("click").click(function(){
 						if(
 							(typeof(ExpandPreview) !== "undefined" && ExpandPreview.isActive()) ||
 							(typeof(Navigation) !== "undefined" && Navigation.isActive())
 						){ return; }
-						ExpandPreview = new TimelineMax();
-						ExpandPreview.to("#AntiToxins .Preview .Cover", .01, {autoAlpha: 0}, 0)
-							.to(imgContainer.find(".img.active"), .2, {height: window.innerHeight,width: window.innerWidth,
-								top: -imgContainer.find(".img.active").offset().top,
-								left: -imgContainer.find(".img.active").offset().left,
-								onComplete: function(){
-									imgContainer.find(".img.active img").click(function(){
-										ExpandPreview.reverse();
-									});
-								}}, 0);
+                        // Disable scrolling on the main container
+                        TweenMax.set( $("#AntiToxins .SingleContainer"), {overflowY: "hidden"} );
+                        ExpandPreview.invalidate().restart();
 					});
 				}else{
 					TweenMax.set(imgContainer.children(".img").last(), {autoAlpha: 0});
