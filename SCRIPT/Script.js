@@ -740,6 +740,18 @@ function Varia(){
 			CoreMove.restart().progress(1);
 		}
 	}
+
+    if( typeof(EnterParticle) !== "undefined" && !EnterParticle.isActive() && EnterParticle.progress() === 1 ){
+        var prtcle = Particle.activeObj;
+        ResetParticle(Particle.activeObj);
+        EnterParticle.progress(0).pause();
+        ParticleRotation.progress(0).pause();
+        ExpandParticle.progress(0).pause();
+        ParticleActivation(prtcle);
+        EnterParticle.progress(1);
+        ParticleRotation.progress(1);
+        ExpandParticle.progress(1);
+    }
 }
 
 function Globe(){
@@ -4380,7 +4392,7 @@ AddFly = {
 		Afrom_autoAlpha = 1;
 		Ato_y = (
 			(
-				$("#AntiToxins .SingleParticle").offset().top
+                $("#AntiToxins .SingleParticle")[0].offsetTop
 				+ 25
 				+ (( (AT_HoldMyState.h * DefaultScale(AT_HoldMyState.w)) - AT_HoldMyState.h ) / 2)
 			) - AT_HoldMyState.ot );
@@ -5770,7 +5782,7 @@ function ParticleActivation(T, e){
     // When navigating
 	if(
 		( Particle.activeObj !== null && !$(Particle.activeObj).hasClass(T.attr("class")) ) ||
-		( e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) ) ||
+		( typeof(e) !== "undefined" && e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) ) ||
         Particle.Navigated
 	){
 		return;
@@ -5850,9 +5862,16 @@ function ParticleActivation(T, e){
 	});
 	// Calling the function that prepares clone's children using the related particle's database
 	PrepClone();
+	if( Is.ThisSize(1024) ){
+        TweenMax.set("#AntiToxins .SingleParticle", {x: "0%"});
+    }else{
+        TweenMax.set("#AntiToxins .SingleParticle", {x: "-50%"});
+    }
 	if( $("#AntiToxins .SingleParticle").innerHeight() < window.innerHeight ){
 		TweenMax.set("#AntiToxins .SingleParticle", {top: "50%",y: "-50%"});
-	}
+	}else{
+        TweenMax.set("#AntiToxins .SingleParticle", {top: "25px",y: "0%"});
+    }
 	// Applying SingleParticle entrance effects
 	// Siblings animations
 	T.siblings(".DevParticle, .ArtParticle").each(function(){

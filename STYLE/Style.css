@@ -1454,6 +1454,7 @@ body{
     grid-template-columns: 6fr 2fr 6fr;
     grid-template-rows: 10fr 160px;
     justify-items: center; align-items: center;
+    overflow: hidden;
 }
 #AntiToxins > .Entry{
     width: 5%; height: 5%;
