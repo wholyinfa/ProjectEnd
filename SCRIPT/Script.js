@@ -2359,6 +2359,7 @@ function Globe(){
 				Cont = t.find(".Container"),
 				Diaml = t.find(".Diamond").offset().left,
 				PageW = window.innerWidth;
+            Name[0].style.display = "";
 			// Whether current Particle is far to the left half of the page
 			if( Diaml < PageW / 2 ){
 				var DX = -40, // Divider X
@@ -2374,45 +2375,47 @@ function Globe(){
 				TweenMax.set( Divider, {right: 0} );
 			}
 			DeployNameTag = new TimelineMax();
-			DeployNameTag.fromTo(Divider, .35,{
+			DeployNameTag.fromTo(Divider, .25,{
 				autoAlpha: 0,
 				x: DX
 			},{
 				autoAlpha: 1,
 				x: 0
-			}).fromTo(Name, .35,{
+			}).fromTo(Name, .25,{
 				autoAlpha: 0,
 				x: NTX
 			},{
 				autoAlpha: 1,
 				x: -NTX
-			}, "-=.2");
+			}, "-=.1");
 		},
 		reverse: function(duration){
 			var dur = ( typeof(duration) === "number" ) ? duration : null ;
 			// Reverse TagName deployment if already not reversed
 			if( typeof(DeployNameTag) !== "undefined" && !DeployNameTag.reversed() ){
 				if( dur !== null ){ DeployNameTag.duration(dur); }
-				DeployNameTag.reverse();
+				DeployNameTag.reverse().eventCallback("onReverseComplete", function(t){
+				    t._last.target[0].style.display = "none";
+                }, ["{self}"]);
 			}
 		}
 	}
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").mouseenter(function(){
 		if( Is.NoTouch($(this)) ){ return; }
 		// Abort reaction if SingleParticle is open or when entering particle
-		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
+		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) || Particle.Navigated ){ return; }
 		// Get and fade the stars and all other particles but the current one
 		var FadeAssets = ( $(this).hasClass("DevParticle") ) ? $(this).parent().parent().find(".DevParticle, .ArtStar, .ArtParticle").not(this) : $(this).parent().parent().find(".DevStar, .DevParticle, .ArtParticle").not(this);
-		TweenMax.to(FadeAssets, .5, {opacity: .2});
+		TweenMax.staggerTo(FadeAssets, .25, {opacity: .2}, .04);
 		NameTag.play($(this));
 	})
 	.mouseleave(function(){
 		if( Is.NoTouch($(this)) ){ return; }
 		// Abort reaction if SingleParticle is open or when entering particle
-		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
+		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) || Particle.Navigated ){ return; }
 		// Resetting blurred assets on mouseleave
 		var FadeAssets = $(this).parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(this);
-		TweenMax.to(FadeAssets, .5, {opacity: 1});
+        TweenMax.staggerTo(FadeAssets, .25, {opacity: 1}, .04);
 		// Remove NameTag
 		NameTag.reverse();
 	});

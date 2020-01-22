@@ -1604,7 +1604,7 @@ body{
     grid-area: 7 / 5 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.E{
-    grid-area: -4 / 2 / span 3 / span 3;
+    grid-area: -6 / 2 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.F{
     width: 95%; padding-bottom: 95%;
@@ -2941,7 +2941,7 @@ body{
         grid-area: 7 / 2 / span 3 / span 3;
     }
     #AntiToxins .ArtParticle.E{
-        grid-area: -4 / 9 / span 3 / span 3;
+        grid-area: -6 / 9 / span 3 / span 3;
     }
     #AntiToxins .ArtParticle.F{
         width: 95%; padding-bottom: 95%;
