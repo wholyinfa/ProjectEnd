@@ -657,16 +657,17 @@
                         </div>
                         <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </div>
                         <div class="State">
-                            <div class="RealState active">PROJECT STATE : COMPLETED <span>( <a href="" class="goto">Go To Webstie</a> )</span></div>
-                            <div class="RealState">PROJECT STATE : DOING</div>
-                            <div class="RealState">PROJECT STATE : CANCELLED</div>
-                            <div class="Exc">
-                                <div></div>
-                                <div></div>
+                            <div class="Container">
+                                <div class="RealState">PROJECT STATE : COMPLETED <span>( <a href="" class="goto">Go To Webstie</a> )</span></div>
+                                <div class="RealState">PROJECT STATE : DOING</div>
+                                <div class="RealState">PROJECT STATE : CANCELLED</div>
+                                <div class="Exc">
+                                    <div></div>
+                                    <div></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="ParticleAura"></div>
                 </div>
             </div>
         </div>

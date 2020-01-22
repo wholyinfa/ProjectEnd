@@ -203,11 +203,7 @@ Peek = [
 	[
 		".SingleParticle .Clone",
 		"Close project"
-	],
-	[
-		"#ParticleAura",
-		"Close project"
-	],
+	]
 	// Analyzer
 /*	[
 		".CrystalCover",
@@ -5783,7 +5779,7 @@ function ParticleActivation(T, e){
 	var FadeAssets = T.parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(T);
 	TweenMax.to(FadeAssets, .5, {opacity: 1});
     TweenMax.to(".QuickAccess", .5, {y: "100%"});
-    TweenMax.set("#AntiToxins", {overflow: "hidden"});
+    TweenMax.set("#AntiToxins", {overflow: "inherit"});
 	// Cancel other Particle's Gandalf reactions
     FadeAssets.data({GandalfActive: false});
 	// Cancelling entrance
@@ -5885,15 +5881,14 @@ function TriggerDiamond(asset){
 	CurrentParticle = asset;
 	// Expanding the SingleParticle and it's children
 	ExpandParticle.add(
-		TweenMax.fromTo($("#AntiToxins .SingleContainer"), .01, {zIndex: -1}, {zIndex: 2}), 0
-	).add(
-		TweenMax.fromTo($("#AntiToxins #ParticleAura"), .01, {zIndex: 1, autoAlpha: 0}, {zIndex: 1, autoAlpha: 1}), 0
+		TweenMax.fromTo($("#AntiToxins .SingleContainer"), .2, {zIndex: -1, autoAlpha: 0}, {zIndex: 2, autoAlpha: 1}), 0
 	).add(
 		TweenMax.fromTo($("#AntiToxins .SingleParticle"), .3,{zIndex: 1, autoAlpha: 0, scale: 0, transformOrigin: "50% 10%"}, {zIndex: 2, autoAlpha: 1, scale: 1, transformOrigin: "50% 10%"}), 0
 	).add(
 		TweenMax.staggerFromTo($("#AntiToxins .SingleParticle > *"), .3, { autoAlpha: 0 }, {autoAlpha: 1}, .1), 0
 	);
-    $("#AntiToxins #ParticleAura").unbind("click").click(function(e){
+    $("#AntiToxins .SingleContainer").unbind("click").click(function(e){
+        if( !( $(e.target).hasClass("SingleContainer") || $(e.target).hasClass("SingleParticle") ) ){ return; }
         Glitch.on("#Gandalf", "Closing...");
         if( Particle.isActive ){
             TweenMax.set($("#AntiToxins"), {overflow: ""});
@@ -6098,7 +6093,7 @@ function PrepClone(){
 				singleparticle.find(".ToolBox").toggleClass("active");
 			}
 
-			singleparticle.find(".State").children(".RealState.active").removeClass("active");
+			singleparticle.find(".State").find(".RealState.active").removeClass("active");
 			if( this.state == "completed" ){
 				singleparticle.find(".State .RealState").eq(0).addClass("active");
 				if( this.website ){
