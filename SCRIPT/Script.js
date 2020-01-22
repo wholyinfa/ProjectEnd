@@ -2514,7 +2514,8 @@ function Globe(){
                     if( i+1 === Particles.length ){
                         tween.eventCallback("onReverseComplete", function(){
                             TrackLines.isActive[Class] = false;
-                            TweenMax.set($("#AntiToxins .Line"), {clearProps: "all"})
+                            // Clearing sibling lines so they wont cause responsive problems
+                            TweenMax.set($(tween.target[0]).siblings(".Line"), {clearProps: "all"})
                         });
                     }
 					TweenMax.fromTo(Particle, .2,{
