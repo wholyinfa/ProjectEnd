@@ -744,6 +744,7 @@ function Varia(){
     if( typeof(EnterParticle) !== "undefined" && !EnterParticle.isActive() && EnterParticle.progress() === 1 ){
         // Store current active particle's object cause in ResetParticle() method it is removed
         var prtcle = Particle.activeObj;
+		Particle.Navigated = false;
         // Reset everything back to their default position
         ResetParticle(Particle.activeObj);
         // Skip the animating and immediately go to starting state
@@ -786,6 +787,23 @@ function Varia(){
             ParticleActivation(prtcle);
         }
     }
+	if( typeof(ParticleNavigation) !== "undefined" && ParticleNavigation.isActive() ) {
+		// Store progress for each running animation
+		var progress = [
+			ParticleNavigation.progress(),
+			NavRotation.progress()
+		];
+        // Skip the animating and immediately go to starting state
+		ParticleNavigation.progress(0).pause();
+		NavRotation.progress(0).pause();
+		// Since this variable is changed when navigation started, it is reset here with the root particle
+		CurrentParticle = prtcle;
+        // Recalculate new animations and positions
+		ParticleNavigate(Particle.NaviDirection);
+        // Start the new animations from where they were stopped
+		ParticleNavigation.progress(progress[0]);
+		NavRotation.progress(progress[1]);
+	}
 }
 
 function Globe(){
@@ -2398,7 +2416,7 @@ function Globe(){
 		// Remove NameTag
 		NameTag.reverse();
 	});
-	Particle = {isActive : false, activeObj: null, Navigated: false};
+	Particle = {isActive : false, activeObj: null, Navigated: false, NaviDirection: null};
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").click(function(e){
 		ParticleActivation($(this), e);
 		// Remove NameTag
@@ -4463,12 +4481,12 @@ AddFly = {
 	},
 	ParticleNavigate : function(type1, type2){
 		AnimDur = .75;
-		Ato_y = (
-			(
-				$("#AntiToxins .SingleParticle").offset().top
-				+ 25
-				+ (( (NAV_HoldMyState.h * DefaultScale(NAV_HoldMyState.w)) - NAV_HoldMyState.h ) / 2)
-			) - NAV_HoldMyState.ot );
+        Ato_y = (
+            (
+                $("#AntiToxins .SingleParticle")[0].offsetTop
+                + 25
+                + (( (NAV_HoldMyState.h * DefaultScale(NAV_HoldMyState.w)) - NAV_HoldMyState.h ) / 2)
+            ) - NAV_HoldMyState.ot );
 		Ato_x = (( ActiveDivision.width() / 2 - NAV_HoldMyState.ol ) - NAV_HoldMyState.w / 2 );
 		Ato_autoAlpha = ( type1 ) ? 1 : .2;
 		AscOrigin = ( ( NAV_HoldMyState.ol + NAV_HoldMyState.w / 2 ) - Asc.parent().offset().left ) + "px ";
@@ -5959,9 +5977,9 @@ function TriggerDiamond(asset){
 	TweenMax.set(CurrentParticle, {zIndex: 3});
     ExpandParticle.to(CurrentParticle, .3, {autoAlpha: 0,delay : ExpandParticle.duration()/4}, 0);
     TweenMax.to(".QuickAccess", .5, {y: "100%"}, 0);
+    // Replacing the original particle with the clone
+    TweenMax.set($("#AntiToxins .SingleParticle > .Clone > div"), {autoAlpha: 1});
 	ExpandParticle.eventCallback("onComplete", function(){
-		// Replacing the original particle with the clone
-		TweenMax.set($("#AntiToxins .SingleParticle > .Clone > div"), {autoAlpha: 1});
         TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "auto"});
 	});
 	ExpandParticle.eventCallback("onReverseComplete", function(){
@@ -5969,70 +5987,14 @@ function TriggerDiamond(asset){
 	});
 	// Project navigation
 	$("#AntiToxins .SingleParticle > .Navigate").children().unbind("click").click(function(){
-		var GoToParticle = ( $(this).hasClass("PrevProject") ) ?
-			CurrentParticle.prev(".DevParticle, .ArtParticle") :
-			CurrentParticle.next(".DevParticle, .ArtParticle") ;
-		// Update status on Gandalf
-		Gandalfer.set($(this));
-
-		if( GoToParticle.length === 0 ){
-			var group = ( CurrentParticle.hasClass("ArtParticle") ) ? "ArtParticle" : "DevParticle" ,
-				othergroup = ( group === "DevParticle" ) ? "ArtParticle" : "DevParticle" ;
-			if( CurrentParticle.parent().children("."+group).last().hasClass(CurrentParticle.attr("class")) ){
-				GoToParticle = CurrentParticle.parent().children("."+othergroup).first();
-			}
-			if( CurrentParticle.parent().children("."+group).first().hasClass(CurrentParticle.attr("class")) ){
-				GoToParticle = CurrentParticle.parent().children("."+othergroup).last();
-			}
-		}
-
-		ExpandParticle.duration(.2).reverse();
-
-		if( typeof(ParticleNavigation) !== "undefined" ){
-			NavRotation.reverse();
-		}
-
-		ParticleNavigation = new TimelineMax();
-		NavRotation = new TimelineMax();
-		NAV_HoldMyState = {
-			ot : GoToParticle.offset().top,
-			ol : GoToParticle.offset().left,
-			w : GoToParticle.innerWidth(),
-			h : GoToParticle.innerHeight()
-		};
-
-		// Animating siblings and stars
-		GoToParticle.siblings(".DevParticle, .ArtParticle").each(function(){
-			Asc = $(this).children(".Container");
-			// Applying new properties to sibling particles
-			if( !CurrentParticle.hasClass($(this).attr("class")) ){
-				AddFly.ParticleNavigate();
-			}
-			// Applying new properties to the current active particles to blend with other inactive particles
-			else{
-				AddFly.ParticleNavigate(false, true);
-				ParticleRotation.reverse();
-			}
-			// Disables cursor pointer
-			Asc.addClass("NoTouchin");
-		});
-		GoToParticle.parent().siblings(".DevStar, .ArtStar").each(function(){
-			Asc = $(this).find(".Star");
-			AddFly.ParticleNavigate();
-		});
-		// Animating the original particle
-		TweenMax.set([CurrentParticle, GoToParticle], {zIndex: 3, autoAlpha: 1});
-		TweenMax.set("#AntiToxins .SingleParticle > .Clone > *", {autoAlpha: 0});
-
-		Asc = GoToParticle.children();
-		AddFly.ParticleNavigate(true);
-
-		ParticleNavigation.eventCallback("onComplete", function(){
-			TriggerDiamond(GoToParticle);
-			Particle.Navigated = true;
-			// Reset Gandalf's content
-			Glitch.on("#Gandalf", null);
-		});
+		var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400,
+			navi = $(this);
+		TweenMax.set($("#AntiToxins"), {overflow: ""});
+		dur = ( dur > .2 ) ? .2 : dur;
+		TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
+		TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
+				ParticleNavigate(navi);
+			}});
 	});
 }
 function PrepClone(){
@@ -6191,10 +6153,10 @@ function ResetParticle(asset, e){
 			h : asset.innerHeight()
 		};
 		asset.siblings(".ArtParticle, .DevParticle").each(function(){
-			Asc = $(this).children(".Container");
+			Asc = $(this).find(".Container");
 			AddFly.ParticleEntrance(false, false, true);
 		});
-		asset.siblings(".DevStar, .ArtStar").each(function(){
+		asset.parent().siblings(".DevStar, .ArtStar").each(function(){
 			Asc = $(this).find(".Star");
 			AddFly.ParticleEntrance(false, false, true);
 		});
@@ -6202,24 +6164,27 @@ function ResetParticle(asset, e){
 		Asc = asset.children();
 		AddFly.ParticleEntrance(false, false, true);
 		NavRotation.reverse();
-		var NavRevFly = EnterParticle;
 		EnterParticle.eventCallback("onComplete", function(){
-			if( e !== true ){
-				ReverseToDefault();
-			}
+			WrapItUp();
 		});
 		return;
 	}
 	EnterParticle.reverse().eventCallback("onReverseComplete", function(){
+		WrapItUp();
+	});
+	if( e !== true ){
+        Glitch.on("#Gandalf", "Closing...");
+    }
+	function WrapItUp(){
 		if( e !== true ){
 			ReverseToDefault();
 		}
 		// Re-activate other Particles' Gandalf reactions when fully reversed
-        asset.siblings(".ArtParticle, .DevParticle").data({GandalfActive: true, GandalfOpt: 0});
+		asset.siblings(".ArtParticle, .DevParticle").data({GandalfActive: true, GandalfOpt: 0});
 		// At this point no Particle is active
-        Particle.activeObj = null;
-        // Re-activating TrackLines
-        TrackLines.disabled = false;
+		Particle.activeObj = null;
+		// Re-activating TrackLines
+		TrackLines.disabled = false;
 		// Manually reappear NameTag if an asset is hovered after exit
 		asset.parent().children(".ArtParticle, .DevParticle").each(function(){
 			if( $(this).is(":hover") && !Is.NoTouch($(this)) ){
@@ -6230,10 +6195,103 @@ function ResetParticle(asset, e){
 		TweenMax.set($("#AntiToxins .SingleParticle"), {
 			scale: 1
 		});
+	}
+}
+function ParticleNavigate(T){
+
+	Particle.NaviDirection = T;
+	var GoToParticle = ( T.hasClass("PrevProject") ) ?
+		CurrentParticle.prev(".DevParticle, .ArtParticle") :
+		CurrentParticle.next(".DevParticle, .ArtParticle") ;
+	// Update status on Gandalf
+	Gandalfer.set(T);
+
+	if( GoToParticle.length === 0 ){
+		var group = ( CurrentParticle.hasClass("ArtParticle") ) ? "ArtParticle" : "DevParticle" ,
+			othergroup = ( group === "DevParticle" ) ? "ArtParticle" : "DevParticle" ;
+		if( CurrentParticle.parent().children("."+group).last().hasClass(CurrentParticle.attr("class")) ){
+			GoToParticle = CurrentParticle.parent().children("."+othergroup).first();
+		}
+		if( CurrentParticle.parent().children("."+group).first().hasClass(CurrentParticle.attr("class")) ){
+			GoToParticle = CurrentParticle.parent().children("."+othergroup).last();
+		}
+	}
+
+	ExpandParticle.duration(.2).reverse();
+
+	if( typeof(ParticleNavigation) !== "undefined" ){
+		NavRotation.reverse();
+	}
+
+	ParticleNavigation = new TimelineMax();
+	NavRotation = new TimelineMax();
+	NAV_HoldMyState = {
+		ot : GoToParticle.offset().top,
+		ol : GoToParticle.offset().left,
+		w : GoToParticle.innerWidth(),
+		h : GoToParticle.innerHeight()
+	};
+	// Creating the particle's clone
+	var clone = GoToParticle.clone();
+	// Emptying the clone's style attributes
+	clone.attr("style","");
+	clone.children(".Container").attr("style","");
+	clone.children(".Container").children().attr("style","");
+	// Adding the clone and its new attributes
+	$("#AntiToxins .SingleParticle > .Clone").html("");
+	$("#AntiToxins .SingleParticle > .Clone").append(clone);
+	$("#AntiToxins .SingleParticle > .Clone > div").addClass("CLONED").css({
+		width : (NAV_HoldMyState.w * DefaultScale(NAV_HoldMyState.w)),
+		paddingBottom: (NAV_HoldMyState.h * DefaultScale(NAV_HoldMyState.w))
+	}).click(function(){
+		Glitch.on("#Gandalf", "Closing...");
+		if( Particle.isActive ){
+			TweenMax.set($("#AntiToxins"), {overflow: ""});
+			var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400;
+			dur = ( dur > .2 ) ? .2 : dur;
+			TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
+			TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
+					ResetParticle(GoToParticle);
+				}});
+			return;
+		}
 	});
-	if( e !== true ){
-        Glitch.on("#Gandalf", "Closing...");
-    }
+	// Calling the function that prepares clone's children using the related particle's database
+	PrepClone();
+
+	// Animating siblings and stars
+	GoToParticle.siblings(".DevParticle, .ArtParticle").each(function(){
+		Asc = $(this).children(".Container");
+		// Applying new properties to sibling particles
+		if( !CurrentParticle.hasClass($(this).attr("class")) ){
+			AddFly.ParticleNavigate();
+		}
+		// Applying new properties to the current active particles to blend with other inactive particles
+		else{
+			AddFly.ParticleNavigate(false, true);
+			ParticleRotation.reverse();
+		}
+		// Disables cursor pointer
+		Asc.addClass("NoTouchin");
+	});
+	GoToParticle.parent().siblings(".DevStar, .ArtStar").each(function(){
+		Asc = $(this).find(".Star");
+		AddFly.ParticleNavigate();
+	});
+	// Animating the original particle
+	TweenMax.set([CurrentParticle, GoToParticle], {zIndex: 3, autoAlpha: 1});
+	TweenMax.set("#AntiToxins .SingleParticle > .Clone > *", {autoAlpha: 0});
+
+	Asc = GoToParticle.children();
+	AddFly.ParticleNavigate(true);
+
+	ParticleNavigation.eventCallback("onComplete", function(){
+		TriggerDiamond(GoToParticle);
+		Particle.Navigated = true;
+		Particle.NaviDirection = null;
+		// Reset Gandalf's content
+		Glitch.on("#Gandalf", null);
+	});
 }
 
 // DekcCloud
