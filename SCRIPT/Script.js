@@ -740,17 +740,51 @@ function Varia(){
 			CoreMove.restart().progress(1);
 		}
 	}
-
+    // Check if SingleParticle is currently active and showing
     if( typeof(EnterParticle) !== "undefined" && !EnterParticle.isActive() && EnterParticle.progress() === 1 ){
+        // Store current active particle's object cause in ResetParticle() method it is removed
         var prtcle = Particle.activeObj;
+        // Reset everything back to their default position
         ResetParticle(Particle.activeObj);
+        // Skip the animating and immediately go to starting state
         EnterParticle.progress(0).pause();
         ParticleRotation.progress(0).pause();
         ExpandParticle.progress(0).pause();
+        // Recalculate new animations and positions
         ParticleActivation(prtcle);
+        // Skip animating and immediately go to the final state
         EnterParticle.progress(1);
         ParticleRotation.progress(1);
         ExpandParticle.progress(1);
+    }
+    // Or if it's in the entrance process
+    if( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ){
+        // Indicate reverse state
+        var rev = false;
+        if( EnterParticle.reversed() ){
+            rev = true;
+        }
+        // Store current active particle's object cause in ResetParticle() method it is removed
+        var prtcle = Particle.activeObj;
+        // Store progress for each running animation
+        var progress = [
+            EnterParticle.progress(),
+            ParticleRotation.progress()
+        ];
+        // Reset everything back to their default position
+        ResetParticle(Particle.activeObj);
+        // Skip the animating and immediately go to starting state
+        EnterParticle.progress(0).pause();
+        ParticleRotation.progress(0).pause();
+        // Recalculate new animations and positions
+        ParticleActivation(prtcle);
+        // Skip animating and immediately go to the final state
+        EnterParticle.progress(progress[0]);
+        ParticleRotation.progress(progress[1]);
+        // Reverse the sequence in case it was reversing before the new animations
+        if( rev ){
+            ParticleActivation(prtcle);
+        }
     }
 }
 
