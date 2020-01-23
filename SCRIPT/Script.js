@@ -3622,7 +3622,6 @@ function DivisionSequence(reset,undone){
 		}
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "Analyzer" ){
 		// DO after left the current dimension
-		AnalyzerFly.restart();
 	}
 	if( PreDivision == "Analyzer" && !PreFlyIsSet ){
 		PreFlyAssociates = Ascs;
