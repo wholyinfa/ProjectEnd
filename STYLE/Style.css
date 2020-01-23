@@ -1963,35 +1963,46 @@ body{
 #Analyzer{
     width: 100%; height: 100%;
     position: absolute; left: 0; top: 0;
+    display: grid;
+    grid-template-columns: 4fr 2fr 4fr;
+    grid-template-rows: 50px 1fr 130px;
+    overflow: hidden;
+    overflow-y: auto;
 }
 #Artery .DivisionExpress{
     color: #ff8f8f
 }
 /* RATIO 0.8520849724626279 */
-#Analyzer .TheStorm{
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
-}
-#Analyzer .TheStorm .LeftWing{
-    width: 65%; padding-bottom: 63.07%;
-    position: absolute; top: 15%; right: 50%;
+#Analyzer .LeftWing{
+    width: 800px;padding-bottom: 662px;
+    position: absolute; top: 8%; right: 50%;
     background: url("../ASSETS/Analyzer/LeftWing.png") no-repeat 26.5% 0%;
-    transform: translate(-9.9%, -9%);
+    transform: translate(-12.8%, -7%);
+    grid-area: 1 / 1 / -1 / -1;
 }
 /* RATIO 0.9703153988868275 */
-#Analyzer .TheStorm .RightWing{
-    width: 55%; padding-bottom: 53.36%;
-    position: absolute; top: 15%; left: 50%;
+#Analyzer .RightWing{
+    width: 750px; padding-bottom: 702px;
+    position: absolute; top: 8%; left: 50%;
     background: url("../ASSETS/Analyzer/RightWing.png") no-repeat 24% 0%;
-    transform: translate(12.4%, -11.2%);
+    transform: translate(13.5%, -10.2%);
+    grid-area: 1 / 1 / -1 / -1;
 }
-#Analyzer .TheStorm .LeftWing, #Analyzer .TheStorm .RightWing {
+#Analyzer .LeftWing, #Analyzer .RightWing {
     background-size: 100%;
+}
+#Analyzer .Particles{
+    height: 550px;
+    grid-area: 1 / 1 / -1 / -1;
+    display: grid;
+    grid-template-rows: 20% repeat(14, 1fr);
+    grid-template-columns: repeat(40, 1fr);
 }
 /* RATIO 0.5955056179775281 */
 #Analyzer .Particles > div{
-    width: 4.63%; padding-bottom: 2.75%;
-    position: absolute;
+    width: 100%; height: 0; padding-bottom: 60%;
+    position: relative;
+    grid-area: 1 / 1 / 1 / 1;
 }
 #Analyzer .Particles > div:not(.active) > .hover:hover{
     cursor: pointer;
@@ -2015,8 +2026,8 @@ body{
 }
 #Analyzer .Particles > div > .dime:after{
     content: "";
-    width: 186.95%; height: 275.3%;
-    position: absolute; top: -87.2%; right: -42.41%;
+    width: 182%; height: 272%;
+    position: absolute; top: -86%; right: -40%;
     background: url("../ASSETS/Analyzer/Particle_Glow.png") no-repeat center; z-index: 0;
     background-size: 100%;
 }
@@ -2030,36 +2041,36 @@ body{
     filter: hue-rotate(240deg);
 }
 #Analyzer .Particles > div.Blue.A{
-    top: 27%; left: 16%;
+    grid-area: 3 / 11 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Yellow.A{
-    top: 46%; left: 4%;
+    grid-area: 5 / 4 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Purple.A{
-    top: 54%; left: 24%;
+    grid-area: 11 / 4 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Purple.B{
-    top: 78%; left: 5%;
+    grid-area: 8 / 9 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Green.A{
-    top: 34%; Right: 24%;
+    grid-area: 4 / -13 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Blue.B{
-    top: 60%; Right: 23%;
+    grid-area: 5 / -5 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Green.B{
-    top: 80%; Right: 3%;
+    grid-area: 10 / -6 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Yellow.B{
-    top: 33%; Right: 8%;
+    grid-area: 8 / -11 / span 2 / span 2;
 }
-#Analyzer .Core{
-    width: 20.83%; padding-bottom: 20.83%;
-    margin: 0 auto;
-    position: absolute; top: 15%; left: 50%;
+#Analyzer .Analyzer{
+    width: 300px; height: 0; padding-bottom: 300px;
+    grid-area: 1 / 2 / -1 / span 1;
+    position: relative; top: 8%; left: 50%;
     transform: translateX(-50%);
 }
-#Analyzer .Core > div{
+#Analyzer .Analyzer > div{
     position: absolute;
 }
 #Analyzer .Faces{
@@ -2167,43 +2178,55 @@ body{
 }
 /* RATIO 0.4720616570327553 */
 #Analyzer .Express{
-    width: 129.75%; height: 61.25%;
-    position: absolute; top: 104.75%; left: 50%;
-    transform: translateX(-50%);
+    width: 120%;
+    grid-area: 1 / 2 / -1 / span 1;
+    position: absolute; top: 8%; left: -10%; margin-top: 95%;
+    transform: translateY(-10%);
     font-family: Ocr; color: #fff;
 }
 
-#Analyzer .Express > div{
-    position: absolute; box-sizing: border-box;
-}
 #Analyzer .Cloud{
-    width: 100%; height: 47.34%;
-    top: 0; left: 0;
+    width: 110%; height: 0; padding: 13% 0;
+    position: absolute; top: 0; left: -5%;
     background: url("../ASSETS/Analyzer/Cloud.png") no-repeat center;
-    background-size: 100%;
-    font-size: 1.2em;text-align: center; padding-top: 8%;
+    background-size: 100%; margin-top: 5%;
+    font-size: 1.2em; line-height: 0; text-align: center;
 }
 #Analyzer .Plate{
-    width: 110.01%; height: 104.48%;
-    top: 6.93%; left: -4%;
-    background: url("../ASSETS/Analyzer/Mag_WordPlate.png") no-repeat center;
-    background-size: 180%;
+    width: 100%;
+    top: 0; left: 0;
+    overflow: hidden;
+    position: relative;
+    margin: 22% 0 160px 0;
+}
+#Analyzer .Plate:after{
+    content: "";
+    width: 100%; padding-top: 95%;
+    position: absolute; bottom: 0%; left: 0%;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-20 -20 600 569.08'%3e%3cdefs%3e%3clinearGradient id='b' x1='280' y1='504.54' x2='280' y2='4.54' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0'/%3e%3cstop offset='.3' stop-color='%23000051'/%3e%3cstop offset='.6' stop-color='%234a148c'/%3e%3cstop offset='1' stop-color='%23ff5959'/%3e%3c/linearGradient%3e%3cfilter id='a' x='-340' y='-344.54' width='660' height='630'%3e%3cfeGaussianBlur stdDeviation='15'/%3e%3c/filter%3e%3c/defs%3e%3cg filter='url(%23a)' opacity='.8'%3e%3cpath fill='%23ff5959' d='M560 495.69l-31.75 31.87-496.5 1.52L0 497.34 84.73 31.75 116.46 0h327.08l31.73 31.75L560 495.69z'/%3e%3c/g%3e%3cpath fill='url(%23b)' opacity='.8' d='M544.61 472.98l-30 30.12-469.22 1.44-30-30 80.07-440 29.99-30h309.1l29.99 30 80.07 438.44z'/%3e%3c/svg%3e") no-repeat 50% 110%;
+    background-size: 100% 100%;
+    z-index: -1;
 }
 #Analyzer .Plate .Content{
-    height: 4em;
     position: relative; top: 0; left: 0;
     box-sizing: border-box;
-    font-size: 1em;text-align: justify; margin: 20% 16% 2% 16%; overflow: auto;
+    perspective: 310px;
+    font-size: 1em;text-align: justify; padding: 2em 3.5em 3.5em 3.5em; overflow: auto;
+}
+#Analyzer .Plate .Content > div{
+    transform-style: preserve-3d;
+    transform: rotateX(20deg);
 }
 #Analyzer .Plate .Content::-webkit-scrollbar{
     width: 6px;
     background-color: #F5F5F5;
 }
 #Analyzer .CloudGlow{
-    width: 70.32%; height: 45.30%;
-    top: -33.06%; left: 14.64%;
+    width: 61%; padding-bottom: 18.5%;
+    position: absolute; top: 0; left: 20%;
     background: url("../ASSETS/Analyzer/Mag_CloudGlow.png") no-repeat;
     background-size: 100%;
+    margin-top: -7%;
     visibility: hidden; opacity: 0;
 }
 

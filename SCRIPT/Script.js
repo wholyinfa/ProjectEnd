@@ -203,13 +203,7 @@ Peek = [
 	[
 		".SingleParticle .Clone",
 		"Close project"
-	]
-	// Analyzer
-/*	[
-		".CrystalCover",
-		"Emotion analyzer",
-		"Unload emotion"
-	],*/
+	],
 	[
 		".Crystal",
 		["Emotion analyzer", "Unload emotion"]
@@ -577,7 +571,7 @@ function Varia(){
 	    Ratio = 1920/1480;RatioB = 1920/2015;
     $("#Analyzer .Particles > div").each(function(){
         if( Particle.isActive ){ return; }
-        Target = $("#Analyzer .Core");
+        Target = $("#Analyzer .Analyzer");
         SP = {
             X : $(this).offset().left + ($(this).width() / 2),
             Y : $(this).offset().top + ($(this).width() / 2)
@@ -587,7 +581,7 @@ function Varia(){
             Y : Target.offset().top + (Target.width() / 2)
         };
         Angle = Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI;
-		TweenMax.set($(this).children().children(), {rotation: Angle});
+		TweenMax.set($(this).children(".dime"), {rotation: Angle});
     });
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").each(function(){
 	    if( Particle.isActive ){ return; }
@@ -1342,7 +1336,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#AntiToxins");
+	OnLoadActive = $("#Analyzer");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2576,7 +2570,7 @@ function Globe(){
 			DimeRotate = new TimelineMax({paused : true});
 			var Particle = T.parent(),
 				MovingPart = T.siblings(".dime"),
-				AnalyzerCore = $(".Analyzer > .Core"),
+				AnalyzerCore = $(".Analyzer"),
 				TargetX = ( AnalyzerCore.offset().left + AnalyzerCore.innerWidth() / 2 ) - ( MovingPart.offset().left + MovingPart.innerWidth() / 2 ),
 				TargetY = ( AnalyzerCore.offset().top + AnalyzerCore.innerHeight() / 2 ) - ( MovingPart.offset().top + MovingPart.innerHeight() / 2 ),
 				NegOrPos = (Math.floor(Math.random() * 2));
@@ -2657,7 +2651,7 @@ function Globe(){
 								// Placing the content
 								$("#Analyzer .Plate .Content > div").html(this.content);
 								AnalyzePlate.reverse();
-								Glitch.on("#Analyzer .Core .Cloud", this.title);
+								Glitch.on("#Analyzer .Cloud", this.title);
 
 
                                 var plate = $("#Analyzer .Plate .Content"),
@@ -2783,7 +2777,7 @@ function Globe(){
 			Analyzer.object = false;
 			Analyzer.isActive = false;
 			if( FullReset ){
-				Glitch.on("#Analyzer .Core .Cloud", "SELECT A STONE");
+				Glitch.on("#Analyzer .Cloud", "SELECT A STONE");
 				// Reactivate stone select notice
 				$("#PrevFace, #NextFace").data({GandalfActive: true});
 			}
@@ -2828,7 +2822,7 @@ function Globe(){
 			}, {
 				autoAlpha: .5
 			}, 0);
-			TweenMax.staggerFromTo(".TheStorm .Particles > *", .2, {autoAlpha: 1, scale: 1}, {
+			TweenMax.staggerFromTo(".Particles > *", .2, {autoAlpha: 1, scale: 1}, {
 				autoAlpha: 0,
 				scale: 1.5,
 				onComplete: function(t){
@@ -3574,7 +3568,7 @@ function DivisionSequence(reset,undone){
 	}
 	if( NextDivision == "AntiToxins" ){NextDivisionAssociates = Ascs;}
 	// Trial Start
-	Ascs = [".TheStorm .RightWing",".TheStorm .LeftWing",".Analyzer > .Core",[".TheStorm > .Particles > div"]];
+	Ascs = [".RightWing",".LeftWing",".Analyzer",[".Particles > div"]];
 	if( DiviSection == "Analyzer" ){
 		FlyAssociates =  Ascs;
 		if( Reactive || reset ){
@@ -6558,7 +6552,8 @@ Peeker = {
 	},
 	set: function(asset){
 		$.each(Peek, function(){
-			if( $(asset[0]).filter($(this[0])[0]) ){
+			if( $(asset[0]).filter($(this[0])[0]).length ){
+				console.log(this);
 				var content = this[1];
 				var PO = asset.data().PeekOption;
 				if( typeof(PO) !== "undefined" ){

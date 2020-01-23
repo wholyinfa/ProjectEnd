@@ -683,47 +683,43 @@
                         </div>
                     </div>
                 </div>
-                <div class="TheStorm">
-                    <div class="LeftWing"></div>
-                    <div class="RightWing"></div>
-                    <div class="Particles">
-                        <div class="Blue A"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Yellow A"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Purple A"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Purple B"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Green A"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Blue B"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Green B"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Yellow B"><div class="hover"></div><div class="dime"></div></div>
-                    </div>
+                <div class="LeftWing"></div>
+                <div class="RightWing"></div>
+                <div class="Particles">
+                    <div class="Blue A"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Yellow A"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Purple A"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Purple B"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Green A"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Blue B"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Green B"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Yellow B"><div class="hover"></div><div class="dime"></div></div>
                 </div>
-                <div class="Analyzer">
-                    <div class="Core Entry">
-                        <div class="Faces">
-                            <div id="PainKiller" class="active"></div>
-                            <div id="Curious"></div>
-                            <div id="Cheerful"></div>
-                            <div id="Angry"></div>
-                            <div id="Upset"></div>
-                            <div id="Confident"></div>
-                            <div id="Sarcastic"></div>
-                            <div id="Positive"></div>
-                        </div>
-                        <div class="EvilAssets"></div>
-                        <div class="Navigate" id="PrevFace"></div>
-                        <div class="Navigate" id="NextFace"></div>
-                        <div class="Glitch"></div>
-                        <div class="Crystal"></div>
-                        <div class="Express">
-                            <div class="CloudGlow"></div>
-                            <div class="Plate">
-                                <div class="Content">
-                                    <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feu</div>
-                                </div>
-                            </div>
-                            <div class="Cloud">SELECT A STONE</div>
+                <div class="Analyzer Entry">
+                    <div class="Faces">
+                        <div id="PainKiller" class="active"></div>
+                        <div id="Curious"></div>
+                        <div id="Cheerful"></div>
+                        <div id="Angry"></div>
+                        <div id="Upset"></div>
+                        <div id="Confident"></div>
+                        <div id="Sarcastic"></div>
+                        <div id="Positive"></div>
+                    </div>
+                    <div class="EvilAssets"></div>
+                    <div class="Navigate" id="PrevFace"></div>
+                    <div class="Navigate" id="NextFace"></div>
+                    <div class="Glitch"></div>
+                    <div class="Crystal"></div>
+                </div>
+                <div class="Express">
+                    <div class="CloudGlow"></div>
+                    <div class="Plate">
+                        <div class="Content">
+                            <div></div>
                         </div>
                     </div>
+                    <div class="Cloud">SELECT A STONE</div>
                 </div>
             </div>
             <div id="DeckCloud">
