@@ -1158,7 +1158,13 @@ function Globe(){
 		ease: Power0.easeNone
 	}, 0);
 	AnalyzerFly = new TimelineMax({paused: true});
-	AnalyzerFly.add(
+	AnalyzerFly
+        .fromTo("#Analyzer .Analyzer .Circle", .1, {
+            autoAlpha: 1
+        }, {
+           autoAlpha: 0
+            })
+        .add(
 		TweenMax.fromTo("#PrevFace", .1, {
 			autoAlpha: 0,
 			x: "+=100%"

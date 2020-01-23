@@ -701,6 +701,7 @@
                 </div>
                 <div class="Analyzer">
                     <div class="Core Entry">
+                        <div class="Circle"></div>
                         <div class="Faces">
                             <div id="PainKiller" class="active"></div>
                             <div id="Curious"></div>
