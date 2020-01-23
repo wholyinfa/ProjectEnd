@@ -2254,6 +2254,11 @@ body{
 #DeckCloud{
     width: 100%; height: 100%;
     position: absolute; left: 0; top: 0;
+    display: grid;
+    grid-template-rows: 50px 1fr 130px;
+    grid-template-columns: 1fr 4fr 4fr 1fr;
+    align-items: center; justify-items: center;
+    overflow: auto;
 }
 #DeckCloud > .Entry{
     width: 5%; height: 5%;
@@ -2265,14 +2270,15 @@ body{
 }
 #DeckCloud .Deck{
     /*RATIO 1.165277777777778*/
-    width: 37.5%; padding-bottom: 43.69%;
-    position: absolute; top: 4%;
+    width: 80%; padding-bottom: 95%;
+    position: relative;
+    align-self: center; justify-self: center;
 }
 #DeckCloud .Deck.Work{
-    left: 11.14%;
+    grid-area: 2 / 2 / span 1 / span 1;
 }
 #DeckCloud .Deck.Life{
-    Right: 11.14%;
+    grid-area: 2 / 3 / span 1 / span 1;
 }
 #DeckCloud .Work .Sign{
     /*RATIO 0.3958333333333333*/
@@ -2369,6 +2375,13 @@ body{
     width: 100%; height: 100%;
     top: 0; left: 0;
     z-index: 1;
+    display: grid;
+    /*grid-template-rows: 19% repeat(5, 2%);
+    grid-template-columns: 14% repeat(36, 2%) 14%;*/
+    grid-template-rows: 18% repeat(5, 2.3%);
+    grid-template-columns: repeat(24, 1%) 52% repeat(24, 1%);
+    padding: 0 10%;
+    box-sizing: border-box;
 }
 #DeckCloud .Cards .Card > div, #DeckCloud .Cards .Card .Fader{
     width: 100%; height: 100%;
@@ -2377,7 +2390,7 @@ body{
 }
 #DeckCloud .Card{
     /*RATIO 1.17607223476298*/
-    width: 61.52%; padding-bottom: 72.35%;
+    width: 100%; padding-bottom: 113%;
     z-index: 1;
 }
 #DeckCloud .Card > div{
@@ -2385,9 +2398,6 @@ body{
 }
 #DeckCloud .Card{
     cursor: pointer;
-}
-#DeckCloud .Work .Card{
-    top: 28%; left: 25%;
 }
 #DeckCloud .Work .Card .Fader{
     background: linear-gradient(to right, rgba(253,216,53,1) 0%,rgba(198,132,0,1) 100%);
@@ -2397,25 +2407,22 @@ body{
     box-shadow: 0px -9px 9px 0px rgba(0,0,0,0.3);
 }
 #DeckCloud .Work .Card.No1{
-    transform: translate(0,0);
+    grid-area: 7 / 19 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No2{
-    transform: translate(-4%,-4%);
+    grid-area: 6 / 16 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No3{
-    transform: translate(-8%,-8%);
+    grid-area: 5 / 13 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No4{
-    transform: translate(-12%,-12%);
+    grid-area: 4 / 10 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No5{
-    transform: translate(-16%,-16%);
+    grid-area: 3 / 7 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No6{
-    transform: translate(-20%,-20%);
-}
-#DeckCloud .Life .Card {
-    top: 27%; right: 24%;
+    grid-area: 2 / 4 / -1 / span 26;
 }
 #DeckCloud .Life .Card .Fader{
     background: linear-gradient(to left, rgba(253,216,53,1) 0%,rgba(198,132,0,1) 100%);
@@ -2424,22 +2431,19 @@ body{
     box-shadow: 0px -9px 9px 0px rgba(0,0,0,0.3);
 }
 #DeckCloud .Life .Card.No1{
-    transform: translate(0,0);
+    grid-area: 7 / 9 / -1 / span 26;
 }
 #DeckCloud .Life .Card.No2{
-    transform: translate(4%,-4%);
+    grid-area: 6 / 12 / -1 / span 26;
 }
 #DeckCloud .Life .Card.No3{
-    transform: translate(8%,-8%);
+    grid-area: 5 / 15 / -1 / span 26;
 }
 #DeckCloud .Life .Card.No4{
-    transform: translate(12%,-12%);
+    grid-area: 4 / 18 / -1 / span 26;
 }
 #DeckCloud .Life .Card.No5{
-    transform: translate(16%,-16%);
-}
-#DeckCloud .Life .Card.No6{
-    transform: translate(20%,-20%);
+    grid-area: 3 / 21 / -1 / span 26;
 }
 #DeckCloud .Card .The{
     /*RATIO 0.467741935483871*/

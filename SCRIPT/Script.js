@@ -1275,18 +1275,12 @@ function Globe(){
 	);
 	Gravity.add( GravityX, .4 );
 	PlaceDeck = new TimelineMax({paused: true});
-	DeckX = -($("#DeckCloud .Work .Cards .Card").length * 4);
 	PlaceDeck.add(
 		TweenMax.staggerFromTo("#DeckCloud .Work .Cards .Card", .3, {
-			cycle:{y: function(){
-					return DeckX-50+"%";
-				}},
+			y: -50,
 			autoAlpha: 0
 		}, {
-			cycle:{y: function(){
-					DeckX += 4;
-					return DeckX+"%";
-				}},
+			y: 0,
 			autoAlpha: 1
 		}, .1)
 	).add(
@@ -1297,18 +1291,12 @@ function Globe(){
 			ease: Back. easeOut.config( 1.7)
 		}, .1)
 	);
-	DeckX = -($("#DeckCloud .Life .Cards .Card").length * 4);
 	PlaceDeck.add(
 		TweenMax.staggerFromTo("#DeckCloud .Life .Cards .Card", .3, {
-			cycle:{y: function(){
-					return DeckX-50+"%";
-				}},
+			y: -50,
 			autoAlpha: 0
 		}, {
-			cycle:{y: function(){
-					DeckX += 4;
-					return DeckX+"%";
-				}},
+			y: 0,
 			autoAlpha: 1
 		}, .1)
 	).add(
@@ -1357,7 +1345,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	OnLoadActive = $("#DeckCloud");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
