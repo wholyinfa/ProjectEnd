@@ -4391,6 +4391,23 @@ AddFly = {
                 ease: A_ease
 			}), TheDELAY
 		);
+		// When the target division is Analyzer add an exclusive animation
+		if(
+			ActiveDivision.attr("id") === "Analyzer" ||
+			( Reverse.pedal === true && Reverse.obj.attr("id") === "Analyzer" )
+		){
+			var R = {
+				from: ( Reverse.pedal === true ) ? 760 : 0,
+				to: ( Reverse.pedal === true ) ? 0 : 760
+			};
+			TheFly.fromTo("#Analyzer .Analyzer .Glitch", TheDURATION, {
+				rotation: R.from,
+				ease: A_ease
+			}, {
+				rotation: R.to,
+				ease: A_ease
+			}, 0);
+		}
 	},
 	Spin : function(Reverse){
 		ReverseSeq = ( typeof(Reverse) !== "undefined" && typeof(Reverse) !== "boolean" ) ? true : false;
