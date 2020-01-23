@@ -2866,6 +2866,7 @@ function Globe(){
 			TweenMax.staggerFromTo(".Particles > *", .2, {autoAlpha: 1, scale: 1}, {
 				autoAlpha: 0,
 				scale: 1.5,
+				transformOrigin: "center",
 				onComplete: function(t){
 					// Reverse each tween individually after their done
 					t.reverse();
