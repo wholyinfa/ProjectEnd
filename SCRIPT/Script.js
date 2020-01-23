@@ -3572,7 +3572,7 @@ function DivisionSequence(reset,undone){
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
 			if( reset ){
-				StarRotation.invalidate();
+				StarRotation.resume();
 				AntiToxins.duration(.5).restart().resume();
 			}else{
 				Order.ID = DiviSection;
