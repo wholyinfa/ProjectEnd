@@ -1973,10 +1973,10 @@ body{
 }
 /* RATIO 0.8520849724626279 */
 #Analyzer .LeftWing{
-    width: 800px;padding-bottom: 662px;
+    width: 850px;padding-bottom: 712px;
     position: absolute; top: 8%; right: 50%;
     background: url("../ASSETS/Analyzer/LeftWing.png") no-repeat 26.5% 0%;
-    transform: translate(-12.8%, -7%);
+    transform: translate(-11.5%, -8%);
     grid-area: 1 / 1 / -1 / -1;
 }
 /* RATIO 0.9703153988868275 */
