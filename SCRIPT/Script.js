@@ -805,6 +805,17 @@ function Varia(){
 		ParticleNavigation.progress(progress[0]);
 		NavRotation.progress(progress[1]);
 	}
+
+	if( ActiveDivision.attr("id") === "Analyzer" ){
+	    // Clear overflow commands given by javascript in screens wider than 1024 width and shorter than 600 height
+		if( !Is.ThisSize(1024) && Is.ThisSize(null, 600) ){
+			TweenMax.set($("#Analyzer"), {overflowY: ""});
+		}
+		// Reset scroll position to prevent content overlapping the screen due to hidden overflow
+		if( !Is.ThisSize(null, 600) && $("#Analyzer")[0].scrollTop > 0 ){
+			TweenMax.set($("#Analyzer"), {scrollTop: 0});
+		}
+	}
 }
 
 function Globe(){
@@ -2735,6 +2746,8 @@ function Globe(){
                             }
 						}
 					});
+					// Allow scroll after everything is placed
+					TweenMax.set($("#Analyzer"), {overflowY: "auto"});
 				}
 			})
 		},
@@ -2780,6 +2793,21 @@ function Globe(){
 				Glitch.on("#Analyzer .Cloud", "SELECT A STONE");
 				// Reactivate stone select notice
 				$("#PrevFace, #NextFace").data({GandalfActive: true});
+				// Determine scroll reverse duration relative to the distance from the top
+				var dur = $("#Analyzer")[0].scrollTop / 400;
+				dur = ( dur > .2 ) ? .2 : dur;
+				// Reset scroll position
+				TweenMax.to($("#Analyzer"), dur, {scrollTop: 0, onComplete: function(){
+					// Clear content to prevent overflow issues
+				    $("#Analyzer .Plate .Content > div").html("");
+				    // For screens wider than 1024 width and shorter than 600 height clear overflow commands
+					if( !Is.ThisSize(1024) && Is.ThisSize(null, 600) ){
+						TweenMax.set($("#Analyzer"), {overflowY: ""});
+						return
+					}
+					// Disable scroll
+                    TweenMax.set($("#Analyzer"), {overflowY: "hidden"});
+					}});
 			}
 		}
 	};

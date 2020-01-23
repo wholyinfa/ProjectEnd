@@ -1967,7 +1967,6 @@ body{
     grid-template-columns: 4fr 2fr 4fr;
     grid-template-rows: 50px 1fr 130px;
     overflow: hidden;
-    overflow-y: auto;
 }
 #Artery .DivisionExpress{
     color: #ff8f8f
@@ -2974,6 +2973,11 @@ body{
     #AntiToxins .ArtParticle.F{
         width: 95%; padding-bottom: 95%;
         grid-area: 6 / -12 / span 3 / span 3;
+    }
+}
+@media screen and (min-width: 1024px) and (max-height: 600px){
+    #Analyzer{
+        overflow-y: auto;
     }
 }
 @media screen and (max-width: 600px) and  (min-height: 500px){
