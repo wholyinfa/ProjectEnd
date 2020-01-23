@@ -683,8 +683,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="LeftWing"></div>
-                <div class="RightWing"></div>
+                <div class="LeftWing">
+                    <div class="Storm"></div>
+                </div>
+                <div class="RightWing">
+                    <div class="Storm"></div>
+                </div>
                 <div class="Particles">
                     <div class="Blue A"><div class="hover"></div><div class="dime"></div></div>
                     <div class="Yellow A"><div class="hover"></div><div class="dime"></div></div>
@@ -695,22 +699,24 @@
                     <div class="Green B"><div class="hover"></div><div class="dime"></div></div>
                     <div class="Yellow B"><div class="hover"></div><div class="dime"></div></div>
                 </div>
-                <div class="Analyzer Entry">
-                    <div class="Faces">
-                        <div id="PainKiller" class="active"></div>
-                        <div id="Curious"></div>
-                        <div id="Cheerful"></div>
-                        <div id="Angry"></div>
-                        <div id="Upset"></div>
-                        <div id="Confident"></div>
-                        <div id="Sarcastic"></div>
-                        <div id="Positive"></div>
+                <div class="Analyzer">
+                    <div class="Core Entry">
+                        <div class="Faces">
+                            <div id="PainKiller" class="active"></div>
+                            <div id="Curious"></div>
+                            <div id="Cheerful"></div>
+                            <div id="Angry"></div>
+                            <div id="Upset"></div>
+                            <div id="Confident"></div>
+                            <div id="Sarcastic"></div>
+                            <div id="Positive"></div>
+                        </div>
+                        <div class="EvilAssets"></div>
+                        <div class="Navigate" id="PrevFace"></div>
+                        <div class="Navigate" id="NextFace"></div>
+                        <div class="Glitch"></div>
+                        <div class="Crystal"></div>
                     </div>
-                    <div class="EvilAssets"></div>
-                    <div class="Navigate" id="PrevFace"></div>
-                    <div class="Navigate" id="NextFace"></div>
-                    <div class="Glitch"></div>
-                    <div class="Crystal"></div>
                 </div>
                 <div class="Express">
                     <div class="CloudGlow"></div>

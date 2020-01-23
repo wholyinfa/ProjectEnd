@@ -1351,7 +1351,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#Analyzer");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -2585,7 +2585,7 @@ function Globe(){
 			DimeRotate = new TimelineMax({paused : true});
 			var Particle = T.parent(),
 				MovingPart = T.siblings(".dime"),
-				AnalyzerCore = $(".Analyzer"),
+				AnalyzerCore = $(".Analyzer .Core"),
 				TargetX = ( AnalyzerCore.offset().left + AnalyzerCore.innerWidth() / 2 ) - ( MovingPart.offset().left + MovingPart.innerWidth() / 2 ),
 				TargetY = ( AnalyzerCore.offset().top + AnalyzerCore.innerHeight() / 2 ) - ( MovingPart.offset().top + MovingPart.innerHeight() / 2 ),
 				NegOrPos = (Math.floor(Math.random() * 2));
@@ -3603,7 +3603,7 @@ function DivisionSequence(reset,undone){
 	}
 	if( NextDivision == "AntiToxins" ){NextDivisionAssociates = Ascs;}
 	// Trial Start
-	Ascs = [".RightWing",".LeftWing",".Analyzer",[".Particles > div"]];
+	Ascs = [".RightWing .Storm",".LeftWing .Storm",".Analyzer .Core",[".Particles > div"]];
 	if( DiviSection == "Analyzer" ){
 		FlyAssociates =  Ascs;
 		if( Reactive || reset ){

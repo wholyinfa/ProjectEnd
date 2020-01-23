@@ -1975,7 +1975,6 @@ body{
 #Analyzer .LeftWing{
     width: 850px;padding-bottom: 712px;
     position: absolute; top: 8%; right: 50%;
-    background: url("../ASSETS/Analyzer/LeftWing.png") no-repeat 26.5% 0%;
     transform: translate(-11.5%, -8%);
     grid-area: 1 / 1 / -1 / -1;
 }
@@ -1983,11 +1982,22 @@ body{
 #Analyzer .RightWing{
     width: 750px; padding-bottom: 702px;
     position: absolute; top: 8%; left: 50%;
-    background: url("../ASSETS/Analyzer/RightWing.png") no-repeat 24% 0%;
     transform: translate(13.5%, -10.2%);
     grid-area: 1 / 1 / -1 / -1;
 }
-#Analyzer .LeftWing, #Analyzer .RightWing {
+/* RATIO 0.8520849724626279 */
+#Analyzer .LeftWing .Storm{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    background: url("../ASSETS/Analyzer/LeftWing.png") no-repeat 26.5% 0%;
+}
+/* RATIO 0.9703153988868275 */
+#Analyzer .RightWing .Storm{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    background: url("../ASSETS/Analyzer/RightWing.png") no-repeat 24% 0%;
+}
+#Analyzer .LeftWing .Storm, #Analyzer .RightWing .Storm {
     background-size: 100%;
 }
 #Analyzer .Particles{
@@ -2069,7 +2079,11 @@ body{
     position: relative; top: 8%; left: 50%;
     transform: translateX(-50%);
 }
-#Analyzer .Analyzer > div{
+#Analyzer .Analyzer .Core{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+}
+#Analyzer .Analyzer .Core > div{
     position: absolute;
 }
 #Analyzer .Faces{
