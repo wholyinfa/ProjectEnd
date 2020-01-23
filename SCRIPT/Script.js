@@ -3498,9 +3498,13 @@ function Fly(Reach,Manual){
 	}
 	// Or just restart active fly associates while reversing to the same division
 	if( (Reverse.pedal == true && (typeof(ActiveFly) !== "undefined" && !ActiveFly.isActive())) || (typeof(ReverseFly) !== "undefined" && !ReverseFly.isActive()) ){
-		ResetVars = PreFlyAssociates.toString()+","+FlyAssociates.toString();
-		if( NextDivisionAssociates ){ ResetVars += ","+NextDivisionAssociates.toString(); }
-		TweenMax.set(ResetVars, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+		// Store all available Fly associates
+	    ResetVars = ActiveFly.getChildren();
+		if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
+		$(ResetVars).each(function(){
+		    // Reset all changes affected by Fly
+			TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+		});
 	}
 	// Return on reverse fly
 	if( Reverse.pedal === false && ( (typeof(ReverseFly) !== "undefined" && ReverseFly.isActive()) ||
@@ -3535,9 +3539,13 @@ function Fly(Reach,Manual){
 					CheckForToggle(ActivePortal[0]);
 				}
 				Reverse.obj.css({zIndex: -1}); ActiveDivision.css({zIndex: 1});
-				ResetVars = PreFlyAssociates.toString()+","+FlyAssociates.toString();
-				if( NextDivisionAssociates ){ ResetVars += ","+NextDivisionAssociates.toString(); }
-				TweenMax.set(ResetVars, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+                // Store all available Fly associates
+                ResetVars = ActiveFly.getChildren();
+                if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
+                $(ResetVars).each(function(){
+                    // Reset all changes affected by Fly
+                    TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+                });
                 // By order of the fookin DivisionSequence
 				DiviOrders();
 			}
@@ -4092,9 +4100,13 @@ function KillActiveFly(){
 	Forward.isAllowed(Forward.memory);
 	if( Reverse.obj !== false ){Reverse.obj.css({zIndex: -1});}
 	ActiveDivision.css({zIndex: 1});
-	ResetVars = PreFlyAssociates.toString()+","+FlyAssociates.toString();
-	if( NextDivisionAssociates ){ ResetVars += ","+NextDivisionAssociates.toString(); }
-	TweenMax.set(ResetVars, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+    // Store all available Fly associates
+    ResetVars = ActiveFly.getChildren();
+    if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
+    $(ResetVars).each(function(){
+        // Reset all changes affected by Fly
+        TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+    });
 	// Disabling some animations
 	if( ActivePortal[0] !== false && DirectRotten[0] !== false ){
 		DirectRotten[0].reversed( !DirectRotten[0].reversed() ).resume();
@@ -4115,9 +4127,13 @@ function KillActiveFly(){
 }
 function KillReverseFly(){
 	Reverse.isAllowed(Reverse.memory);
-	ResetVars = PreFlyAssociates.toString()+","+FlyAssociates.toString();
-	if( NextDivisionAssociates ){ ResetVars += ","+NextDivisionAssociates.toString(); }
-	TweenMax.set(ResetVars, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+    // Store all available Fly associates
+    ResetVars = ActiveFly.getChildren();
+    if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
+    $(ResetVars).each(function(){
+        // Reset all changes affected by Fly
+        TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+    });
 	if( !ActiveFly.isActive() ){
 		ActiveFly.kill();
 		delete ActiveFly;
