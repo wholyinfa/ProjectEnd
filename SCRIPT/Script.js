@@ -815,6 +815,10 @@ function Varia(){
 		if( !Is.ThisSize(null, 600) && $("#Analyzer")[0].scrollTop > 0 ){
 			TweenMax.set($("#Analyzer"), {scrollTop: 0});
 		}
+		// Automatically pick a stone for screens bellow 1024 cause Particles are hidden
+		if( Is.ThisSize(1024) && !Analyzer.isActive ){
+            Analyzer.Sequence($("#Analyzer .Particles .Green.A .hover"));
+        }
 	}
 }
 
@@ -2782,7 +2786,10 @@ function Globe(){
 			FaceAppear.reverse();
 			DimeEntrance.reverse();
 			if( AnalyzePlate.reversed() ){
-				AnalyzePlate.reversed( !AnalyzePlate.reversed() ).resume();
+				AnalyzePlate.reversed( !AnalyzePlate.reversed() ).resume().eventCallback("onComplete",function(){
+                    // Clear content to prevent overflow issues
+                    $("#Analyzer .Plate .Content > div").html("");
+                });
 			}
 			// Re-activating active particle's click & hover ability
 			TweenMax.set(Analyzer.object.children(".hover"), {autoAlpha: 1});
@@ -2798,8 +2805,6 @@ function Globe(){
 				dur = ( dur > .2 ) ? .2 : dur;
 				// Reset scroll position
 				TweenMax.to($("#Analyzer"), dur, {scrollTop: 0, onComplete: function(){
-					// Clear content to prevent overflow issues
-				    $("#Analyzer .Plate .Content > div").html("");
 				    // For screens wider than 1024 width and shorter than 600 height clear overflow commands
 					if( !Is.ThisSize(1024) && Is.ThisSize(null, 600) ){
 						TweenMax.set($("#Analyzer"), {overflowY: ""});
@@ -2837,6 +2842,8 @@ function Globe(){
 		}
 	});
 	$(".Analyzer .Crystal").click(function(){
+	    // Prohibit unloading when PArticles are hidden
+	    if( Is.ThisSize(1024) ){ return; }
 		if( Analyzer.isActive ){
 			Analyzer.Reverse(Analyzer.object, true);
 		}else{
