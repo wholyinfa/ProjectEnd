@@ -3609,6 +3609,10 @@ function DivisionSequence(reset,undone){
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
 			if( reset ){
+                // Automatically pick a stone for screens bellow 1024 cause Particles are hidden
+                if( Is.ThisSize(1024) && !Analyzer.isActive ){
+                    Analyzer.Sequence($("#Analyzer .Particles .Green.A .hover"));
+                }
 				AnalyzerFly.restart().resume();
 			}else{
 				Order.ID = DiviSection;
