@@ -2224,7 +2224,7 @@ body{
 #Analyzer .Plate .Content{
     position: relative; top: 0; left: 0;
     box-sizing: border-box;
-    perspective: 250px;
+    perspective: 310px;
     font-size: 1em;text-align: justify; padding: 2em 3.5em 3.5em 3.5em; overflow: auto;
 }
 #Analyzer .Plate .Content > div{
