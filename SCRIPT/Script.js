@@ -2869,7 +2869,7 @@ function Globe(){
 	// DeckCloud
 	CardHover = { isActive: [], append: [], AlreadyActive: [], HoverReveal: [] };
 	CardSelect = { isActive: [], object: [], mdReset: [], validator: [] };
-	$(".Cards .Card").mouseenter(function(){
+	$(".Deck:not(.Slider) .Cards .Card").mouseenter(function(){
 		CardHoverIn( $(this) );
 	})
 		.mouseleave(function(e){
@@ -3032,7 +3032,7 @@ function Globe(){
         // Exclusive commands for Gandalf
         $("#DeckCloud .Card").data({GandalfOpt: 0});
 	});
-	$("#DeckCloud .Sign").click(function(){
+	$("#DeckCloud .Deck:not(.Slider) .Sign").click(function(){
 	    // CardWave effect
         TweenMax.staggerFromTo($(this).siblings(".Cards").find(".Card"), .1,{
             y: 0
@@ -3048,6 +3048,57 @@ function Globe(){
         }, .05);
     });
 	CardDraggable();
+
+    Sign = {
+        activeObj: null,
+        activate: function(T){
+            // Deny request when target is the active object
+            if( this.activeObj !== null && this.activeObj.hasClass(T.attr("class")) ){ return; }
+            // Store ids' of both signs
+            var type = ( T.hasClass("Work") ) ? ".Work" : ".Life",
+                othersign = ( T.hasClass("Work") ) ? T.siblings(".Sign.Life") : T.siblings(".Sign.Work"),
+                othertype = ( T.hasClass("Work") ) ? ".Life" : ".Work";
+            // Switch signs
+            TweenMax.to(othersign, .5,{
+                autoAlpha: .3
+            });
+            TweenMax.to(T, .5,{
+                autoAlpha: 1
+            });
+            // Hide ShuffleFires of both decks
+            TweenMax.to([T.siblings(type).find(".ShuffleFire"),othersign.siblings(othertype).find(".ShuffleFire")], .2,{
+                autoAlpha: 0,
+                y: 20
+            });
+            // Hide the target deck
+            TweenMax.to(T.siblings(type).find(".CardSlider .Card, .RoyalPillow"), .2, {
+                autoAlpha: 0,
+                x: function(){
+                    return ( type === ".Work" ) ? -50 : 50;
+                },
+                onComplete: function(){
+                    // Switch decks' positions
+                    TweenMax.set(othersign.siblings(othertype+".Cards"), {zIndex: -1});
+                    TweenMax.set(T.siblings(type+".Cards"), {zIndex: 0});
+                    // Shuffle active deck back in
+                    TweenMax.staggerTo(T.siblings(type).find(".CardSlider .Card, .RoyalPillow"), .2, {
+                        autoAlpha: 1,
+                        x: 0
+                    },.1);
+                    // Light the fires
+                    TweenMax.to(T.siblings(type).find(".ShuffleFire"), .2,{
+                        autoAlpha: 1,
+                        y: 0
+                    });
+                }
+            });
+            // Store active sign's state
+            this.activeObj = T;
+        }
+    };
+	$(".Deck.Slider .Sign").click(function(){
+        Sign.activate($(this));
+    });
 
 	$(".DivisionExpress").click(function(){
 		ExpressTheDivision($(this));
@@ -3639,6 +3690,8 @@ function DivisionSequence(reset,undone){
 				Gravity.restart().resume();
 				PlaceDeck.restart().resume();
 				ShuffleFire.invalidate().resume();
+				// Activate a deck in Slider deck
+                Sign.activate($(".Deck.Slider .Sign.Life"));
 			}else{
 				Order.ID = DiviSection;
 			}

@@ -973,6 +973,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="ShuffleFire A">
+                            <div class="Fire"></div>
+                        </div>
+                        <div class="ShuffleFire B">
+                            <div class="Fire"></div>
+                        </div>
+                        <div class="ShuffleFire C">
+                            <div class="Fire"></div>
+                        </div>
+                        <div class="ShuffleFire D">
+                            <div class="Fire"></div>
+                        </div>
                     </div>
                     <div class="Life Cards">
                         <div class="RoyalPillow">
@@ -1036,10 +1048,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="Work Sign"></div>
-                    <div class="Life Sign"></div>
-                    <div class="Fire Life">
                         <div class="ShuffleFire A">
                             <div class="Fire"></div>
                         </div>
@@ -1053,6 +1061,8 @@
                             <div class="Fire"></div>
                         </div>
                     </div>
+                    <div class="Work Sign"></div>
+                    <div class="Life Sign"></div>
                 </div>
             </div>
         </div>
