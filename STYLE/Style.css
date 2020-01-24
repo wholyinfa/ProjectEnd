@@ -2273,13 +2273,17 @@ body{
     position: relative;
     align-self: center; justify-self: center;
 }
+#DeckCloud .Deck.Slider{
+    /*RATIO 1.165277777777778*/
+    width: 90%; padding-bottom: 105%;
+}
 #DeckCloud .Deck.Work{
     grid-area: 2 / 2 / span 1 / span 1;
 }
 #DeckCloud .Deck.Life{
     grid-area: 2 / 3 / span 1 / span 1;
 }
-#DeckCloud .Work .Sign{
+#DeckCloud .Work .Sign,#DeckCloud .Work.Sign{
     /*RATIO 0.3958333333333333*/
     width: 40%; padding-bottom: 16%;
     top: 0; left: 25.69%;
@@ -2287,13 +2291,19 @@ body{
     background-size: 100%;
     z-index: 2;
 }
-#DeckCloud .Life .Sign{
+#DeckCloud .Slider .Work.Sign{
+    left: 13%;
+}
+#DeckCloud .Life .Sign,#DeckCloud .Life.Sign{
     /*RATIO 0.5480769230769231*/
     width: 28%; padding-bottom: 16%;
     top: 0; right: 25.69%;
     background: url("../ASSETS/DeckCloud/Sign_Life.png") no-repeat;
     background-size: 100%;
     z-index: 2;
+}
+#DeckCloud .Slider .Life.Sign{
+    right: 13%;
 }
 #DeckCloud .RoyalPillow{
     /*RATIO 0.3111111111111111*/
@@ -2338,6 +2348,10 @@ body{
     width: 7.08%; padding-bottom: 9.43%;
     z-index: 2;
 }
+#DeckCloud .Slider .Fire{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+}
 #DeckCloud .Life .ShuffleFire.A{
     bottom: 7%; left: 0;
 }
@@ -2370,13 +2384,23 @@ body{
     background: url("../ASSETS/DeckCloud/Fire.png") no-repeat;
     background-size: auto 100%;
 }
-#DeckCloud .Cards{
+#DeckCloud .Deck:not(.Slider) .Cards{
     width: 100%; height: 100%;
     top: 0; left: 0;
     z-index: 1;
     display: grid;
-    /*grid-template-rows: 19% repeat(5, 2%);
-    grid-template-columns: 14% repeat(36, 2%) 14%;*/
+    grid-template-rows: 18% repeat(5, 2.3%);
+    grid-template-columns: repeat(24, 1%) 52% repeat(24, 1%);
+    padding: 0 10%;
+    box-sizing: border-box;
+}
+#DeckCloud .Deck.Slider .Cards, #DeckCloud .Deck.Slider .CardSlider{
+    width: 100%; height: 100%;
+    top: 0; left: 0;
+    z-index: 1;
+}
+#DeckCloud .Deck.Slider .CardSlider{
+    display: grid;
     grid-template-rows: 18% repeat(5, 2.3%);
     grid-template-columns: repeat(24, 1%) 52% repeat(24, 1%);
     padding: 0 10%;
@@ -2732,7 +2756,6 @@ body{
         bottom: 87.5px;
     }
 }
-
 @media screen and (max-width: 1200px){
     #SpaceCyclone .Input {
         max-width: 250px;
@@ -3161,6 +3184,16 @@ body{
     }
     #AntiToxins .SingleParticle .BuiltWith .ToolBox > div{
         width: 8%;
+    }
+
+    #DeckCloud{
+        grid-template-columns: 1fr 8fr 1fr;
+    }
+    #DeckCloud .Deck.Life, #DeckCloud .Deck.Work{
+        display: none;
+    }
+    #DeckCloud .Deck.Slider{
+        grid-area: 2 / 2 / span 1 / span 1;
     }
 }
 @media screen and (max-width: 600px){
