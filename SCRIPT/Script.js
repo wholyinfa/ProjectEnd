@@ -820,6 +820,71 @@ function Varia(){
             Analyzer.Sequence($("#Analyzer .Particles .Green.A .hover"));
         }
 	}
+	// Request reset for probable CardSlider changes
+	CardSlider.reset();
+	// Apply Draggable to each Card container
+    $(".Slider .CardSlider").each( function(){
+            // Set the distance between Cards
+        var bound = $(this).find(".Card").innerWidth() * .05,
+            // Set the maximum horizontal axis based on children count and distance between them
+            xbound = bound * ($(this).children(".Card").length - 1),
+            // Set horizontal direction
+            dir = ( $(this).parent().hasClass("Work") ) ? 1 : -1 ,
+            // Set minimum & maximum X values
+            xrange = ( $(this).parent().hasClass("Work") ) ? {
+                min: 0,
+                max: xbound
+            } : {
+                min: -xbound,
+                max: 0
+            };
+        // Make the container draggable
+        Draggable.create(this,{
+            type: "X",
+            bounds: {
+                minX : xrange.min,
+                maxX : xrange.max
+            },
+            onPress: function(){
+                // Prevent Sliding when Content (which is draggable) is engaged
+                if( $(this.pointerEvent.target).hasClass("Content") ){
+                    this.endDrag();
+                }
+            },
+            onDrag: function(){
+                // Sync the horizontal and vertical attributes
+                TweenMax.set(this.target,
+                    {
+                        y: dir*this.x
+                    });
+                // Request cards' placement sequence
+                CardSlider.placer(this, dir);
+            },
+            onDragEnd: function(){
+				// Prevent displacement when already at minimum or maximum position
+				if( this.x === this.maxX || this.x === this.minX ){
+					return;
+				}
+                var stickto = 0;
+                // Search for the current level through container's children
+                for( i = 0; i < $(this.target).children(".Card").length; i++ ){
+                	// Revert to previous Card's position when placed between it's margin before the next Card
+                    if( ( dir === -1 && this.x >= -( bound * i+1 ) ) || ( dir === 1 && this.x <= ( bound * i+1 ) ) ){
+                        stickto = dir*bound * (i);
+                        break;
+                    }
+                }
+                // Animate the placement
+                TweenMax.to(this.target, .2,
+                    {
+                        x: stickto,
+                        y: dir*stickto
+                    });
+				// Request cards' placement sequence
+                CardSlider.placer(this, dir);
+            }
+        });
+    });
 }
 
 function Globe(){
@@ -829,6 +894,15 @@ function Globe(){
 	$("input,textarea").val("");
 	// Form the panels
 	Panel.setup();
+	// Add Cards from Life & Work Decks to the Slider Deck
+    $(".Deck .Cards .Card").each(function(){
+        var clone = $(this).clone();
+        if( $(this).parent().parent().hasClass("Work") ){
+            clone.appendTo($(".Slider .Work.Cards .CardSlider"))
+        }else if( $(this).parent().parent().hasClass("Life") ){
+            clone.appendTo($(".Slider .Life.Cards .CardSlider"))
+        }
+    });
 
 // Pre Requisitions
 
@@ -2956,7 +3030,7 @@ function Globe(){
 		CardHover.AlreadyActive[T] = [];
 		CardHover.HoverReveal[T].reverse();
 	});
-	$(".Cards .Card").mousedown(function(e){
+	$(".Deck:not(.Slider) .Cards .Card").mousedown(function(e){
 		var T = $(this).parent().parent().attr("class"),
 			siblings = $(this).nextAll(".Card");
 		mdevent = e;
@@ -2970,7 +3044,7 @@ function Globe(){
 		}
 		CardSelect.mdReset[T] = $(this);
 	});
-	$(".Cards .Card").mouseup(function(e){
+	$(".Deck:not(.Slider) .Cards .Card").mouseup(function(e){
 		var T = $(this).parent().parent().attr("class");
 		CardSelect.validator[T] = 0;
 		// Declaring account state only when not declared
@@ -3094,6 +3168,8 @@ function Globe(){
             });
             // Store active sign's state
             this.activeObj = T;
+            // Request reset for probable CardSlider changes
+            CardSlider.reset(.5);
         }
     };
 	$(".Deck.Slider .Sign").click(function(){
@@ -6593,6 +6669,77 @@ function CardDraggable(){
         }
     });
 }
+CardSlider = {
+    last: null,
+    placer : function(instance, dir){
+    	var reveal = false,
+    		conceal = false;
+    	// Search for current level through the container's children
+        for( i = 1; i < $(instance.target).children(".Card").length; i++ ){
+			    // Set the distance between Cards
+            var bound = $(instance.target).find(".Card").innerWidth() * .05,
+                // Get the visually front Card
+				card = $(instance.target).children(".Card").eq($(instance.target).children(".Card").length-i);
+            // Reveal all cards when container is at it's starting position
+            if( ( dir === -1 && instance.x === instance.maxX ) || ( dir === 1 && instance.x === instance.minX ) ){
+				reveal = $(instance.target).find(".Card > div");
+                break;
+            }
+			// Reveal only the last card and conceal other Cards when container is at it's final position
+            if( ( dir === -1 && instance.x === instance.minX ) || ( dir === 1 && instance.x === instance.maxX ) ){
+                card = $(instance.target).find(".Card").first();
+                conceal = card.siblings().children();
+                reveal = card.children();
+                break;
+            }
+            // Reveal this Card and conceal Cards in front of it when container is on the margin between the current and the next Card
+            if( ( dir === -1 && instance.x > -( bound * i ) ) || ( dir === 1 && instance.x < ( bound * i ) ) ){
+				conceal = [card.children(),card.nextAll().children()];
+				reveal = card.prevAll().children();
+                break;
+            }
+        }
+        // Reveal if available
+        if( reveal ){
+			TweenMax.to(reveal, .2,
+				{
+					autoAlpha: 1,
+					scaleY: 1,
+					transformOrigin: "50% 100%"
+				});
+		}
+		// Conceal if available
+        if( conceal ){
+			TweenMax.to(conceal, .2,
+				{
+					autoAlpha: 0,
+					scaleY: 0,
+					transformOrigin: "50% 100%"
+				});
+		}
+        // Store this container as the last used Slider
+        this.last = instance.target;
+    },
+    reset: function(dur){
+    	// Check if reset should be animated
+        var dur = ( dur ) ? dur : 0;
+        // Deny reset when no slider is engaged
+        if( this.last === null ){ return; }
+        // Do the reset
+        TweenMax.to($(".Slider .CardSlider .Card > div"), dur,{
+            autoAlpha: 1,
+            scaleY: 1,
+            x: 0,
+            y: 0
+        });
+        TweenMax.to($(".Slider .CardSlider"), dur,{
+            x: 0,
+            y: 0
+        });
+        // Reset Slider usage state
+        this.last = null;
+    }
+};
 
 // Gandalf setter
 Gandalfer = {
