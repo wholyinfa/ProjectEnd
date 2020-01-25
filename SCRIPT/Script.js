@@ -601,6 +601,7 @@ function Varia(){
 	// Disable assets not supported in touch devices
     NoTouchList = [
       	$("#Peek"),
+      	$("#Gandalf"),
       	$(".Area69"),
 		$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle"),
     ];
@@ -6793,6 +6794,8 @@ CardSlider = {
 Gandalfer = {
 	setup: function(GandalfRow){
 		$(GandalfRow[0]).click(function(){
+            // Check if touch allowed for touch devices
+            if( Is.NoTouch("#Gandalf") ){ return; }
 			var content = GandalfRow[1];
 			// Analyzing the element for deactivation requests
 			if( $(this).data().GandalfActive === false ){
