@@ -1300,13 +1300,28 @@ function Globe(){
 		}), 0
 	);
 	DeckCloudFly = new TimelineMax({paused: true});
-	DeckCloudFly.add(
-		TweenMax.fromTo("#DeckCloud .Sign, #DeckCloud .Cards .Fader, #DeckCloud .GravityForce, #DeckCloud .GravityForceX, #DeckCloud .ShuffleFire", .1, {
+	DeckCloudFly.fromTo("#DeckCloud .Cards .Fader, #DeckCloud .GravityForce, #DeckCloud .GravityForceX", .1, {
 			autoAlpha: 0
 		}, {
-			autoAlpha: 1
-		}), 0
-	);
+            autoAlpha: 1
+		}, 0).fromTo("#DeckCloud .Deck .Sign, #DeckCloud .Deck .ShuffleFire", .1, {
+			autoAlpha: 0
+		}, {
+            autoAlpha: function(i, t){
+                // Get the other Deck's class
+                var Class = ( Sign.activeObj.hasClass("Work") )? ".Life" : ".Work";
+                // Set exclusive values for SliderDeck's ShuffelFires & Signs
+				// Check if current Tween is from the other Deck
+                if( Sign.activeObj.siblings(Class).find(t).length && $(t).hasClass("ShuffleFire") ){
+                    return 0;
+                }
+				// Check if current Tween is from the active Deck
+                if( Sign.activeObj.parent().find(t).length && $(t).hasClass("Sign") && $(t).hasClass(Class.replace(".","")) ){
+                    return .4;
+                }
+                return 1;
+        }
+		}, 0);
 	Gravity = new TimelineMax({repeat: -1, paused: true});
 	Gravity.add(
 		TweenMax.fromTo("#DeckCloud .Deck.Work .GravityForce, #DeckCloud .Deck.Life .GravityForceX", .1, {
@@ -1356,32 +1371,30 @@ function Globe(){
 		}, {
 			y: 0,
 			autoAlpha: 1
-		}, .1)
+		}, .1), 0
 	).add(
 		TweenMax.fromTo("#DeckCloud .Work .Sign", .3, {
 			scale: 0,
 		}, {
 			scale: 1,
 			ease: Back. easeOut.config( 1.7)
-		}, .1)
+		}, .1), 0
 	);
 	PlaceDeck.add(
-		TweenMax.staggerFromTo("#DeckCloud .Life .Cards .Card", .3, {
+		TweenMax.staggerFromTo("#DeckCloud .Life .Cards .Card, #DeckCloud .Slider .Cards .Card", .3, {
 			y: -50,
 			autoAlpha: 0
 		}, {
 			y: 0,
 			autoAlpha: 1
-		}, .1)
+		}, .1), 0
 	).add(
-		TweenMax.fromTo("#DeckCloud .Life .Sign", .3, {
-			scale: 0,
-			autoAlpha: 0
+		TweenMax.fromTo("#DeckCloud .Life .Sign, #DeckCloud .Slider .Sign", .3, {
+			scale: 0
 		}, {
 			scale: 1,
-			autoAlpha: 1,
 			ease: Back. easeOut.config( 1.7)
-		}, .1)
+		}, .1), 0
 	);
 	ShuffleFire = new TimelineMax({paused: true, repeat: -1, yoyo: true
 	});
@@ -3124,24 +3137,52 @@ function Globe(){
 	CardDraggable();
 
     Sign = {
-        activeObj: null,
-        activate: function(T){
-            // Deny request when target is the active object
-            if( this.activeObj !== null && this.activeObj.hasClass(T.attr("class")) ){ return; }
+        activeObj: $(".Slider .Life.Sign"),
+        activate: function(T, force){
+            // Deny request when:
+            if(
+				// Request is not forced
+            	typeof(force) === "undefined" &&
+				// Target is the active object
+				( T !== null && this.activeObj.hasClass(T.attr("class")) )
+			){ return; }
+			// If target is not set, go with the default
+            if( T === null ){
+                T = this.activeObj;
+            }
+			// If it is, store active sign's state
+            else{
+                this.activeObj = T;
+            }
             // Store ids' of both signs
             var type = ( T.hasClass("Work") ) ? ".Work" : ".Life",
                 othersign = ( T.hasClass("Work") ) ? T.siblings(".Sign.Life") : T.siblings(".Sign.Work"),
                 othertype = ( T.hasClass("Work") ) ? ".Life" : ".Work";
-            // Switch signs
-            TweenMax.to(othersign, .5,{
-                autoAlpha: .3
+            // Prevent the shuffle effect if requested
+            if( force === "noshuffle" ){
+                TweenMax.to(T.siblings(type).find(".ShuffleFire"), .2,{
+                    scale: 1
+                });
+                TweenMax.to(othersign.siblings(".Cards"+othertype), .5,{
+                    autoAlpha: .35
+                });
+                TweenMax.to(T.siblings(".Cards"+type), .5,{
+                    autoAlpha: 1
+                });
+                return;
+            }
+            // Switch visibility
+            TweenMax.to([othersign,othersign.siblings(".Cards"+othertype)], .5,{
+                autoAlpha: .35
             });
-            TweenMax.to(T, .5,{
+            TweenMax.to([T, T.siblings(".Cards"+type)], .5,{
                 autoAlpha: 1
             });
+            var faya = [T.siblings(type).find(".ShuffleFire"),othersign.siblings(othertype).find(".ShuffleFire")];
             // Hide ShuffleFires of both decks
-            TweenMax.to([T.siblings(type).find(".ShuffleFire"),othersign.siblings(othertype).find(".ShuffleFire")], .2,{
-                autoAlpha: 0,
+            TweenMax.to(faya, .2,{
+                scale: 0,
+                autoAlpha: 1,
                 y: 20
             });
             // Hide the target deck
@@ -3161,13 +3202,14 @@ function Globe(){
                     },.1);
                     // Light the fires
                     TweenMax.to(T.siblings(type).find(".ShuffleFire"), .2,{
-                        autoAlpha: 1,
+                        scale: 1,
                         y: 0
+                    });
+                    TweenMax.to(".Deck.Slider .Life.Sign,.Deck.Slider .Work.Sign", .2,{
+                        scale: 1
                     });
                 }
             });
-            // Store active sign's state
-            this.activeObj = T;
             // Request reset for probable CardSlider changes
             CardSlider.reset(.5);
         }
@@ -3761,13 +3803,14 @@ function DivisionSequence(reset,undone){
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
 			if( reset ){
-				DeckCloudFly.restart().resume();
+				DeckCloudFly.invalidate().restart().resume();
 				ShuffleFireFly.restart().resume();
 				Gravity.restart().resume();
-				PlaceDeck.restart().resume();
+				PlaceDeck.restart().eventCallback("onComplete", function(){
+					// Activate a deck in Slider deck
+                    Sign.activate(null, "noshuffle");
+				});
 				ShuffleFire.invalidate().resume();
-				// Activate a deck in Slider deck
-                Sign.activate($(".Deck.Slider .Sign.Life"));
 			}else{
 				Order.ID = DiviSection;
 			}
@@ -3786,13 +3829,13 @@ function DivisionSequence(reset,undone){
 			if( PlaceDeck.isActive() ){
 				PlaceDeck.pause();
 			}
-			DeckCloudFly.reverse();
+			DeckCloudFly.invalidate().reverse();
 			Gravity.pause();
 		}
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "DeckCloud" ){
 		// DO after left the current dimension
-		DeckCloudFly.reversed( !DeckCloudFly.reverse() )
-		DeckCloudFly.restart().pause();
+		DeckCloudFly.reversed( !DeckCloudFly.reverse() );
+		DeckCloudFly.invalidate().restart().pause();
 		ShuffleFireFly.restart().pause();
 		PlaceDeck.restart().pause();
 		ShuffleFire.invalidate().pause();
@@ -4409,7 +4452,7 @@ function DiviOrders(){
 		if( PlaceDeck.time() <= PlaceDeck.duration() ){
 			PlaceDeck.resume();
 		}
-		DeckCloudFly.restart().resume();
+		DeckCloudFly.invalidate().restart().resume();
 		ShuffleFireFly.restart().resume();
 		TweenMax.set("#DeckCloud .GravityForce, #DeckCloud .GravityForceX", {
 			autoAlpha: 0
