@@ -4047,7 +4047,9 @@ function Fly(Reach,Manual){
 		  // Defining the fly & reverse fly animations
 		ActiveFly = new TimelineMax({paused: true});
 		ActiveFly.eventCallback("onReverseComplete",KillActiveFly);
-        Scale = (window.innerWidth / Subject.width()) * 2;
+        Scale = ( window.innerWidth >= window.innerHeight ) ?
+            (window.innerWidth / Subject.innerWidth()) * 2 :
+            (window.innerHeight / Subject.innerHeight()) * 2;
         AnimDur = 15;
 
         // Get the spaceship ready for reverse fly
