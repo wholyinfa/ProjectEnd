@@ -312,17 +312,18 @@ body{
     /*     RATIO 0.8     */
     position: relative;
     grid-area: 4 / 5 / 4 / 6;
-    padding-top: 74%;
+    padding-top: 80%;
 }
 .BreathinFragment .Eyez{
-    width: 93.40%; height: 34.93%;
-    position: absolute; left: 4.39%; top: 0;
+    width: 100%; height: 35%;
+    position: absolute; left: 0; top: 0;
     background: url("../ASSETS/BlackHole/See.png") center center no-repeat;
     background-size: contain;
     background-position: center;
+    padding-left: 1%;
 }
 .BreathinFragment .Laugh{
-    width: 100%; height: 84.93%;
+    width: 100%; height: 85%;
     position: absolute; left: 0; top: 15%;
     background: url("../ASSETS/BlackHole/Laugh.png") center center no-repeat;
     background-size: contain;
@@ -2651,32 +2652,31 @@ body{
 @media screen and (max-height: 550px) and (min-width: 550px){
     #Temporary {
         grid-template-rows: .5fr 2fr 2fr 130px;
-        grid-template-columns: .25fr 2fr 2fr 2fr 2fr .25fr  ;
+        grid-template-columns: .5fr 1fr 1fr 1fr 1fr 4fr 4fr 4fr .5fr;
         align-items: center; justify-items: center;
     }
     #Temporary .Portalian{
         font-size: 0.9em; text-align: center;
-        grid-area: 3 / 2 / 4 / 3;
+        grid-area: 3 / 2 / 4 / span 4;
         padding: 0; margin-top: 4%;
         align-self: start;
     }
     #Temporary .BreathinFragment{
-        grid-area: 2 / 2 / 3 / 3;
-        padding-top: 30%;
+        grid-area: 2 / 3 / 3 / span 2;
         align-self: end; justify-self: normal;
     }
     #Temporary .JourNey{
-        grid-area: 2 / 5 / 4 / 6;
+        grid-area: 2 / 6 / 4 / span 1;
         width: 100%;
         padding-top: 70%;
     }
     #Temporary .Artery{
-        grid-area: 2 / 4 / 4 / 5;
+        grid-area: 2 / 7 / 4 / span 1;
         width: 70%;
         padding-top: 90%;
     }
     #Temporary .BigMo{
-        grid-area: 2 / 3 / 4 / 4;
+        grid-area: 2 / 8 / 4 / span 1;
         width: 80%;
         padding-top: 80%;
     }
@@ -2705,26 +2705,25 @@ body{
 @media (max-width: 1024px) and (min-height: 550px), (max-width: 550px) and (max-height: 550px){
     #Temporary {
         overflow: auto;
-        grid-template-columns: 3fr 4fr 3fr;
+        grid-template-columns: 3fr 1fr 1fr 1fr 1fr 3fr;
         grid-template-rows: 20px 2fr auto 4fr 4fr 4fr;
         margin-top: -160px;
     }
     #Temporary .Portalian{
-        grid-area: 3 / 1 / 4 / 4;
+        grid-area: 3 / 1 / 4 / -1;
         text-align: center;
         font-size: 0.9em;
     }
     #Temporary .BreathinFragment{
-        grid-area: 2 / 2 / 3 / 3;
-        padding-top: 40%;
+        grid-area: 2 / 3 / 3 / span 2;
         margin-top: 160px;
     }
     #Temporary .JourNey{
-        grid-area: 4 / 2 / 5 / 3;
+        grid-area: 4 / 2 / 5 / span 4;
         padding-top: 62%;
     }
     #Temporary .Artery{
-        grid-area: 6 / 2 / 7 / 3;
+        grid-area: 6 / 2 / 7 / span 4;
         padding-top: 90%;
     }
     #Temporary .Artery .Desktop {
@@ -2732,7 +2731,7 @@ body{
         top: 13.64%;
     }
     #Temporary .BigMo{
-        grid-area: 5 / 2 / 6 / 3;
+        grid-area: 5 / 2 / 6 / span 4;
         padding-top: 70%;
     }
 }
@@ -3211,6 +3210,9 @@ body{
     }
     #Temporary .BreathinFragment{
         margin-top: 122px;
+    }
+    .BreathinFragment .Laugh{
+        height: 95%;
     }
     .QuickAccess .Cells {
         top: 20%;

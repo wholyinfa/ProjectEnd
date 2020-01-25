@@ -306,7 +306,7 @@
 
                 <h1 class='Portalian'>
                     This is the InfamousRocket<br>
-                    Front-end web developer<br>
+                    Front-end web developer
                     & Digital designer</h1>
                 <div class="Void"></div>
 
