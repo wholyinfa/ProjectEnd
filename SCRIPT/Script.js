@@ -2847,6 +2847,11 @@ function Globe(){
 			if( T.parent().hasClass(Analyzer.isActive) && DimeEntrance.isActive() ){
 				return;
 			}
+            // Determine scroll reverse duration relative to the distance from the top
+            var dur = $("#Analyzer")[0].scrollTop / 400;
+            dur = ( dur > .2 ) ? .2 : dur;
+            // Reset scroll position
+            TweenMax.to($("#Analyzer"), dur, {scrollTop: 0});
 			// Reversing particle when it's in the active stage
 			if( !CrystalRotation.reversed() ){
 				if( CrystalRotation.time() !== 0 ){ CrystalRotation.reverse(CrystalRotation.time()) }
