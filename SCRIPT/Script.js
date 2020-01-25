@@ -1289,7 +1289,7 @@ function Globe(){
 	// DeckCloud
 	ShuffleFireFly = new TimelineMax({paused: true});
 	ShuffleFireFly.add(
-		TweenMax.fromTo("#DeckCloud .ShuffleFire", .35, {
+		TweenMax.fromTo("#DeckCloud .Deck:not(.Slider) .ShuffleFire", .35, {
 			y: "+=50%",
 			scale: 0,
 			autoAlpha: 0
@@ -1419,7 +1419,7 @@ function Globe(){
 	);
     // Fly sequence
 	  // Defining sequence vars
-	OnLoadActive = $("#DeckCloud");
+	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#NOTREADY").css(
@@ -6819,7 +6819,6 @@ Peeker = {
 	set: function(asset){
 		$.each(Peek, function(){
 			if( $(asset[0]).filter($(this[0])[0]).length ){
-				console.log(this);
 				var content = this[1];
 				var PO = asset.data().PeekOption;
 				if( typeof(PO) !== "undefined" ){
