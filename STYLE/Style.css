@@ -1,24 +1,9 @@
 @charset "utf-8";
 @font-face {
-    font-family: 'Ykn';
-    src: url('../FONT/Ykn.woff') format('woff');
-    font-weight: normal;
-    font-style: normal
-
-}
-@font-face {
-    font-family: 'Lto';
-    src: url('../FONT/Lto.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
-@font-face {
     font-family: 'Ocr';
     src: url('../FONT/OCR.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
 }
 body{
     width: 100vw; height: 100vh;
@@ -434,46 +419,7 @@ body{
     color: #FF8F8F;
     background: radial-gradient(ellipse at center, rgb(255, 143, 143) 0%,rgba(0,0,0,0) 70%) 50% 50%;
 }
-/*.DivisionExpress .Arrow{
-    width: 30px; height: 30px;
-    background: url("../ASSETS/D.png");
-    background-size: 100%;
-    position: relative; bottom: -30%; margin: 0 auto;
-    transition: transform .1s ease-in-out;
-}
-.DivisionExpress:hover .Arrow{
-    transform: scale(2);
-}*/
 
-#EmryoS{
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
-    overflow: hidden;
-    opacity: .3;
-}
-#EmryoS , #EmryoS > *{ z-index: -1 }
-#EmryoS > div {
-    opacity: 0;
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
-
-}
-#EmryoS > div > div{
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
-}
-#EmryoS .Default > div{
-    background: url('../Assets/EmryoS/EmbryoniC.png') fixed;
-}
-#EmryoS .BigMo > div{
-    background: url('../Assets/EmryoS/EmbryoniC_BigMo.png');
-}
-#EmryoS .Artery > div{
-    background: url('../Assets/EmryoS/EmbryoniC_Artery.png');
-}
-#EmryoS .JourNey > div{
-    background: url('../Assets/EmryoS/EmbryoniC_JourNey.png');
-}
 #Gandalf{
     padding: 15px;
     position: fixed; bottom: 0; right: 0;
@@ -1404,61 +1350,6 @@ body{
 #Skillometer .Core .Strikes{
     cursor: crosshair;
 }
-@-webkit-keyframes White{
-    0%{opacity:1; margin: 0}
-    2%{opacity:.8}
-    4%{opacity:.8}
-    6%{opacity:1; margin: 0}
-    40%{opacity:1; margin: 0}
-    43%{opacity:.8}
-    44%{opacity:1; margin: 0}
-    100%{opacity:1; margin: 0}
-}
-@keyframes White{
-    0%{opacity:1; margin: 0}
-    2%{opacity:.8}
-    4%{opacity:.8}
-    6%{opacity:1; margin: 0}
-    40%{opacity:1; margin: 0}
-    43%{opacity:.8}
-    44%{opacity:1; margin: 0}
-    100%{opacity:1; margin: 0}
-}
-@-webkit-keyframes opaci{
-    0%{opacity: 0}
-    20%{opacity: 1}
-    40%{opacity: 0}
-    60%{opacity: 1}
-    80%{opacity: 0}
-    100%{opacity: 0}
-}
-@keyframes opaci{
-    0%{opacity: 0}
-    20%{opacity: 1}
-    40%{opacity: 0}
-    60%{opacity: 1}
-    80%{opacity: 0}
-    100%{opacity: 0}
-}
-
-.Trian>div{
-    width: 100%; height: 100%;
-    position:  absolute; top: 15%;
-    font-family: Lto; font-size: 65px; color: #fff; -webkit-font-kerning: none; font-kerning: none; text-align: center;
-}
-@media (max-width: 1400px){.Disorder,.FarDisorder{font-size: 90%}}
-@media (max-width: 1100px){.Disorder,.FarDisorder{font-size: 80%}}
-@media (max-width: 600px){.Disorder,.FarDisorder{font-size: 70%}}
-@media (max-width: 500px){
-    .Trian>div{
-        font-size: 40px;
-    }
-}
-
-.GG , .GG > * {
-    display: none;
-}
-
 
 #AntiToxins{
     width: 100vw; height: 100vh;
