@@ -1,21 +1,25 @@
 <!doctype html>
-<html lang='fa'>
+<html lang='en'>
 <head>
-                <meta name="robots" content="noindex,nofollow">
-<meta http-equiv='Content-Type' content='text/html; charset=utf-8' >
-<meta name='viewport' content='width=device-width, initial-scale=1.0' >
-<meta name='CSRF' content="<?php echo $token; ?>" >
-<meta name='Description' content=''>
-<meta name='Keywords' content=''>
+                <meta name="robots" content="noindex,nofollow" />
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<meta name='description' content='Dedicated web developer with <?php echo date("Y") - 2014; ?> years of experience sharing identical affections in designing, having integrated innovation and creativity aligned with ideal quality. Interested on fully responsive and interactive modules & layouts resulting in 40% more flexible outcomes.' />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="InfamousRocket - Front-end web developer, Digital designer" />
+<meta property="og:description" content="Dedicated web developer with <?php echo date("Y") - 2014; ?> years of experience sharing identical affections in designing, having integrated innovation and creativity aligned with ideal quality. Interested on fully responsive and interactive modules & layouts resulting in 40% more flexible outcomes." />
+<meta property="og:image" content="ASSETS/InfamousRocket.png" />
+<meta property="og:url" content="http://infamousrocket.com" />
 <title>InfamousRocket - Front-end web developer, Digital designer</title>
-<link href='http://localhost/~Project_END/STYLE/Style.css' rel='stylesheet' type='text/css'>
-<link href='http://localhost/~Project_END/ASSETS/favicon.ico' type='image/x-icon' rel='icon'>
-<script src='http://localhost/~Project_END/SCRIPT/JQ-3.1.1.js' type='text/javascript' language='javascript' ></script>
-<script src='http://localhost/~Project_END/SCRIPT/GSAP/TweenMax.min.js' type='text/javascript' language='javascript' ></script>
-<script src='http://localhost/~Project_END/SCRIPT/GSAP/TimelineMax.min.js' type='text/javascript' language='javascript' ></script>
-<script src='http://localhost/~Project_END/SCRIPT/GSAP/easing/CustomEase.min.js' type='text/javascript' language='javascript' ></script>
-<script src='http://localhost/~Project_END/SCRIPT/GSAP/utils/Draggable.min.js' type='text/javascript' language='javascript' ></script>
-<script src='http://localhost/~Project_END/SCRIPT/Script.js' type='text/javascript' language='javascript' ></script>
+<link rel='canonical' href='http://infamousrocket.com/' />
+<link href='ASSETS/favicon.ico' type='image/x-icon' rel='icon' />
+<link href='STYLE/Style.css' rel='stylesheet' type='text/css' />
+<script src='SCRIPT/JQ-3.1.1.js' type='text/javascript' language='javascript' ></script>
+<script src='SCRIPT/GSAP/TweenMax.min.js' type='text/javascript' language='javascript' ></script>
+<script src='SCRIPT/GSAP/TimelineMax.min.js' type='text/javascript' language='javascript' ></script>
+<script src='SCRIPT/GSAP/easing/CustomEase.min.js' type='text/javascript' language='javascript' ></script>
+<script src='SCRIPT/GSAP/utils/Draggable.min.js' type='text/javascript' language='javascript' ></script>
+<script src='SCRIPT/Script.js' type='text/javascript' language='javascript' ></script>
 </head>
 
 <body>
