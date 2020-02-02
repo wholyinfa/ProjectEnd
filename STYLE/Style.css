@@ -21,6 +21,8 @@
 
 }
 body{
+    width: 100vw; height: 100vh;
+    position: absolute; top: 0; left: 0;
     margin: 0 auto;
     background: #0a0a0b;
     font-size: 100%; overflow: hidden; font-family: sans-serif;
@@ -63,11 +65,6 @@ body{
 }
 
 /*   Dimensionz   */
-#Dimensionz{
-    width: 100vw; height: 100vh;
-    position: fixed; top: 0; left: 0; z-index: 2;
-    fill: #fff;
-}
 
 /* RATIO 0.2133333333333333 (EX. W*RATIO = H) */
 .QuickAccess, .SwitchBeam{
@@ -309,7 +306,6 @@ body{
 #Ditch .Handle:after{
     transform: scaleX(-1); left: -25%;
 }
-/*   Dimensionz   */
 
 #Temporary .BreathinFragment{
     /*     RATIO 0.8     */
@@ -482,7 +478,7 @@ body{
     font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
 }
-#Trilogies > div{
+#Trilogies > header,#Trilogies > footer, section article{
     position: absolute; top: 0; left: 0;
 }
 #Trilogies .Portalian{

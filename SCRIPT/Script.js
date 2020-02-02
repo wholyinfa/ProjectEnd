@@ -1439,7 +1439,7 @@ function Globe(){
 	$("#NOTREADY").css(
 		{ display : "none" }
 	);
-	$("#Trilogies > div, #BigMo > div, #Artery > div, #JourNey > div").css(
+	$("#Trilogies header, #Trilogies footer, #BigMo > article, #Artery > article, #JourNey > article").css(
 		{ visibility : "hidden" , opacity : 0 , zIndex: -1 }
 	);
 	OnLoadActive.css(
@@ -3507,7 +3507,7 @@ function SwitchDivision(target,Manual){
 			ActiveDivision = Section;
 
 			Dimension = $("#" + Portal[X]);
-			ChildrenLen = Dimension.children("div").length;
+			ChildrenLen = Dimension.children("footer,header,article").length;
 			if ((Reverse.pedal == false &&
 				(ChildrenLen > 1 && ActiveDivision.index() + 1 < ChildrenLen))) {
 				Forward.obj = Dimension.children().eq(ActiveDivision.index() + 1);
@@ -3530,7 +3530,7 @@ function SwitchDivision(target,Manual){
 	// Prepping the spaceship for the next section
 	if( Section == false || Manual ){
 		Dimension = ActiveDivision.parent();
-		ChildrenLen = Dimension.children("div").length;
+		ChildrenLen = Dimension.children("footer,header,article").length;
 
 		Forward.isAvailable = true;
 		Forward.isAllowed(true);
@@ -4415,7 +4415,7 @@ function ReverseHandle(NoChange){
 function ReverseSequence(){
 	var revallowed = false ;
 	Dimension = ActiveDivision.parent();
-	ChildrenLen = Dimension.children("div").length;
+	ChildrenLen = Dimension.children("footer,header,article").length;
 	StartFromZero = ActiveDivision.index() - (Dimension.children().length - ChildrenLen);
 	Reverse.isAllowed(true);
 	if (ChildrenLen > 1 &&
@@ -4425,7 +4425,7 @@ function ReverseSequence(){
 		if (Active.Dimension === Dimension.attr("id")) {
 			Reverse.obj = $("#Trilogies > #Temporary");
 		} else {
-			Reverse.obj = $("#" + Active.Dimension).children("div").last();
+			Reverse.obj = $("#" + Active.Dimension).children("footer,header,article").last();
 		}
         $("#Ditch").data({GandalfOpt: 0});
 		Reverse.obj.parent().css({visibility: "", opacity: ""});
@@ -5335,7 +5335,7 @@ function Pathfinder(){
 	};
 
 	if( tpath.parent.attr("id") === "Trilogies" ){
-		$("#Trilogies").children("div").each(function(i){
+		$("#Trilogies").children("footer,header,article").each(function(i){
 			id = $(this).attr("id");
 			if( tpath.self.attr("id") == id ){
 				tprint.pre = true;
@@ -5349,8 +5349,8 @@ function Pathfinder(){
 		// Setting the new print values
 		tprint.pre = true;
 		tprint.parent = Active.Dimension+" Dimension";
-		tpath.parent.children("div").each(function(i){
-			DimensionDOMS = $(this).parent().children("div");
+		tpath.parent.children("footer,header,article").each(function(i){
+			DimensionDOMS = $(this).parent().children("footer,header,article");
 			// Making sure trpint.self is only getting the siblings that are behind the current division
 			if( DimensionDOMS.index(this) <= DimensionDOMS.index(tpath.self) ){
 				tprint.self[i] = $(this).attr("id");
