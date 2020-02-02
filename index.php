@@ -1,24 +1,20 @@
 <!doctype html>
 <html lang='fa'>
 <head>
+                <meta name="robots" content="noindex,nofollow">
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8' >
 <meta name='viewport' content='width=device-width, initial-scale=1.0' >
 <meta name='CSRF' content="<?php echo $token; ?>" >
 <meta name='Description' content=''>
 <meta name='Keywords' content=''>
 <title>InfamousRocket - Front-end web developer, Digital designer</title>
-<!--<link href='STYLE/PILE.css' rel='stylesheet' type='text/css'>
-<link href='STYLE/PILEβ.css' rel='stylesheet' type='text/css'>
-<link href='STYLE/PileΓ.css' rel='stylesheet' type='text/css'>-->
 <link href='http://localhost/~Project_END/STYLE/Style.css' rel='stylesheet' type='text/css'>
 <link href='http://localhost/~Project_END/PIC/SeoLess/Log.png' rel='shortcut icon'>
 <script src='http://localhost/~Project_END/SCRIPT/JQ-3.1.1.js' type='text/javascript' language='javascript' ></script>
-<script src='http://localhost/~Project_END/SCRIPT/jquery-ui.js' type='text/javascript' language='javascript' ></script>
 <script src='http://localhost/~Project_END/SCRIPT/GSAP/TweenMax.min.js' type='text/javascript' language='javascript' ></script>
 <script src='http://localhost/~Project_END/SCRIPT/GSAP/TimelineMax.min.js' type='text/javascript' language='javascript' ></script>
 <script src='http://localhost/~Project_END/SCRIPT/GSAP/easing/CustomEase.min.js' type='text/javascript' language='javascript' ></script>
 <script src='http://localhost/~Project_END/SCRIPT/GSAP/utils/Draggable.min.js' type='text/javascript' language='javascript' ></script>
-<!--<script src='SCRIPT/SCRIPT.js' type='text/javascript' language='javascript' ></script>-->
 <script src='http://localhost/~Project_END/SCRIPT/Script.js' type='text/javascript' language='javascript' ></script>
 </head>
 
@@ -111,13 +107,6 @@
                     <div class="Rev Handle"></div>
                 </div>
             </div>
-        </div>
-
-        <div id='EmryoS'>
-            <div class='Default active'><div></div><div></div></div>
-            <div class='JourNey'><div></div><div></div></div>
-            <div class='Artery'><div></div><div></div></div>
-            <div class='BigMo'><div></div><div></div></div>
         </div>
 
         <div id='Trilogies'>

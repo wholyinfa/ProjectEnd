@@ -23,7 +23,7 @@
 body{
     margin: 0 auto;
     background: #0a0a0b;
-    font-size: 100%; overflow: hidden;
+    font-size: 100%; overflow: hidden; font-family: sans-serif;
 }
 .Portalian,
 #Peek,
