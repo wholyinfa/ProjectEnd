@@ -58,6 +58,9 @@ body{
     background: #0a0a0b;
     z-index: 6969;
 }
+#icon{
+    position: absolute; top: -1000%; left: 0;
+}
 
 /*   Dimensionz   */
 #Dimensionz{

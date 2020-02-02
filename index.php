@@ -9,7 +9,7 @@
 <meta name='Keywords' content=''>
 <title>InfamousRocket - Front-end web developer, Digital designer</title>
 <link href='http://localhost/~Project_END/STYLE/Style.css' rel='stylesheet' type='text/css'>
-<link href='http://localhost/~Project_END/PIC/SeoLess/Log.png' rel='shortcut icon'>
+<link href='http://localhost/~Project_END/ASSETS/favicon.ico' type='image/x-icon' rel='icon'>
 <script src='http://localhost/~Project_END/SCRIPT/JQ-3.1.1.js' type='text/javascript' language='javascript' ></script>
 <script src='http://localhost/~Project_END/SCRIPT/GSAP/TweenMax.min.js' type='text/javascript' language='javascript' ></script>
 <script src='http://localhost/~Project_END/SCRIPT/GSAP/TimelineMax.min.js' type='text/javascript' language='javascript' ></script>
@@ -111,6 +111,7 @@
 
         <div id='Trilogies'>
 
+            <img src="ASSETS/InfamousRocket.png" id="icon" alt="InfamousRocket">
             <h1 class='Portalian'>
                 This is the InfamousRocket<br>
                 Front-end web developer<br>
