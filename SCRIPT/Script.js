@@ -253,17 +253,17 @@ Projects = [
 		pages: [
 			{
 				title: "about",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/About.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/HajNabi/About.jpg",
 				active: false
 			},
 			{
 				title: "products",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/Products.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/HajNabi/Products.jpg",
 				active: true
 			},
 			{
 				title: "receipt",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/Receipt.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/HajNabi/Receipt.jpg",
 				active: false
 			}
 		],
@@ -283,17 +283,17 @@ Projects = [
 		pages: [
 			{
 				title: "interns",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/Interns.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Vestaak/Interns.jpg",
 				active: false
 			},
 			{
 				title: "index",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/HomePage.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Vestaak/HomePage.jpg",
 				active: true
 			},
 			{
 				title: "team",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/Team.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Vestaak/Team.jpg",
 				active: false
 			}
 		],
@@ -314,17 +314,17 @@ Projects = [
 		pages: [
 			{
 				title: "about",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/About.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Hamyaad/About.jpg",
 				active: false
 			},
 			{
 				title: "single course",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/SingleCourse.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Hamyaad/SingleCourse.jpg",
 				active: true
 			},
 			{
 				title: "buy course",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/BuyCourse.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Hamyaad/BuyCourse.jpg",
 				active: false
 			}
 		],
@@ -345,17 +345,17 @@ Projects = [
 		pages: [
 			{
 				title: "about",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/About.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/HajNabi/About.jpg",
 				active: false
 			},
 			{
 				title: "products",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/Products.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/HajNabi/Products.jpg",
 				active: true
 			},
 			{
 				title: "receipt",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/HajNabi/Receipt.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/HajNabi/Receipt.jpg",
 				active: false
 			}
 		],
@@ -372,17 +372,17 @@ Projects = [
 		pages: [
 			{
 				title: "about",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/About.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Hamyaad/About.jpg",
 				active: false
 			},
 			{
 				title: "single course",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/SingleCourse.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Hamyaad/SingleCourse.jpg",
 				active: true
 			},
 			{
 				title: "buy course",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Hamyaad/BuyCourse.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Hamyaad/BuyCourse.jpg",
 				active: false
 			}
 		],
@@ -399,7 +399,7 @@ Projects = [
 		pages: [
 			{
 				title: "landing",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/GlareLanding.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/GlareLanding.jpg",
 				active: true
 			}
 		],
@@ -416,17 +416,17 @@ Projects = [
 		pages: [
 			{
 				title: "interns",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/Interns.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Vestaak/Interns.jpg",
 				active: false
 			},
 			{
 				title: "index",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/HomePage.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Vestaak/HomePage.jpg",
 				active: true
 			},
 			{
 				title: "team",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/Vestaak/Team.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/Vestaak/Team.jpg",
 				active: false
 			}
 		],
@@ -443,17 +443,17 @@ Projects = [
 		pages: [
 			{
 				title: "single business",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/InBarg/SingleBusiness.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/InBarg/SingleBusiness.jpg",
 				active: false
 			},
 			{
 				title: "index",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/InBarg/Index.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/InBarg/Index.jpg",
 				active: true
 			},
 			{
 				title: "single offer",
-				image: "http://localhost/~Project_END/ASSETS/AntiToxins/ProjectAssets/InBarg/SingleOffer.jpg",
+				image: "ASSETS/AntiToxins/ProjectAssets/InBarg/SingleOffer.jpg",
 				active: false
 			}
 		],
@@ -2041,7 +2041,7 @@ function Globe(){
         $.ajax(
             {
                 type: "POST",
-                url: "http://localhost/~Projecat_END/",
+                url: "#",
                 data: data,
                 success: function(response){
                     if( response === "sent" ){
