@@ -64,7 +64,7 @@ body{
 
 /*   Dimensionz   */
 #Dimensionz{
-    width: 100%; height: 100%;
+    width: 100vw; height: 100vh;
     position: fixed; top: 0; left: 0; z-index: 2;
     fill: #fff;
 }
@@ -309,6 +309,29 @@ body{
 #Ditch .Handle:after{
     transform: scaleX(-1); left: -25%;
 }
+/*   Dimensionz   */
+
+#Temporary .BreathinFragment{
+    /*     RATIO 0.8     */
+    position: relative;
+    grid-area: 4 / 5 / 4 / 6;
+    padding-top: 80%;
+}
+.BreathinFragment .Eyez{
+    width: 100%; height: 35%;
+    position: absolute; left: 0; top: 0;
+    background: url("../ASSETS/BlackHole/See.png") center center no-repeat;
+    background-size: contain;
+    background-position: center;
+    padding-left: 1%;
+}
+.BreathinFragment .Laugh{
+    width: 100%; height: 85%;
+    position: absolute; left: 0; top: 15%;
+    background: url("../ASSETS/BlackHole/Laugh.png") center center no-repeat;
+    background-size: contain;
+    background-position: center;
+}
 .QuickAccess .PathFinder{
     max-width: 50%;
     position: absolute; left: 50%; top: 83%;
@@ -356,6 +379,12 @@ body{
     box-sizing: border-box;
     opacity: .6; z-index: 85;
     transition: opacity .25s ease-in-out;
+    grid-area: 1 / 1 / -1 / -1;
+    align-self: baseline;
+}
+.DivisionExpress .Container{
+    height: 100%;
+    position: relative;
 }
 .DivisionExpress .Trigger{
     width: 100%; height: 100%;
@@ -446,7 +475,6 @@ body{
     position: fixed; bottom: 0; right: 0;
     font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
-    white-space: nowrap;
 }
 #Peek{
     padding: 15px;
@@ -454,18 +482,33 @@ body{
     font-family: Ocr; font-size: .8em; color: #fff;
     transition: color .5s ease-in-out; z-index: 2;
 }
+#Trilogies > div{
+    position: absolute; top: 0; left: 0;
+}
 #Trilogies .Portalian{
-    padding: 30px; margin: 0;
-    position: fixed; top: 0; left: 0;
+    padding: 20px; margin: 0;
     font-family: Ocr; font-size: 1.1em; font-weight: normal; color: #fff;
     transition: color .5s ease-in-out; z-index: -1;
+    grid-area: 1 / 1 / 3 / 3;
+    align-self: start;
 }
 
-#Temporary , #Temporary > div .Shrinker {
+#Temporary > div .Shrinker {
     width: 100%; height: 100%;
     position: absolute; top: 0; left: 0;
 }
-#Temporary > div div {
+#Temporary {
+    width: 100vw; height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 4fr .5fr 1fr 4fr 80px;
+    grid-template-columns:  5fr 4fr 1.4fr 1.25fr 2.5fr 1.25fr 1.4fr 4fr 5fr;
+    align-items: center;
+}
+#Nothing{
+    height: 130px; display: none;
+    grid-area: -1 / 1 / span 1 / -1;
+}
+#Temporary > .Portal div {
     position: absolute;
 }
 #Temporary > .Void {
@@ -477,8 +520,9 @@ body{
 }
 #Temporary .JourNey{
     /* RATIO 0.6166077738515901 */
-    width: 29.47%; padding-bottom: 18.17%; min-width: 200px;
-    position: absolute; top: 5.61%; left: 35.05%;
+    grid-area: 2 / 3 / 3 / 8;
+    position: relative;
+    padding-top: 58%;
 }
 #Temporary .JourNey .Flow{
     width: 100%; height: 100%;
@@ -512,14 +556,16 @@ body{
     background: url("../ASSETS/Temporary/Journey_Ship.png") no-repeat;
 }
 #Temporary .Portal.JourNey div{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 
 
 #Temporary .Artery{
     /* RATIO 1.223118279569892 */
-    width: 19.37%; padding-bottom: 23.69%; min-width: 200px;
-    position: absolute; top: 41.57%; left: 58.64%;
+    position: relative;
+    grid-area: 3 / 7 / 6 / 9;
+    padding-top: 115%;
 }
 #Temporary .Artery .Flow{
     width: 87.63%; height: 81.53%;
@@ -562,13 +608,16 @@ body{
     background: url("../ASSETS/Temporary/Artery_Barry.png") no-repeat;
 }
 #Temporary .Portal.Artery div{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 
 #Temporary .BigMo{
-    /* RATIO 0.9319899244332494*/
-    width: 20.67%; padding-bottom: 22.17%; min-width: 200px;
-    position: absolute; top: 46.01%; left: 21.14%;
+    /* RATIO 0.9319899244332494 */
+    position: relative;
+    grid-area: 3 / 2 / 6 / 4;
+    padding-top: 100%;
+    align-self: center;
 }
 #Temporary .BigMo .Flow{
     width: 100%; height: 99.45%;
@@ -601,20 +650,21 @@ body{
     background: url("../ASSETS/Temporary/Bigmo_Jaccuzi.png") no-repeat;
 }
 #Temporary .Portal.BigMo div{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 /*Setting the default dimensions styles*/
 
 #BigMo , #Artery , #JourNey{
     width: 100%; height: 100%;
-    position: absolute; left: 0; top: 0;
+    display: grid;
 }
 
 #Footer {
-    width: 20em;
-    position: absolute; top: 70%; left: 50%;
-    transform: translate(-50%,-50%); text-align: center;
-    font-family: Ocr; font-size: .8em;
+    text-align: center;
+    font-family: Ocr;
+    font-size: .8em;
+    grid-area: 4 / 3 / 5 / 8;
 }
 #Footer > a{
     width: 6em;
@@ -643,17 +693,25 @@ body{
 }
 
 #SpaceCyclone {
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 4fr 2fr 4fr 4fr 2fr 130px;
+    grid-template-columns: 4.1fr 4.4fr 3fr 1fr 2.5fr 1fr 3fr 4fr 4.5fr;
+    align-items: center;
 }
 #SpaceCyclone .BreathinFragment{
     z-index: 2;
+    position: relative;
+    grid-area: 3 / 5 / 4 / 6;
+    padding-top: 74%;
 }
 #SpaceCyclone .Curtain{
     visibility: hidden; opacity: 0;
     width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
+    position: relative; bottom: 0; left: 0;
     z-index: -2;
+    grid-area: 1 / 1 / -1 / -1;
 }
 #SpaceCyclone .Curtain > *{
     width: 50%; height: 100%;
@@ -663,10 +721,17 @@ body{
 #SpaceCyclone .Curtain > .Alpha{
     right: 0;
 }
+#SpaceCyclone .Curtain.DL > .Alpha{
+    width: 100%;
+}
 #SpaceCyclone .Curtain > .Beta{
     left: 0;
 }
-#SpaceCyclone .Storm > div{
+#SpaceCyclone .Storm > div, #SpaceCyclone .BreathinFragment > div{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+}
+#SpaceCyclone .AssetContainer{
     width: 100%; height: 100%;
     position: absolute; top: 0; left: 0;
 }
@@ -721,8 +786,9 @@ body{
     background: #ff8f8f;
 }
 #SpaceCyclone .Divider{
-    width: 1px; height: 400%;
-    position: absolute; top: 50%; left: 50%; z-index: -1;
+    width: 1px; height: 0;
+    position: absolute; top: 100%; left: 50%; z-index: -1;
+    transform: scaleY(0);
 }
 #SpaceCyclone .Tripwire{
     width: 120%; height: 120%;
@@ -744,13 +810,13 @@ body{
 }
 #SpaceCyclone .Definer .Sub{
     position: absolute; bottom: 110%; left: 50%;
-    font-family: Ocr; font-size: 1em;
+    font-family: Ocr;
     transform: translateX(-50%);
     white-space: nowrap;
 }
 #SpaceCyclone form{
-    position: absolute; top: 100%; left: 50%;
-    transform: translateX(-50%);
+    position: absolute; top: 100%;
+    transform: scaleY(0);
     font-size: 1rem; margin-top: 2em;
     z-index: -1;
 }
@@ -817,6 +883,7 @@ body{
     font-size: 1.1em; font-family: Ocr;
     background: transparent; position: relative;
     overflow: hidden;
+    margin-bottom: 1em;
 }
 #SpaceCyclone .Attach:before{
     content: "";
@@ -825,10 +892,14 @@ body{
     z-index: -1; opacity: .2;
 }
 #SpaceCyclone .Submit{
-    width: 180px; height: 80px;
-    position: absolute; bottom: 0; left: 0;
-    background: transparent; border: none;
-    font-size: 1.4em; font-family: Ocr;
+    width: 30%;
+    position: relative;
+    background: transparent; border: none; outline: none;
+    display: block; margin: 0 auto 0 auto; padding: 4% 0 4.5% 0;
+    font-size: 1.1em; font-family: Ocr;
+}
+#SpaceCyclone button:active, #SpaceCyclone button:focus{
+    outline: 0 !important;  border: 0 !important;
 }
 #SpaceCyclone .Submit:before{
     content: "";
@@ -839,16 +910,18 @@ body{
 #SpaceCyclone .Submit:hover:before{
     opacity: 1;
 }
-#SpaceCyclone .Sub,
-#SpaceCyclone .Divider{
+#SpaceCyclone .Sub{
     visibility: hidden; opacity: 0;
+    font-size: 1em;
 }
 
 
 #SpaceCyclone .Request{
     /*RATIO 0.7915309446254072*/
-    width: 15.98%; padding-bottom: 12.64866449511401%;
-    position: absolute; top: 44.44%; left: 16.25%;
+    position: relative;
+    grid-area: 2 / 2 / 6 / 3;
+    padding-top: 80%;
+    align-self: center;
 }
 #SpaceCyclone .Request .StarFlow{
     width: 200%; height: 277.77%;
@@ -862,7 +935,7 @@ body{
 }
 #SpaceCyclone .Request .CodeProject{
     /*RATIO 0.6865671641791045*/
-    width: 65.47%; padding-bottom: 44.93%;
+    width: 65.47%; height: 56%;
     position: absolute; top: 26.38%; right: 0;
 }
 #SpaceCyclone .Request .CodeProject .Asset{
@@ -882,7 +955,7 @@ body{
 #SpaceCyclone .Request .CodeProject .Sub,
 #SpaceCyclone .Request .DesignProject .Sub{
     position: absolute; top: 130%; left: 50%;
-    font-family: Ocr; font-size: 1.3em; color: #b3ffb3;
+    font-family: Ocr;color: #b3ffb3;
     transform: translateX(-50%);
     white-space: nowrap;
 }
@@ -932,13 +1005,15 @@ body{
     opacity: 1;
 }
 #SpaceCyclone .Storm.Request > div div,#SpaceCyclone .Storm.Request > div .Asset{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 
 #SpaceCyclone .Download{
     /*RATIO 0.99*/
-    width: 15.98%; padding-bottom: 15.8202%;
-    position: absolute; top: 9.25%; left: 42.65%;
+    grid-area: 1 / 4 / 2 / 7;
+    position: relative;
+    padding-top: 100%;
 }
 #SpaceCyclone .Download .StarFlow{
     width: 286.66%; height: 169.36%;
@@ -971,7 +1046,7 @@ body{
 #SpaceCyclone .Download .Resume .Sub,
 #SpaceCyclone .Download .CV .Sub{
     position: absolute; top: 100%; left: 50%;
-    font-family: Ocr; font-size: 1.3em; color: #8fffff;
+    font-family: Ocr; color: #8fffff;
     transform: translateX(-50%);
     white-space: nowrap;
 }
@@ -990,7 +1065,8 @@ body{
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 564.25'%3e%3cdefs%3e%3cradialGradient id='a' cx='.5' cy='282.12' r='199.49' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0' stop-color='%238fffff'/%3e%3cstop offset='.08' stop-color='%238af6f6'/%3e%3cstop offset='.22' stop-color='%237cdede'/%3e%3cstop offset='.4' stop-color='%2366b6b6'/%3e%3cstop offset='.6' stop-color='%23477f7f'/%3e%3cstop offset='.83' stop-color='%23203939'/%3e%3cstop offset='1'/%3e%3c/radialGradient%3e%3c/defs%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cg%3e%3cpath fill='none' stroke-miterlimit='10' stroke='url(%23a)' d='M.5 0v564.25'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat;
 }
 #SpaceCyclone .Storm.Download > div div,#SpaceCyclone .Storm.Download > div .Asset{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 #SpaceCyclone .Storm.Download > div .Resume div{
     background-size: auto 180%;
@@ -1001,8 +1077,9 @@ body{
 
 #SpaceCyclone .Connect{
     /*RATIO 0.975*/
-    width: 12.5%; padding-bottom: 12.1875%;
-    position: absolute; top: 46.01%; left: 70.93%;
+    position: relative;
+    grid-area: 2 / 8 / 6 / 9;
+    padding-top: 100%;
 }
 #SpaceCyclone .Connect .StarFlow{
     width: 277.08%; height: 290.59%;
@@ -1035,7 +1112,7 @@ body{
 #SpaceCyclone .Connect .Envelope .Sub,
 #SpaceCyclone .Connect .Phone .Sub{
     position: absolute; top: 130%; left: 50%;
-    font-family: Ocr; font-size: 1.3em; color: #ff8f8f;
+    font-family: Ocr; color: #ff8f8f;
     transform: translateX(-50%);
     white-space: nowrap;
 }
@@ -1045,8 +1122,8 @@ body{
     margin: -1.8em 0 .5em 0;
 }
 #SpaceCyclone .Connect .Definer{
-    width: 75%; height: 70%;
-    position: absolute; top: 0; left: 10.83%;
+    width: 60%; height: 70%;
+    position: absolute; top: 0; left: 20.83%;
 }
 #SpaceCyclone .Connect .Definer .Asset .Indicator{
     background: url("../ASSETS/SpaceCyclone/Con_WiFi.png") no-repeat center;
@@ -1090,7 +1167,8 @@ body{
     opacity: 1;
 }
 #SpaceCyclone .Storm.Connect > div div,#SpaceCyclone .Storm.Connect > div .Asset{
-    background-size: 100%;
+    background-size: contain;
+    background-position: center;
 }
 
 
@@ -1125,74 +1203,21 @@ body{
 #SpaceCyclone > .active div.active .Title{
     transform: scale(.6);
 }
-
-#SpaceCyclone > .active .CodeProject{
-    top: 50%;
-    transform: translate(235%,-50%);
-}
-#SpaceCyclone > .active .CodeProject.active{
-    transform: translate(235%,-300%);
-}
-#SpaceCyclone > .active .CodeProject .Asset{
-    transform: translateX(2%) rotate(9deg);
-}
-#SpaceCyclone > .active .DesignProject{
-    top: 50%;
-    transform: translate(-250%,-65%);
-}
-#SpaceCyclone > .active .DesignProject.active{
-    transform: translate(-250%,-270%);
-}
-#SpaceCyclone > .active .DesignProject .Asset{
-    transform: translateX(12%) rotate(-18deg);
-}
-
-#SpaceCyclone > .active .Resume{
-    top: 50%;
-    transform: translate(150%,-50%);
-}
-#SpaceCyclone > .active .Resume .Asset{
-    transform: translateX(14%) rotate(-20deg);
-}
-#SpaceCyclone > .active .CV{
-    top: 50%;
-    transform: translate(-200%,-65%);
-}
-#SpaceCyclone > .active .CV .Asset:nth-child(1){
-    transform: translateX(19%) rotate(20deg);
-}
-#SpaceCyclone > .active .CV .Asset:nth-child(2){
-    transform: translateX(0%) rotate(20deg);
-}
-
-#SpaceCyclone > .active .Envelope{
-    top: 50%;
-    transform: translate(235%,-50%);
-}
-#SpaceCyclone > .active .Envelope.active{
-    transform: translate(235%,-280%);
-}
-#SpaceCyclone > .active .Envelope .Asset{
-    transform: translateX(-1%) rotate(11.5deg);
-}
-#SpaceCyclone > .active .Phone{
-    top: 50%;
-    transform: translate(-350%,-65%);
-}
-#SpaceCyclone > .active .Phone .Asset{
-    transform: translateX(0%) rotate(-14deg);
-}
 /*                      BIGMO                        */
 /*                      SKILLOMETER                        */
 #Skillometer {
-    width: 100%; height: 100%;
+    width: 100vw; height: 100vh;
     position: absolute; left: 0; top: 0;
+    display: grid;
+    grid-template-columns: 3fr 2fr 3fr;
+    grid-template-rows: 1fr 2fr 4fr 4fr 130px;
 }
 /*  RATIO 0.2549407114624506 */
 #Skillometer .InfoPanel > *{ position: absolute }
 #Skillometer .InfoPanel{
-    width: 36%; padding-bottom: 8.92%;
+    width: 560PX; height: 140px;
     position: relative; margin: 0 auto;
+    grid-area: 2 / 1 / auto / -1;
 }
 #Skillometer .RawPanel{
     width: 100%; height: 100%;
@@ -1255,13 +1280,14 @@ body{
     background: url("../ASSETS/Skillometer/Laser.png") no-repeat center center;
 }
 #Skillometer .InfoPanel > div,#Skillometer .InfoPanel > div div {
-    background-size: 100% 100%;
+    background-size: contain;
 }
 /* RATIO 0.9904580152671756 */
 #Skillometer .Device > *{ position: absolute }
 #Skillometer .Device{
-    width: 27.29%; padding-bottom: 27.02%; z-index: 1;
+    width: 100px; height: 99px; z-index: 1;
     position: relative; margin: 2% auto 0 auto;
+    grid-area: 3 / 2 / auto / 3;
 }
 #Skillometer .Glued{
     width: 100%; height: 100%;
@@ -1269,9 +1295,9 @@ body{
     background: url("../ASSETS/Skillometer/Glued.png") no-repeat;
 }
 #Skillometer .GeloV{
-    width: 27.29%; padding-bottom: 27.02%;
+    width: 100%; height: 100%;
     position: relative; z-index: -1;
-    margin: -27.02% auto 0 auto;
+    grid-area: 3 / 2 / auto / 3;
 }
 #Skillometer .GeloV div{
     width: 200%; height: 200%;
@@ -1285,20 +1311,27 @@ body{
     left: 25%; top: 24.7%;
     background: url("../ASSETS/Skillometer/CoreKeepa.png") no-repeat center;
 }
+#Skillometer .Cores{
+    height: 100%;
+    grid-area: 1 / 1 / -1 / -1;
+    display: grid; position: relative;
+    grid-template-columns: repeat(48, 1fr);
+    grid-template-rows: repeat(17, 1fr);
+}
 #Skillometer .Core{
-    width: 7.81%; padding-bottom: 7.81%;
+    width: 100%; height: 100%;
     position: absolute;
 }
 #Skillometer .Core .Shaker > *{ position: absolute }
 #Skillometer .Core > div,#Skillometer .Core > div > *{width: 100%; height: 100%; position: absolute }
-#Skillometer .Core.A{ left: 23%; top: 23%; }
-#Skillometer .Core.B{ left: 8%; top: 40%; }
-#Skillometer .Core.C{ left: 14%; top: 75%; }
-#Skillometer .Core.D{ left: 26%; top: 55%; }
-#Skillometer .Core.E{ left: 65%; top: 30%; }
-#Skillometer .Core.F{ left: 70%; top: 60%; }
-#Skillometer .Core.G{ left: 80%; top: 80%; }
-#Skillometer .Core.H{ left: 86%; top: 36%; }
+#Skillometer .Core.A{ grid-area: 3 / 8 / span 3/ span 3; }
+#Skillometer .Core.B{ grid-area: 6 / 3 / span 3 / span 3; }
+#Skillometer .Core.C{ grid-area: 10 / 11 / span 3 / span 3; }
+#Skillometer .Core.D{ grid-area: 14 / 6 / span 3 / span 3; }
+#Skillometer .Core.E{ grid-area: 3 / -7 / span 3 / span 3; }
+#Skillometer .Core.F{ grid-area: 7 / -14 / span 3 / span 3; }
+#Skillometer .Core.G{ grid-area: 10 / -8 / span 3 / span 3; }
+#Skillometer .Core.H{ grid-area: 13 / -12 / span 3 / span 3; }
 #Skillometer .CoreSlot{
     width: 28.9%; height: 29%;
     left: 35.7%; top: 35.2%;
@@ -1367,29 +1400,6 @@ body{
 #Skillometer .Core .Strikes{
     cursor: crosshair;
 }
-/*   Dimensionz   */
-
-.BreathinFragment{
-    /*     RATIO 0.8     */
-    width: 9.37%; padding-bottom: 7.49%;
-    position: absolute; top: 45.83%; left: 45.41%;
-}
-.BreathinFragment > div{
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
-}
-.BreathinFragment .Eyez{
-    width: 93.40%; height: 34.93%;
-    position: absolute; left: 4.39%; top: 0;
-    background: url("../ASSETS/BlackHole/See.png") center center no-repeat;
-    background-size: 100% 100%;
-}
-.BreathinFragment .Laugh{
-    width: 100%; height: 84.93%;
-    position: absolute; left: 0; top: 14.38%;
-    background: url("../ASSETS/BlackHole/Laugh.png") center center no-repeat;
-    background-size: 100% 100%;
-}
 @-webkit-keyframes White{
     0%{opacity:1; margin: 0}
     2%{opacity:.8}
@@ -1447,17 +1457,25 @@ body{
 
 
 #AntiToxins{
-    width: 100%; height: 100%;
-    position: absolute; left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    display: grid;
+    grid-template-columns: 6fr 2fr 6fr;
+    grid-template-rows: 10fr 160px;
+    justify-items: center; align-items: center;
+    overflow: hidden;
 }
 #AntiToxins > .Entry{
     width: 5%; height: 5%;
     position: absolute; left: 47.5%; top: 47.5%;
     z-index: -11;
 }
+#AntiToxins .DevStar, #AntiToxins .ArtStar{
+    width: 100%; padding-top: 100%;
+    position: relative;
+}
 #AntiToxins .DevStar{
-    width: 40.52%; padding-bottom: 43.12%;
-    position: absolute; top: 13.79%; right: -15.31%;
+    grid-area: 1 / 3 / -1 / 3;
+    left: 40%;
 }
 #AntiToxins .DevStar > .Line{
     height: 2px;
@@ -1475,9 +1493,10 @@ body{
     background: url("../ASSETS/AntiToxins/DevStar.png") no-repeat;
 }
 #AntiToxins .DevGlow{
-    width: 150.38%; height: 151.67%;
-    position: absolute; top: -28.2%; left: -25.65%;
+    width: 188%; height: 187%;
+    position: absolute; top: 49.5%; left: 48%;
     background: url("../ASSETS/AntiToxins/DevGlow.png") no-repeat center;
+    transform: translate(-50%, -50%);
 }
 #AntiToxins .DevSign{
     width: 42.41%; height: 40.48%;
@@ -1485,12 +1504,22 @@ body{
     background: url("../ASSETS/AntiToxins/DevSign.png") no-repeat;
 }
 #AntiToxins .DevSignBeam{
-    width: 46.98%; height: 27.70%;
-    position: absolute; top: 32.87%; left: 8%;
+    width: 39%; height: 25%;
+    position: absolute; top: 34%; left: 12%;
     background: url("../ASSETS/AntiToxins/DevSignBeam.png") no-repeat;
 }
-#AntiToxins .DevParticle{
-    position: absolute;
+#AntiToxins .Particles{
+    width: 100vw; height: 100vh;
+    display: grid;
+    grid-area: 1 / 1 / -1 / -1;
+    grid-template-rows: 25px repeat(12, 1fr) 50px;
+    grid-template-columns: 12fr repeat(22, 1fr) 12fr;
+    align-self: normal;
+    justify-self: normal;
+}
+#AntiToxins .DevParticle, #AntiToxins .ArtParticle{
+    height: 0; width: 115%; padding-bottom: 115%;
+    position: relative;
 }
 #AntiToxins .DevParticle > .Container:not(.NoTouchin):hover{
     cursor: pointer;
@@ -1503,35 +1532,21 @@ body{
     background: url("../ASSETS/AntiToxins/DevParticle.png") no-repeat;
     transform-origin: center;
 }
-#AntiToxins .DevParticle.A{
-    width: 10%; padding-bottom: 10%;
-    top: 32%; right: 26%;
-}
-#AntiToxins .DevParticle.B{
-    width: 8%; padding-bottom: 8%;
-    top: 10%; right: 24%;
-}
 #AntiToxins .DevParticle.C{
-    width: 10%; padding-bottom: 10%;
-    top: 60%; right: 33%;
+    grid-area: -7 / 12 / span 3 / span 3;
 }
 #AntiToxins .DevParticle.D{
-    width: 8%; padding-bottom: 8%;
-    top: 40%; right: 41%;
-}
-#AntiToxins .DevParticle.E{
-    width: 8%; padding-bottom: 8%;
-    top: 80%; right: 27%;
+    width: 95%; padding-bottom: 95%;
+    grid-area: 2 / 4 / span 3 / span 3;
 }
 #AntiToxins .DevParticle.F{
-    width: 10%; padding-bottom: 10%;
-    top: 16%; right: 34%;
+    grid-area: 3 / -6 / span 3 / span 3;
 }
 #AntiToxins .DevStar > div > div, #AntiToxins .DevStar .Star div, #AntiToxins .DevParticle .Diamond{
-    background-size: 100%;
+    background-size: contain;
 }
 #AntiToxins .DevStar .Star .DevGlow{
-    background-size: 128%;
+    background-size: contain;
 }
 
 #AntiToxins .ArtStar .Star,#AntiToxins .DevStar .Star,
@@ -1540,8 +1555,8 @@ body{
     position: absolute; top: 0; left: 0;
 }
 #AntiToxins .ArtStar{
-    width: 40.52%; padding-bottom: 43.12%;
-    position: absolute; top: 13.79%; left: -15.31%;
+    grid-area: 1 / 1 / -1 / 2;
+    left: -40%;
 }
 #AntiToxins .ArtStar > .Line{
     height: 2px;
@@ -1559,9 +1574,10 @@ body{
     background: url("../ASSETS/AntiToxins/ArtStar.png") no-repeat;
 }
 #AntiToxins .ArtGlow{
-    width: 150.38%; height: 151.67%;
-    position: absolute; top: -28.2%; left: -25.65%;
+    width: 190%; height: 185%;
+    position: absolute; top: 48.7%; left: 49.7%;
     background: url("../ASSETS/AntiToxins/ArtGlow.png") no-repeat center;
+    transform: translate(-50%, -50%);
 }
 #AntiToxins .ArtSign{
     width: 42.41%; height: 40.48%;
@@ -1569,12 +1585,9 @@ body{
     background: url("../ASSETS/AntiToxins/ArtSign.png") no-repeat;
 }
 #AntiToxins .ArtSignBeam{
-    width: 46.98%; height: 27.70%;
-    position: absolute; top: 32.87%; right: 12%;
+    width: 41%; height: 27.70%;
+    position: absolute; top: 34%; right: 12%;
     background: url("../ASSETS/AntiToxins/ArtSignBeam.png") no-repeat;
-}
-#AntiToxins .ArtParticle{
-    position: absolute;
 }
 #AntiToxins .ArtParticle .Container, #AntiToxins .ArtParticle .Diamond{
     width: 100%; height: 100%;
@@ -1587,35 +1600,29 @@ body{
 #AntiToxins .ArtParticle > .Container:not(.NoTouchin):hover{
     cursor: pointer;
 }
-#AntiToxins .ArtParticle.A{
-    width: 8%; padding-bottom: 8%;
-    top: 35%; left: 27%;
-}
 #AntiToxins .ArtParticle.B{
-    width: 10%; padding-bottom: 10%;
-    top: 9%; left: 20%;
+    grid-area: 4 / 10 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.C{
-    width: 10%; padding-bottom: 10%;
-    top: 80%; left: 23%;
+    width: 95%; padding-bottom: 95%;
+    grid-area: -5 / -7 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.D{
-    width: 10%; padding-bottom: 10%;
-    top: 46%; left: 37%;
+    width: 95%; padding-bottom: 95%;
+    grid-area: 7 / 5 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.E{
-    width: 8%; padding-bottom: 8%;
-    top: 64%; left: 30%;
+    grid-area: -6 / 2 / span 3 / span 3;
 }
 #AntiToxins .ArtParticle.F{
-    width: 10%; padding-bottom: 10%;
-    top: 16%; left: 32%;
+    width: 95%; padding-bottom: 95%;
+    grid-area: 5 / -10 / span 3 / span 3;
 }
 #AntiToxins .ArtStar > div > div, #AntiToxins .ArtStar .Star div, #AntiToxins .ArtParticle .Diamond{
-    background-size: 100%;
+    background-size: contain;
 }
 #AntiToxins .ArtStar .Star .ArtGlow{
-    background-size: 128%;
+    background-size: contain;
 }
 #AntiToxins div .NameTag{
     height: auto; width: auto;
@@ -1651,26 +1658,35 @@ body{
 
 
 #AntiToxins .SingleParticle{
-    width: 1050px; height: 716px;
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%,-50%); z-index: 100;
+    width: 1024px; min-height: 716px;
+    position: absolute; top: 50px; left: 50%;
+    transform: translateX(-50%); z-index: 100;
     font-family: Ocr; color: #fff;
     padding: 0 3em 3em 3em; box-sizing: border-box;
     opacity: 0; visibility: hidden;
-    z-index: -1;
+    display: grid;
+    grid-template-rows: inherit;
+    grid-template-columns: 4.5fr 5.5fr;
 }
-#AntiToxins #ParticleAura{
+#AntiToxins .SingleContainer{
     width: 100%; height: 100%;
     position: absolute; top: 0; left: 0;
+    background: rgba(50, 0, 24, .4);
     opacity: 0; visibility: hidden;
     z-index: -1;
+}
+#AntiToxins .SingleParticle > .Clone{
+    grid-area: 1 / 1 / span 1 / -1;
+    position: relative; top: 25px;
+    align-self: baseline;
+    justify-self: center;
 }
 #AntiToxins .SingleParticle > .Clone, #AntiToxins .SingleParticle > .Clone *{
     z-index: 2;
 }
 #AntiToxins .SingleParticle > .Clone > div{
-    left: 50%; top: 12.5%;
-    transform: translate(-50%, -50%);
+    position: relative; left: 50%;
+    transform: translateX(-50%);
 }
 #AntiToxins .SingleParticle > .Clone > div > div{
     transition: .1s opacity ease-in-out;
@@ -1680,17 +1696,12 @@ body{
     opacity: .6;
     cursor: pointer;
 }
-#AntiToxins .SingleParticle:after{
-    content: "";
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
-    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1050 716.23'%3e%3cg data-name='Layer 2'%3e%3cg%3e%3cg%3e%3cpath fill='%23320018' d='M0 716.23V176.48L466.33 0h117.34L1050 176.48v539.75H0z'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e") no-repeat; z-index: -1;
-}
 #AntiToxins .SingleParticle > .Navigate{
-    width: 27%; padding-bottom: 10.5em;
+    height: 0; width: 27%; padding-bottom: 10.5em;
     font-size: .8em;
     position: relative;
     margin: 0 auto;
+    grid-area: 1 / 1 / span 1 / -1;
 }
 #AntiToxins .SingleParticle > .Navigate > div{
     padding-top: 18%;
@@ -1734,9 +1745,13 @@ body{
 #AntiToxins .SingleParticle > .Title{
     font-size: 1.6em; text-align: center;
     padding: 1.1em 0;
+    grid-area: 2 / 1 / span 1 / -1;
+    margin: 0 auto;
 }
 #AntiToxins .SingleParticle .Pages{
     text-align: center; font-size: 1.1em; line-height: .8em;
+    grid-area: 3 / 1 / span 1 / -1;
+    margin: 0 auto;
 }
 #AntiToxins .SingleParticle .Pages > div{
     display: inline-block; border-top: 1px solid #808080;
@@ -1765,6 +1780,7 @@ body{
 #AntiToxins .Preview{
     width: 100%; height: 200px;
     position: relative; z-index: 10;
+    grid-area: 4 / 1 / span 1 / -1;
 }
 #AntiToxins .Preview .img{
     width: 100%; height: 100%;
@@ -1811,13 +1827,12 @@ body{
 #AntiToxins .Preview .Cover:hover:after{
     opacity: .9;
 }
-#AntiToxins .Detail > div{
-    display: inline-block; height: 160px;
-    float: left; font-size: 1.25em; margin-top: 1em;
-    box-sizing: border-box;
+#AntiToxins .BuiltWith, #AntiToxins .Description{
+    padding-top: 1em; box-sizing: border-box;
 }
-#AntiToxins .Detail .BuiltWith{
-    width: 45%; padding-right: 1em;
+#AntiToxins .BuiltWith{
+    padding-right: 1em; min-height: 200px;
+    grid-area: 5 / 1 / span 1 / span 1;
     position: relative;
 }
 #AntiToxins .BuiltWith .Shiners{
@@ -1837,8 +1852,8 @@ body{
     transform: scaleX(-1);
 }
 #AntiToxins .BuiltWith .Shiners .Wire{
-    width: 99%; height: 50%;
-    position: absolute; bottom: 0; left: .5%;
+    width: 100%; height: 50%;
+    position: absolute; bottom: 0; left: 0;
     box-sizing: border-box;
     border-left: 1px solid #f50057;
     border-bottom: 1px solid #f50057;
@@ -1911,8 +1926,16 @@ body{
     transform: translateY(-50%);
 }
 #AntiToxins .SingleParticle .State{
-    position: absolute; bottom: 1.5em; left: 50%;
-    transform: translateX(-50%); font-size: .9em;
+    position: relative;
+    font-size: 1em;
+    margin: 0 auto; padding-top: 2em;
+    grid-area: 7 / 1 / span 1 / -1;
+    text-align: center;
+}
+#AntiToxins .SingleParticle .State .Container{
+    font-size: .7em;
+    display: inline-block;
+    position: relative;
 }
 #AntiToxins .SingleParticle .State .RealState{
     display: none;
@@ -1924,7 +1947,7 @@ body{
     color: #f50057; text-decoration: none;
 }
 #AntiToxins .SingleParticle .State .RealState.active{
-    display: block;
+    display: inline-block;
 }
 #AntiToxins .SingleParticle .State .Exc{
     width: 100%;
@@ -1940,41 +1963,63 @@ body{
 #AntiToxins .SingleParticle .State .Exc div:last-child{
     float: right; margin-right: -2em;
 }
-#AntiToxins .Detail .Description{
-    width: 55%; text-align: justify; overflow: auto;
+#AntiToxins .Description{
+    text-align: justify; overflow: auto;
+    position: relative;
+    grid-area: 5 / 2 / span 1 / span 1;
 }
 #Analyzer{
     width: 100%; height: 100%;
     position: absolute; left: 0; top: 0;
+    display: grid;
+    grid-template-columns: 4fr 2fr 4fr;
+    grid-template-rows: 50px 1fr 130px;
+    overflow: hidden;
 }
 #Artery .DivisionExpress{
     color: #ff8f8f
 }
 /* RATIO 0.8520849724626279 */
-#Analyzer .TheStorm{
-    width: 100%; height: 100%;
-    position: absolute; top: 0; left: 0;
-}
-#Analyzer .TheStorm .LeftWing{
-    width: 65%; padding-bottom: 63.07%;
-    position: absolute; top: 15%; right: 50%;
-    background: url("../ASSETS/Analyzer/LeftWing.png") no-repeat 26.5% 0%;
-    transform: translate(-9.9%, -9%);
+#Analyzer .LeftWing{
+    width: 850px;padding-bottom: 712px;
+    position: absolute; top: 8%; right: 50%;
+    transform: translate(-11.5%, -8%);
+    grid-area: 1 / 1 / -1 / -1;
 }
 /* RATIO 0.9703153988868275 */
-#Analyzer .TheStorm .RightWing{
-    width: 55%; padding-bottom: 53.36%;
-    position: absolute; top: 15%; left: 50%;
-    background: url("../ASSETS/Analyzer/RightWing.png") no-repeat 24% 0%;
-    transform: translate(12.4%, -11.2%);
+#Analyzer .RightWing{
+    width: 750px; padding-bottom: 702px;
+    position: absolute; top: 8%; left: 50%;
+    transform: translate(13.5%, -10.2%);
+    grid-area: 1 / 1 / -1 / -1;
 }
-#Analyzer .TheStorm .LeftWing, #Analyzer .TheStorm .RightWing {
+/* RATIO 0.8520849724626279 */
+#Analyzer .LeftWing .Storm{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    background: url("../ASSETS/Analyzer/LeftWing.png") no-repeat 26.5% 0%;
+}
+/* RATIO 0.9703153988868275 */
+#Analyzer .RightWing .Storm{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    background: url("../ASSETS/Analyzer/RightWing.png") no-repeat 24% 0%;
+}
+#Analyzer .LeftWing .Storm, #Analyzer .RightWing .Storm {
     background-size: 100%;
+}
+#Analyzer .Particles{
+    height: 550px;
+    grid-area: 1 / 1 / -1 / -1;
+    display: grid;
+    grid-template-rows: 20% repeat(14, 1fr);
+    grid-template-columns: repeat(40, 1fr);
 }
 /* RATIO 0.5955056179775281 */
 #Analyzer .Particles > div{
-    width: 4.63%; padding-bottom: 2.75%;
-    position: absolute;
+    width: 100%; height: 0; padding-bottom: 60%;
+    position: relative;
+    grid-area: 1 / 1 / 1 / 1;
 }
 #Analyzer .Particles > div:not(.active) > .hover:hover{
     cursor: pointer;
@@ -1998,8 +2043,8 @@ body{
 }
 #Analyzer .Particles > div > .dime:after{
     content: "";
-    width: 186.95%; height: 275.3%;
-    position: absolute; top: -87.2%; right: -42.41%;
+    width: 182%; height: 272%;
+    position: absolute; top: -86%; right: -40%;
     background: url("../ASSETS/Analyzer/Particle_Glow.png") no-repeat center; z-index: 0;
     background-size: 100%;
 }
@@ -2013,36 +2058,47 @@ body{
     filter: hue-rotate(240deg);
 }
 #Analyzer .Particles > div.Blue.A{
-    top: 27%; left: 16%;
+    grid-area: 3 / 11 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Yellow.A{
-    top: 46%; left: 4%;
+    grid-area: 5 / 4 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Purple.A{
-    top: 54%; left: 24%;
+    grid-area: 11 / 4 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Purple.B{
-    top: 78%; left: 5%;
+    grid-area: 8 / 9 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Green.A{
-    top: 34%; Right: 24%;
+    grid-area: 2 / -12 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Blue.B{
-    top: 60%; Right: 23%;
+    grid-area: 5 / -5 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Green.B{
-    top: 80%; Right: 3%;
+    grid-area: 10 / -6 / span 2 / span 2;
 }
 #Analyzer .Particles > div.Yellow.B{
-    top: 33%; Right: 8%;
+    grid-area: 8 / -11 / span 2 / span 2;
 }
-#Analyzer .Core{
-    width: 20.83%; padding-bottom: 20.83%;
-    margin: 0 auto;
-    position: absolute; top: 15%; left: 50%;
+#Analyzer .Analyzer{
+    width: 300px; height: 0; padding-bottom: 300px;
+    grid-area: 1 / 2 / -1 / span 1;
+    position: relative; top: 8%; left: 50%;
     transform: translateX(-50%);
 }
-#Analyzer .Core > div{
+#Analyzer .Analyzer .Core{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+}
+#Analyzer .Analyzer .Circle{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    border-radius: 50%;
+    z-index: -1;
+    background: #0a0a0b;
+}
+#Analyzer .Analyzer .Core > div{
     position: absolute;
 }
 #Analyzer .Faces{
@@ -2129,7 +2185,8 @@ body{
 #Analyzer .Navigate{
     width: 30.75%; height: 26%;
     top: 46%;
-    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 124.13 105.4'%3e%3cdefs%3e%3clinearGradient id='a' x1='94.94' y1='52.54' x2='123.47' y2='52.54' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0'/%3e%3cstop offset='.4' stop-color='%23000051'/%3e%3cstop offset='.6' stop-color='%234a148c'/%3e%3cstop offset='1' stop-color='%23ff5959'/%3e%3c/linearGradient%3e%3clinearGradient id='b' x1='77.91' y1='34.71' x2='106.43' y2='34.71' xlink:href='%23a'/%3e%3clinearGradient id='c' x1='60.74' y1='16.91' x2='89.27' y2='16.91' xlink:href='%23a'/%3e%3clinearGradient id='d' x1='78.51' y1='70.73' x2='107.03' y2='70.73' xlink:href='%23a'/%3e%3clinearGradient id='e' x1='61.8' y1='88.48' x2='90.32' y2='88.48' xlink:href='%23a'/%3e%3clinearGradient id='f' x1='60.95' y1='52.6' x2='89.47' y2='52.6' xlink:href='%23a'/%3e%3clinearGradient id='g' x1='30.57' y1='52.66' x2='59.09' y2='52.66' xlink:href='%23a'/%3e%3clinearGradient id='h' x1='.67' y1='52.71' x2='29.19' y2='52.71' xlink:href='%23a'/%3e%3c/defs%3e%3cpath fill='url(%23a)' stroke='%23ff5959' stroke-miterlimit='10' d='M123.47 52.51L109.23 68.7 94.94 52.56l14.23-16.18 14.3 16.13z'/%3e%3cpath fill='url(%23b)' stroke='%23ff5959' stroke-miterlimit='10' d='M106.43 34.69L92.2 50.87 77.91 34.75l14.23-16.19 14.29 16.13z'/%3e%3cpath fill='url(%23c)' stroke='%23ff5959' stroke-miterlimit='10' d='M89.27 16.88L75.03 33.07 60.74 16.94 74.97.76l14.3 16.12z'/%3e%3cpath fill='url(%23d)' stroke='%23ff5959' stroke-miterlimit='10' d='M107.03 70.7L92.8 86.89 78.51 70.76l14.23-16.19 14.29 16.13z'/%3e%3cpath fill='url(%23e)' stroke='%23ff5959' stroke-miterlimit='10' d='M90.32 88.47l-14.23 16.17L61.8 88.52l14.23-16.2 14.29 16.15z'/%3e%3cpath fill='url(%23f)' stroke='%23ff5959' stroke-miterlimit='10' d='M89.47 52.57L75.23 68.76 60.95 52.62l14.22-16.18 14.3 16.13z'/%3e%3cpath fill='url(%23g)' stroke='%23ff5959' stroke-miterlimit='10' d='M59.09 52.63L44.86 68.82 30.57 52.68 44.8 36.5l14.29 16.13z'/%3e%3cpath fill='url(%23h)' stroke='%23ff5959' stroke-miterlimit='10' d='M29.19 52.68L14.95 68.87.67 52.73l14.22-16.18 14.3 16.13z'/%3e%3c/svg%3e") no-repeat;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 124.13 105.4'%3e%3cdefs%3e%3clinearGradient id='a' x1='94.94' y1='52.54' x2='123.47' y2='52.54' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0'/%3e%3cstop offset='.4' stop-color='%23000051'/%3e%3cstop offset='.6' stop-color='%234a148c'/%3e%3cstop offset='1' stop-color='%23ff5959'/%3e%3c/linearGradient%3e%3clinearGradient id='b' x1='77.91' y1='34.71' x2='106.43' y2='34.71' xlink:href='%23a'/%3e%3clinearGradient id='c' x1='60.74' y1='16.91' x2='89.27' y2='16.91' xlink:href='%23a'/%3e%3clinearGradient id='d' x1='78.51' y1='70.73' x2='107.03' y2='70.73' xlink:href='%23a'/%3e%3clinearGradient id='e' x1='61.8' y1='88.48' x2='90.32' y2='88.48' xlink:href='%23a'/%3e%3clinearGradient id='f' x1='60.95' y1='52.6' x2='89.47' y2='52.6' xlink:href='%23a'/%3e%3clinearGradient id='g' x1='30.57' y1='52.66' x2='59.09' y2='52.66' xlink:href='%23a'/%3e%3clinearGradient id='h' x1='.67' y1='52.71' x2='29.19' y2='52.71' xlink:href='%23a'/%3e%3c/defs%3e%3cpath fill='url(%23a)' stroke='%23ff5959' stroke-miterlimit='10' d='M123.47 52.51L109.23 68.7 94.94 52.56l14.23-16.18 14.3 16.13z'/%3e%3cpath fill='url(%23b)' stroke='%23ff5959' stroke-miterlimit='10' d='M106.43 34.69L92.2 50.87 77.91 34.75l14.23-16.19 14.29 16.13z'/%3e%3cpath fill='url(%23c)' stroke='%23ff5959' stroke-miterlimit='10' d='M89.27 16.88L75.03 33.07 60.74 16.94 74.97.76l14.3 16.12z'/%3e%3cpath fill='url(%23d)' stroke='%23ff5959' stroke-miterlimit='10' d='M107.03 70.7L92.8 86.89 78.51 70.76l14.23-16.19 14.29 16.13z'/%3e%3cpath fill='url(%23e)' stroke='%23ff5959' stroke-miterlimit='10' d='M90.32 88.47l-14.23 16.17L61.8 88.52l14.23-16.2 14.29 16.15z'/%3e%3cpath fill='url(%23f)' stroke='%23ff5959' stroke-miterlimit='10' d='M89.47 52.57L75.23 68.76 60.95 52.62l14.22-16.18 14.3 16.13z'/%3e%3cpath fill='url(%23g)' stroke='%23ff5959' stroke-miterlimit='10' d='M59.09 52.63L44.86 68.82 30.57 52.68 44.8 36.5l14.29 16.13z'/%3e%3cpath fill='url(%23h)' stroke='%23ff5959' stroke-miterlimit='10' d='M29.19 52.68L14.95 68.87.67 52.73l14.22-16.18 14.3 16.13z'/%3e%3c/svg%3e") no-repeat 100% 0%;
+    background-size: auto 100%;
     transition: margin .2s ease;
 }
 #Analyzer .Navigate:hover{
@@ -2150,49 +2207,65 @@ body{
 }
 /* RATIO 0.4720616570327553 */
 #Analyzer .Express{
-    width: 129.75%; height: 61.25%;
-    position: absolute; top: 104.75%; left: 50%;
-    transform: translateX(-50%);
+    width: 120%;
+    grid-area: 1 / 2 / -1 / span 1;
+    position: absolute; top: 8%; left: -10%; margin-top: 340px;
+    transform: translateY(-10%);
     font-family: Ocr; color: #fff;
 }
 
-#Analyzer .Express > div{
-    position: absolute; box-sizing: border-box;
-}
 #Analyzer .Cloud{
-    width: 100%; height: 47.34%;
-    top: 0; left: 0;
+    width: 110%; height: 0; padding: 13% 0;
+    position: absolute; top: 0; left: -5%;
     background: url("../ASSETS/Analyzer/Cloud.png") no-repeat center;
-    background-size: 100%;
-    font-size: 1.2em;text-align: center; padding-top: 8%;
+    background-size: 100%; margin-top: 5%;
+    font-size: 1.2em; line-height: 0; text-align: center;
 }
 #Analyzer .Plate{
-    width: 110.01%; height: 104.48%;
-    top: 6.93%; left: -4%;
-    background: url("../ASSETS/Analyzer/Mag_WordPlate.png") no-repeat center;
-    background-size: 180%;
+    width: 100%;
+    top: 0; left: 0;
+    overflow: hidden;
+    position: relative;
+    margin: 22% 0 160px 0;
+}
+#Analyzer .Plate:after{
+    content: "";
+    width: 100%; padding-top: 95%;
+    position: absolute; bottom: 0%; left: 0%;
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-20 -20 600 569.08'%3e%3cdefs%3e%3clinearGradient id='b' x1='280' y1='504.54' x2='280' y2='4.54' gradientUnits='userSpaceOnUse'%3e%3cstop offset='0'/%3e%3cstop offset='.3' stop-color='%23000051'/%3e%3cstop offset='.6' stop-color='%234a148c'/%3e%3cstop offset='1' stop-color='%23ff5959'/%3e%3c/linearGradient%3e%3cfilter id='a' x='-340' y='-344.54' width='660' height='630'%3e%3cfeGaussianBlur stdDeviation='15'/%3e%3c/filter%3e%3c/defs%3e%3cg filter='url(%23a)' opacity='.8'%3e%3cpath fill='%23ff5959' d='M560 495.69l-31.75 31.87-496.5 1.52L0 497.34 84.73 31.75 116.46 0h327.08l31.73 31.75L560 495.69z'/%3e%3c/g%3e%3cpath fill='url(%23b)' opacity='.8' d='M544.61 472.98l-30 30.12-469.22 1.44-30-30 80.07-440 29.99-30h309.1l29.99 30 80.07 438.44z'/%3e%3c/svg%3e") no-repeat 50% 110%;
+    background-size: 100% 100%;
+    z-index: -1;
 }
 #Analyzer .Plate .Content{
-    height: 4em;
     position: relative; top: 0; left: 0;
     box-sizing: border-box;
-    font-size: 1em;text-align: justify; margin: 20% 16% 2% 16%; overflow: auto;
+    perspective: 310px;
+    font-size: 1em;text-align: justify; padding: 2em 3.5em 3.5em 3.5em; overflow: auto;
+}
+#Analyzer .Plate .Content > div{
+    transform-style: preserve-3d;
+    transform: rotateX(20deg);
 }
 #Analyzer .Plate .Content::-webkit-scrollbar{
     width: 6px;
     background-color: #F5F5F5;
 }
 #Analyzer .CloudGlow{
-    width: 70.32%; height: 45.30%;
-    top: -33.06%; left: 14.64%;
+    width: 70%; padding-bottom: 17.5%;
+    position: absolute; top: 0; left: 15%;
     background: url("../ASSETS/Analyzer/Mag_CloudGlow.png") no-repeat;
     background-size: 100%;
+    margin-top: -7%;
     visibility: hidden; opacity: 0;
 }
 
 #DeckCloud{
     width: 100%; height: 100%;
     position: absolute; left: 0; top: 0;
+    display: grid;
+    grid-template-rows: 30px 1fr 130px;
+    grid-template-columns: 1fr 4fr 4fr 1fr;
+    align-items: center; justify-items: center;
 }
 #DeckCloud > .Entry{
     width: 5%; height: 5%;
@@ -2204,30 +2277,42 @@ body{
 }
 #DeckCloud .Deck{
     /*RATIO 1.165277777777778*/
-    width: 37.5%; padding-bottom: 43.69%;
-    position: absolute; top: 4%;
+    width: 80%; padding-bottom: 95%;
+    position: relative;
+    align-self: center; justify-self: center;
+}
+#DeckCloud .Slider{
+    /*RATIO 1.165277777777778*/
+    width: 90%; padding-bottom: 105%;
+    display: none;
 }
 #DeckCloud .Deck.Work{
-    left: 11.14%;
+    grid-area: 2 / 2 / span 1 / span 1;
 }
 #DeckCloud .Deck.Life{
-    Right: 11.14%;
+    grid-area: 2 / 3 / span 1 / span 1;
 }
-#DeckCloud .Work .Sign{
+#DeckCloud .Work .Sign,#DeckCloud .Work.Sign{
     /*RATIO 0.3958333333333333*/
-    width: 40%; padding-bottom: 15.83%;
+    width: 40%; padding-bottom: 16%;
     top: 0; left: 25.69%;
     background: url("../ASSETS/DeckCloud/Sign_Work.png") no-repeat;
     background-size: 100%;
     z-index: 2;
 }
-#DeckCloud .Life .Sign{
+#DeckCloud .Slider .Work.Sign{
+    left: 13%;
+}
+#DeckCloud .Life .Sign,#DeckCloud .Life.Sign{
     /*RATIO 0.5480769230769231*/
-    width: 28.88%; padding-bottom: 15.83%;
+    width: 28%; padding-bottom: 16%;
     top: 0; right: 25.69%;
     background: url("../ASSETS/DeckCloud/Sign_Life.png") no-repeat;
     background-size: 100%;
     z-index: 2;
+}
+#DeckCloud .Slider .Life.Sign{
+    right: 13%;
 }
 #DeckCloud .RoyalPillow{
     /*RATIO 0.3111111111111111*/
@@ -2272,6 +2357,10 @@ body{
     width: 7.08%; padding-bottom: 9.43%;
     z-index: 2;
 }
+#DeckCloud .Slider .Fire{
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+}
 #DeckCloud .Life .ShuffleFire.A{
     bottom: 7%; left: 0;
 }
@@ -2308,83 +2397,94 @@ body{
     width: 100%; height: 100%;
     top: 0; left: 0;
     z-index: 1;
+    display: grid;
+    grid-template-rows: 18% repeat(5, 2.3%);
+    grid-template-columns: repeat(24, 1%) 52% repeat(24, 1%);
+    padding: 0 10%;
+    box-sizing: border-box;
+}
+#DeckCloud .Slider .Cards, #DeckCloud .Slider .CardSlider{
+    width: 100%; height: 100%;
+    top: 0; left: 0;
+    z-index: 1;
+}
+#DeckCloud .Slider .CardSlider{
+    display: grid;
+    grid-template-rows: 18% repeat(5, 2.3%);
+    grid-template-columns: repeat(24, 1%) 52% repeat(24, 1%);
+    padding: 0 10%;
+    box-sizing: border-box;
 }
 #DeckCloud .Cards .Card > div, #DeckCloud .Cards .Card .Fader{
     width: 100%; height: 100%;
     position: absolute; top: 0; left: 0;
     z-index: 0;
 }
+#DeckCloud .Cards .Card .Fader{
+    display: grid;
+    grid-template-rows: 0.9fr 1.1fr 4fr 5fr;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    box-sizing: border-box;
+    padding: 8%;
+}
 #DeckCloud .Card{
     /*RATIO 1.17607223476298*/
-    width: 61.52%; padding-bottom: 72.35%;
+    width: 100%; padding-bottom: 113%;
     z-index: 1;
 }
 #DeckCloud .Card > div{
-    overflow: hidden; z-index: 1;
+    z-index: 1;
 }
 #DeckCloud .Card{
     cursor: pointer;
-}
-#DeckCloud .Work .Card{
-    top: 28%; left: 25%;
 }
 #DeckCloud .Work .Card .Fader{
     background: linear-gradient(to right, rgba(253,216,53,1) 0%,rgba(198,132,0,1) 100%);
     box-shadow: 0px -9px 9px 0px rgba(0,0,0,0.3);
 }
-#DeckCloud .Work .Card > div{
-    box-shadow: 0px -9px 9px 0px rgba(0,0,0,0.3);
-}
 #DeckCloud .Work .Card.No1{
-    transform: translate(0,0);
+    grid-area: 7 / 19 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No2{
-    transform: translate(-4%,-4%);
+    grid-area: 6 / 16 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No3{
-    transform: translate(-8%,-8%);
+    grid-area: 5 / 13 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No4{
-    transform: translate(-12%,-12%);
+    grid-area: 4 / 10 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No5{
-    transform: translate(-16%,-16%);
+    grid-area: 3 / 7 / -1 / span 26;
 }
 #DeckCloud .Work .Card.No6{
-    transform: translate(-20%,-20%);
-}
-#DeckCloud .Life .Card {
-    top: 27%; right: 24%;
+    grid-area: 2 / 4 / -1 / span 26;
 }
 #DeckCloud .Life .Card .Fader{
     background: linear-gradient(to left, rgba(253,216,53,1) 0%,rgba(198,132,0,1) 100%);
-}
-#DeckCloud .Life .Card > div{
     box-shadow: 0px -9px 9px 0px rgba(0,0,0,0.3);
 }
 #DeckCloud .Life .Card.No1{
-    transform: translate(0,0);
+    grid-area: 7 / 7 / -1 / span 26;
 }
 #DeckCloud .Life .Card.No2{
-    transform: translate(4%,-4%);
+    grid-area: 6 / 10 / -1 / span 26;
 }
 #DeckCloud .Life .Card.No3{
-    transform: translate(8%,-8%);
+    grid-area: 5 / 13 / -1 / span 26;
 }
 #DeckCloud .Life .Card.No4{
-    transform: translate(12%,-12%);
+    grid-area: 4 / 16 / -1 / span 26;
 }
 #DeckCloud .Life .Card.No5{
-    transform: translate(16%,-16%);
-}
-#DeckCloud .Life .Card.No6{
-    transform: translate(20%,-20%);
+    grid-area: 3 / 19 / -1 / span 26;
 }
 #DeckCloud .Card .The{
     /*RATIO 0.467741935483871*/
-    width: 13.99%; padding-bottom: 6.54%;
-    top: 7.67%; left: 50%;
-    transform: translateX(-50%);
+    width: 14%; padding-bottom: 7%;
+    grid-area: 1 / 1 / span 1 / -1;
+    align-self: end;
 }
 #DeckCloud .Work .Card .The{
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 62.44 29.31'%3e%3cdefs%3e%3cstyle%3e.a%7bisolation:isolate%7d.b%7bfill:%2384701c%7d.c%7bfill:%23fcd735%7d%3c/style%3e%3c/defs%3e%3cg class='a'%3e%3cpath class='b' d='M61.7 20.52h.07l-8.55 8.68a.5.5 0 0 1-.37.15c-.09 0-12.44-.22-13.18-.22-.32 0-.48-.14-.49-.42 0-1.07-.58-19.48-.58-19.48a.32.32 0 0 1 .06-.25L47.21.26a.31.31 0 0 0-.06.25s.55 18.4.58 19.48c0 .28.17.42.49.42.74 0 13.09.22 13.18.22a.48.48 0 0 0 .24-.07zM54.47 7.8L59 7.61 61.59 5c-.11.13-.35.11-.53.09-2.29-.18-4.6-.31-6.9-.31a1.77 1.77 0 0 0-.61.09c-.49.19-.46.87-.43 1.3a2.3 2.3 0 0 0 .4 1.38 1.3 1.3 0 0 0 .95.25zM61 12.57a.46.46 0 0 1-.33.1l-6.58-.23c-.39 0-.62.08-.68.28a18.67 18.67 0 0 0 .2 2.31c.17.37.8.58 1.87.65l2.59-.11 3-3z'/%3e%3cpath class='c' d='M62.11 15.4c.21 0 .32.17.33.52a43.4 43.4 0 0 1-.57 4.43.52.52 0 0 1-.47.28c-.09 0-12.44-.22-13.18-.22-.32 0-.48-.14-.49-.42 0-1.08-.58-19.48-.58-19.48 0-.23.09-.34.35-.34h12.77c.5 0 .79.18.88.57.05.22.49 3.81.5 4.05s-.35.31-.59.28c-2.56-.2-4.86-.31-6.9-.31-.51 0-.81.11-.92.35a3.1 3.1 0 0 0 .28 2.42 1.3 1.3 0 0 0 .95.27L61 7.53c.22 0 .34.1.35.31 0 0-.25 3.76-.23 4.53q0 .3-.42.3l-6.58-.23c-.39 0-.62.08-.68.28a18.67 18.67 0 0 0 .2 2.31c.17.37.8.58 1.87.65-.03 0 6.09-.28 6.6-.28z'/%3e%3c/g%3e%3cg class='a'%3e%3cpath class='b' d='M45 20.33L36.51 29a1 1 0 0 1-.41.08c-.58.06-4.87.06-5.14 0s-.4-.19-.41-.39c0-.76 0-7.11-.05-7.2L23.1 29a.45.45 0 0 1-.25.12c-.3.06-4.83.06-5.2 0a.46.46 0 0 1-.43-.45c0-1-.54-18.35-.58-19.47a.33.33 0 0 1 .08-.25L25.27.24a.33.33 0 0 0-.08.24c0 1.11.55 18.43.58 19.47a.46.46 0 0 0 .43.45c.37.06 4.9.06 5.2 0a.43.43 0 0 0 .37-.5c0-.76-.32-6-.35-6.74 0-.39.09-.6.3-.65s6.68-.08 7 0 .33.27.34.65v6.85c0 .2.14.33.41.39s4.56.06 5.14 0a.92.92 0 0 0 .39-.07zM38.67 7.5q.34-.09.33-.6c0-.69-.38-5.58-.4-6.28a.53.53 0 0 1 .07-.31l-7.12 7.2c1.04.07 6.82.06 7.12-.01z'/%3e%3cpath class='c' d='M44.08.17c.28 0 .42.11.43.34 0 1.11.16 12.65.33 14.75s.26 3.66.29 4.7c0 .39-.19.41-.52.45-.58.06-4.87.06-5.14 0s-.4-.19-.41-.39v-6.85c0-.38-.12-.59-.34-.65s-6.67-.08-7 0-.31.26-.3.65c0 .75.33 6 .35 6.74a.43.43 0 0 1-.37.5c-.3.06-4.83.06-5.2 0a.46.46 0 0 1-.43-.45c0-1-.54-18.36-.58-19.47 0-.22.09-.32.3-.32H31c.17 0 .25.09.26.26 0 .72-.14 5.76-.12 6.47 0 .34.11.54.29.6s7 .08 7.28 0 .34-.26.33-.6c0-.69-.38-5.58-.4-6.28 0-.3.1-.45.35-.45z'/%3e%3c/g%3e%3cg class='a'%3e%3cpath class='b' d='M19.63 20.31L11.09 29s-5 .16-5.55.08a.45.45 0 0 1-.42-.45C5.09 27.51 5 16 4.83 13.41c-1.92.19-3.45.29-4.59.29-.16 0-.24 0-.24-.14s.56-4.63.67-4.74L9.22.14a1.93 1.93 0 0 0-.23 1c0 .45-.45 3.57-.45 3.69s.08.15.24.15q1.71 0 4.59-.3c.16 2.6.26 14.11.29 15.24a.45.45 0 0 0 .42.45c.5.07 4.57.07 5.15 0a.82.82 0 0 0 .4-.06zm3.82-15.44c-.36 0-1.81-.07-4.35-.22 0 .79.08 2.57.16 4.64l4.43-4.49a.29.29 0 0 1-.24.07z'/%3e%3cpath class='c' d='M23.1 0c.26 0 .37 0 .4.31s.25 4 .26 4.27-.1.29-.31.29-1.81-.07-4.35-.22c0 2.44.62 14.2.66 15.34 0 .36-.22.38-.52.42-.58.07-4.65.07-5.15 0a.45.45 0 0 1-.42-.45c0-1.13-.13-12.64-.29-15.24Q10.5 5 8.79 5q-.24 0-.24-.15c0-.12.42-3.24.45-3.69C9 .46 9.15.1 9.31.1h.2a61.64 61.64 0 0 0 6.93.3c.86.02 6.65-.4 6.66-.4z'/%3e%3c/g%3e%3c/svg%3e") no-repeat;
@@ -2393,10 +2493,10 @@ body{
     background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 61.79 29.32'%3e%3cdefs%3e%3cstyle%3e.a%7bisolation:isolate%7d.b%7bfill:%2384701c%7d.c%7bfill:%23f8d434%7d%3c/style%3e%3c/defs%3e%3cg class='a'%3e%3cpath class='b' d='M4.67 9.68L0 5a.24.24 0 0 0 .23 0c1.14 0 2.68-.1 4.6-.3.01.91-.06 2.81-.16 4.98zM23.78 9c0-.07 0-.23-.05-.28L15.18 0a.34.34 0 0 1 .07.26v4.27c0 .27-.12.28-.33.28-.36 0-1.81-.07-4.34-.21-.13 2.44-.25 14.22-.28 15.34 0 .35-.23.38-.55.41-.57.08-4.64.08-5.14 0a.52.52 0 0 1-.28-.13L12.86 29a.49.49 0 0 0 .28.12c.5.08 4.57.08 5.15 0 .3 0 .53-.05.54-.41 0-1.14.27-15 .28-15.34 2.53.15 4 .22 4.34.22a.31.31 0 0 0 .33-.29c0-.3-.01-4.04 0-4.3z'/%3e%3cpath class='c' d='M14.84 0c.3 0 .38 0 .38.32v4.27c0 .27-.12.28-.33.28-.36 0-1.81-.07-4.34-.21-.13 2.44-.25 14.22-.28 15.34 0 .35-.23.38-.55.41-.57.08-4.64.08-5.14 0A.4.4 0 0 1 4.2 20c0-1.14.64-12.64.63-15.24-1.92.2-3.46.3-4.6.3C.08 5 0 5 0 4.87A43.52 43.52 0 0 1 1.05.11h.2C2.81.32 14.84 0 14.84 0z'/%3e%3c/g%3e%3cg class='a'%3e%3cpath class='b' d='M22.88.24L30 7.47h-.05c-.33.07-7 .07-7.28 0s-.27-.26-.26-.6c0-.71.5-5.75.52-6.48a.27.27 0 0 0-.05-.15zm21.9 9a.34.34 0 0 0-.09-.24S36.14.28 36.14.3a.26.26 0 0 1 .08.22c0 1.11-.53 18.41-.56 19.45 0 .36-.22.42-.55.44-.59.06-4.88.06-5.14 0s-.39-.18-.39-.39c0-.75.41-6.09.43-6.85 0-.37-.08-.58-.3-.65s-6.67-.08-7 0-.32.27-.33.65c0 .75-.05 6-.07 6.74a.45.45 0 0 1-.4.5c-.31.06-4.84.06-5.2 0a.64.64 0 0 1-.3-.13L25 29a.52.52 0 0 0 .3.13 37.4 37.4 0 0 0 5.42-.1c.25-.2.27-7.32.29-7.41L38.22 29a.6.6 0 0 0 .3.13c.22.06 4 0 5 0 .37 0 .69 0 .71-.43.01-1.09.51-18.39.55-19.49z'/%3e%3cpath class='c' d='M35.82.18c.27 0 .41.11.4.34 0 1.11-.53 18.41-.56 19.45 0 .36-.22.42-.55.44-.59.06-4.88.06-5.14 0s-.39-.18-.39-.39c0-.75.41-6.09.43-6.85 0-.37-.08-.58-.3-.65s-6.67-.08-7 0-.32.27-.33.65c0 .75-.05 6-.07 6.74a.45.45 0 0 1-.4.5c-.31.06-4.84.06-5.2 0a.4.4 0 0 1-.4-.44c0-1 .58-18.36.61-19.47 0-.22.11-.32.31-.32h5.47a.21.21 0 0 1 .24.25c0 .73-.49 5.77-.52 6.48 0 .34.08.53.26.6s7 .07 7.28 0 .35-.26.36-.6V.62c0-.29.13-.44.38-.44z'/%3e%3c/g%3e%3cg class='a'%3e%3cpath class='b' d='M61.73 24.34a1.24 1.24 0 0 0-.1-.2 31.41 31.41 0 0 0-2.91-2.95c.07 0 1.37.36 1.76.09a18.09 18.09 0 0 0 .59-5l-2.69-2.72c.64 0 2.44.16 2.71.18s.55.05.56-.28-.25-4.1-.26-4.12a.58.58 0 0 0-.15-.28S52.69.39 52.68.41a.53.53 0 0 1 .17.33c0 .22.26 3.81.25 4.05s-.35.3-.6.29q-3.82-.31-6.89-.32c-.5 0-.82.12-.94.36a8.32 8.32 0 0 0 .14 2.41 1.17 1.17 0 0 0 .93.28c1.63 0 6.32-.28 6.52-.28s.33.1.33.31c0 0-.49 3.77-.51 4.54 0 .2-.15.29-.43.29l-6.57-.23c-.39 0-.63.09-.7.29a18.43 18.43 0 0 0 .06 2.3c.15.37.76.59 1.82.66 0 0 6.15-.28 6.65-.28.21 0 .31.17.3.52a42 42 0 0 1-.84 4.43c-.2.33-.59.27-.92.23-.7-.1-12-.18-12.73-.18a.54.54 0 0 1-.37-.11L46.9 29a.48.48 0 0 0 .37.11c.73 0 12.77.28 13.18.22.83-.14 1.55-4.27 1.28-4.99z'/%3e%3cpath class='c' d='M52.91 15.41c.21 0 .31.17.3.52a42 42 0 0 1-.84 4.43c-.2.33-.59.27-.92.23-.7-.1-12-.18-12.73-.18-.32 0-.48-.13-.47-.41 0-1.08.62-19.49.62-19.49 0-.23.1-.33.37-.33H52c.51 0 .79.18.85.56 0 .22.26 3.81.25 4.05s-.35.3-.6.29q-3.82-.31-6.89-.32c-.5 0-.82.12-.94.36a8.32 8.32 0 0 0 .14 2.41 1.17 1.17 0 0 0 .93.28c1.63 0 6.32-.28 6.52-.28s.33.1.33.31c0 0-.49 3.77-.51 4.54 0 .2-.15.29-.43.29l-6.57-.23c-.39 0-.63.09-.7.29a18.43 18.43 0 0 0 .06 2.3c.15.37.76.59 1.82.66.01 0 6.15-.28 6.65-.28z'/%3e%3c/g%3e%3c/svg%3e") no-repeat;
 }
 #DeckCloud .Card .Description{
-    width: 85%; height: 34.93%;
-    top: 59.50%; left: 7.5%;
+    width: 100%; height: 100%;
     font-family: Ocr; font-size: .9em;
     text-align: justify; overflow: hidden; color: #000;
+    grid-area: 4 / 1 / span 1 / span 1;
 }
 #DeckCloud .Card .Fader:after{
     content: "";
@@ -2404,14 +2504,13 @@ body{
     position: absolute; top: 0; left: 0; z-index: -1;
 }
 #DeckCloud .Card .Title{
-    top: 14.20%; left: 50%;
-    padding-bottom: 10.15%;
-    transform: translateX(-50%);
+    padding-bottom: 10%;
+    grid-area: 2 / 1 / span 1 / -1;
 }
 #DeckCloud .Card .Icon{
-    top: 30%; left: 50%;
-    padding-bottom: 22.70%;
-    transform: translateX(-50%);
+    padding-bottom: 23%;
+    align-self: center;
+    grid-area: 3 / 1 / span 1 / -1;
     background-size: 100%; background-repeat: no-repeat;
 }
 #DeckCloud .TheCoder.Card .Fader:after{
@@ -2539,6 +2638,56 @@ body{
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200.35 39.04'%3e%3cg opacity='.8'%3e%3cpath d='M172.15 38c0 1-.54 1.17-1.69.67a28.58 28.58 0 0 1-5.15 0 2.63 2.63 0 0 1 3.49-.49 20 20 0 0 1-.18-2.9c1-1.57 3.28-.43 2.43 1.15a1.61 1.61 0 0 1 1.1 1.57zm-9 .67h1.3a1.72 1.72 0 0 0-1.28.01zm-8.1-1.94a1.73 1.73 0 0 0-2.93-1.14 2.56 2.56 0 0 0-4.45-.06 1.63 1.63 0 1 0-.26 1.73c.41 1.88 3.85 2.28 4.71.62a1.7 1.7 0 0 0 2.95-1.14zm-11.86-.15a1.67 1.67 0 0 0-.64-2.9c-2.51-.81-1.43 2.09-1.63 2.81-.09.3.85.65-.32 1.6-.71.57-1.85-.14-2.64.58 1.3 0 3.67.48 4.84 0 .74-.3 2.4-.89.41-2.08zm16.57-.8c0-2.75-4.43-2.33-3.87.38a2 2 0 0 0 3.89-.37zm14.55 1.34a1.71 1.71 0 0 0-.45 1.55c.77 0 4.59.68 3-1.27a1.69 1.69 0 0 0-2.53-.27zm-19.62.95l-.38.6h3.15a1.72 1.72 0 0 0-2.75-.59zm11.46-2a1.41 1.41 0 0 0-2.81 0 1.41 1.41 0 0 0 2.83.04zM159 37.33c-.17.17-.44 1.05-.69 1.35h3a1.4 1.4 0 0 0-2.31-1.35zm16.18-1.75c2.59 0 1.9-4.2-.63-3.23a2.53 2.53 0 0 0-2.12-2.5c5.38-2.46-4-8-3.56-2.11-.45-.54-1-.4-1.56-.47s-1-.71-1.61-.76c-1.66-.15-3.46.21-3.49 2.32 0 1.72 1.53 2.54 3 2.43 1-.07 4-1.52 4-2.32a2.61 2.61 0 0 0 1.79 1.11 2.54 2.54 0 0 0-.72 4.05c.83.83 1.67.39 2.61.6l.72-.39a1.69 1.69 0 0 0 1.6 1.27zm-11.73-2c-.8-2-3.91-.78-3 1.23s3.89.86 3.03-1.23zm-33.54 5.1c-1.49 0-3.74.42-5.14 0 1.47.44-2.43-3-1.67-1.27-.54-1.22.31-3.18 0-4.49-.44-1.9.37-1.83-1.95-1.83a2.56 2.56 0 0 1 4.37-1.09c-1.44-2.74 1.37-2.58 2.38-3.66 1.27-1.35-.6-1.73.32-3.17-5.65 2.74-3.26-8.61.8-3.91-.79-2.19 1.39-1.56 2.12-2.14 1-.84 1.5-2.44 3.45-1.28 1.21.72.6 1.59 1 2.32a15 15 0 0 0 2.22 1.48c1.8 1.15 2.62.7 1.77 3.29a19.23 19.23 0 0 0-1.15 2.34c-1.65 1.22-4-.72-2.42-2.35a2.54 2.54 0 0 1-2.82-4.06c-1.5-.91-1.7 3.08-3.76 1a2.59 2.59 0 0 1-.37 2.61 1.68 1.68 0 0 1 2.16 2.14 2.56 2.56 0 0 1 4.12 1.95c0 2.83-2.35 2-3.91 2.07-.69 0-.32-.79-1-.5s-.07 1.16-.39 1.61c-1 1.42-2.81 2.3-4.22.72.43.81-.24 2.46.11 2.78 2.53-2.28 4.17 3.31.94 2.91a1.79 1.79 0 0 1 .66 2.42 2.67 2.67 0 0 1 2.41.11zm-55.56-.25c-.63.63 3.09.52 2.64-.15a1.74 1.74 0 0 0-2.61.15zm-2.35.26h1.36a1.78 1.78 0 0 0-1.36 0zm-8.07-1.95A1.73 1.73 0 0 0 61 35.6a2.56 2.56 0 0 0-4.45-.06 1.62 1.62 0 1 0-.26 1.73c.42 1.89 3.85 2.29 4.71.62a1.7 1.7 0 0 0 2.94-1.15zm-11.85-.15a1.68 1.68 0 0 0-.65-2.9c-2.5-.81-1.42 2.09-1.63 2.81-.08.3.85.65-.32 1.6-.73.6-1.84-.16-2.65.59 1.3 0 3.69.49 4.85 0 .75-.31 2.38-.92.41-2.1zm16.56-.8c0-2.75-4.42-2.33-3.86.38a2 2 0 0 0 3.87-.38zm-5.07 2.29l-.38.61h3.16a1.72 1.72 0 0 0-2.77-.61zm11.46-2a1.41 1.41 0 0 0-2.81 0 1.41 1.41 0 0 0 2.78.03zm-7.13 1.25c-.2.2-.43 1.05-.7 1.36h3a1.4 1.4 0 0 0-2.3-1.36zm70.53-1.62a1.67 1.67 0 0 0-.76-2.8c-1.37-.36-1.3.82-2 1.07-1.35.51-5.29 1.58-2.94 4.37a1.73 1.73 0 0 0-1.74.33c1.2 0 4.53.58 5.46-.15.62-.49.37-1.29.75-1.79-.22-.39-.23-.56 0-.53a1.44 1.44 0 0 0 1.23-.5zm-66.07-2.13c-.81-2-3.92-.78-3 1.23s3.85.86 3-1.23zm59.5.73c2.19 0 2.58-4 .21-4-2.07 0-2.71 4-.21 4zm-71.24.26a1.4 1.4 0 0 0 2.14-1.76c-1.14-1.64-3.52.37-2.14 1.76zm-21.78 4.12a21.64 21.64 0 0 1-4.48 0c-3.92-.93 4.06 1.37-1-1-2-1-2-.64-2.69-3 .47 1.71 0-1.56.06-1.19-.14-1.22-1.17-1.3-.55-2.76a2.58 2.58 0 0 1 4.22-.7c-1.44-2.74 1.37-2.58 2.38-3.66 1.28-1.35-.59-1.73.32-3.17-5.65 2.74-3.25-8.61.8-3.91-.79-2.19 1.4-1.56 2.12-2.14 1-.84 1.5-2.44 3.45-1.28 1.22.72.6 1.59 1 2.32s2.31 1.27 2.58 1.45c1.73 1.11 2.12 1.16 1.42 3.32a17.87 17.87 0 0 0-1.15 2.34c-1.66 1.22-4-.72-2.42-2.35a2.54 2.54 0 0 1-2.83-4.06c-1.49-.91-1.7 3.08-3.76 1a2.59 2.59 0 0 1-.37 2.61 1.69 1.69 0 0 1 2.17 2.14 2.56 2.56 0 0 1 4.12 1.95c0 2.83-2.36 2-3.91 2.07-.69 0-.33-.79-1-.5s-.06 1.16-.38 1.61c-1 1.42-2.82 2.3-4.22.72.42.81-.25 2.46.1 2.78 2.55-2.28 4.18 3.32.97 2.92a1.81 1.81 0 0 1 .66 2.42 2.68 2.68 0 0 1 2.39.07zM25 35.27c-2.94 2.87 2.49 4.92 3.93 3C30.74 36 27 33.3 25 35.27zm-1.92 3.42c1.05 0 .45-1.32 0-1.9zm24.2-3a1.68 1.68 0 0 0-.76-2.8c-1.37-.36-1.31.82-2 1.07-1.35.51-5.28 1.58-2.93 4.37a1.74 1.74 0 0 0-1.76.34c1.21 0 4.53.58 5.48-.16.62-.49.36-1.3.75-1.79-.22-.39-.23-.56 0-.53a1.45 1.45 0 0 0 1.25-.48zm-22.48-1.4c1.43-.17 2.44-3.32 2.23-4.36a2.53 2.53 0 0 0-3.4-1.84c-1 .39-1.74 3-1.57 3 2 0 1.05 3.17 1.05 4.87a2.59 2.59 0 0 0 1.69-1.67zm15.94 0c2.18 0 2.57-4 .2-4-2.1.02-2.7 4.02-.2 4.02zm125.18-17.47c0-1.42-.83-1.19-1.29-2.09a13.18 13.18 0 0 0-.7-1.74c-1-1.33-2.66-2.22-4.12-.82-1.61 1.55-.08 2.67.55 3.9.54 1.06.93 3 2.66 3.26a1.67 1.67 0 1 0 .89 0 2.56 2.56 0 0 0 2.01-2.51zm24.79 5.68c0 .58-.63.43-1 .83 3.26 0 2.74.12 2.74-3.2a2.52 2.52 0 0 0-1.74 2.37zm-16.24-1.56c1.27 1.8 3.26 0 2.81-1.57a9.66 9.66 0 0 0-3.49-3.07c-4.4-.88-3.32 6.7.68 4.64zm13 1.74a1.69 1.69 0 0 0-1-2.42c-1.94-.64-1.62 1.39-1.87 2.21.33-1.07 0 2 0 1.18 0 1.2-.95 1.93.26 3.16 0-3.92-.23-3.48 3.66-3.48a1.78 1.78 0 0 0-1.08-.65zm-18.56 2.67a2.48 2.48 0 0 0 .48-4.94c-3.53-.69-4.05 4.94-.51 4.94zm-21.07-6.73a.23.23 0 0 1 .07.07 1.62 1.62 0 0 1 2.82 1.56c-.77 1.79-2.07.32-3.17 1 .81.71 2.1.16 3 1.15a2 2 0 1 1 .63 1.89 2.55 2.55 0 0 1-2.7 2.3 1.69 1.69 0 0 1-1.07 3 1.68 1.68 0 0 1-.07-3.35c-.83-.51-2.78-3.3-2.48-4.24a1 1 0 0 1-.93.28c.91 2.62-3.9 2.93-3 0 .19-.65 1.12-1.41 1.34-1.65.78-.83.36-1.74 1.8-1.65a2.6 2.6 0 0 1 0-3.59c2.06-2.19 5.51.8 3.73 3.23zm10.36-9.7c-2.22.75-.57 4.22 1.78 2.75a12.45 12.45 0 0 0 .92-1.62c.58-.68 1.31-.3 1.81-1.45 1.95-4.6-7.19-4.19-4.54.32zm25.61 22.13c1.45 0 1-.43 1-1.72a2.54 2.54 0 0 0-1.03 1.72zM158 32.27c2.34 2.35 4.91-.73 3.85-3.17s-2.85-1.94-4.14-.05c.63-2.91-3.66-4.24-4.81-1.5s2.76 4.82 4.42 2.4a2.64 2.64 0 0 0 .68 2.32zm25.4-3.12a2.51 2.51 0 0 0-2.15-2.47c2.16-1.61-1.06-3.1-2.08-3.44-2-.66-3.24-1.13-4.22 1.31-.45 1.09-.16 4.7 1.48 4.7s1.42-2.95 3.26-2.32a2.46 2.46 0 0 0-.89 3.59c.94 1.09 3.32.53 4.67.53a13.47 13.47 0 0 0-.03-1.9zM193 14l-.43.75c-.58-3.27-3.23-1.59-4.72-.76a4.26 4.26 0 0 1-2.4.86 7.91 7.91 0 0 0-2.31-.14 2.5 2.5 0 0 0-.36 4.72 3.37 3.37 0 0 0 2.24 0 8.25 8.25 0 0 0 3.12-2.61 2.59 2.59 0 0 0 1.56.88 1.68 1.68 0 1 0 .76 0c1.45-.22 1.13-1.31 2-1.91.48-.33 2.54-.19 3.35-.19A1.71 1.71 0 0 0 193 14zm-5.45-11.64a1.82 1.82 0 0 0 1.66-2h-3.32a1.81 1.81 0 0 0 1.66 2zm-15.43.45a1.67 1.67 0 0 0 2.32 0 2.23 2.23 0 0 0 .84 1.19c-4.34 2.63 3.56 7.54 3.87 2.27a2.43 2.43 0 0 0 1.35 1.49c-2.06.93-.23 2.21.18 3.09s-.17 1.86 1.06 2.69A2.51 2.51 0 0 0 185 9.75a1.69 1.69 0 0 0 1.63-2.46c1.33.75 2.29-.47 3.3.49.48.46.19 2.06.47 3 1.26 4.3 6.73 1.73 4.59-1.38-.73-1.07-2.33-.93-3-2-.22-.35.44-1.51-.09-2.28-.35-.5-1.34-.57-1.67-.82-1.08-.83-1.34-2.36-3.34-1.57a2.57 2.57 0 0 0-1.12 3.75A1.69 1.69 0 0 0 183.73 9c-1.33-.31-.58-.53-1.54-1.17 5.81-1.57-2.8-8.55-3.19-2.56a2.16 2.16 0 0 0-.87-1.21c.84-.54 1.6-2 1-3-.79-1.32-2.88-.75-4.34-.75-.59.04-5.29-.11-2.67 2.5zm-6.19 8c0 2.38 4.2 2 3.12-.59a1.62 1.62 0 0 0-3.12.57zM149 13.57c1.72 1.73 5.77-3.88 2.89-5.78a2.55 2.55 0 0 0-3.72 1.09 7.36 7.36 0 0 0 .83 4.69zm4.33-9c-2.5 4.89 7.39 4.27 4.3-.23-.15-.21-2.6-2.58-2.51-2.55-1.61-.54-3.74 1.39-1.77 2.79zm13 .62c2.07 0 2.13-3.3 0-3.3s-2.18 3.31.02 3.31zm-21.62 28.39c1 1.5 2.33.13 3.17-.12 1.14-.33 4.24-.68 2.26-3-1.46-1.74-2.32.35-3.33.49-2 .29-1.95-3.1-4.57-1.86a1.65 1.65 0 1 0-.58.39c-2.66 3.52 2.41 3.14 3.05 4.1zM152.44.35zm17.07 1.9A2.57 2.57 0 0 0 172 .35h-4.88a2.59 2.59 0 0 0 2.39 1.9zm10 14.13c2.31-2.31-1.28-5.85-3.58-3.58s1.29 5.89 3.6 3.58zm-18.22-11.6c3.1 0 3.47-4.43 0-4.43s-3.1 4.43 0 4.43zm7.35 14.08a2.57 2.57 0 0 0 2.36-3.42 2.54 2.54 0 0 0 3.18-.33c1.39-1.39-.1-2.18.2-3.33.24-.89 2.57-2.39 0-3.23a1.69 1.69 0 0 0-2 2.28 2.53 2.53 0 0 0-2.38 3.39c-3.6-2.28-5.6 4.64-1.36 4.64zm30.82-10.6a1.56 1.56 0 0 0 .62 1.3V7a1.56 1.56 0 0 0-.62 1.26zm-6.53-4c2.07 0 2.13-3.3 0-3.3s-2.21 3.29 0 3.29zm-11.39 18.66a1.65 1.65 0 0 0 0-3.3c-2.02.01-2.21 3.3 0 3.3zm-36.39-11.39c2.07 0 2.13-3.3 0-3.3s-2.21 3.3 0 3.3zm4.11-8.86c1.8 0 2.66-2.32 0-2.32s-1.79 2.32 0 2.32zm.21 2.43c0 2.36 4.21 2 3.13-.6a1.62 1.62 0 0 0-3.13.6zm32.38-2.39c1.71 0 2-2.36 0-2.36a1.19 1.19 0 1 0 0 2.36zm-30.1 29.87c-1 1 .17 3 1.53 2.29 1.95-.93.01-3.87-1.53-2.29zm10.94-7.23A1.35 1.35 0 0 0 161.1 24c1.11-1.52.17-2.86-1-3.81a2 2 0 0 0-1.41-.1c-.53.24-.83 0-.91-.68-.8-.17-1.08-.69-2-.21-2.2 1.15.38 2.47.82 3.2.82 1.34.94 3.41 3.43 2.46-.79 1.98 2.66 2.59 2.66.49zm23.75-15c-1.66 1.71 1.63 4.32 2.64 1.79a1.63 1.63 0 0 0-2.64-1.76zM163 8.57c0 2.38 4.21 1.95 3.13-.59a1.62 1.62 0 0 0-3.13.59zm-6.62 3.7a1.66 1.66 0 0 0-2-2.6c-2.08 1.17.23 4.33 1.95 2.6zm-5.19 5.49a1.67 1.67 0 0 0 1.43-.8 2.53 2.53 0 0 0 4.92-.79 2.54 2.54 0 0 0-4.88-.91c-1.83-3.15-5.21 2.5-1.52 2.5zm18.64-11.38A1.71 1.71 0 0 0 167 7.57a1.69 1.69 0 0 0 3.19.76c1.72 3.39 3.9-2 2.69-3.6-.63-.81-1.56-1.68-2.63-.6-1.27 1.28.43 1.7-.06 2.69zM199.53 1c.27-1.16-4.65-.6-5.62-.6.64 1.12 2.23.73 2.67 1.27a1.76 1.76 0 0 0-.4 2.63 2.49 2.49 0 0 0 .06 4.87c2.59.51 4.2-3.06 1.89-4.54a1.44 1.44 0 0 0 .72-.68c.7.54.11 1.81 1.23 2.38V.93zm-1.83 8.63a1.74 1.74 0 0 0 .7 2.8c-2 .16-2.79 2.3-1.55 3.18a18.3 18.3 0 0 0 3.23 0c.66-.63 0-2.94-.88-3.13 2.28-.48.69-5.04-1.5-2.85zM74.79 16.82c0-1.42-.83-1.19-1.29-2.09a14.57 14.57 0 0 0-.69-1.73c-1-1.33-2.67-2.22-4.13-.82-1.61 1.55-.07 2.67.55 3.9.54 1.06.93 3 2.67 3.26a1.67 1.67 0 1 0 .88 0 2.56 2.56 0 0 0 2.01-2.52zm9.71 6.42c-.84.85-.9 5.43.19 5.88 0-1.29-.52-3.94 0-5.13s2-.68 3.45-.68a2.67 2.67 0 0 0-3.64-.07zm40.08-19.41c1.13 0 2.86-1.18 2.53-2.53-.36-1.5-1.35-.95-2.84-.95s-2-.47-2.22 1 1.34 2.48 2.53 2.48zm-17.2 1.06c-.59-.59 0-.34.35-1 .83.64-.37 1.25.79 2.07s2.83.52 2.88-1.14c.94 3.36 6.08 1.52 4.76-1.64a2.54 2.54 0 0 0-4.86 1c-.06-.16-.86-1.68-.85-1.66-.56-.88-.59-1.92-2-1.62.26-1.16-4.66-.6-5.63-.6.64 1.12 2.23.73 2.67 1.27a1.76 1.76 0 0 0-.4 2.63c-2 .41-2.65 3.06-.87 3.8 2.07.94 5.63-.65 3.16-3.11zm5.7 14.24c-2.41-2.41-6.15 1.75-3.25 3.82 2.4 1.7 5.41-1.66 3.25-3.82zm4.54-7.71c0-3.94-5.22-2.31-5.87.36-.75 3.22 5.87 2.95 5.87-.36zm7.59-4.11c0-3.24-5-3.24-5.06 0s5.06 3.27 5.06 0zm-35.12 9.81a2.54 2.54 0 0 0 2.32 2.51v-5a2.47 2.47 0 0 0-2.32 2.49zM76 21c-2.38 2.39 1.39 5.79 3.81 3.53S78.23 18.79 76 21zm-19.32-2.38a.16.16 0 0 1 .07.07 1.63 1.63 0 0 1 2.83 1.56c-.78 1.79-2.07.32-3.17 1 .8.71 2.09.16 3 1.15a2 2 0 1 1 .59 1.89 2.55 2.55 0 0 1-2.7 2.3 1.68 1.68 0 1 1-1.14-.37c-.83-.51-2.78-3.3-2.48-4.24a1 1 0 0 1-.93.28c.92 2.62-3.89 2.93-3 0 .19-.65 1.12-1.41 1.34-1.65.79-.83.37-1.74 1.8-1.65a2.61 2.61 0 0 1 0-3.59 2.54 2.54 0 0 1 3.79 3.25zM67 8.92c-2.21.75-.57 4.22 1.78 2.75a12.52 12.52 0 0 0 .93-1.62c.58-.68 1.3-.3 1.8-1.45 2.03-4.6-7.12-4.19-4.51.32zm48.46 19c0 1.06-.4 4.95 2.21 3.15 1.49-.99-.4-3.28-2.17-3.13zm-34.12 1.93c5.38-2.46-4-8-3.57-2.11-.44-.54-1-.4-1.56-.47s-1-.71-1.6-.76c-1.66-.15-3.47.21-3.5 2.32 0 1.72 1.53 2.54 3 2.43 1-.07 4-1.52 4-2.32a2.66 2.66 0 0 0 1.68 1.11 2.19 2.19 0 0 0-1.1 1h4.35a2.54 2.54 0 0 0-1.7-1.2zm-14.43 2.42c2.34 2.35 4.91-.73 3.86-3.17s-2.86-1.94-4.15-.05c.63-2.91-3.65-4.24-4.8-1.5s2.76 4.82 4.41 2.4a2.67 2.67 0 0 0 .68 2.32zm19-11.11c1.52-1.47-3.47-7.24-5.78-3.84A2.52 2.52 0 0 0 81.21 21c.79.35 4.2.66 4.69.16zm10.51-18.8a1.82 1.82 0 0 0 1.66-2h-3.31a1.8 1.8 0 0 0 1.65 2zM91.29 8c.08.08 2.57-2.77.91-4.4a2.56 2.56 0 0 0-4.3 1.65 2.21 2.21 0 0 0-.9-1.19c1.07-.68 1.71-2.75.59-3.71C87-.2 84 .43 83.37.42c-1.17 0-2-.56-2.63.6-.75 1.46.51 1.74 1.44 2.28l1.13-.44A2.35 2.35 0 0 0 84.15 4c-4.34 2.59 3.56 7.49 3.85 2.22a2.39 2.39 0 0 0 1.34 1.49c-1.74.78-.36 2.9.09 3.72.69 1.27.94 2.83 3 2.49-.02-2.53.41-4.35-1.14-5.92zm-13.61 4a1.67 1.67 0 0 0-2-2.6c-2.02 1.17.32 4.31 2 2.6zm-19.79 1.57c1.73 1.73 5.77-3.88 2.89-5.78a2.54 2.54 0 0 0-3.71 1.09 7.43 7.43 0 0 0 .82 4.69zm4.34-9c-2.51 4.89 7.38 4.27 4.3-.23-.15-.21-2.6-2.58-2.52-2.55-1.62-.54-3.76 1.39-1.78 2.79zm53.17-3.48a1.64 1.64 0 0 0 1.4-.74H114a1.66 1.66 0 0 0 1.4.74zm11.29 2.74A1.72 1.72 0 0 0 129.57 5a1.7 1.7 0 0 0 0-2.38 1.22 1.22 0 0 0 1.19-1.06c-.24-1-.31-2.19-2.22-1.24-.47.23-2.06.6-.41 1.84a1.63 1.63 0 0 0-1.44 1.67zm2 11.36c3.42.4 3.72-5 .29-5s-2.98 6.16-.26 5zm6.69 13.08c-1.7 1.65 1.62 4.37 2.64 1.79a1.63 1.63 0 0 0-2.61-1.79zm-13.92-.15c2.67 2.75 4.13-4.4.44-2.68a2.52 2.52 0 0 0-2.77-3.19 8.59 8.59 0 0 0 1.1-1.24c.41-.6 1.7-1.1 2.17-1.82.92-1.4.91-3.4-1.32-4.07-2.08-.63-2.36.62-3.43 1.8a1.24 1.24 0 0 0-1.33 1.08 1.29 1.29 0 0 0 .25 1.79V21c-1.51-1.47-3.75.77-2.36 2.42.7.83 3 .28 2.85-1.38a1.46 1.46 0 0 0 1.26.48c-3.06 1.54-.13 6.31 2.67 4.25a1.56 1.56 0 0 0 .5 1.35zM132.1 2.63a2.53 2.53 0 0 0-1.94 3.43c.45 1.11 2.05 1.53 2.54 1.89.7.52.35 1.68 1.69 1.68 1.63 0 1.54-1.32 1.44-2.28a1.19 1.19 0 0 0-1.13-1l.3-1.25c-.42-.88-.27-1.67-1.34-2.21 2-.69 1.27-2.54-.55-2.54-1.31 0-2.76.94-1.01 2.28zm-47.6 7.53c0-2.6-4.28-1.78-3.23.67a2.53 2.53 0 0 0-2.37 3.39 2.52 2.52 0 1 0 1 1.22 2.59 2.59 0 0 0 3.73-1.15c.26-.62-.1-1.24.05-1.78-.57-.47-.57-.79 0-.94a1.4 1.4 0 0 0 .82-1.41zm-9.28-5c2.08 0 2.13-3.3 0-3.3S73 5.2 75.22 5.2zM53.58 33.58c1 1.5 2.33.13 3.18-.12 1.13-.33 4.23-.68 2.26-3-1.47-1.74-2.32.35-3.34.49-2 .29-1.94-3.1-4.56-1.86a1.66 1.66 0 1 0-.58.39c-2.63 3.52 2.4 3.14 3.04 4.1zm57.08-32.49a1.69 1.69 0 0 0 1.4-.74h-2.8a1.65 1.65 0 0 0 1.4.74zm8.54 2.85c2.07 0 2.14-3.3 0-3.3s-2.2 3.3 0 3.3zM61.31.35zm17.07 1.9a2.57 2.57 0 0 0 2.44-1.9h-4.88a2.6 2.6 0 0 0 2.44 1.9zm10 10.55c-2.28-2.28-5.89 1.27-3.58 3.58s5.91-1.27 3.6-3.58zm-18.24-8c3.1 0 3.47-4.43 0-4.43s-3.08 4.41.02 4.41zM113 15.3c-1.7 1.64 1.6 4.37 2.63 1.79A1.63 1.63 0 0 0 113 15.3zm7.59-3.8c-1.69 1.65 1.6 4.37 2.63 1.79a1.63 1.63 0 0 0-2.68-1.79zm-9.32-2a1.67 1.67 0 0 0-2-2.6c-2.07 1.1.19 4.27 1.95 2.56zM103 1.37a1.63 1.63 0 0 0-2.63 1.8c.95 2.38 4.43-.04 2.63-1.8zM89.21 20c-1.68 1.69 1.61 4.34 2.64 1.8a1.63 1.63 0 0 0-2.64-1.8zm18.62 2.5c-.3.88 0 1.18.9.88a1.59 1.59 0 0 0-.9-.84zm7.67 4.12a1.67 1.67 0 0 0 0-2zm10.34-8.48c2.07 0 2.15-3.3 0-3.3s-2.19 3.34 0 3.34zm3.73-8.73a1.66 1.66 0 0 0-2-2.59c-2.04 1.18.31 4.38 2 2.63zm-10.44-.63a1.66 1.66 0 0 0-2-2.59c-2.02 1.21.27 4.37 2 2.63zm13.43 1.73c-1.68 1.68 1.62 4.35 2.64 1.79a1.63 1.63 0 0 0-2.64-1.75zM54 11.53c2.07 0 2.14-3.3 0-3.3s-2.18 3.3 0 3.3zm4.11-8.86c1.8 0 2.66-2.32 0-2.32s-1.77 2.32.02 2.32zm.21 2.43c0 2.36 4.21 2 3.14-.6a1.63 1.63 0 0 0-3.12.6zm80.78 14.31a1.7 1.7 0 0 0 1.52-2.85c-1.89-1.97-4.4 2.27-1.5 2.85zm-1.5-17.92a2.56 2.56 0 0 0 1.54 2.78c.64.34 1.5.13 2.21.3.92-.71 1.48-.47 1.7.73a1.7 1.7 0 0 1 1.34 1c6.05 3.17 2.08-9.2-1.59-4.26-1.13-1.96-1.07-1.69-3.66-1.69-.71 0-3.51.49-1.54 1.14zM136 11.82c-2.71 2.72 4.36 4.09 2.73.49a2.49 2.49 0 0 0 2 .27c-.74 1.46-1.71 5.54 1.75 3.52 1.28-.75 2.14-4.71-.45-4.42 3.55-4.65-7.25-5.18-4.16-.18a1.75 1.75 0 0 0-1.87.32zM90.72 2.71c1.71 0 2-2.36 0-2.36a1.19 1.19 0 1 0 0 2.36zM71.56 25.35A1.34 1.34 0 0 0 70 24c1.11-1.52.18-2.86-1-3.81a2.05 2.05 0 0 0-1.42-.1c-.52.24-.82 0-.91-.68-.8-.17-1.07-.69-2-.21-2.2 1.15.38 2.47.82 3.2.83 1.34 1 3.41 3.43 2.46-.81 1.98 2.64 2.59 2.64.49zm29.31-17.9c1.71-2.08-1-2.09-1.63-2.71s-.36-1.46-1.54-2a2.54 2.54 0 0 0-3 3.75 1.69 1.69 0 0 0-2.25 2.05c0-1.83 4.21.83 3.09-1.29.93.53 2.24.17 2.89.27a17.9 17.9 0 0 0 3.45.49 1.48 1.48 0 0 0-1.01-.56zM71.82 8.57C71.82 11 76 10.52 75 8a1.62 1.62 0 0 0-3.18.57zm-6.62 3.7a1.66 1.66 0 0 0-2-2.6c-2.03 1.17.28 4.33 2 2.6zM60 17.76a1.67 1.67 0 0 0 1.43-.8 2.52 2.52 0 1 0 0-1.7c-1.71-3.15-5.11 2.5-1.43 2.5zM81.45 4.13a1.58 1.58 0 0 0-2.63.6c-.35.88.52 1.42.19 2.09a1.62 1.62 0 1 0 0 1.51c1.78 3.5 4.12-2.58 2.44-4.2zm28 6.69a1.64 1.64 0 0 0-1.62-1.65v8.24c2.63-.36 3-4.33.25-4.93a1.68 1.68 0 0 0 1.37-1.66zM7.72 17.68V21a1.68 1.68 0 0 0 .49-3.3 2.51 2.51 0 0 0 2.1-2.05c.57 2 4 1.19 3.07-1a1.62 1.62 0 0 0-3.07.15c-.4-2.3-2.68-2.19-4.27-1.35-.62.33-.75.88-1.24 1.13a7.88 7.88 0 0 1-2.26.34c-2.95.16-2.94.81.2.81 1.14 0 3.17-.46 4.13 0s.85.27.85 1.95zM33.46 3.83c1.12 0 2.86-1.18 2.53-2.53-.37-1.5-1.36-.95-2.85-.95s-1.95-.47-2.21 1 1.34 2.48 2.53 2.48zM13.84 1.62q.33-.23.48 0a1.76 1.76 0 0 0-.39 2.63A2.49 2.49 0 0 0 14 9.12c2.6.51 4.2-3.06 1.89-4.54a1.46 1.46 0 0 0 .73-.68c.83.64-.37 1.25.8 2.07s2.82.52 2.87-1.14c.95 3.36 6.09 1.52 4.76-1.64a2.54 2.54 0 0 0-4.86 1c-.05-.16-.86-1.68-.84-1.66-.57-.88-.6-1.92-2-1.62.27-1.16-4.66-.6-5.62-.6a2.6 2.6 0 0 0 2.11 1.31zM22 19.13c-2.29-2.29-5.9 1.27-3.58 3.58s5.85-1.27 3.58-3.58zM9.2 20.71a29.33 29.33 0 0 0-1.48 2.72c1.89 0 6 1 5.71-1.41-.22-1.95-2.9-2.62-4.23-1.31zm4.64-5.8c0 6.38 9.34-1.06 3.11-2.43a1.65 1.65 0 1 0-.8-.05 2.47 2.47 0 0 0-2.31 2.48zm12.66-3.49c0-3.94-5.22-2.31-5.87.36-.79 3.22 5.87 2.95 5.87-.36zm7.59-4.11c0-3.24-5.05-3.24-5.06 0s5.06 3.27 5.06 0zm-31.43 5.9a2.54 2.54 0 0 0 .09-3.46 1.69 1.69 0 0 0 1.62-2.46c1.34.75 2.3-.47 3.31.49.47.46.19 2.06.47 3 1.26 4.3 6.73 1.73 4.59-1.38-.73-1.07-2.33-.93-3-2-.23-.35.44-1.51-.09-2.28-.34-.45-1.33-.52-1.65-.77C6.91 3.52 6.65 2 4.65 2.78a2.56 2.56 0 0 0-1.12 3.75A1.69 1.69 0 0 0 1.48 9C.07 8.68 1 8.72.08 8c0 1.56-.79 8.65 2.58 5.21zM5.3 2.36A1.82 1.82 0 0 0 7 .35H3.64A1.82 1.82 0 0 0 5.3 2.36zm19-1.27a1.65 1.65 0 0 0 1.4-.74h-2.81a1.64 1.64 0 0 0 1.39.74zm11.27 2.74A1.71 1.71 0 0 0 38.45 5a1.7 1.7 0 0 0 0-2.38 1.21 1.21 0 0 0 1.19-1.06c-.24-1-.3-2.19-2.22-1.24C37 .58 35.36 1 37 2.19a1.62 1.62 0 0 0-1.43 1.64zm2 11.36c3.41.4 3.71-5 .28-5s-2.93 6.16-.25 5zm6.69 13.08c-1.71 1.65 1.61 4.37 2.63 1.79a1.63 1.63 0 0 0-2.6-1.79zm-13.92-.15c2.66 2.75 4.12-4.4.44-2.68A2.53 2.53 0 0 0 28 22.25 8.75 8.75 0 0 0 29.14 21c.4-.6 1.7-1.1 2.17-1.82.91-1.4.91-3.4-1.32-4.07s-2.37.62-3.43 1.8A1.23 1.23 0 0 0 25.2 18a1.27 1.27 0 0 0 .25 1.79V21a1.62 1.62 0 1 0 .55 1 1.48 1.48 0 0 0 1.26.48c-3.06 1.54-.13 6.31 2.67 4.25a1.6 1.6 0 0 0 .44 1.39zM41 2.63a2.54 2.54 0 0 0-2 3.43c.46 1.11 2 1.53 2.55 1.89.7.52.35 1.68 1.69 1.68 1.62 0 1.54-1.32 1.44-2.28a1.19 1.19 0 0 0-1.14-1l.36-1.25c-.42-.88-.27-1.67-1.35-2.21 2-.69 1.28-2.54-.55-2.54-1.33 0-2.77.94-1 2.28zM15.73 31.08c-.2.09-.29-.45-.29 0h1.63a1.49 1.49 0 0 0-1.34 0zm3.81-30a1.67 1.67 0 0 0 1.39-.73h-2.79a1.64 1.64 0 0 0 1.4.74zm8.54 2.85c2.06 0 2.13-3.3 0-3.3s-2.2 3.31 0 3.31zM1.82 5.41A2.52 2.52 0 0 0 .08 3.05V7.8a2.59 2.59 0 0 0 1.74-2.39zm22.39 12.27a1.66 1.66 0 0 0-2-2.59c-2.05 1.18.31 4.34 2 2.59zm5.21-6.18c-1.7 1.65 1.6 4.37 2.63 1.79a1.63 1.63 0 0 0-2.63-1.79zm-9.32-2a1.67 1.67 0 0 0-2-2.6c-2.03 1.1.23 4.27 2 2.56zm-9.42-5.25c2.07 0 2.13-3.3 0-3.3s-2.21 3.3 0 3.3zm5.48 15.4a1.63 1.63 0 0 0-3.16-.59c-1 2.35 3.16 3.12 3.16.59zm-.72 6c4.43 1.77.84-6.5-.94-2.22 1.44 0 .94.92.94 2.22zm6.39 1.21c1.59 1.6 4.21-1.32 2-2.6a1.66 1.66 0 0 0-2 2.6zm12.89-8.68c2.06 0 2.14-3.3 0-3.3s-2.2 3.3 0 3.3zm3.73-8.73a1.66 1.66 0 0 0-2-2.59c-2.04 1.14.31 4.34 2 2.59zM28 8.82a1.66 1.66 0 0 0-2-2.59c-2 1.17.27 4.33 2 2.59zm13.43 1.73c-1.68 1.68 1.61 4.35 2.63 1.79a1.63 1.63 0 0 0-2.62-1.79zM48 19.41c2.18.42 2.69-3.24.41-3.27-1.85-.03-2.51 2.86-.41 3.27zM46.47 1.49A2.57 2.57 0 0 0 48 4.27c.65.34 1.51.13 2.21.3.92-.71 1.49-.47 1.7.73a1.73 1.73 0 0 1 1.35 1c6 3.17 2.07-9.2-1.6-4.26C50.54.08 50.6.35 48 .35c-.7 0-3.5.49-1.53 1.14zm-1.55 10.33c-2.72 2.72 4.35 4.09 2.72.49a2.63 2.63 0 0 0 2 .27C48.93 14 48 18.12 51.42 16.1c1.28-.75 2.15-4.71-.44-4.42 3.54-4.68-7.26-5.18-4.17-.18a1.73 1.73 0 0 0-1.89.32zM1 1.3C1 .5.72.18.08.35v2.27A1.41 1.41 0 0 0 1 1.3zm3.18 9.08c-1.67 1.71 1.62 4.32 2.64 1.79a1.63 1.63 0 0 0-2.63-1.79zm17.39 18.5a1.75 1.75 0 0 0-2.17-.17c1-1.79-1.79-3.51-2.89-1.71a2.28 2.28 0 0 0-1.08-1.28v4.33a2.34 2.34 0 0 0 1.08-1.29 1.82 1.82 0 0 0 2.39.51c-1.67 3.06 5.4 2.24 2.68-.39z' fill='%23594c16'/%3e%3cpath d='M23.14 15.6h-7.7V8.07h7.66v7.57zm7.62.05h7.73v-7.6H30.8v7.63zm101 0v-7.6h-7.59v7.6h7.63zm7.7 0h7.74v-7.6h-7.66v7.63zm-108.7 7.73v-7.73h-7.7v7.75h7.74zm15.4 0v-7.7h-7.7v7.73h7.73zm85.68-7.73v7.7h7.7v-7.7h-7.74zm15.4 0v7.73h7.73v-7.7h-7.7zM38.49 23.38h-7.73V31h7.66v-7.65zm7.7 0V31h7.6v-7.62h-7.63zm101.05 0h-7.74V31h7.66v-7.65zm7.69 0V31h7.6v-7.62h-7.63z' fill='white'/%3e%3c/g%3e%3c/svg%3e");
 }
 
+@media screen and (max-width: 1500px){
+    #DeckCloud .Card .Description {
+        font-size: .8em;
+    }
+}
+@media (max-width: 1300px){
+    #Temporary {
+        grid-template-columns: 3fr 4fr 1.4fr 1.25fr 2.5fr 1.25fr 1.4fr 4fr 3fr;
+    }
+    #Temporary .BreathinFragment{
+        grid-area: 4 / 5 / 5 / 6;
+    }
+}
+@media screen and (min-height: 400px) and (max-height: 550px) and (max-width: 1100px){
+    #Temporary .Portalian{
+        font-size: 0.8em;
+    }
+}
+@media screen and (max-height: 550px) and (min-width: 550px){
+    #Temporary {
+        grid-template-rows: .5fr 2fr 2fr 130px;
+        grid-template-columns: .5fr 1fr 1fr 1fr 1fr 4fr 4fr 4fr .5fr;
+        align-items: center; justify-items: center;
+    }
+    #Temporary .Portalian{
+        font-size: 0.9em; text-align: center;
+        grid-area: 3 / 2 / 4 / span 4;
+        padding: 0; margin-top: 4%;
+        align-self: start;
+    }
+    #Temporary .BreathinFragment{
+        grid-area: 2 / 3 / 3 / span 2;
+        align-self: end; justify-self: normal;
+    }
+    #Temporary .JourNey{
+        grid-area: 2 / 6 / 4 / span 1;
+        width: 100%;
+        padding-top: 70%;
+    }
+    #Temporary .Artery{
+        grid-area: 2 / 7 / 4 / span 1;
+        width: 70%;
+        padding-top: 90%;
+    }
+    #Temporary .BigMo{
+        grid-area: 2 / 8 / 4 / span 1;
+        width: 80%;
+        padding-top: 80%;
+    }
+}
 @media screen and (max-width: 1200px){
 
     /* RATIO 0.2133333333333333 (EX. W*RATIO = H) */
@@ -2550,7 +2699,7 @@ body{
         height: 121.6px;
         font-size: .95em;
     }
-    #Peek{
+    #Peek, #Gandalf{
         display: none;
     }
     #Gandalf{
@@ -2559,4 +2708,700 @@ body{
         transform: translateX(50%);
     }
 
+}
+@media screen and (max-width: 1024px) and (min-height: 550px), (max-width: 550px) and (max-height: 550px){
+    #Temporary {
+        overflow: auto;
+        grid-template-columns: 3fr 1fr 1fr 1fr 1fr 3fr;
+        grid-template-rows: 20px 2fr auto 4fr 4fr 4fr;
+    }
+    #Nothing{
+        display: inherit;
+    }
+    #Temporary .Portalian{
+        grid-area: 3 / 1 / 4 / -1;
+        text-align: center;
+        font-size: 0.9em;
+    }
+    #Temporary .BreathinFragment{
+        grid-area: 2 / 3 / 3 / span 2;
+    }
+    #Temporary .JourNey{
+        grid-area: 4 / 2 / 5 / span 4;
+        padding-top: 62%;
+    }
+    #Temporary .Artery{
+        grid-area: 6 / 2 / 7 / span 4;
+        padding-top: 90%;
+    }
+    #Temporary .Artery .Desktop {
+        left: 18.32%;
+        top: 13.64%;
+    }
+    #Temporary .BigMo{
+        grid-area: 5 / 2 / 6 / span 4;
+        padding-top: 70%;
+    }
+}
+@media screen and (max-width: 1200px){
+    #SpaceCyclone .Input {
+        max-width: 250px;
+        height: 50px;
+    }
+    #SpaceCyclone .TextArea {
+        width: 250px;
+        height: 120px;
+    }
+    #SpaceCyclone .Attach {
+        width: 250px;
+        height: 60px;
+    }
+    #SpaceCyclone form {
+        font-size: 0.75rem;
+    }
+}
+@media screen and (min-width: 850px) and (max-height: 600px) {
+    #SpaceCyclone .Curtain > * {
+        width: 33.33333333%;
+    }
+
+    #SpaceCyclone .Curtain > .Alpha {
+        right: 0;
+    }
+
+    #SpaceCyclone .Curtain > .Beta {
+        left: 33.33333333%;
+    }
+}
+@media screen and (min-width: 600px) and (max-height: 600px){
+    #SpaceCyclone {
+        grid-template-rows: .5fr 2fr 1.5fr 130px;
+        grid-template-columns: .25fr 2fr 2fr 2fr 2fr .25fr  ;
+        align-items: center; justify-items: center;
+    }
+    #Footer{
+        font-size: 0.7em; text-align: center;
+        grid-area: 3 / 2 / 4 / 3;
+        padding: 0; margin-top: 4%;
+        align-self: start;
+    }
+    #SpaceCyclone .BreathinFragment{
+        grid-area: 2 / 2 / 3 / 3;
+        width: 32%;
+        padding-top: 26%; margin-bottom: 4%;
+        align-self: end;
+    }
+    #SpaceCyclone .Download.Storm{
+        grid-area: 2 / 4 / 4 / 5;
+        width: 60%;
+        padding-top: 60%;
+    }
+    #SpaceCyclone .Connect.Storm{
+        grid-area: 2 / 5 / 4 / 6;
+        width: 55%;
+        padding-top: 55%;
+    }
+    #SpaceCyclone .Connect .Definer .Asset .Indicator{
+        background-size: contain;
+    }
+    #SpaceCyclone .Request.Storm{
+        grid-area: 2 / 3 / 4 / 4;
+        width: 60%;
+        padding-top: 50%;
+    }
+    #Skillometer{
+        grid-template-rows: 1fr 10fr 130px;
+        align-items: center;
+    }
+    #Skillometer .Device,#Skillometer .GeloV{
+        grid-area: 2 / 2 / auto / 3;
+        margin-top: 0; z-index: 0;
+    }
+    #Skillometer .GeloV{
+        z-index: -2;
+        justify-self: center;
+    }
+    #Skillometer .Cores{
+        z-index: -1;
+        grid-template-columns: repeat(24, 1fr) 30% repeat(24, 1fr);
+    }
+    #Skillometer .InfoPanel{
+        width: 480PX;
+        height: 118px;
+        z-index: 1;
+        font-size: 0.86em;
+    }
+
+    #AntiToxins {
+        grid-template-columns: 6fr 5fr 6fr;
+        padding-bottom: 110px;
+        overflow: inherit;
+    }
+    #AntiToxins .Particles{
+        grid-template-columns: 11fr repeat(26, 1fr) 11.3fr;
+        grid-template-rows: 25px repeat(12, 1fr) 130px;
+    }
+    #AntiToxins .ArtParticle.C{ grid-area: -6 / -7 / span 3 / span 3; }
+    #AntiToxins .ArtParticle.E { grid-area: -5 / 2 / span 3 / span 3;}
+}
+@media screen and (max-width: 1024px){
+    #Skillometer{
+        overflow-y: auto;
+    }
+    #Skillometer .InfoPanel{
+        align-self: baseline;
+    }
+    #Skillometer .Device,#Skillometer .GeloV {
+        align-self: baseline;
+        grid-area: 1 / 2 / -1 / 3;
+        z-index: -1;
+    }
+    #Skillometer .GeloV{
+        z-index: -3;
+    }
+    #Skillometer .Laser{
+        display: none;
+    }
+    #Skillometer .InfoPanel{
+        align-self: baseline;
+    }
+    #Skillometer .Cores{
+        z-index: -2;
+        grid-template-columns: repeat(28, 1fr);
+        grid-template-rows: 180px repeat(13, 1fr) 160px;
+        min-height: 600px;
+    }
+    #Skillometer .Core.A{ grid-area: 7 / 8 / span 3/ span 3; z-index: 1 }
+    #Skillometer .Core.B{ grid-area: 6 / 3 / span 3 / span 3; }
+    #Skillometer .Core.C{ grid-area: 10 / 11 / span 3 / span 3; }
+    #Skillometer .Core.D{ grid-area: 12 / 6 / span 3 / span 3; }
+    #Skillometer .Core.E{ grid-area: 6 / -7 / span 3 / span 3; }
+    #Skillometer .Core.F{ grid-area: 8 / -15 / span 3 / span 3; z-index: 1 }
+    #Skillometer .Core.G { grid-area: 9 / -6 / span 3 / span 3 }
+    #Skillometer .Core.H{ grid-area: 12 / -10 / span 3 / span 3; }
+
+    #AntiToxins .SingleParticle{
+        width: 100%; height: auto;
+        left: 0; transform: translate(0);
+        grid-template-rows: inherit;
+    }
+    #AntiToxins .SingleParticle:after{
+        background: #320018;
+    }
+    #AntiToxins .SingleParticle > .Title{
+        font-size: 1.2em;
+    }
+    #AntiToxins .Preview .Cover{
+        font-size: 1.5em;
+    }
+    #AntiToxins .SingleParticle .Pages{
+        font-size: .9em;
+    }
+    #AntiToxins .SingleParticle > .Navigate{
+        min-width: 250px;
+    }
+    #AntiToxins .SingleParticle .Description{
+        overflow: inherit;
+        grid-area: 5 / 1 / span 1 / -1;
+        padding: 5% 0;
+    }
+    #AntiToxins .SingleParticle .BuiltWith{
+        grid-area: 6 / 1 / span 1 / -1;
+        min-height: 150px;
+    }
+    #AntiToxins .SingleParticle .BuiltWith .ToolBox > div{
+        width: 6%;
+    }
+
+    #Analyzer .Particles{
+        visibility: hidden;
+    }
+
+    #DeckCloud{
+        overflow-y: auto;
+        grid-template-columns: 1fr 8fr 1fr;
+        grid-template-rows: 50px 1fr 130px;
+    }
+    #DeckCloud .Card .Description{
+        font-size: 1em;
+    }
+    #DeckCloud .Deck.Life, #DeckCloud .Deck.Work{
+        display: none;
+    }
+    #DeckCloud .Slider{
+        display: block;
+        grid-area: 2 / 2 / span 1 / span 1;
+    }
+}
+@media screen and (max-width: 1024px) and (min-height: 450px), (max-width: 600px) and (max-height: 600px){
+    #SpaceCyclone {
+        overflow: auto;
+        grid-template-columns: 3fr 1.4fr 3fr;
+        grid-template-rows: 20px 2fr auto 0.2fr 4fr 4fr 4fr 0.5fr 160px;
+    }
+    #Footer{
+        height: 6.5em;
+        grid-area: 3 / 1 / 4 / 4;
+        text-align: center;
+        font-size: 0.7em;
+    }
+    #SpaceCyclone .BreathinFragment{
+        grid-area: 2 / 2 / 3 / 3;
+        padding-top: 46%;
+    }
+    #SpaceCyclone .Download.Storm{
+        grid-area: 5 / 2 / 6 / 3;
+    }
+    #SpaceCyclone .Request.Storm{
+        grid-area: 6 / 2 / 7 / 3;
+    }
+    #SpaceCyclone .Connect.Storm{
+        grid-area: 7 / 2 / 8 / 3;
+    }
+    #SpaceCyclone .Divider{
+        height: 0;
+    }
+}
+@media screen and (min-width: 600px) and (max-width: 800px) and (min-height: 450px) and (max-height: 600px){
+    #SpaceCyclone {
+        grid-template-rows: 0.5fr 2fr 2fr .5fr 6fr 130px;
+        grid-template-columns: .25fr 2fr .4fr 1.2fr .4fr 2fr .25fr;
+    }
+    #SpaceCyclone .BreathinFragment {
+        width: 42%; padding-top: 34%;
+        grid-area: 2 / 4 / 3 / 5;
+    }
+    #SpaceCyclone .Download.Storm {
+        grid-area: 6 / 3 / 5 / 6;
+    }
+    #SpaceCyclone .Request.Storm {
+        grid-area: 5 / 2 / 6 / 3;
+    }
+    #SpaceCyclone .Connect.Storm {
+        grid-area: 5 / 6 / 6 / 7;
+    }
+    #Footer {
+        font-size: 0.6em;
+        text-align: center;
+        grid-area: 3 / 2 / 4 / 7;
+    }
+}
+@media screen and (max-width: 1024px) and (min-height: 500px){
+
+    #AntiToxins{
+        grid-template-columns: 6fr 6fr 6fr;
+        min-height: 400px;
+        overflow-y: auto;
+    }
+    #AntiToxins .Particles{
+        min-height: 400px;
+    }
+    #AntiToxins .DevStar{
+        align-self: baseline;
+        margin-top: 30%;
+    }
+    #AntiToxins .ArtStar{
+        align-self: baseline;
+        top: 55%;
+    }
+    #AntiToxins .Particles{
+        grid-template-rows: 25px repeat(12, 1fr) 120px;
+        grid-template-columns: repeat(33, 1fr);
+    }
+    #AntiToxins .DevParticle.C{
+        grid-area: -7 / 14 / span 3 / span 3;
+    }
+    #AntiToxins .DevParticle.D{
+        width: 95%; padding-bottom: 95%;
+        grid-area: 2 / 4 / span 3 / span 3;
+    }
+    #AntiToxins .DevParticle.F{
+        grid-area: 3 / -14 / span 3 / span 3;
+    }
+    #AntiToxins .ArtParticle.B{
+        grid-area: 4 / 9 / span 3 / span 3;
+    }
+    #AntiToxins .ArtParticle.C{
+        width: 95%; padding-bottom: 95%;
+        grid-area: -5 / -8 / span 3 / span 3;
+    }
+    #AntiToxins .ArtParticle.D{
+        width: 95%; padding-bottom: 95%;
+        grid-area: 7 / 2 / span 3 / span 3;
+    }
+    #AntiToxins .ArtParticle.E{
+        grid-area: -6 / 9 / span 3 / span 3;
+    }
+    #AntiToxins .ArtParticle.F{
+        width: 95%; padding-bottom: 95%;
+        grid-area: 6 / -12 / span 3 / span 3;
+    }
+}
+@media screen and (min-width: 1024px) and (max-height: 600px){
+    #Analyzer{
+        overflow-y: auto;
+    }
+}
+@media screen and (max-width: 600px) and  (min-height: 500px){
+    #AntiToxins .DevParticle.C{
+        grid-area: -7 / 14 / span 5 / span 5;
+    }
+    #AntiToxins .DevParticle.D{
+        width: 95%; padding-bottom: 95%;
+        grid-area: 2 / 4 / span 5 / span 5;
+    }
+    #AntiToxins .DevParticle.F{
+        grid-area: 3 / -17 / span 5 / span 5;
+    }
+    #AntiToxins .ArtParticle.B{
+        grid-area: 4 / 9 / span 5 / span 5;
+    }
+    #AntiToxins .ArtParticle.C{
+        width: 95%; padding-bottom: 95%;
+        grid-area: -5 / -8 / span 5 / span 5;
+    }
+    #AntiToxins .ArtParticle.D{
+        width: 95%; padding-bottom: 95%;
+        grid-area: 7 / 2 / span 5 / span 5;
+    }
+    #AntiToxins .ArtParticle.E{
+        grid-area: -4 / 9 / span 5 / span 5;
+    }
+    #AntiToxins .ArtParticle.F{
+        width: 95%; padding-bottom: 95%;
+        grid-area: 6 / -12 / span 5 / span 5;
+    }
+}
+@media screen and (max-width: 768px){
+    #AntiToxins .SingleParticle{
+        padding: 0 1em 1em 1em;
+    }
+    #AntiToxins .BuiltWith{
+        padding-right: 0;
+    }
+    #AntiToxins .SingleParticle .BuiltWith .ToolBox > div{
+        width: 8%;
+    }
+
+    #DeckCloud .Card .Description{
+        font-size: .9em;
+    }
+}
+@media screen and (max-width: 600px){
+    #SpaceCyclone {
+        grid-template-rows: 20px 2fr auto 0.2fr 4fr 4fr 4fr 0.5fr 120px;
+        grid-template-columns: 3fr 2fr 3fr;
+    }
+    #Gandalf {
+        width: 100%;
+        text-align: center;
+        bottom: 87.5px;
+    }
+    #SpaceCyclone .Sub{
+        font-size: .8em;
+    }
+    #SpaceCyclone .Curtain > *{
+        display: none;
+    }
+
+    #Skillometer .InfoPanel {
+        width: 250PX;
+        height: 160px; z-index: 2;
+    }
+    #Skillometer .Screen{
+        width: 81%; height: 67%;
+        top: 28%; left: 9.7%;
+        background: url("../ASSETS/Skillometer/Screen_Mobile.png") no-repeat;
+    }
+    #Skillometer .Measure{
+        left: 50%;
+        top: 17%;
+        transform: translateX(-50%);
+    }
+    #Skillometer .Measure div:not(:last-child) {
+        padding-right: 2%;
+    }
+    #Skillometer .Juice {
+        width: 56.5%;
+        height: 17%;
+        left: 15.5%;
+        top: 75%;
+    }
+    #Skillometer .Juice #Thunder{
+        width: 100%; right: 0;
+    }
+    #Skillometer .Juice #Info{
+        display: none;
+    }
+    #Skillometer .RawPanel {
+        height: 100%;
+        background: url("../ASSETS/Skillometer/RP_Mobile.png") no-repeat;
+    }
+    #Skillometer .InfoPanel .Danger {
+        width: 18.19%;
+        height: 30.84%;
+        left: 67.51%;
+        top: 62.75%;
+        background-image: url("../ASSETS/Skillometer/Danger.png");
+    }
+    #Skillometer .InfoPanel .Power {
+        left: 50%;
+        top: 32%;
+        transform: translateX(-50%);
+    }
+    #Skillometer .InfoPanel .Measure {
+        width: 100%;
+        font-family: Ocr;
+        font-size: .59em; color: #00ff00; text-align: center;
+        left: 50%;
+        top: 5%;
+        transform: translateX(-50%);
+    }
+    #Skillometer .InfoPanel .Measure div{
+        float: none;
+        display: inline-block;
+    }
+    #Skillometer .Cores{
+        z-index: -2;
+        grid-template-columns: 20px repeat(28, 1fr) 20px;
+        grid-template-rows: 3fr repeat(13, 1fr) 130px;
+    }
+    #Skillometer .Core.A { grid-area: 9 / 4 / span 3/ span 3 }
+    #Skillometer .Core.G { grid-area: 9 / -8 / span 3 / span 3 }
+    #AntiToxins .SingleParticle .BuiltWith .ToolBox > div {
+        width: 10%;
+    }
+    #Analyzer .Analyzer{
+        width: 250px; padding-bottom: 250px;
+    }
+    #Analyzer .LeftWing{
+        width: 750px; padding-bottom: 612px;
+        transform: translate(-10.6%, -10%);
+    }
+    #Analyzer .RightWing{
+        width: 700px; padding-bottom: 652px;
+        transform: translate(11.4%, -13.5%);
+    }
+    #Analyzer .Navigate{
+        width: 23%;
+        top: 40%;
+        z-index: 2;
+    }
+    #PrevFace{ left: -30%; }
+    #NextFace{ right: -30%; }
+    #Analyzer .Cloud{
+        width: 100%;
+        left: 0;
+        margin-top: 22%;
+        font-size: .9em;
+    }
+    #Analyzer .CloudGlow{
+        width: 64%;
+        left: 18%;
+        margin-top: 10%;
+    }
+    #Analyzer .Plate{
+        margin-top: 36%;
+    }
+    #Analyzer .Express{
+        width: 140%;
+        margin-top: 240px;
+        left: -20%;
+    }
+}
+@media screen and (max-width: 550px){
+    .BreathinFragment .Laugh{
+        height: 95%;
+    }
+    #Gandalf {
+        width: 100%;
+        text-align: center;
+        bottom: 87.5px;
+    }
+    #DeckCloud .Slider {
+        width: 100%;
+        padding-bottom: 115%;
+    }
+    #DeckCloud .Card .Description{
+        font-size: .8em;
+    }
+}
+@media screen and (max-width: 400px){
+    #Analyzer .Analyzer{
+        width: 150px; padding-bottom: 150px;
+    }
+    #Analyzer .LeftWing{
+        width: 450px; padding-bottom: 312px;
+        transform: translate(-10.6%, -12.3%);
+    }
+    #Analyzer .RightWing{
+        width: 400px; padding-bottom: 352px;
+        transform: translate(12.4%, -13.5%);
+    }
+    #Analyzer .Navigate{
+        width: 23%;
+        top: 40%;
+        z-index: 2;
+    }
+    #Analyzer .CloudGlow{
+        width: 42%;
+        left: 29%;
+        margin-top: 14%;
+    }
+    #Analyzer .Plate{
+        margin-top: 36%;
+    }
+    #Analyzer .Express{
+        width: 220%;
+        margin-top: 120px;
+        left: -60%;
+    }
+}
+@media screen and (min-width: 550px) and (max-height: 600px){
+
+    #DeckCloud{
+        grid-template-rows: 100px 1fr 130px;
+    }
+    #DeckCloud .Deck{
+        width: 90%; padding-bottom: 50%;
+    }
+    #DeckCloud .Slider{
+        width: 70%; padding-bottom: 35%;
+    }
+    #DeckCloud .Work .Sign{
+        width: 25%;
+        padding-bottom: 10%;
+        top: inherit; bottom: -8%; left: 48%;
+    }
+    #DeckCloud .Life .Sign{
+        width: 18%;
+        padding-bottom: 10%;
+        top: inherit; bottom: -8%; right: 52%;
+    }
+    #DeckCloud .Slider .Sign{
+        top: -25%;
+    }
+    #DeckCloud .Slider .Work.Sign{
+        width: 25%;
+        padding-bottom: 10%;
+    }
+    #DeckCloud .Slider .Life.Sign{
+        width: 18%;
+        padding-bottom: 10%;
+    }
+    #DeckCloud .Card,#DeckCloud .Slider .Card{
+        padding-bottom: 60%;
+    }
+    #DeckCloud .Cards,#DeckCloud .Slider .CardSlider{
+        grid-template-rows: 0fr repeat(5, 4%);
+    }
+    #DeckCloud .Cards .Card .Fader{
+        grid-template-rows: 0.6fr 1fr 5fr;
+        grid-template-columns: 2fr 1fr;
+    }
+    #DeckCloud .Cards .Card .Fader:after{
+        background-size: 100%;
+    }
+    #DeckCloud .Card .The{
+        width: 30%; padding-bottom: 14%;
+        grid-area: 1 / 2 / span 1 / -1;
+        justify-self: baseline;
+    }
+    #DeckCloud .Cards .Card .Title{
+        width: 100%; padding-bottom: 21%;
+        grid-area: 2 / 2 / span 1 / -1;
+        justify-self: baseline;
+    }
+    #DeckCloud .Card .Icon{
+        width: 70%; padding-bottom: 80%;
+        grid-area: 3 / 2 / span 1 / -1;
+    }
+    #DeckCloud .TheAthlete.Card .Icon {
+        width: 65%;
+        padding-bottom: 68%;
+    }
+    #DeckCloud .TheGamer.Card .Icon {
+        width: 70%;
+        padding-bottom: 50%;
+    }
+    #DeckCloud .TheDreamer.Card .Icon {
+        width: 70%;
+        padding-bottom: 45%;
+    }
+    #DeckCloud .TheChef.Card .Icon {
+        width: 65%;
+        padding-bottom: 65%;
+    }
+    #DeckCloud .DaBoss.Card .Icon {
+        width: 85%;
+        padding-bottom: 16%;
+        top: 45%
+    }
+    #DeckCloud .TheCoder.Card .Icon {
+        width: 80%;
+        padding-bottom: 65%;
+    }
+    #DeckCloud .TheSinger.Card .Icon {
+        width: 70%;
+        padding-bottom: 70%;
+    }
+    #DeckCloud .TheTechSavvy.Card .Icon {
+        width: 70%;
+        padding-bottom: 70%;
+    }
+    #DeckCloud .TheStudent.Card .Icon {
+        width: 75%;
+        padding-bottom: 46%;
+    }
+    #DeckCloud .TheFixer.Card .Icon {
+        width: 65%;
+        padding-bottom: 65%;
+    }
+    #DeckCloud .TheDesigner.Card .Icon {
+        width: 75%;
+        padding-bottom: 70%;
+    }
+    #DeckCloud .Card .Description{
+        width: 92%; font-size: .8em;
+        grid-area: 1 / 1 / -1 / span 1;
+        justify-self: baseline;
+    }
+    #DeckCloud .RoyalPillow{
+        top: 60%;
+    }
+    #DeckCloud .Deck .ShuffleFire.A {
+        bottom: -1%;
+    }
+    #DeckCloud .Deck .ShuffleFire.B {
+        bottom: -3%;
+    }
+    #DeckCloud .Deck .ShuffleFire.D {
+        bottom: 38%;
+    }
+    #DeckCloud .Deck .ShuffleFire.C{
+        bottom: 38%; right: 18%;
+    }
+    #DeckCloud .Slider .ShuffleFire.A {
+        bottom: -5%;
+    }
+    #DeckCloud .Slider .ShuffleFire.B {
+        bottom: -8%;
+    }
+}
+@media screen and (max-height: 450px){
+    #DeckCloud{
+        overflow-y: auto;
+    }
+}
+@media screen and (max-height: 400px){
+    #Skillometer{
+        overflow-y: auto;
+    }
+    #AntiToxins {
+        overflow-y: auto;
+        padding-bottom: 0px;
+    }
+    #AntiToxins .Particles{
+        min-height: 400px;
+    }
 }

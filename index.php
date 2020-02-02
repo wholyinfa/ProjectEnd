@@ -116,11 +116,6 @@
         <div id='Trilogies'>
 
             <img src="ASSETS/InfamousRocket.png" id="icon" alt="InfamousRocket">
-            <h1 class='Portalian'>
-                This is the InfamousRocket<br>
-                Front-end web developer<br>
-                & Digital designer</h1>
-
             <div id="SpaceCyclone">
                 <div class="BreathinFragment Entry">
                     <div>
@@ -137,6 +132,7 @@
                     <div class="Tripwire"></div>
                     <div class="StarFlow"></div>
                     <div class="Flow"></div>
+                    <div class="AssetContainer">
                     <a href="" class="AlphaAsset Resume">
                         <div class="Asset"></div>
                         <div class="Sub">RESUME</div>
@@ -145,6 +141,7 @@
                         <div class="Asset"></div>
                         <div class="Sub">CV</div>
                     </a>
+                    </div>
                     <div class="Definer">
                         <div class="Asset">
                             <div class="Indicator"></div>
@@ -161,6 +158,7 @@
                         <div class="Tripwire"></div>
                         <div class="StarFlow"></div>
                         <div class="Flow"></div>
+                        <div class="AssetContainer">
                         <div class="AlphaAsset CodeProject">
                             <div class="Title">
                                 <div class="Asset"></div>
@@ -219,6 +217,7 @@
                                 <button class="Submit" type="submit">SEND</button>
                             </form>
                         </div>
+                        </div>
                         <div class="Definer">
                             <div class="Asset">
                                 <div class="Indicator"></div>
@@ -235,6 +234,7 @@
                     <div class="Tripwire"></div>
                     <div class="StarFlow"></div>
                     <div class="Flow"></div>
+                    <div class="AssetContainer">
                     <div class="AlphaAsset Envelope">
                         <div class="Title">
                             <div class="Asset"></div>
@@ -270,6 +270,7 @@
                             +98 912 206 4451
                         </div>
                     </div>
+                    </div>
                     <div class="Definer">
                         <div class="Asset">
                             <div class="Indicator"></div>
@@ -296,6 +297,11 @@
                 </div>
             </div>
             <div id="Temporary">
+
+                <h1 class='Portalian'>
+                    This is the InfamousRocket<br>
+                    Front-end web developer
+                    & Digital designer</h1>
                 <div class="Void"></div>
 
                 <div class="BreathinFragment Entry">
@@ -337,18 +343,22 @@
                         <div class='Jaccuzi'></div>
                     </div>
                 </div>
+
+                <div id="Nothing"></div>
             </div>
         </div>
 
         <div id="BigMo">
             <div id="Skillometer">
                 <div class="DivisionExpress">
-                    <h3 class="Content">
-                        Acquiring a strong foundation based on experience before expanding any skill set demands constant work and dedication, finally after enough effort, the need to upgrade arises, over the years i always outperformed the resist to transform my knowledge to a higher level and centralized both the maintenance and the upgrade of my expertise as main goals in every practise; Somehow exploring every asset i hold and mapping it's limits has become my internal source of power.
-                    </h3>
-                    <div class="Trigger">
-                        <div class="Hint">READ!</div>
-                        <div class="SwitchBeam"></div>
+                    <div class="Container">
+                        <h3 class="Content">
+                            Acquiring a strong foundation based on experience before expanding any skill set demands constant work and dedication, finally after enough effort, the need to upgrade arises, over the years i always outperformed the resist to transform my knowledge to a higher level and centralized both the maintenance and the upgrade of my expertise as main goals in every practise; Somehow exploring every asset i hold and mapping it's limits has become my internal source of power.
+                        </h3>
+                        <div class="Trigger">
+                            <div class="Hint">READ!</div>
+                            <div class="SwitchBeam"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="InfoPanel">
@@ -379,92 +389,94 @@
                     <div class="CoreSlot"></div>
                     <div class="Glued"></div>
                 </div>
-                <div class="Core A">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>HTML</span></div>
+                <div class="Cores">
+                    <div class="Core A">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>HTML</span></div>
+                        </div>
+                        </div>
                     </div>
+                    <div class="Core B">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>CSS</span></div>
+                        </div>
+                        </div>
                     </div>
-                </div>
-                <div class="Core B">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>CSS</span></div>
+                    <div class="Core C">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>GSAP</span></div>
+                        </div>
+                        </div>
                     </div>
+                    <div class="Core D">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>JQUERY</span></div>
+                        </div>
+                        </div>
                     </div>
-                </div>
-                <div class="Core C">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>GSAP</span></div>
+                    <div class="Core E">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>MYSQL</span></div>
+                        </div>
+                        </div>
                     </div>
+                    <div class="Core F">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>ILLUSTRATOR</span></div>
+                        </div>
+                        </div>
                     </div>
-                </div>
-                <div class="Core D">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>JQUERY</span></div>
+                    <div class="Core G">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>PHOTOSHOP</span></div>
+                        </div>
+                        </div>
                     </div>
-                    </div>
-                </div>
-                <div class="Core E">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>MYSQL</span></div>
-                    </div>
-                    </div>
-                </div>
-                <div class="Core F">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>ILLUSTRATOR</span></div>
-                    </div>
-                    </div>
-                </div>
-                <div class="Core G">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>PHOTOSHOP</span></div>
-                    </div>
-                    </div>
-                </div>
-                <div class="Core H">
-                    <div class="Extender">
-                    <div class="Shaker">
-                        <div class="Waya"></div>
-                        <div class="Radiation"></div>
-                        <div class="Board"></div>
-                        <div class="Strikes"></div>
-                        <div class="Title"><span>PHP</span></div>
-                    </div>
+                    <div class="Core H">
+                        <div class="Extender">
+                        <div class="Shaker">
+                            <div class="Waya"></div>
+                            <div class="Radiation"></div>
+                            <div class="Board"></div>
+                            <div class="Strikes"></div>
+                            <div class="Title"><span>PHP</span></div>
+                        </div>
+                        </div>
                     </div>
                 </div>
                 <div class="GeloV"><div></div></div>
@@ -472,10 +484,12 @@
             <div id="AntiToxins">
                 <div class="Entry"></div>
                 <div class="DivisionExpress">
-                    <h3 class="Content">I've come to discover that most specialists want their creation to be different, whether when partnering with individuals on projects, negotiating with groups or mentoring them, in either case this striking innovative mindset is exceptional about people; However, innovation's purity is delivered when formalized with creativity, many miss that part and follow certain trends and guidelines, in my point of view to be different requires one to outpace these standards and yet explore not too far to fully alienate the work.</h3>
-                    <div class="Trigger">
-                        <div class="Hint">READ!</div>
-                        <div class="SwitchBeam"></div>
+                    <div class="Container">
+                        <h3 class="Content">I've come to discover that most specialists want their creation to be different, whether when partnering with individuals on projects, negotiating with groups or mentoring them, in either case this striking innovative mindset is exceptional about people; However, innovation's purity is delivered when formalized with creativity, many miss that part and follow certain trends and guidelines, in my point of view to be different requires one to outpace these standards and yet explore not too far to fully alienate the work.</h3>
+                        <div class="Trigger">
+                            <div class="Hint">READ!</div>
+                            <div class="SwitchBeam"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="DevStar">
@@ -502,110 +516,116 @@
                         <div class="ArtSign"></div>
                     </div>
                 </div>
-                <div class="DevParticle C">
-                    <div class="NameTag">
-                        <div class="Name">FOLD<br>(FRONT-END)</div>
-                        <div class="Divider"></div>
-                    </div>
-                    <div class="Container">
-                        <div class="Diamond"></div>
-                    </div>
-                </div>
-                <div class="DevParticle D">
-                    <div class="NameTag">
-                        <div class="Name">LIOLT<br>(FRONT-END)</div>
-                        <div class="Divider"></div>
-                    </div>
-                    <div class="Container">
-                        <div class="Diamond"></div>
-                    </div>
-                </div>
-                <div class="DevParticle F">
-                    <div class="NameTag">
-                        <div class="Name">TIDE<br>(FRONT-END)</div>
-                        <div class="Divider"></div>
-                    </div>
-                    <div class="Container">
-                        <div class="Diamond"></div>
-                    </div>
-                </div>
-                <div class="ArtParticle B">
-                    <div class="NameTag">
-                        <div class="Name">FOLD<br>(UI/UX)</div>
-                        <div class="Divider"></div>
-                    </div>
-                    <div class="Container">
-                        <div class="Diamond"></div>
-                    </div>
-                </div>
-                <div class="ArtParticle C">
-                    <div class="NameTag">
-                        <div class="Name">TIDE<br>(UI/UX)</div>
-                        <div class="Divider"></div>
-                    </div>
-                    <div class="Container">
-                        <div class="Diamond"></div>
-                    </div>
-                </div>
-                <div class="ArtParticle D">
-                    <div class="NameTag">
-                        <div class="Name">GLARE<br>(UI/UX)</div>
-                        <div class="Divider"></div>
-                    </div>
-                    <div class="Container">
-                        <div class="Diamond"></div>
-                    </div>
-                </div>
-                <div class="ArtParticle E">
-                    <div class="NameTag">
-                        <div class="Name">LIOLT<br>(UI/UX)</div>
-                        <div class="Divider"></div>
-                    </div>
-                    <div class="Container">
-                        <div class="Diamond"></div>
-                    </div>
-                </div>
-                <div class="ArtParticle F">
-                    <div class="NameTag">
-                        <div class="Name">CRYSTAL VOID<br>(UI/UX)</div>
-                        <div class="Divider"></div>
-                    </div>
-                    <div class="Container">
-                        <div class="Diamond"></div>
-                    </div>
-                </div>
-                <div class="SingleParticle">
-                    <div class="Clone"></div>
-                    <div class="Navigate">
-                        <div class="PrevProject">
-                            <span>
-                            PREV<br>
-                            PROJECT
-                            </span>
-                            <div></div>
+                <div class="Particles">
+                    <div class="DevParticle C">
+                        <div class="NameTag">
+                            <div class="Name">FOLD<br>(FRONT-END)</div>
+                            <div class="Divider"></div>
                         </div>
-                        <div class="NextProject">
-                            <span>
-                            NEXT<br>
-                            PROJECT
-                            </span>
-                            <div></div>
+                        <div class="Container">
+                            <div class="Diamond"></div>
                         </div>
                     </div>
-                    <div class="Title"></div>
-                    <div class="Pages">
-                        <div>
+                    <div class="DevParticle D">
+                        <div class="NameTag">
+                            <div class="Name">LIOLT<br>(FRONT-END)</div>
+                            <div class="Divider"></div>
+                        </div>
+                        <div class="Container">
+                            <div class="Diamond"></div>
                         </div>
                     </div>
-                    <div class="Preview">
-                        <div class="img">
+                    <div class="DevParticle F">
+                        <div class="NameTag">
+                            <div class="Name">TIDE<br>(FRONT-END)</div>
+                            <div class="Divider"></div>
                         </div>
-                        <div class="Cover">
-                            <div></div>
-                            <div><i class="enlarge"></i>VIEW</div>
+                        <div class="Container">
+                            <div class="Diamond"></div>
                         </div>
                     </div>
-                    <div class="Detail">
+                    <div class="ArtParticle B">
+                        <div class="NameTag">
+                            <div class="Name">FOLD<br>(UI/UX)</div>
+                            <div class="Divider"></div>
+                        </div>
+                        <div class="Container">
+                            <div class="Diamond"></div>
+                        </div>
+                    </div>
+                    <div class="ArtParticle C">
+                        <div class="NameTag">
+                            <div class="Name">TIDE<br>(UI/UX)</div>
+                            <div class="Divider"></div>
+                        </div>
+                        <div class="Container">
+                            <div class="Diamond"></div>
+                        </div>
+                    </div>
+                    <div class="ArtParticle D">
+                        <div class="NameTag">
+                            <div class="Name">GLARE<br>(UI/UX)</div>
+                            <div class="Divider"></div>
+                        </div>
+                        <div class="Container">
+                            <div class="Diamond"></div>
+                        </div>
+                    </div>
+                    <div class="ArtParticle E">
+                        <div class="NameTag">
+                            <div class="Name">LIOLT<br>(UI/UX)</div>
+                            <div class="Divider"></div>
+                        </div>
+                        <div class="Container">
+                            <div class="Diamond"></div>
+                        </div>
+                    </div>
+                    <div class="ArtParticle F">
+                        <div class="NameTag">
+                            <div class="Name">CRYSTAL VOID<br>(UI/UX)</div>
+                            <div class="Divider"></div>
+                        </div>
+                        <div class="Container">
+                            <div class="Diamond"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="SingleContainer">
+                    <div class="SingleParticle">
+                        <div class="Clone"></div>
+                        <div class="Navigate">
+                            <div class="PrevProject">
+                                <span>
+                                PREV<br>
+                                PROJECT
+                                </span>
+                                <div></div>
+                            </div>
+                            <div class="NextProject">
+                                <span>
+                                NEXT<br>
+                                PROJECT
+                                </span>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="Title">LORE LORE LORE LOER LOER</div>
+                        <div class="Pages">
+                            <div>
+                                <div class="Page" id="No1">MAMAD PAGE</div>
+                                <div class="Page active" id="No2">INDEX PAGE</div>
+                                <div class="Page" id="No3">KAFTAR PAGE</div>
+                            </div>
+                        </div>
+                        <div class="Preview">
+                            <div class="img">
+                                <img src="Assets/BuyCourse.jpg" alt="">
+                            </div>
+                            <div class="Cover">
+                                <div></div>
+                                <div><i class="enlarge"></i>VIEW</div>
+                            </div>
+                        </div>
                         <div class="BuiltWith">
                             <div class="Shiners">
                                 <div class="Shiner"></div>
@@ -632,46 +652,52 @@
                             </div>
                         </div>
                         <div class="Description"></div>
-                    </div>
-                    <div class="State">
-                        <div class="RealState active">PROJECT STATE : COMPLETED <span>( <a href="" class="goto">Go To Webstie</a> )</span></div>
-                        <div class="RealState">PROJECT STATE : DOING</div>
-                        <div class="RealState">PROJECT STATE : CANCELLED</div>
-                        <div class="Exc">
-                            <div></div>
-                            <div></div>
+                        <div class="State">
+                            <div class="Container">
+                                <div class="RealState">PROJECT STATE : COMPLETED <span>( <a href="" class="goto">Go To Webstie</a> )</span></div>
+                                <div class="RealState">PROJECT STATE : DOING</div>
+                                <div class="RealState">PROJECT STATE : CANCELLED</div>
+                                <div class="Exc">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="ParticleAura"></div>
             </div>
         </div>
 
         <div id="Artery">
             <div id="Analyzer">
                 <div class="DivisionExpress">
-                    <div class="Content">Feelings won't last long, it's their nature, but the impact of the person who radiates them may last forever. It's important to be able to manage our emotions when they're pumping beneath our chest to be let out. When we do let them out, it's important to analyze the reactions we get to build a stronger fortress of attitude & respect, be it from others or the most important person in your life, yourself...</div>
-                    <div class="Trigger">
-                        <div class="Hint">READ!</div>
-                        <div class="SwitchBeam"></div>
+                    <div class="Container">
+                        <div class="Content">Feelings won't last long, it's their nature, but the impact of the person who radiates them may last forever. It's important to be able to manage our emotions when they're pumping beneath our chest to be let out. When we do let them out, it's important to analyze the reactions we get to build a stronger fortress of attitude & respect, be it from others or the most important person in your life, yourself...</div>
+                        <div class="Trigger">
+                            <div class="Hint">READ!</div>
+                            <div class="SwitchBeam"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="TheStorm">
-                    <div class="LeftWing"></div>
-                    <div class="RightWing"></div>
-                    <div class="Particles">
-                        <div class="Blue A"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Yellow A"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Purple A"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Purple B"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Green A"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Blue B"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Green B"><div class="hover"></div><div class="dime"></div></div>
-                        <div class="Yellow B"><div class="hover"></div><div class="dime"></div></div>
-                    </div>
+                <div class="LeftWing">
+                    <div class="Storm"></div>
+                </div>
+                <div class="RightWing">
+                    <div class="Storm"></div>
+                </div>
+                <div class="Particles">
+                    <div class="Blue A"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Yellow A"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Purple A"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Purple B"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Green A"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Blue B"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Green B"><div class="hover"></div><div class="dime"></div></div>
+                    <div class="Yellow B"><div class="hover"></div><div class="dime"></div></div>
                 </div>
                 <div class="Analyzer">
                     <div class="Core Entry">
+                        <div class="Circle"></div>
                         <div class="Faces">
                             <div id="PainKiller" class="active"></div>
                             <div id="Curious"></div>
@@ -687,16 +713,16 @@
                         <div class="Navigate" id="NextFace"></div>
                         <div class="Glitch"></div>
                         <div class="Crystal"></div>
-                        <div class="Express">
-                            <div class="CloudGlow"></div>
-                            <div class="Plate">
-                                <div class="Content">
-                                    <div></div>
-                                </div>
-                            </div>
-                            <div class="Cloud">SELECT A STONE</div>
+                    </div>
+                </div>
+                <div class="Express">
+                    <div class="CloudGlow"></div>
+                    <div class="Plate">
+                        <div class="Content">
+                            <div></div>
                         </div>
                     </div>
+                    <div class="Cloud">SELECT A STONE</div>
                 </div>
             </div>
             <div id="DeckCloud">
@@ -869,6 +895,60 @@
                     <div class="ShuffleFire D">
                         <div class="Fire"></div>
                     </div>
+                </div>
+                <div class="Deck Slider">
+                    <div class="Work Cards">
+                        <div class="RoyalPillow">
+                            <div>
+                                <div class="GravityForce"></div>
+                                <div class="GravityForceX"></div>
+                                <div class="Glow"></div>
+                                <div class="Pillow"></div>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="CardSlider">
+                        </div>
+                        <div class="ShuffleFire A">
+                            <div class="Fire"></div>
+                        </div>
+                        <div class="ShuffleFire B">
+                            <div class="Fire"></div>
+                        </div>
+                        <div class="ShuffleFire C">
+                            <div class="Fire"></div>
+                        </div>
+                        <div class="ShuffleFire D">
+                            <div class="Fire"></div>
+                        </div>
+                    </div>
+                    <div class="Life Cards">
+                        <div class="RoyalPillow">
+                            <div>
+                                <div class="GravityForce"></div>
+                                <div class="GravityForceX"></div>
+                                <div class="Glow"></div>
+                                <div class="Pillow"></div>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="CardSlider">
+                        </div>
+                        <div class="ShuffleFire A">
+                            <div class="Fire"></div>
+                        </div>
+                        <div class="ShuffleFire B">
+                            <div class="Fire"></div>
+                        </div>
+                        <div class="ShuffleFire C">
+                            <div class="Fire"></div>
+                        </div>
+                        <div class="ShuffleFire D">
+                            <div class="Fire"></div>
+                        </div>
+                    </div>
+                    <div class="Work Sign"></div>
+                    <div class="Life Sign"></div>
                 </div>
             </div>
         </div>

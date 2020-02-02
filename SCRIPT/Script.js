@@ -205,16 +205,6 @@ Peek = [
 		"Close project"
 	],
 	[
-		"#ParticleAura",
-		"Close project"
-	],
-	// Analyzer
-/*	[
-		".CrystalCover",
-		"Emotion analyzer",
-		"Unload emotion"
-	],*/
-	[
 		".Crystal",
 		["Emotion analyzer", "Unload emotion"]
 	],
@@ -579,25 +569,9 @@ function Varia(){
 	var   width = window.innerWidth, height = window.innerHeight;
 	bodyw = [$(window).width()];
 	    Ratio = 1920/1480;RatioB = 1920/2015;
-    $("#Skillometer .Core").each(function(){
-        Waya = $(this).find(".Waya");
-        Target = $("#Skillometer .CoreKeepa");
-        WayaOffset = Waya.offset().left;
-        SP = {
-            X : $(this).offset().left + ($(this).width() / 2),
-            Y : $(this).offset().top + ($(this).width() / 2)
-        };
-        TP = {
-            X : Target.offset().left + (Target.width() / 2),
-            Y : Target.offset().top + (Target.width() / 2)
-        };
-        Width = Math.sqrt( (SP.X-TP.X)*(SP.X-TP.X) + (SP.Y-TP.Y)*(SP.Y-TP.Y) );
-        Angle = Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI;
-        Waya.width( Width ).css("transform","rotate("+Angle+"deg)");
-    });
     $("#Analyzer .Particles > div").each(function(){
         if( Particle.isActive ){ return; }
-        Target = $("#Analyzer .Core");
+        Target = $("#Analyzer .Analyzer");
         SP = {
             X : $(this).offset().left + ($(this).width() / 2),
             Y : $(this).offset().top + ($(this).width() / 2)
@@ -607,7 +581,7 @@ function Varia(){
             Y : Target.offset().top + (Target.width() / 2)
         };
         Angle = Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI;
-		TweenMax.set($(this).children().children(), {rotation: Angle});
+		TweenMax.set($(this).children(".dime"), {rotation: Angle});
     });
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").each(function(){
 	    if( Particle.isActive ){ return; }
@@ -626,7 +600,10 @@ function Varia(){
 	});
 	// Disable assets not supported in touch devices
     NoTouchList = [
-      $("#Peek")
+      	$("#Peek"),
+      	$("#Gandalf"),
+      	$(".Area69"),
+		$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle"),
     ];
     $.each(NoTouchList, function(){
         // Disable touch for most mobile devices (not tablets)
@@ -638,6 +615,277 @@ function Varia(){
     });
     // Reset coordinates of the DivisionExpress' content
     DivisionExpress.set.Position(true);
+    // Resize & reposition Storm assets when in a storm
+    if( typeof(EnterStorm) !== "undefined" && !EnterStorm.isActive() && EnterStorm.progress() == 1 ){
+		ReCap();
+    }
+    // Handle resize mid-animation
+    if( typeof(EnterStorm) !== "undefined" && EnterStorm.isActive() && !EnterStorm.reversed() ){
+        // Pause the animation and set new ones
+        ReCap();
+        // Manually call post entrance sequences because Ritual won't trigger it's default onComplete Event listener
+        PostRitualSequence();
+    }
+    function ReCap(){
+		// Reset assets to their original positions
+		EnterStorm.progress(0).pause();
+		Ritual.progress(0).pause();
+		CutTripwire.progress(0).pause();
+		// Run the calculations and re-make the animations
+		StormSequence();
+		// Set immediately to their final position
+		EnterStorm.progress(1);
+		Ritual.progress(1);
+		CutTripwire.progress(1);
+		// Change indicator to close in smaller devices
+		if( Is.ThisSize(768) ){
+			Area69.set(Storm.find(".Area69"));
+		}
+	}
+
+    var FormTL = false;
+    // Indicate a form is expanded
+    if( Form.ActiveDom ){
+        FormTL = Form.Arrange[Form.ActiveDom.parent().attr("class")];
+    }
+    // When the form's placement sequence is completed but not running:
+    if( FormTL && !FormTL.isActive() ){
+        // Recalculate the form's attributes
+        AssetForm(Form.ActiveDom);
+        Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
+    }
+    // When it's still running and is not reversed
+    else if( FormTL && !FormTL.reversed() ){
+        // Pause it's animation and...
+        Form.Arrange[Form.ActiveDom.parent().attr("class")].pause();
+        // Recalculate the form
+        AssetForm(Form.ActiveDom);
+        Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
+    }
+    // Set Skillometer's height based on the distance between InfoPanel and QuickAccess
+    var DeviHeight = $(".QuickAccess")[0].offsetTop -
+        ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() );
+
+    // Check if width is higher than 600px and height is lower than 600px
+    if( !Is.ThisSize(600) && Is.ThisSize(null, 600) ){
+        // Set it to full screen excluding 2 general assets
+        DeviHeight = $(".QuickAccess")[0].offsetTop -
+            $("#Skillometer .DivisionExpress").outerHeight();
+    }
+    // Check if width is lower than 1000px
+    if( Is.ThisSize(1000) ){
+        // Set it to 1.5 of the default size
+        var DeviHeight =
+            (
+                $(".QuickAccess")[0].offsetTop -
+                ( $("#Skillometer .InfoPanel")[0].offsetTop + $("#Skillometer .InfoPanel").innerHeight() )
+            )/ 1.5;
+    }
+    // Set minimum and maximum values
+    DeviHeight = ( DeviHeight > 350 ) ? 350 : ( DeviHeight < 200 ) ? 200 : DeviHeight;
+    // Set the final attributes for both Skillometer and it's Glow asset
+    TweenMax.set( "#Skillometer .Device, #Skillometer .GeloV", {
+        // Set width according to the graphical ratio
+        width: DeviHeight / 0.9904580152671756,
+        height: DeviHeight
+    });
+    // Set Core attributes according to the Device's attributes
+    TweenMax.set( "#Skillometer .Cores .Core", {
+        width: $("#Skillometer .CoreSlot").width(),
+        height: $("#Skillometer .CoreSlot").height(),
+        fontSize: $("#Skillometer .CoreSlot").height() * .13
+    });
+    // Connect the wires to the Skillometer's Core
+    $("#Skillometer .Cores .Core").each(function(){
+        Waya = $(this).find(".Waya");
+        Target = $("#Skillometer .CoreKeepa");
+        WayaOffset = Waya.offset().left;
+        SP = {
+            X : $(this).offset().left + ($(this).width() / 2),
+            Y : $(this).offset().top + ($(this).width() / 2)
+        };
+        TP = {
+            X : Target.offset().left + (Target.width() / 2),
+            Y : Target.offset().top + (Target.width() / 2)
+        };
+        Width = Math.sqrt( (SP.X-TP.X)*(SP.X-TP.X) + (SP.Y-TP.Y)*(SP.Y-TP.Y) );
+        Angle = Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI;
+        TweenMax.set(Waya, {
+        	width: Width,
+			rotation: Angle
+		});
+    });
+    // When a Core is loaded but not currently loading:
+    if( typeof(CoreMove) !== "undefined" && !CoreMove.isActive() ){
+		// Remove recorded attributes to enable position recalculation
+		CoreMove.invalidate();
+	}
+    // When a core is in the process of loading:
+    if( typeof(CoreMove) !== "undefined" && CoreMove.isActive() ){
+        // Remove recorded attributes to enable position recalculation
+		CoreMove.invalidate();
+		// If unloading
+		if(  CoreMove.reversed() ){
+            // Revert to default position
+			CoreMove.restart().pause();
+		}
+		// If loading
+		else{
+            // Revert to final position
+			CoreMove.restart().progress(1);
+		}
+	}
+    // Check if SingleParticle is currently active and showing
+    if( typeof(EnterParticle) !== "undefined" && !EnterParticle.isActive() && EnterParticle.progress() === 1 ){
+        // Store current active particle's object cause in ResetParticle() method it is removed
+        var prtcle = Particle.activeObj,
+            // Determine whether preview is open
+            preview = ( typeof(ExpandPreview) !== "undefined" && ExpandPreview.progress() === 1 ) ? true : false;
+		Particle.Navigated = false;
+        // Reset everything back to their default position
+        ResetParticle(Particle.activeObj);
+        // Skip the animating and immediately go to starting state
+        EnterParticle.progress(0).pause();
+        ParticleRotation.progress(0).pause();
+        ExpandParticle.progress(0).pause();
+        // Recalculate new animations and positions
+        ParticleActivation(prtcle);
+        // Skip animating and immediately go to the final state
+        EnterParticle.progress(1);
+        ParticleRotation.progress(1);
+        ExpandParticle.progress(1);
+        // When preview is open
+        if( preview ){
+            // Skip the animation and go to the final state
+            ExpandPreview.progress(1);
+        }
+    }
+    // Or if it's in the entrance process
+    if( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ){
+        // Indicate reverse state
+        var rev = false;
+        if( EnterParticle.reversed() ){
+            rev = true;
+        }
+        // Store current active particle's object cause in ResetParticle() method it is removed
+        var prtcle = Particle.activeObj;
+        // Store progress for each running animation
+        var progress = [
+            EnterParticle.progress(),
+            ParticleRotation.progress()
+        ];
+        // Reset everything back to their default position
+        ResetParticle(Particle.activeObj);
+        // Skip the animating and immediately go to starting state
+        EnterParticle.progress(0).pause();
+        ParticleRotation.progress(0).pause();
+        // Recalculate new animations and positions
+        ParticleActivation(prtcle);
+        // Skip animating and immediately go to the final state
+        EnterParticle.progress(progress[0]);
+        ParticleRotation.progress(progress[1]);
+        // Reverse the sequence in case it was reversing before the new animations
+        if( rev ){
+            ParticleActivation(prtcle);
+        }
+    }
+	if( typeof(ParticleNavigation) !== "undefined" && ParticleNavigation.isActive() ) {
+		// Store progress for each running animation
+		var progress = [
+			ParticleNavigation.progress(),
+			NavRotation.progress()
+		];
+        // Skip the animating and immediately go to starting state
+		ParticleNavigation.progress(0).pause();
+		NavRotation.progress(0).pause();
+		// Since this variable is changed when navigation started, it is reset here with the root particle
+		CurrentParticle = prtcle;
+        // Recalculate new animations and positions
+		ParticleNavigate(Particle.NaviDirection);
+        // Start the new animations from where they were stopped
+		ParticleNavigation.progress(progress[0]);
+		NavRotation.progress(progress[1]);
+	}
+
+	if( ActiveDivision.attr("id") === "Analyzer" ){
+	    // Clear overflow commands given by javascript in screens wider than 1024 width and shorter than 600 height
+		if( !Is.ThisSize(1024) && Is.ThisSize(null, 600) ){
+			TweenMax.set($("#Analyzer"), {overflowY: ""});
+		}
+		// Reset scroll position to prevent content overlapping the screen due to hidden overflow
+		if( !Is.ThisSize(null, 600) && $("#Analyzer")[0].scrollTop > 0 ){
+			TweenMax.set($("#Analyzer"), {scrollTop: 0});
+		}
+		// Automatically pick a stone for screens bellow 1024 cause Particles are hidden
+		if( Is.ThisSize(1024) && !Analyzer.isActive ){
+            Analyzer.Sequence($("#Analyzer .Particles .Green.A .hover"));
+        }
+	}
+	// Request reset for probable CardSlider changes
+	CardSlider.reset();
+	// Apply Draggable to each Card container
+    $(".Slider .CardSlider").each( function(){
+            // Set the distance between Cards
+        var bound = $(this).find(".Card").innerWidth() * .05,
+            // Set the maximum horizontal axis based on children count and distance between them
+            xbound = bound * ($(this).children(".Card").length - 1),
+            // Set horizontal direction
+            dir = ( $(this).parent().hasClass("Work") ) ? 1 : -1 ,
+            // Set minimum & maximum X values
+            xrange = ( $(this).parent().hasClass("Work") ) ? {
+                min: 0,
+                max: xbound
+            } : {
+                min: -xbound,
+                max: 0
+            };
+        // Make the container draggable
+        Draggable.create(this,{
+            type: "X",
+            bounds: {
+                minX : xrange.min,
+                maxX : xrange.max
+            },
+            onPress: function(){
+                // Prevent Sliding when Content (which is draggable) is engaged
+                if( $(this.pointerEvent.target).hasClass("Content") ){
+                    this.endDrag();
+                }
+            },
+            onDrag: function(){
+                // Sync the horizontal and vertical attributes
+                TweenMax.set(this.target,
+                    {
+                        y: dir*this.x
+                    });
+                // Request cards' placement sequence
+                CardSlider.placer(this, dir);
+            },
+            onDragEnd: function(){
+				// Prevent displacement when already at minimum or maximum position
+				if( this.x === this.maxX || this.x === this.minX ){
+					return;
+				}
+                var stickto = 0;
+                // Search for the current level through container's children
+                for( i = 0; i < $(this.target).children(".Card").length; i++ ){
+                	// Revert to previous Card's position when placed between it's margin before the next Card
+                    if( ( dir === -1 && this.x >= -( bound * i+1 ) ) || ( dir === 1 && this.x <= ( bound * i+1 ) ) ){
+                        stickto = dir*bound * (i);
+                        break;
+                    }
+                }
+                // Animate the placement
+                TweenMax.to(this.target, .2,
+                    {
+                        x: stickto,
+                        y: dir*stickto
+                    });
+				// Request cards' placement sequence
+                CardSlider.placer(this, dir);
+            }
+        });
+    });
 }
 
 function Globe(){
@@ -647,6 +895,15 @@ function Globe(){
 	$("input,textarea").val("");
 	// Form the panels
 	Panel.setup();
+	// Add Cards from Life & Work Decks to the Slider Deck
+    $(".Deck .Cards .Card").each(function(){
+        var clone = $(this).clone();
+        if( $(this).parent().parent().hasClass("Work") ){
+            clone.appendTo($(".Slider .Work.Cards .CardSlider"))
+        }else if( $(this).parent().parent().hasClass("Life") ){
+            clone.appendTo($(".Slider .Life.Cards .CardSlider"))
+        }
+    });
 
 // Pre Requisitions
 
@@ -908,7 +1165,7 @@ function Globe(){
 	SC_CN_Wifi = new TimelineMax({paused:true, repeat: -1});
 	SC_CN_Wifi
 		.to($("#SpaceCyclone .Connect.Storm .Definer > .Asset"), .3,
-			{rotation: 360, transformOrigin: "50% 79.5%", opacity: 1,ease: Power0.easeNone}
+			{rotation: 360, transformOrigin: "50% 73.2%", opacity: 1,ease: Power0.easeNone}
 		);
 	SC_CN_Phone = new TimelineMax({paused:true, repeat: -1});
 	SC_CN_Phone
@@ -976,7 +1233,13 @@ function Globe(){
 		ease: Power0.easeNone
 	}, 0);
 	AnalyzerFly = new TimelineMax({paused: true});
-	AnalyzerFly.add(
+	AnalyzerFly
+        .fromTo("#Analyzer .Analyzer .Circle", .1, {
+            autoAlpha: 1
+        }, {
+           autoAlpha: 0
+            })
+        .add(
 		TweenMax.fromTo("#PrevFace", .1, {
 			autoAlpha: 0,
 			x: "+=100%"
@@ -1027,7 +1290,7 @@ function Globe(){
 	// DeckCloud
 	ShuffleFireFly = new TimelineMax({paused: true});
 	ShuffleFireFly.add(
-		TweenMax.fromTo("#DeckCloud .ShuffleFire", .35, {
+		TweenMax.fromTo("#DeckCloud .Deck:not(.Slider) .ShuffleFire", .35, {
 			y: "+=50%",
 			scale: 0,
 			autoAlpha: 0
@@ -1038,13 +1301,28 @@ function Globe(){
 		}), 0
 	);
 	DeckCloudFly = new TimelineMax({paused: true});
-	DeckCloudFly.add(
-		TweenMax.fromTo("#DeckCloud .Sign, #DeckCloud .Cards .Fader, #DeckCloud .GravityForce, #DeckCloud .GravityForceX, #DeckCloud .ShuffleFire", .1, {
+	DeckCloudFly.fromTo("#DeckCloud .Cards .Fader, #DeckCloud .GravityForce, #DeckCloud .GravityForceX", .1, {
 			autoAlpha: 0
 		}, {
-			autoAlpha: 1
-		}), 0
-	);
+            autoAlpha: 1
+		}, 0).fromTo("#DeckCloud .Deck .Sign, #DeckCloud .Deck .ShuffleFire", .1, {
+			autoAlpha: 0
+		}, {
+            autoAlpha: function(i, t){
+                // Get the other Deck's class
+                var Class = ( Sign.activeObj.hasClass("Work") )? ".Life" : ".Work";
+                // Set exclusive values for SliderDeck's ShuffelFires & Signs
+				// Check if current Tween is from the other Deck
+                if( Sign.activeObj.siblings(Class).find(t).length && $(t).hasClass("ShuffleFire") ){
+                    return 0;
+                }
+				// Check if current Tween is from the active Deck
+                if( Sign.activeObj.parent().find(t).length && $(t).hasClass("Sign") && $(t).hasClass(Class.replace(".","")) ){
+                    return .4;
+                }
+                return 1;
+        }
+		}, 0);
 	Gravity = new TimelineMax({repeat: -1, paused: true});
 	Gravity.add(
 		TweenMax.fromTo("#DeckCloud .Deck.Work .GravityForce, #DeckCloud .Deck.Life .GravityForceX", .1, {
@@ -1087,51 +1365,37 @@ function Globe(){
 	);
 	Gravity.add( GravityX, .4 );
 	PlaceDeck = new TimelineMax({paused: true});
-	DeckX = -($("#DeckCloud .Work .Cards .Card").length * 4);
 	PlaceDeck.add(
 		TweenMax.staggerFromTo("#DeckCloud .Work .Cards .Card", .3, {
-			cycle:{y: function(){
-					return DeckX-50+"%";
-				}},
+			y: -50,
 			autoAlpha: 0
 		}, {
-			cycle:{y: function(){
-					DeckX += 4;
-					return DeckX+"%";
-				}},
+			y: 0,
 			autoAlpha: 1
-		}, .1)
+		}, .1), 0
 	).add(
 		TweenMax.fromTo("#DeckCloud .Work .Sign", .3, {
 			scale: 0,
 		}, {
 			scale: 1,
 			ease: Back. easeOut.config( 1.7)
-		}, .1)
+		}, .1), 0
 	);
-	DeckX = -($("#DeckCloud .Life .Cards .Card").length * 4);
 	PlaceDeck.add(
-		TweenMax.staggerFromTo("#DeckCloud .Life .Cards .Card", .3, {
-			cycle:{y: function(){
-					return DeckX-50+"%";
-				}},
+		TweenMax.staggerFromTo("#DeckCloud .Life .Cards .Card, #DeckCloud .Slider .Cards .Card", .3, {
+			y: -50,
 			autoAlpha: 0
 		}, {
-			cycle:{y: function(){
-					DeckX += 4;
-					return DeckX+"%";
-				}},
+			y: 0,
 			autoAlpha: 1
-		}, .1)
+		}, .1), 0
 	).add(
-		TweenMax.fromTo("#DeckCloud .Life .Sign", .3, {
-			scale: 0,
-			autoAlpha: 0
+		TweenMax.fromTo("#DeckCloud .Life .Sign, #DeckCloud .Slider .Sign", .3, {
+			scale: 0
 		}, {
 			scale: 1,
-			autoAlpha: 1,
 			ease: Back. easeOut.config( 1.7)
-		}, .1)
+		}, .1), 0
 	);
 	ShuffleFire = new TimelineMax({paused: true, repeat: -1, yoyo: true
 	});
@@ -1635,6 +1899,8 @@ function Globe(){
                     if( $(".Storm.Connect .Tripwire").is(":hover") ){
                         ToggleConnect();
                     }
+                    // Remove cloned assets
+                    Storm.find(".AlphaAsset.clone, .BetaAsset.clone").remove();
                 });
                 CutTripwire.reverse();
                 Ritual.reverse();
@@ -1654,81 +1920,51 @@ function Globe(){
         Cyclone.isActive = Storm;
         SC_Footer.reverse();
 
-		// Setting fly attributes
-		SC_scale = 3;
-		SC_HoldMyState = {
-			ot : Storm.offset().top,
-			ol : Storm.offset().left,
-			w : Storm.innerWidth(),
-			h : Storm.innerHeight()
-		};
-		EnterStorm = new TimelineMax();
-		CutTripwire = new TimelineMax();
-		Ritual = new TimelineMax();
+        // Prevent scrolling on SpaceCyclone
+		TweenMax.set($("#SpaceCyclone"), {overflow: "inherit"});
+
 		PostRitual = new TimelineMax();
 		// Applying the curtain
 		CurClass = ( Storm.hasClass("Request") ) ? "Req" :
 			( Storm.hasClass("Download") ) ? "DL" :
 				( Storm.hasClass("Connect") ) ? "Con" : "BOZ";
 		Storm.siblings(".Curtain").addClass(CurClass);
-		Ritual.add(
-			TweenMax.to(Storm.siblings(".Curtain"), 1, {autoAlpha: .7}), 0
-		);
-		// Cut the tripwire
-		CutTripwire
-			.add(
-			TweenMax.to(Storm.find(".Flow"), 1, {autoAlpha: 0, rotation: 360, scale: 0, transformOrigin: "center"}),0
-		);
-		// Pausing current running animations
-		ToggleConnect(false);
-		ToggleDownload(false);
-		ToggleRequest(false);
-		// Applying storm entrance effects
-			// siblings storms
-		Storm.siblings(".Storm").each(function(){
-			Asc = $(this).children();
-			AddFly.StormEntrance();
-		});
-			// BreathingFragment
-		Asc = Storm.siblings(".BreathinFragment").children();
-		AddFly.StormEntrance();
-			// Current storms
-		Asc = Storm.find(".StarFlow");
-		AddFly.StormEntrance(true);
-		EnterStorm.set(Storm, {zIndex: 2});
-		// Apply storm ritual
-		Asc = Storm.find(".Definer");
-		StormRitual.Definer();
-		Asc = Storm.find(".AlphaAsset");
-		StormRitual.AlphaAsset();
-		Asc = Storm.find(".BetaAsset");
-		StormRitual.BetaAsset();
-
+		// Clone assets inside the AssetContainer so their original state is saved after the resize
+        if( Storm.find(".AlphaAsset.clone, .BetaAsset.clone").length === 0 ){
+            // Fetch the clones
+            var Assetclone = Storm.find(".AssetContainer > .AlphaAsset, .AssetContainer > .BetaAsset").clone().addClass("clone").attr("style","");
+            // Insert them before the AssetContainer
+            Assetclone.insertBefore(Storm.find(".AssetContainer"));
+            // Storm.find(".clone, .clone *").attr("style", "");
+            TweenMax.set(Storm.find(".clone"), {autoAlpha: 0});
+        }
+		// Create new animations for storm entrance assets
+		StormSequence();
 		// Finalize the Ritual
 		Ritual.eventCallback("onComplete", function(){
-            PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
-            .fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {y: -20}, {autoAlpha: 1, y: 0}, 0)
-            .to(Storm.not(".Download").find(".Divider"), 1, {autoAlpha: 1}, 0);
-            // Disable Definer hover/enter/close asset after enter
-            TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 0}, 0);
-			if (Storm.find(".AlphaAsset:hover").length != 0) {
-				AssetHover(Storm.find(".AlphaAsset"));
-			}
-			if (Storm.find(".BetaAsset:hover").length != 0) {
-				AssetHover(Storm.find(".BetaAsset"));
-			}
-			Glitch.on("#Gandalf", null);
-			// Enable Definer asset hover reactions
-			Area69.enabled();
-			// Perform hover reactions if Definer asset is hovered after entrance
-			if( Storm.find(".Area69").is(":hover") ){
-				Area69.set(Storm.find(".Area69"));
-			}
+            PostRitualSequence();
 		});
 	});
 	StormForm = [];
 	$("#SpaceCyclone > .Storm .Title").click(function (){
-		AssetForm($(this));
+        var storm = $(this).parent(),
+            Class = storm.attr("class");
+        // Check if another asset is requested while one is expanded
+        if( Form.ActiveDom !== null && !storm.hasClass(Form.ActiveDom.parent().attr("class")) ){
+            // Collapse the other form
+            if( Deformer(Form.ActiveDom, true) ){
+                // Open the requested one
+                AssetForm($(this));
+            }
+        }
+        else{
+            // Collapse the current asset if it's expanded
+            if( typeof(Form.Arrange[Class]) !== "undefined" ) {
+                if( Deformer($(this)) ){ return; }
+            }
+            // Expand current asset
+            AssetForm($(this));
+        }
 	});
 
 	$('#SpaceCyclone .Attach').click(function(){
@@ -1858,8 +2094,10 @@ function Globe(){
 	});
 	// Add hover reactions
     $("#SpaceCyclone > .Storm .Definer .Area69").mouseenter(function(){
+    	if( Is.NoTouch($(this)) ){ return false; }
 		Area69.set($(this));
     }).mouseleave(function(){
+    	if( Is.NoTouch($(this)) ){ return false; }
     	Area69.reset($(this));
     });
 	$("#Footer > a").mouseenter(function(){
@@ -2029,38 +2267,37 @@ function Globe(){
 	// Variable indicating whether the device is loaded
     LoadedCore = false;
 
-    $("#Skillometer .Glued").click(function(){
+    $("#Skillometer .Glued, #Skillometer .InfoPanel").click(function(){
         if( !DeviceEmpty.isActive() ){
             DeviceEmpty.restart();
         }
     });
 	$("#Skillometer .Core .Strikes").mouseenter(function(){
-		CoreElement = $(this).parent().parent().parent();
+		var CoreElement = $(this).parent().parent().parent();
 		if( CoreClick == CoreElement.attr("class") ){return;}
 		OBJ = $(this).siblings(".Title").find(">span");
 		Core = CoreElement.find(".Extender");
 		Dur = ((OBJ.width()*100)/OBJ.parent().innerWidth())/125;
-		if( typeof(TitleSlider) !== "undefined" && TitleSlider.isActive() ){
+		if( typeof(Flicker) !== "undefined" && Flicker.isActive() ){
 			ReverseCore();
 		}
-		TitleSlider = new TimelineMax({yoyo: true,repeat: -1, paused: true});
-		Flicker = new TimelineMax({yoyo: true,repeat: -1, paused: true});
-		Brrr = new TimelineMax({yoyo: true,repeat: -1, paused: true});
-		TitleSlider
-			.to(OBJ, Dur,  {x: "-100%", ease:  SlowMo.ease.config( 0.2, 0.2, false)}, 0);
+		Flicker = new TimelineMax({yoyo: true,repeat: -1});
+		Brrr = new TimelineMax({yoyo: true,repeat: -1});
 		Flicker
 			.fromTo(Core.children(), .4, {autoAlpha: 1, ease:  SlowMo.ease.config( 0.2, 0.2, false)}, {autoAlpha: .3, ease:  SlowMo.ease.config( 0.2, 0.2, false)});
 		Brrr
 			.fromTo(Core.children(), .06, {x: 0}, {x: 2})
 			.to(Core.children(), .06, {x: -2});
-		TweenMax.to(OBJ, Dur/2, {x: "0%", ease:  SlowMo.ease.config( 0.2, 0.2, false), onComplete: ApplySlider, onCompleteParams: [OBJ]});
+		CoreTitleSlider.pause(OBJ);
 	})
 		.mouseleave(function(){
 		if( CoreClick !== $(this).parent().attr("class") ){ReverseCore();}
+		CoreTitleSlider.play();
 	});
 	$("#Skillometer .Core .Strikes").click(function(){
 		CoreElement = $(this).parent().parent().parent();
-		// Cancell load when same element is requested
+		CoreElement.addClass("active");
+		// Cancel load when same element is requested
 		if( CoreClick == CoreElement.attr("class") ){
 			ReverseCore(true);
 			CoreClick = false;
@@ -2087,16 +2324,23 @@ function Globe(){
 		CoreClick = CoreElement.attr("class");
 		Core = CoreElement.find(".Extender");
 		Dur = .5;
-		MiddleX = ((CoreElement.parent().find(".CoreKeepa").offset().left+CoreElement.parent().find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().left+CoreElement.innerWidth()/2));
-		MiddleY = ((CoreElement.parent().find(".CoreKeepa").offset().top+CoreElement.parent().find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().top+CoreElement.innerHeight()/2));
 		CoreMove = new TimelineMax({paused: true});
 		CoreMove
-			.to(Core, Dur, {
-				x: MiddleX,
-				y: MiddleY,
+			.fromTo(Core, Dur, {
+			    x: 0,
+                y: 0
+            }, {
+				x: function(){
+					return (($("#Skillometer").find(".CoreKeepa").offset().left+$("#Skillometer").find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().left+CoreElement.innerWidth()/2));
+				},
+				y: function(){
+					return (($("#Skillometer").find(".CoreKeepa").offset().top+$("#Skillometer").find(".CoreKeepa").innerWidth()/2)-(CoreElement.offset().top+CoreElement.innerHeight()/2));
+				},
 				ease:  Back.easeIn.config(2)
 			}, 0)
-			.to(Core.find(".Waya"), Dur, {
+			.fromTo(Core.find(".Waya"), Dur,{
+			    scaleX: 1
+            }, {
 				scaleX: 0,
 				ease:  Back.easeIn.config(2)
 			}, 0);
@@ -2133,7 +2377,9 @@ function Globe(){
 			randomize: true,
 			clamp: false
 		});
-		Emginashun.to([ActiveCore.find(".ForReactor"),$("#Skillometer .GeloV>div")], .15, {
+		Emginashun.fromTo([ActiveCore.find(".ForReactor"),$("#Skillometer .GeloV>div")], .15, {
+			autoAlpha: 0
+		}, {
 			autoAlpha: 1,
 			ease:   ToughEase
 		}).to([ActiveCore.find(".ForReactor"),$("#Skillometer .GeloV>div")], .15, {
@@ -2176,7 +2422,21 @@ function Globe(){
 		TweenMax.set(ActiveCore.find(".ForReactor"), {autoAlpha: 0});
 		Emginashun.delay(GlowOnEnter.duration()).play();
 	});
-	$(".CoreSlot").click(function(){
+	$(".CoreSlot, .InfoPanel").click(function(){
+		// Deny request when:
+		if(
+			// No Core is loaded yet
+			!LoadedCore ||
+			// Or InfoPanel is clicked in higher size screens
+			(
+				$(this).hasClass("InfoPanel") &&
+				(
+                    ( !Is.ThisSize(1000) && !Is.ThisSize(null, 600) )
+                )
+			)
+		){
+			return false;
+		}
 		if( Emginashun.reversed() ){ return; }
 		if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
 			Laser.pause();
@@ -2197,6 +2457,7 @@ function Globe(){
 				Cont = t.find(".Container"),
 				Diaml = t.find(".Diamond").offset().left,
 				PageW = window.innerWidth;
+            Name[0].style.display = "";
 			// Whether current Particle is far to the left half of the page
 			if( Diaml < PageW / 2 ){
 				var DX = -40, // Divider X
@@ -2212,47 +2473,51 @@ function Globe(){
 				TweenMax.set( Divider, {right: 0} );
 			}
 			DeployNameTag = new TimelineMax();
-			DeployNameTag.fromTo(Divider, .35,{
+			DeployNameTag.fromTo(Divider, .25,{
 				autoAlpha: 0,
 				x: DX
 			},{
 				autoAlpha: 1,
 				x: 0
-			}).fromTo(Name, .35,{
+			}).fromTo(Name, .25,{
 				autoAlpha: 0,
 				x: NTX
 			},{
 				autoAlpha: 1,
 				x: -NTX
-			}, "-=.2");
+			}, "-=.1");
 		},
 		reverse: function(duration){
 			var dur = ( typeof(duration) === "number" ) ? duration : null ;
 			// Reverse TagName deployment if already not reversed
-			if( !DeployNameTag.reversed() ){
+			if( typeof(DeployNameTag) !== "undefined" && !DeployNameTag.reversed() ){
 				if( dur !== null ){ DeployNameTag.duration(dur); }
-				DeployNameTag.reverse();
+				DeployNameTag.reverse().eventCallback("onReverseComplete", function(t){
+				    t._last.target[0].style.display = "none";
+                }, ["{self}"]);
 			}
 		}
 	}
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").mouseenter(function(){
+		if( Is.NoTouch($(this)) ){ return; }
 		// Abort reaction if SingleParticle is open or when entering particle
-		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
+		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) || Particle.Navigated ){ return; }
 		// Get and fade the stars and all other particles but the current one
-		var FadeAssets = ( $(this).hasClass("DevParticle") ) ? $(this).siblings(".DevParticle, .ArtStar, .ArtParticle") : $(this).siblings(".DevStar, .DevParticle, .ArtParticle");
-		TweenMax.to(FadeAssets, .5, {opacity: .2});
+		var FadeAssets = ( $(this).hasClass("DevParticle") ) ? $(this).parent().parent().find(".DevParticle, .ArtStar, .ArtParticle").not(this) : $(this).parent().parent().find(".DevStar, .DevParticle, .ArtParticle").not(this);
+		TweenMax.staggerTo(FadeAssets, .25, {opacity: .2}, .04);
 		NameTag.play($(this));
 	})
 	.mouseleave(function(){
+		if( Is.NoTouch($(this)) ){ return; }
 		// Abort reaction if SingleParticle is open or when entering particle
-		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){ return; }
+		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) || Particle.Navigated ){ return; }
 		// Resetting blurred assets on mouseleave
-		var FadeAssets = $(this).siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
-		TweenMax.to(FadeAssets, .5, {opacity: 1});
+		var FadeAssets = $(this).parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(this);
+        TweenMax.staggerTo(FadeAssets, .25, {opacity: 1}, .04);
 		// Remove NameTag
 		NameTag.reverse();
 	});
-	Particle = {isActive : false, activeObj: null, Navigated: false};
+	Particle = {isActive : false, activeObj: null, Navigated: false, NaviDirection: null};
 	$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle").click(function(e){
 		ParticleActivation($(this), e);
 		// Remove NameTag
@@ -2291,8 +2556,8 @@ function Globe(){
 				TrackLines.obj[Class].push(Line);
 			});
 		}
-		$( Particles ).each(function(i){
-			var Particle = $(this).children(".Container").children();
+		$( Particles ).find(".Diamond").each(function(i){
+			var Particle = $(this);
 			var Origin = "right" ,
 				SP = {
 				X : Particle.offset().left + ( $(this).width() / 2 ),
@@ -2340,6 +2605,8 @@ function Globe(){
                     if( i+1 === Particles.length ){
                         tween.eventCallback("onReverseComplete", function(){
                             TrackLines.isActive[Class] = false;
+                            // Clearing sibling lines so they wont cause responsive problems
+                            TweenMax.set($(tween.target[0]).siblings(".Line"), {clearProps: "all"})
                         });
                     }
 					TweenMax.fromTo(Particle, .2,{
@@ -2400,7 +2667,7 @@ function Globe(){
 			DimeRotate = new TimelineMax({paused : true});
 			var Particle = T.parent(),
 				MovingPart = T.siblings(".dime"),
-				AnalyzerCore = $(".Analyzer > .Core"),
+				AnalyzerCore = $(".Analyzer .Core"),
 				TargetX = ( AnalyzerCore.offset().left + AnalyzerCore.innerWidth() / 2 ) - ( MovingPart.offset().left + MovingPart.innerWidth() / 2 ),
 				TargetY = ( AnalyzerCore.offset().top + AnalyzerCore.innerHeight() / 2 ) - ( MovingPart.offset().top + MovingPart.innerHeight() / 2 ),
 				NegOrPos = (Math.floor(Math.random() * 2));
@@ -2481,7 +2748,7 @@ function Globe(){
 								// Placing the content
 								$("#Analyzer .Plate .Content > div").html(this.content);
 								AnalyzePlate.reverse();
-								Glitch.on("#Analyzer .Core .Cloud", this.title);
+								Glitch.on("#Analyzer .Cloud", this.title);
 
 
                                 var plate = $("#Analyzer .Plate .Content"),
@@ -2565,6 +2832,8 @@ function Globe(){
                             }
 						}
 					});
+					// Allow scroll after everything is placed
+					TweenMax.set($("#Analyzer"), {overflowY: "auto"});
 				}
 			})
 		},
@@ -2579,6 +2848,11 @@ function Globe(){
 			if( T.parent().hasClass(Analyzer.isActive) && DimeEntrance.isActive() ){
 				return;
 			}
+            // Determine scroll reverse duration relative to the distance from the top
+            var dur = $("#Analyzer")[0].scrollTop / 400;
+            dur = ( dur > .2 ) ? .2 : dur;
+            // Reset scroll position
+            TweenMax.to($("#Analyzer"), dur, {scrollTop: 0});
 			// Reversing particle when it's in the active stage
 			if( !CrystalRotation.reversed() ){
 				if( CrystalRotation.time() !== 0 ){ CrystalRotation.reverse(CrystalRotation.time()) }
@@ -2599,7 +2873,10 @@ function Globe(){
 			FaceAppear.reverse();
 			DimeEntrance.reverse();
 			if( AnalyzePlate.reversed() ){
-				AnalyzePlate.reversed( !AnalyzePlate.reversed() ).resume();
+				AnalyzePlate.reversed( !AnalyzePlate.reversed() ).resume().eventCallback("onComplete",function(){
+                    // Clear content to prevent overflow issues
+                    $("#Analyzer .Plate .Content > div").html("");
+                });
 			}
 			// Re-activating active particle's click & hover ability
 			TweenMax.set(Analyzer.object.children(".hover"), {autoAlpha: 1});
@@ -2607,9 +2884,22 @@ function Globe(){
 			Analyzer.object = false;
 			Analyzer.isActive = false;
 			if( FullReset ){
-				Glitch.on("#Analyzer .Core .Cloud", "SELECT A STONE");
+				Glitch.on("#Analyzer .Cloud", "SELECT A STONE");
 				// Reactivate stone select notice
 				$("#PrevFace, #NextFace").data({GandalfActive: true});
+				// Determine scroll reverse duration relative to the distance from the top
+				var dur = $("#Analyzer")[0].scrollTop / 400;
+				dur = ( dur > .2 ) ? .2 : dur;
+				// Reset scroll position
+				TweenMax.to($("#Analyzer"), dur, {scrollTop: 0, onComplete: function(){
+				    // For screens wider than 1024 width and shorter than 600 height clear overflow commands
+					if( !Is.ThisSize(1024) && Is.ThisSize(null, 600) ){
+						TweenMax.set($("#Analyzer"), {overflowY: ""});
+						return
+					}
+					// Disable scroll
+                    TweenMax.set($("#Analyzer"), {overflowY: "hidden"});
+					}});
 			}
 		}
 	};
@@ -2639,6 +2929,8 @@ function Globe(){
 		}
 	});
 	$(".Analyzer .Crystal").click(function(){
+	    // Prohibit unloading when PArticles are hidden
+	    if( Is.ThisSize(1024) ){ return; }
 		if( Analyzer.isActive ){
 			Analyzer.Reverse(Analyzer.object, true);
 		}else{
@@ -2652,9 +2944,10 @@ function Globe(){
 			}, {
 				autoAlpha: .5
 			}, 0);
-			TweenMax.staggerFromTo(".TheStorm .Particles > *", .2, {autoAlpha: 1, scale: 1}, {
+			TweenMax.staggerFromTo(".Particles > *", .2, {autoAlpha: 1, scale: 1}, {
 				autoAlpha: 0,
 				scale: 1.5,
+				transformOrigin: "center",
 				onComplete: function(t){
 					// Reverse each tween individually after their done
 					t.reverse();
@@ -2669,7 +2962,7 @@ function Globe(){
 	// DeckCloud
 	CardHover = { isActive: [], append: [], AlreadyActive: [], HoverReveal: [] };
 	CardSelect = { isActive: [], object: [], mdReset: [], validator: [] };
-	$(".Cards .Card").mouseenter(function(){
+	$(".Deck:not(.Slider) .Cards .Card").mouseenter(function(){
 		CardHoverIn( $(this) );
 	})
 		.mouseleave(function(e){
@@ -2756,7 +3049,7 @@ function Globe(){
 		CardHover.AlreadyActive[T] = [];
 		CardHover.HoverReveal[T].reverse();
 	});
-	$(".Cards .Card").mousedown(function(e){
+	$(".Deck:not(.Slider) .Cards .Card").mousedown(function(e){
 		var T = $(this).parent().parent().attr("class"),
 			siblings = $(this).nextAll(".Card");
 		mdevent = e;
@@ -2770,7 +3063,7 @@ function Globe(){
 		}
 		CardSelect.mdReset[T] = $(this);
 	});
-	$(".Cards .Card").mouseup(function(e){
+	$(".Deck:not(.Slider) .Cards .Card").mouseup(function(e){
 		var T = $(this).parent().parent().attr("class");
 		CardSelect.validator[T] = 0;
 		// Declaring account state only when not declared
@@ -2832,7 +3125,7 @@ function Globe(){
         // Exclusive commands for Gandalf
         $("#DeckCloud .Card").data({GandalfOpt: 0});
 	});
-	$("#DeckCloud .Sign").click(function(){
+	$("#DeckCloud .Deck:not(.Slider) .Sign").click(function(){
 	    // CardWave effect
         TweenMax.staggerFromTo($(this).siblings(".Cards").find(".Card"), .1,{
             y: 0
@@ -2848,6 +3141,88 @@ function Globe(){
         }, .05);
     });
 	CardDraggable();
+
+    Sign = {
+        activeObj: $(".Slider .Life.Sign"),
+        activate: function(T, force){
+            // Deny request when:
+            if(
+				// Request is not forced
+            	typeof(force) === "undefined" &&
+				// Target is the active object
+				( T !== null && this.activeObj.hasClass(T.attr("class")) )
+			){ return; }
+			// If target is not set, go with the default
+            if( T === null ){
+                T = this.activeObj;
+            }
+			// If it is, store active sign's state
+            else{
+                this.activeObj = T;
+            }
+            // Store ids' of both signs
+            var type = ( T.hasClass("Work") ) ? ".Work" : ".Life",
+                othersign = ( T.hasClass("Work") ) ? T.siblings(".Sign.Life") : T.siblings(".Sign.Work"),
+                othertype = ( T.hasClass("Work") ) ? ".Life" : ".Work";
+            // Prevent the shuffle effect if requested
+            if( force === "noshuffle" ){
+                TweenMax.to(T.siblings(type).find(".ShuffleFire"), .2,{
+                    scale: 1
+                });
+                TweenMax.to(othersign.siblings(".Cards"+othertype), .5,{
+                    autoAlpha: .35
+                });
+                TweenMax.to(T.siblings(".Cards"+type), .5,{
+                    autoAlpha: 1
+                });
+                return;
+            }
+            // Switch visibility
+            TweenMax.to([othersign,othersign.siblings(".Cards"+othertype)], .5,{
+                autoAlpha: .35
+            });
+            TweenMax.to([T, T.siblings(".Cards"+type)], .5,{
+                autoAlpha: 1
+            });
+            var faya = [T.siblings(type).find(".ShuffleFire"),othersign.siblings(othertype).find(".ShuffleFire")];
+            // Hide ShuffleFires of both decks
+            TweenMax.to(faya, .2,{
+                scale: 0,
+                autoAlpha: 1,
+                y: 20
+            });
+            // Hide the target deck
+            TweenMax.to(T.siblings(type).find(".CardSlider .Card, .RoyalPillow"), .2, {
+                autoAlpha: 0,
+                x: function(){
+                    return ( type === ".Work" ) ? -50 : 50;
+                },
+                onComplete: function(){
+                    // Switch decks' positions
+                    TweenMax.set(othersign.siblings(othertype+".Cards"), {zIndex: -1});
+                    TweenMax.set(T.siblings(type+".Cards"), {zIndex: 0});
+                    // Shuffle active deck back in
+                    TweenMax.staggerTo(T.siblings(type).find(".CardSlider .Card, .RoyalPillow"), .2, {
+                        autoAlpha: 1,
+                        x: 0
+                    },.1);
+                    // Light the fires
+                    TweenMax.to(T.siblings(type).find(".ShuffleFire"), .2,{
+                        scale: 1,
+                        y: 0
+                    });
+                    TweenMax.to(".Deck.Slider .Life.Sign,.Deck.Slider .Work.Sign", .2,{
+                        scale: 1
+                    });
+                }
+            });
+            // Request reset for probable CardSlider changes
+            CardSlider.reset(.5);
+        }
+    };
+	$(".Deck.Slider .Sign").click(function(){
+        Sign.activate($(this));
+    });
 
 	$(".DivisionExpress").click(function(){
 		ExpressTheDivision($(this));
@@ -3339,6 +3714,7 @@ function DivisionSequence(reset,undone){
 		FlyAssociates =  Ascs;
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
+			CoreTitleSlider.play();
 		}else{
 			// DO when about to leave
 			if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
@@ -3349,6 +3725,7 @@ function DivisionSequence(reset,undone){
                 LoadedCore = false;
 				AffectedCores = {Core: [], Waya: []};
 			}
+			CoreTitleSlider.pause();
 		}
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "Skillometer" ){
 		// DO after left the current dimension
@@ -3365,7 +3742,7 @@ function DivisionSequence(reset,undone){
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
 			if( reset ){
-				StarRotation.invalidate();
+				StarRotation.resume();
 				AntiToxins.duration(.5).restart().resume();
 			}else{
 				Order.ID = DiviSection;
@@ -3396,12 +3773,16 @@ function DivisionSequence(reset,undone){
 	}
 	if( NextDivision == "AntiToxins" ){NextDivisionAssociates = Ascs;}
 	// Trial Start
-	Ascs = [".TheStorm .RightWing",".TheStorm .LeftWing",".Analyzer > .Core",[".TheStorm > .Particles > div"]];
+	Ascs = [".RightWing .Storm",".LeftWing .Storm",".Analyzer .Core",[".Particles > div"]];
 	if( DiviSection == "Analyzer" ){
 		FlyAssociates =  Ascs;
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
 			if( reset ){
+                // Automatically pick a stone for screens bellow 1024 cause Particles are hidden
+                if( Is.ThisSize(1024) && !Analyzer.isActive ){
+                    Analyzer.Sequence($("#Analyzer .Particles .Green.A .hover"));
+                }
 				AnalyzerFly.restart().resume();
 			}else{
 				Order.ID = DiviSection;
@@ -3415,7 +3796,6 @@ function DivisionSequence(reset,undone){
 		}
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "Analyzer" ){
 		// DO after left the current dimension
-		AnalyzerFly.restart();
 	}
 	if( PreDivision == "Analyzer" && !PreFlyIsSet ){
 		PreFlyAssociates = Ascs;
@@ -3429,10 +3809,13 @@ function DivisionSequence(reset,undone){
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
 			if( reset ){
-				DeckCloudFly.restart().resume();
+				DeckCloudFly.invalidate().restart().resume();
 				ShuffleFireFly.restart().resume();
 				Gravity.restart().resume();
-				PlaceDeck.restart().resume();
+				PlaceDeck.restart().eventCallback("onComplete", function(){
+					// Activate a deck in Slider deck
+                    Sign.activate(null, "noshuffle");
+				});
 				ShuffleFire.invalidate().resume();
 			}else{
 				Order.ID = DiviSection;
@@ -3452,13 +3835,13 @@ function DivisionSequence(reset,undone){
 			if( PlaceDeck.isActive() ){
 				PlaceDeck.pause();
 			}
-			DeckCloudFly.reverse();
+			DeckCloudFly.invalidate().reverse();
 			Gravity.pause();
 		}
 	}else if( typeof(undone) !== "undefined" && undone.attr("id") == "DeckCloud" ){
 		// DO after left the current dimension
-		DeckCloudFly.reversed( !DeckCloudFly.reverse() )
-		DeckCloudFly.restart().pause();
+		DeckCloudFly.reversed( !DeckCloudFly.reverse() );
+		DeckCloudFly.invalidate().restart().pause();
 		ShuffleFireFly.restart().pause();
 		PlaceDeck.restart().pause();
 		ShuffleFire.invalidate().pause();
@@ -3664,7 +4047,9 @@ function Fly(Reach,Manual){
 		  // Defining the fly & reverse fly animations
 		ActiveFly = new TimelineMax({paused: true});
 		ActiveFly.eventCallback("onReverseComplete",KillActiveFly);
-        Scale = (window.innerWidth / Subject.width()) * 2;
+        Scale = ( window.innerWidth >= window.innerHeight ) ?
+            (window.innerWidth / Subject.innerWidth()) * 2 :
+            (window.innerHeight / Subject.innerHeight()) * 2;
         AnimDur = 15;
 
         // Get the spaceship ready for reverse fly
@@ -4075,7 +4460,7 @@ function DiviOrders(){
 		if( PlaceDeck.time() <= PlaceDeck.duration() ){
 			PlaceDeck.resume();
 		}
-		DeckCloudFly.restart().resume();
+		DeckCloudFly.invalidate().restart().resume();
 		ShuffleFireFly.restart().resume();
 		TweenMax.set("#DeckCloud .GravityForce, #DeckCloud .GravityForceX", {
 			autoAlpha: 0
@@ -4190,6 +4575,23 @@ AddFly = {
                 ease: A_ease
 			}), TheDELAY
 		);
+		// When the target division is Analyzer add an exclusive animation
+		if(
+			ActiveDivision.attr("id") === "Analyzer" ||
+			( Reverse.pedal === true && Reverse.obj.attr("id") === "Analyzer" )
+		){
+			var R = {
+				from: ( Reverse.pedal === true ) ? 760 : 0,
+				to: ( Reverse.pedal === true ) ? 0 : 760
+			};
+			TheFly.fromTo("#Analyzer .Analyzer .Glitch", TheDURATION, {
+				rotation: R.from,
+				ease: A_ease
+			}, {
+				rotation: R.to,
+				ease: A_ease
+			}, 0);
+		}
 	},
 	Spin : function(Reverse){
 		ReverseSeq = ( typeof(Reverse) !== "undefined" && typeof(Reverse) !== "boolean" ) ? true : false;
@@ -4291,7 +4693,12 @@ AddFly = {
 		Afrom_x = 0;
 		Afrom_scale = 1;
 		Afrom_autoAlpha = 1;
-		Ato_y = ( ( ActiveDivision.height()*.14 - AT_HoldMyState.ot ) - AT_HoldMyState.h / 2 );
+		Ato_y = (
+			(
+                $("#AntiToxins .SingleParticle")[0].offsetTop
+				+ 25
+				+ (( (AT_HoldMyState.h * DefaultScale(AT_HoldMyState.w)) - AT_HoldMyState.h ) / 2)
+			) - AT_HoldMyState.ot );
 		Ato_x = ( ( ActiveDivision.width()/2 - AT_HoldMyState.ol ) - AT_HoldMyState.w / 2 );
 		Ato_scale = ( type1 ) ? DefaultScale(AT_HoldMyState.w) : AT_scale;
 		Ato_autoAlpha = ( type1 ) ? 1 : .2;
@@ -4325,7 +4732,12 @@ AddFly = {
 	},
 	ParticleNavigate : function(type1, type2){
 		AnimDur = .75;
-		Ato_y = (( ActiveDivision.height() * .14 - NAV_HoldMyState.ot ) - NAV_HoldMyState.h / 2 );
+        Ato_y = (
+            (
+                $("#AntiToxins .SingleParticle")[0].offsetTop
+                + 25
+                + (( (NAV_HoldMyState.h * DefaultScale(NAV_HoldMyState.w)) - NAV_HoldMyState.h ) / 2)
+            ) - NAV_HoldMyState.ot );
 		Ato_x = (( ActiveDivision.width() / 2 - NAV_HoldMyState.ol ) - NAV_HoldMyState.w / 2 );
 		Ato_autoAlpha = ( type1 ) ? 1 : .2;
 		AscOrigin = ( ( NAV_HoldMyState.ol + NAV_HoldMyState.w / 2 ) - Asc.parent().offset().left ) + "px ";
@@ -4399,19 +4811,121 @@ StormRitual = {
 		);
 	},
 	Definer : function(){
-		Ato_y = ( ( ( ( ( ActiveDivision.height() * 8 ) / 100 ) - Asc.offset().top ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveDivision.width() / 2 ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+        // Add exceptions for one section storm
+        var nthofpagew = .5,
+            nthofpageh = .2,
+            qa = 0;
+        if( Is.ThisSize(null, 600) && !Is.ThisSize(850) ){
+            nthofpagew = .1666666666666667;
+            nthofpageh = .5;
+            qa = $(".QuickAccess").innerHeight()/2;
+        }
+        if( Is.ThisSize(600) ){
+            nthofpagew = .5;
+            nthofpageh = .1;
+            qa = 0;
+        }
+        Ato_y =
+            (
+                (
+                    ( ActiveDivision.height() * nthofpageh - qa ) -
+                    ( Asc.offset().top + Asc.innerHeight()/2 ) +
+                    Math.abs(Asc.find(".Sub").position().top)
+                ) * 100
+            ) / Asc.innerHeight();
+        Ato_x =
+            (
+                (
+                    ( ActiveDivision.width() * nthofpagew ) -
+                    ( Asc.offset().left + Asc.innerWidth()/2 )
+                ) * 100
+            ) / Asc.innerWidth();
 		AssetRotation = 0;
 		AssetX = "0%";
 		AssetY = "0%";
 		this.Ritual();
+		// Call divider for Storms other than Download Storm for higher than 600px width screens
+		if( !Storm.hasClass("Download") && !Is.ThisSize(600) ){
+            this.Divider();
+        }
+		// Reset Divider's height in case entering 600px screen from a higher screen size
+		else{
+            TweenMax.set(Asc.find(".Divider"), {
+                height: 0
+            });
+        }
+	},
+	Divider : function(){
+        // Add exceptions for one section storm
+        var nthofpagew = .3333333333,
+            nthofpageh = .2,
+            qa = 0;
+        if( Is.ThisSize(null, 600) && !Is.ThisSize(850) ){
+            nthofpageh = 1.2;
+                TweenMax.set(Asc.find(".Divider"), {
+                    height: $(".QuickAccess").offset().top * nthofpageh,
+                    y: (
+                        ( $(".QuickAccess").offset().top * (1-nthofpageh) ) -
+                        ( Asc.offset().top + Asc.innerHeight() )  -
+                        (
+                            (Ato_y * Asc.innerHeight()) / 100
+                        ) -
+                        ( $(".QuickAccess").offset().top * (1-nthofpageh) ) / 2
+                    ),
+                    x: (
+                        ( window.innerWidth * nthofpagew ) -
+                        ( Asc.offset().left + Asc.innerWidth() / 2 )  -
+                        (
+                            (Ato_x * Asc.innerWidth()) / 100
+                        )
+                    ),
+                    ease: A_ease
+                });
+        }else {
+                TweenMax.set(Asc.find(".Divider"), {
+                    y: "",
+                    x: "",
+                    height: $(".QuickAccess").offset().top -
+                        ((ActiveDivision.height() * nthofpageh - qa) + Asc.innerHeight()) +
+                        Math.abs(Asc.find(".Sub").position().top),
+                    ease: A_ease
+                });
+        }
 	},
 	AlphaAsset : function(){
 	    // Add exceptions for one section storm
 	    var nthofpagew = ( Asc.hasClass("Resume") ) ? .5 : .75,
-            nthofpageh = ( Asc.hasClass("Resume") ) ? 1.85 : 2;
-		Ato_y = ( ( ( ( ActiveDivision.height() / nthofpageh ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveDivision.width() * nthofpagew ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+            nthofpageh = ( Asc.hasClass("Resume") ) ? 1.85 : 2,
+            qa = 0;
+        if( Is.ThisSize(null, 600) && !Is.ThisSize(850) ) {
+            if( !Asc.hasClass("Resume") ){ nthofpagew = .8333333333333335 }
+            nthofpageh = 2;
+            qa = $(".QuickAccess").innerHeight()/2;
+        }
+        if( Is.ThisSize(600) ){
+            nthofpagew = .5;
+            if( !Asc.hasClass("Resume") ){ nthofpageh = 3 }
+            qa = 0;
+        }
+        Ato_y = (
+            (
+                (
+                    (window.innerHeight / nthofpageh - qa ) -
+                    ((Math.abs(Storm.find(".AlphaAsset.clone").position().top) * (window.innerHeight / Storm.innerHeight())) + Storm.find(".AlphaAsset.clone").innerHeight() / 2) -
+                    Math.abs(Asc.find(".Sub").position().top-Asc.innerHeight())
+                ) * 100
+            ) / Storm.find(".AlphaAsset.clone").innerHeight()
+        );
+        Ato_x = (
+            (
+                (
+                    ( window.innerWidth * nthofpagew ) -
+                    (
+                        (Math.abs(Storm.find(".AlphaAsset.clone").position().left + Storm.find(".AlphaAsset.clone").innerWidth()) * (window.innerWidth / Storm.innerWidth())) - Storm.find(".AlphaAsset.clone").innerWidth() / 2
+                    )
+                ) * 100
+            ) / Storm.find(".AlphaAsset.clone").innerWidth()
+        );
 		AssetRotation = ( Asc.hasClass("Resume") ) ? 0 : ( Asc.hasClass("CodeProject") ) ? 9 : ( Asc.hasClass("Envelope") ) ? 12 : 0;
 		AssetX = ( Asc.hasClass("Resume") ) ? "5%" : ( Asc.hasClass("Envelope") ) ? "-3%" : "0%";
 		AssetY = ( Asc.hasClass("Resume") ) ? "-8%" : ( Asc.hasClass("Envelope") ) ? "25%" : "0%";
@@ -4419,10 +4933,38 @@ StormRitual = {
 	},
 	BetaAsset : function(){
         // Add exceptions for one section storm
-	    var nthofpagew = ( Asc.hasClass("CV") ) ? .5 : .25,
-            nthofpageh = ( Asc.hasClass("CV") ) ? 1.85 : 2;
-		Ato_y = ( ( ( ( ActiveDivision.height() / nthofpageh ) - ( Asc.offset().top + Asc.innerHeight()/2 ) ) ) * 100 ) / Asc.innerHeight();
-		Ato_x = ( ( ( ( ActiveDivision.width() * nthofpagew ) - ( Asc.offset().left + Asc.innerWidth()/2 ) ) ) * 100 ) / Asc.innerWidth();
+        var nthofpagew = ( Asc.hasClass("CV") ) ? .5 : .25,
+            nthofpageh = ( Asc.hasClass("CV") ) ? 1.85 : 2,
+            qa = 0;
+        if( Is.ThisSize(null, 600) && !Is.ThisSize(850) ) {
+            nthofpagew = .5;
+            nthofpageh = 2;
+            qa = $(".QuickAccess").innerHeight()/2;
+        }
+        if( Is.ThisSize(600) ){
+            nthofpagew = .5;
+            if( !Asc.hasClass("CV") ){ nthofpageh = 1.5 }
+            qa = 0;
+        }
+        Ato_y = (
+            (
+                (
+                    (window.innerHeight / nthofpageh - qa) -
+                    ((Math.abs(Storm.find(".BetaAsset.clone").position().top) * (window.innerHeight / Storm.innerHeight())) + Storm.find(".BetaAsset.clone").innerHeight() / 2) -
+                    Math.abs(Asc.find(".Sub").position().top-Asc.innerHeight())
+                ) * 100
+            ) / Storm.find(".BetaAsset.clone").innerHeight()
+        );
+        Ato_x = (
+            (
+                (
+                    (window.innerWidth * nthofpagew) +
+                    (
+                        (Math.abs(Storm.find(".BetaAsset.clone").position().left) * (window.innerWidth / Storm.innerWidth())) - Storm.find(".BetaAsset.clone").innerWidth() / 2
+                    )
+                ) * 100
+            ) / Storm.find(".BetaAsset.clone").innerWidth()
+        );
 		AssetRotation = ( Asc.hasClass("CV") ) ? 40 : ( Asc.hasClass("DesignProject") ) ? -20 : 0;
 		AssetX = ( Asc.hasClass("CV") ) ? "15%" : "0%";
 		AssetY = ( Asc.hasClass("CV") ) ? "12%" : "0%";
@@ -5133,18 +5675,15 @@ function CoreArrived(){
 function ApplyCoreSlide(){
 	CoreSlider.play();
 }
-function ApplySlider(){
-	TitleSlider.play(); Flicker.play(); Brrr.play();
-}
 function ReverseCore(All){
-	TitleSlider.kill(); Flicker.kill(); Brrr.kill();
+	Flicker.kill(); Brrr.kill();
 	ReverseDur = 1;
-	TweenMax.to(OBJ, ReverseDur, {x: "-50%"});
 	TweenMax.to(Core.children(), ReverseDur, {autoAlpha: 1,x: 0});
 	if( typeof(CoreMove) !== "undefined" && All ){
 		CoreGlow.kill();
 		CoreMove.reverse();
 		AffectedCores = {Core: [], Waya: []};
+		$("#Skillometer .Cores .Core.active").removeClass("active");
 	}
 }
 function RemoveCore(Dur){
@@ -5159,6 +5698,7 @@ function RemoveCore(Dur){
 	SkiloBrrr.pause();
 	TweenMax.to(CoreSlider._first.target[0], CoreSliderDur/2, {x: "-50%", ease:  SlowMo.ease.config( 0.2, 0.2, false)});
 	TweenMax.to(SkiloBrrr._first.target[0], .2, {x: 0});
+	$("#Skillometer .Cores .Core.active").removeClass("active");
 }
 function ResetCore(){
 	Emginashun.delay(0).reverse().eventCallback("onReverseComplete",DelCore,[Emginashun._first.target[0]]);
@@ -5169,6 +5709,31 @@ function ResetCore(){
     // Reset Gandalf's content
     Glitch.on("#Gandalf", null);
 }
+CoreTitleSlider = {
+	play: function(){
+		$("#Skillometer .Cores .Core .Title").each(function(){
+			var span = $(this).find("span"),
+				// Set Slider motion duration relative to each slider's width
+				dur = ((span.width()*100)/$(this).innerWidth())/150;
+			// Animate the Title to starting position
+			TweenMax.to(span, dur/2, {x: "0%", ease:  SlowMo.ease.config( 0.2, 0.2, false), onComplete: function(){
+				// Then start the slider
+				TweenMax.to(span, dur, {x: "-100%", ease:  SlowMo.ease.config( 0.2, 0.2, false), repeat: -1, yoyo:true});
+			}});
+		});
+	},
+	pause: function(t){
+		var tokill = (t) ?
+			// If requested, exclude the recieved target
+			$("#Skillometer .Cores .Core .Title span").not(t) :
+			// If not, get the targets which animations will be stopped
+			"#Skillometer .Cores .Core .Title span" ;
+		// Stop the animations
+		TweenMax.killTweensOf(tokill);
+		// Revert to original position
+		TweenMax.to(tokill, .1, {x: "-50%", ease:  SlowMo.ease.config( 0.2, 0.2, false)});
+	}
+};
 
 // SpaceCyclone
 FormEffects = {
@@ -5189,15 +5754,16 @@ FormEffects = {
 function AssetHover(t,reverse){
 	if( Cyclone.isActive == false || EnterStorm.isActive() || ( t.children(".Title").hasClass("active") && !reverse ) ){ return; }
 	AssetAlpha = (!reverse) ? .3 : 0;
+        if( t.parent().parent().parent().hasClass("Download") ){
+		TweenMax.to($(".Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
+		return;
+	}
 	if( t.hasClass("AlphaAsset") ){
 		TweenMax.to($(".Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
 	}
 	if( t.hasClass("BetaAsset") ){
 		TweenMax.to($(".Curtain > .Beta"), .2, {autoAlpha: AssetAlpha});
 	}
-	if( t.parent().parent().hasClass("Download") ){
-        TweenMax.to($(".Curtain > .Beta, .Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
-    }
 }
 Area69 = {
 	enable: null,
@@ -5220,6 +5786,7 @@ Area69 = {
 			autoAlpha: alpha0
 		} );
 		TweenMax.to( close, .15, {
+			y: "-50%",
 			rotation: rotation,
 			autoAlpha: alpha1
 		} );
@@ -5253,39 +5820,75 @@ function AssetForm(t,func){
             Form.Arrange[Class].eventCallback("onReverseComplete", null);
         });
     }
-	if( Form.ActiveDom !== null && !Asset.hasClass(Form.ActiveDom.parent().attr("class")) ){
-		var ActiveClass = Form.ActiveDom.parent().attr("class");
-		Deformer(ActiveClass, Form.ActiveDom, true);
-	}
-	if( typeof(Form.Arrange[Class]) !== "undefined" ) {
-		if( Deformer(Class, t) ){ return; }
-		// Using the same animation instead of duplicating
-		Form.Arrange[Class].duration(Form.Arrange[Class].duration()).restart();
-		// Add the active indicator
-		t.addClass("active");
-		Form.ActiveDom = t;
-		return;
-	}
+
+    // Disable scroll to prevent calculation errors
+    Storm.find(".AssetContainer").css({overflow: "hidden"});
+    // Revert scroll position to zero
+    TweenMax.to(Storm.find(".AssetContainer"), .3, {
+        scrollTop: 0
+    });
+    // Set form's attributes
+    TweenMax.set(TheForm, {
+        scaleY: 1,
+        left: "50%",
+        x: "-50%",
+        paddingBottom: $(".QuickAccess").innerHeight()
+    });
 	// Toggle the active indicator
 	t.toggleClass("active");
 	Form.ActiveDom = t;
-	// Defining animation and related properties
+	// Get the current top offset of the transformed asset related to it's parent
+    var truetop =
+        (
+            (
+                Asset[0]._gsTransform.yPercent * Asset.innerHeight()
+            ) / 100
+        ) + Asset[0].offsetTop;
 	var FormEase =  Back.easeInOut.config( 1.7),
-		toY = ( ( $("#SpaceCyclone").height() - ( (t.innerHeight() / .6) + TheForm.outerHeight() ) ) / 2 ) - Asset.offset().top ;
-
-	TweenMax.set(TheForm.find(".Submit"), {x: "0%"});
-	var SubmitToY = ( ( ( $("#SpaceCyclone").height() * .9 ) - (TheForm.find(".Submit").offset().top + TheForm.find(".Submit").innerHeight()) ) * 100 ) / TheForm.innerHeight(),
-		SubmitToX = ( ( $("#SpaceCyclone").width() * .5 ) - (TheForm.find(".Submit").offset().left + TheForm.find(".Submit").innerWidth() / 2) );
-
+        // Calculate the placement in a way that it's placed in the middle of the page horizontally
+		toY = - truetop +
+                (
+                    window.innerHeight -
+                    ( (Asset.innerHeight() * .6) + TheForm.outerHeight() )
+                ) / 2;
+	// Check if the asset will overlap the page
+	if( toY > 0 || toY < -truetop ){
+	    // Set the highest point as the top of the page
+        toY = -truetop + ( 20 /* offset */ );
+    }
+    // Define animations
 	Form.Arrange[Class] = new TimelineMax();
 	Form.Arrange[Class]
-		.fromTo(Asset, .6, {y: 0,ease: FormEase}, {y: toY,ease: FormEase}, 0)
-		.fromTo(t, .6, {scale: 1, transformOrigin: "50% 0%",ease: FormEase}, {scale: .6, transformOrigin: "50% 0%",ease: FormEase}, 0)
-		.staggerFromTo(TheForm.children(":not(.Submit)"), .6, {autoAlpha: 0, y: 10,ease: FormEase}, {autoAlpha: 1, y: 0,ease: FormEase}, .1, 0)
-		.fromTo(TheForm.find(".Submit"), .6, {autoAlpha: 0, x: SubmitToX, y: 0,ease: FormEase}, {autoAlpha: 1, x: SubmitToX, y: SubmitToY+"%",ease: FormEase}, "-=.6");
+		.fromTo(TheForm, .6, {y: 0,ease: FormEase}, {y: toY,ease: FormEase}, 0)
+		.fromTo(t, .6, {y: 0, scale: 1, transformOrigin: "50% 0%",ease: FormEase}, {y: toY, scale: .6, transformOrigin: "50% 0%",ease: FormEase}, 0)
+		.staggerFromTo(TheForm.children(":not(.Submit)"), .6, {autoAlpha: 0, y: 10,ease: FormEase}, {autoAlpha: 1, y: 0,ease: FormEase}, .05 , 0)
+		.fromTo(TheForm.find(".Submit"), .6, {autoAlpha: 0,ease: FormEase}, {autoAlpha: 1,ease: FormEase}, "-=.6");
+	if( Is.ThisSize(600) ){
+        TweenMax.to( [ Asset.siblings(), Storm.find(".Definer") ], .4, {
+            autoAlpha: 0
+        }, 0);
+    }else{
+        TweenMax.to( [ Storm.find(".AssetContainer").find(".AlphaAsset, .BetaAsset"), Storm.find(".Definer") ], .4, {
+            autoAlpha: 1
+        }, 0);
+    }
+    Form.Arrange[Class].eventCallback("onReverseComplete", function(){
+        // Disappear the form after collapsing
+        TweenMax.set(TheForm, {
+            scaleY: 0
+        });
+        TweenMax.to( [ Storm.find(".AssetContainer").find(".AlphaAsset, .BetaAsset"), Storm.find(".Definer") ], .4, {
+            autoAlpha: 1
+        });
+    });
+    Form.Arrange[Class].eventCallback("onComplete", function(){
+        // Enable scroll for overlapping forms
+        Storm.find(".AssetContainer").css({overflow: "auto"});
+    });
 }
-function Deformer(Class, t, nonstop){
-	var Switch = false;
+function Deformer(t, nonstop){
+	var Switch = false,
+        Class = t.parent().attr("class");
 	if (Form.Arrange[Class].isActive()) {
 		if (Form.Arrange[Class].reversed()) {
 			Form.Arrange[Class].reversed(!Form.Arrange[Class].reversed());
@@ -5298,7 +5901,6 @@ function Deformer(Class, t, nonstop){
 		if (Form.Arrange[Class].progress() !== 0 && Form.Arrange[Class].progress() === Form.Arrange[Class].totalProgress()) {
 			// Reversing the active asset
 			Form.Arrange[Class].duration(Form.Arrange[Class].duration()/1.6).reverse();
-			TweenMax.set($(Form.Arrange[Class]._first.target[0]).find(".Submit"), {x: "0%"});
 			Switch = true;
 		}
 	}
@@ -5313,7 +5915,7 @@ function ExitStorm(t){
 	Storm = t;
 	// Reset the forms
 	if( Form.ActiveDom !== null ){
-		AssetForm($("."+(Form.ActiveDom.parent().attr("class")).replace(" ",".")).find(".Title"));
+		Deformer(Form.ActiveDom);
 		// Reset active form indicator variable
         Form.ActiveDom = null;
 	}
@@ -5358,7 +5960,7 @@ function ExitStorm(t){
 			SC_Footer.reversed( !SC_Footer.reversed() ).resume();
 		}
 		// Resetting Gandalf only after exit by direct click
-		if( !ActiveFly.isActive() && !ReverseFly.isActive() ){
+		if( (typeof(ActiveFly) !== "undefined" && typeof(ReverseFly) !== "undefined") && !ActiveFly.isActive() && !ReverseFly.isActive() ){
 		    Glitch.on("#Gandalf", null);
         }
 	});
@@ -5367,9 +5969,106 @@ function ExitStorm(t){
         TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 1}, 0);
         // Reactivate cyclone activation indicator
         Cyclone.isActive = false;
+		// Prevent scrolling on SpaceCyclone
+		TweenMax.set($("#SpaceCyclone"), {overflow: ""});
+		// Reset storm priorities
+		Storm.siblings(".Storm").children().attr("style","");
+		// Clear Assets' inline attributes
+		Storm.find(".AssetContainer, .AssetContainer > .AlphaAsset, .AssetContainer > .BetaAsset").attr("style","");
+		// Remove the clones
+		Storm.find(".AlphaAsset.clone, .BetaAsset.clone").remove();
     });
 	// Reset and disable Definer asset hover reactions
 	Area69.reset(Storm.find(".Area69")).enabled(false);
+    // Disable overflowing
+    Storm.find(".AssetContainer").css({overflow: ""});
+}
+function StormSequence(){
+    // Apply width and height for assets based on their unchanged clones
+    Storm.find(".AssetContainer").children(".AlphaAsset, .BetaAsset").each(function(){
+        var clone = ( $(this).hasClass("AlphaAsset") ) ? $(this).parent().siblings(".AlphaAsset") : $(this).parent().siblings(".BetaAsset");
+        TweenMax.set(this, {
+            width: clone.innerWidth(),
+            height: clone.innerHeight()
+        });
+    });
+    // Set the final attributes for AssetContainer so other animations are calculated based on this
+	// Setting fly attributes
+	SC_scale = 3;
+	SC_HoldMyState = {
+		ot : Storm.offset().top,
+		ol : Storm.offset().left,
+		w : Storm.innerWidth(),
+		h : Storm.innerHeight()
+	};
+	EnterStorm = new TimelineMax();
+	CutTripwire = new TimelineMax();
+	Ritual = new TimelineMax();
+	Ritual.add(
+		TweenMax.to(Storm.siblings(".Curtain"), 1, {autoAlpha: .7}), 0
+	);
+	// Cut the tripwire
+	CutTripwire
+		.add(
+			TweenMax.to(Storm.find(".Flow"), 1, {autoAlpha: 0, rotation: 360, scale: 0, transformOrigin: "center"}),0
+		);
+	// Pausing current running animations
+	ToggleConnect(false);
+	ToggleDownload(false);
+	ToggleRequest(false);
+	// Applying storm entrance effects
+	// siblings storms
+	Storm.siblings(".Storm").each(function(){
+		Asc = $(this).children();
+		AddFly.StormEntrance();
+	});
+	// BreathingFragment
+	Asc = Storm.siblings(".BreathinFragment").children();
+	AddFly.StormEntrance();
+	// Current storms
+	Asc = Storm.find(".StarFlow");
+	AddFly.StormEntrance(true);
+    // Set highest priority for the current storm
+	EnterStorm.set(Storm, {zIndex: 2});
+	// Apply storm ritual
+	Asc = Storm.find(".Definer");
+	StormRitual.Definer();
+	Asc = Storm.find(".AssetContainer .AlphaAsset");
+	StormRitual.AlphaAsset();
+	Asc = Storm.find(".AssetContainer .BetaAsset");
+	StormRitual.BetaAsset();
+    EnterStorm.to(Storm.find(".AssetContainer"), EnterStorm.duration(), {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        top: -Storm.offset().top,
+        left: -Storm.offset().left
+    }, 0);
+}
+function PostRitualSequence(){
+    PostRitual.fromTo(Storm.find(".Definer > .Sub"), .4, {autoAlpha: 0, y: 20}, {autoAlpha: 1, y: 0}, 0)
+        .fromTo([Storm.not(".Download").find(".AlphaAsset .Sub"), Storm.find(".BetaAsset .Sub")], .4, {y: -20}, {autoAlpha: 1, y: 0}, 0)
+        .fromTo(Storm.not(".Download").find(".Divider"), .4, {scaleY: 0}, {scaleY: 1}, 0);
+    // Set the titles' position fix
+    TweenMax.set( Storm.find(".Sub"), {x: "-50%"} );
+    // Disable Definer hover/enter/close asset after enter
+    TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 0}, 0);
+    if (Storm.find(".AlphaAsset:hover").length != 0) {
+        AssetHover(Storm.find(".AlphaAsset"));
+    }
+    if (Storm.find(".BetaAsset:hover").length != 0) {
+        AssetHover(Storm.find(".BetaAsset"));
+    }
+    Glitch.on("#Gandalf", null);
+    // Enable Definer asset hover reactions
+    Area69.enabled();
+    // Perform hover reactions if Definer asset is hovered after entrance
+    if( Storm.find(".Area69").is(":hover") ){
+        Area69.set(Storm.find(".Area69"));
+    }
+    // Switch indicator with close in smaller devices
+    if( Is.ThisSize(768) ){
+        Area69.set(Storm.find(".Area69"));
+    }
 }
 
 // AntiToxins
@@ -5377,7 +6076,7 @@ function DefaultScale(asset){
 	if( asset instanceof Object && asset instanceof jQuery ){
 		asset = asset.innerWidth();
 	}
-	return 1 + ( 1 - ( asset / ( ActiveDivision.width() * .1 ) ) );
+	return 130 / asset;
 }
 function ParticleActivation(T, e){
 	// Cancelling click process on 2 conditions :
@@ -5386,15 +6085,16 @@ function ParticleActivation(T, e){
     // When navigating
 	if(
 		( Particle.activeObj !== null && !$(Particle.activeObj).hasClass(T.attr("class")) ) ||
-		( e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) ) ||
+		( typeof(e) !== "undefined" && e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) ) ||
         Particle.Navigated
 	){
 		return;
 	}
 	// Unbluring the blur effect given to sibling elements on mouseenter method
-	var FadeAssets = T.siblings(".DevStar, .DevParticle, .ArtStar, .ArtParticle");
+	var FadeAssets = T.parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(T);
 	TweenMax.to(FadeAssets, .5, {opacity: 1});
     TweenMax.to(".QuickAccess", .5, {y: "100%"});
+    TweenMax.set("#AntiToxins", {overflow: "inherit"});
 	// Cancel other Particle's Gandalf reactions
     FadeAssets.data({GandalfActive: false});
 	// Cancelling entrance
@@ -5437,6 +6137,44 @@ function ParticleActivation(T, e){
 		w : T.innerWidth(),
 		h : T.innerHeight()
 	};
+	// Creating the particle's clone
+	CurrentParticle = T;
+	var clone = T.clone();
+	// Emptying the clone's style attributes
+	clone.attr("style","");
+	clone.children(".Container").attr("style","");
+	clone.children(".Container").children().attr("style","");
+	// Adding the clone and its new attributes
+	$("#AntiToxins .SingleParticle > .Clone").html("");
+	$("#AntiToxins .SingleParticle > .Clone").append(clone);
+	$("#AntiToxins .SingleParticle > .Clone > div").addClass("CLONED").css({
+		width : (AT_HoldMyState.w * DefaultScale(AT_HoldMyState.w)),
+		paddingBottom: (AT_HoldMyState.h * DefaultScale(AT_HoldMyState.w))
+	}).click(function(){
+		Glitch.on("#Gandalf", "Closing...");
+		if( Particle.isActive ){
+			TweenMax.set($("#AntiToxins"), {overflow: ""});
+			var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400;
+			dur = ( dur > .2 ) ? .2 : dur;
+			TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
+			TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
+					ResetParticle(T);
+				}});
+			return;
+		}
+	});
+	// Calling the function that prepares clone's children using the related particle's database
+	PrepClone();
+	if( Is.ThisSize(1024) ){
+        TweenMax.set("#AntiToxins .SingleParticle", {x: "0%"});
+    }else{
+        TweenMax.set("#AntiToxins .SingleParticle", {x: "-50%"});
+    }
+	if( $("#AntiToxins .SingleParticle").innerHeight() < window.innerHeight ){
+		TweenMax.set("#AntiToxins .SingleParticle", {top: "50%",y: "-50%"});
+	}else{
+        TweenMax.set("#AntiToxins .SingleParticle", {top: "25px",y: "0%"});
+    }
 	// Applying SingleParticle entrance effects
 	// Siblings animations
 	T.siblings(".DevParticle, .ArtParticle").each(function(){
@@ -5444,7 +6182,7 @@ function ParticleActivation(T, e){
 		AddFly.ParticleEntrance();
 		Asc.addClass("NoTouchin");
 	});
-	T.siblings(".DevStar, .ArtStar").each(function(){
+	T.parent().siblings(".DevStar, .ArtStar").each(function(){
 		Asc = $(this).find(".Star");
 		AddFly.ParticleEntrance();
 	});
@@ -5465,116 +6203,49 @@ function TriggerDiamond(asset){
 	CurrentParticle = asset;
 	// Expanding the SingleParticle and it's children
 	ExpandParticle.add(
-		TweenMax.fromTo($("#AntiToxins #ParticleAura"), .01, {zIndex: 1, autoAlpha: 0}, {zIndex: 1, autoAlpha: 1}), 0
+		TweenMax.fromTo($("#AntiToxins .SingleContainer"), .2, {zIndex: -1, autoAlpha: 0}, {zIndex: 2, autoAlpha: 1}), 0
 	).add(
-		TweenMax.fromTo($("#AntiToxins .SingleParticle"), .3, {zIndex: 1, autoAlpha: 0, scale: 0, transformOrigin: "50% 10%"}, {zIndex: 2, autoAlpha: 1, scale: 1, transformOrigin: "50% 10%"}), 0
+		TweenMax.fromTo($("#AntiToxins .SingleParticle"), .3,{zIndex: 1, autoAlpha: 0, scale: 0, transformOrigin: "50% 10%"}, {zIndex: 2, autoAlpha: 1, scale: 1, transformOrigin: "50% 10%"}), 0
 	).add(
 		TweenMax.staggerFromTo($("#AntiToxins .SingleParticle > *"), .3, { autoAlpha: 0 }, {autoAlpha: 1}, .1), 0
 	);
-	// Creating the particle's clone
-	var clone = CurrentParticle.clone();
-	// Emptying the clone's style attributes
-	clone.attr("style","");
-	clone.children(".Container").attr("style","");
-	clone.children(".Container").children().attr("style","");
-	// Adding the clone and its new attributes
-	$("#AntiToxins .SingleParticle > .Clone").html("");
-	$("#AntiToxins .SingleParticle > .Clone").append(clone);
-	$("#AntiToxins .SingleParticle > .Clone > div").addClass("CLONED").css({
-		width : asset.children(".Container").innerWidth(),
-		paddingBottom: asset.children(".Container").innerWidth()
-	}).click(function(){
-		Glitch.on("#Gandalf", "Closing...");
-		if( Particle.isActive ){
-			ResetParticle(asset);
-			return;
-		}
-	});
-    $("#AntiToxins #ParticleAura").unbind("click").click(function(e){
+    $("#AntiToxins .SingleContainer").unbind("click").click(function(e){
+        if( !( $(e.target).hasClass("SingleContainer") || $(e.target).hasClass("SingleParticle") ) ){ return; }
         Glitch.on("#Gandalf", "Closing...");
         if( Particle.isActive ){
-            ResetParticle(asset);
+            TweenMax.set($("#AntiToxins"), {overflow: ""});
+            var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400;
+            dur = ( dur > .2 ) ? .2 : dur;
+            TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
+            TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
+                    ResetParticle(asset);
+                }});
         }
     });
+    // Remove unnecessary cloned assets
+	$("#AntiToxins .SingleParticle > .Clone > div").find(".NameTag").remove();
 	// Prepping the original particle and the clone for replacement
 	TweenMax.set(CurrentParticle, {zIndex: 3});
     ExpandParticle.to(CurrentParticle, .3, {autoAlpha: 0,delay : ExpandParticle.duration()/4}, 0);
     TweenMax.to(".QuickAccess", .5, {y: "100%"}, 0);
-	// Calling the function that prepares clone's children using the related particle's database
-	PrepClone();
+    // Replacing the original particle with the clone
+    TweenMax.set($("#AntiToxins .SingleParticle > .Clone > div"), {autoAlpha: 1});
 	ExpandParticle.eventCallback("onComplete", function(){
-		// Replacing the original particle with the clone
-		TweenMax.set($("#AntiToxins .SingleParticle > .Clone > div"), {autoAlpha: 1});
+        TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "auto"});
 	});
 	ExpandParticle.eventCallback("onReverseComplete", function(){
 		TweenMax.set(CurrentParticle, {zIndex: ""});
 	});
 	// Project navigation
 	$("#AntiToxins .SingleParticle > .Navigate").children().unbind("click").click(function(){
-		var GoToParticle = ( $(this).hasClass("PrevProject") ) ?
-			CurrentParticle.prev(".DevParticle, .ArtParticle") :
-			CurrentParticle.next(".DevParticle, .ArtParticle") ;
-		// Update status on Gandalf
-		Gandalfer.set($(this));
-
-		if( GoToParticle.length === 0 ){
-			var group = ( CurrentParticle.hasClass("ArtParticle") ) ? "ArtParticle" : "DevParticle" ,
-				othergroup = ( group === "DevParticle" ) ? "ArtParticle" : "DevParticle" ;
-			if( CurrentParticle.parent().children("."+group).last().hasClass(CurrentParticle.attr("class")) ){
-				GoToParticle = CurrentParticle.parent().children("."+othergroup).first();
-			}
-			if( CurrentParticle.parent().children("."+group).first().hasClass(CurrentParticle.attr("class")) ){
-				GoToParticle = CurrentParticle.parent().children("."+othergroup).last();
-			}
-		}
-
-		ExpandParticle.duration(.2).reverse();
-
-		if( typeof(ParticleNavigation) !== "undefined" ){
-			NavRotation.reverse();
-		}
-
-		ParticleNavigation = new TimelineMax();
-		NavRotation = new TimelineMax();
-		NAV_HoldMyState = {
-			ot : GoToParticle.offset().top,
-			ol : GoToParticle.offset().left,
-			w : GoToParticle.innerWidth(),
-			h : GoToParticle.innerHeight()
-		};
-
-		// Animating siblings and stars
-		GoToParticle.siblings(".DevParticle, .ArtParticle").each(function(){
-			Asc = $(this).children(".Container");
-			// Applying new properties to sibling particles
-			if( !CurrentParticle.hasClass($(this).attr("class")) ){
-				AddFly.ParticleNavigate();
-			}
-			// Applying new properties to the current active particles to blend with other inactive particles
-			else{
-				AddFly.ParticleNavigate(false, true);
-				ParticleRotation.reverse();
-			}
-			// Disables cursor pointer
-			Asc.addClass("NoTouchin");
-		});
-		GoToParticle.siblings(".DevStar, .ArtStar").each(function(){
-			Asc = $(this).find(".Star");
-			AddFly.ParticleNavigate();
-		});
-		// Animating the original particle
-		TweenMax.set([CurrentParticle, GoToParticle], {zIndex: 3, autoAlpha: 1});
-		TweenMax.set("#AntiToxins .SingleParticle > .Clone > *", {autoAlpha: 0});
-
-		Asc = GoToParticle.children();
-		AddFly.ParticleNavigate(true);
-
-		ParticleNavigation.eventCallback("onComplete", function(){
-			TriggerDiamond(GoToParticle);
-			Particle.Navigated = true;
-			// Reset Gandalf's content
-			Glitch.on("#Gandalf", null);
-		});
+		var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400,
+			navi = $(this);
+		TweenMax.set($("#AntiToxins"), {overflow: ""});
+		dur = ( dur > .2 ) ? .2 : dur;
+		TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
+		TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
+				ParticleNavigate(navi);
+			}});
 	});
 }
 function PrepClone(){
@@ -5605,22 +6276,38 @@ function PrepClone(){
 						.addClass("active");
 					imgContainer.children(".img").last()
 						.addClass("active");
+                    // Save main container's scroll state
+                    ExpandPreview = new TimelineMax({paused: true});
+                    ExpandPreview.fromTo("#AntiToxins .Preview .Cover", .01, {autoAlpha: 1}, {autoAlpha: 0}, 0)
+                        .to(imgContainer.find(".img.active"), .2, {
+                            height: function(){
+                                return window.innerHeight;
+                            },
+                            width: function(){
+                                return window.innerWidth;
+                            },
+                            top: function(){
+                                return -imgContainer.find(".img.active").offset().top;
+                            },
+                            left: function(){
+                                return -imgContainer.find(".img.active").offset().left;
+                            }
+                        }, 0);
+                    var scrollstate = $("#AntiToxins .SingleContainer").css("overflow-y");
+                    imgContainer.find(".img.active img").click(function(){
+                        // Reverse main container's scroll state to their state
+                        TweenMax.set( $("#AntiToxins .SingleContainer"), {overflowY: scrollstate} );
+                        ExpandPreview.reverse();
+                    });
 					singleparticle.find(".Preview img:active").attr("src", this.image);
 					singleparticle.find(".Cover").unbind("click").click(function(){
 						if(
 							(typeof(ExpandPreview) !== "undefined" && ExpandPreview.isActive()) ||
 							(typeof(Navigation) !== "undefined" && Navigation.isActive())
 						){ return; }
-						ExpandPreview = new TimelineMax();
-						ExpandPreview.to("#AntiToxins .Preview .Cover", .01, {autoAlpha: 0}, 0)
-							.to(imgContainer.find(".img.active"), .2, {height: window.innerHeight,width: window.innerWidth,
-								top: -imgContainer.find(".img.active").offset().top,
-								left: -imgContainer.find(".img.active").offset().left,
-								onComplete: function(){
-									imgContainer.find(".img.active img").click(function(){
-										ExpandPreview.reverse();
-									});
-								}}, 0);
+                        // Disable scrolling on the main container
+                        TweenMax.set( $("#AntiToxins .SingleContainer"), {overflowY: "hidden"} );
+                        ExpandPreview.invalidate().restart();
 					});
 				}else{
 					TweenMax.set(imgContainer.children(".img").last(), {autoAlpha: 0});
@@ -5642,8 +6329,8 @@ function PrepClone(){
 						}}, 0);
 				});
 			});
-			singleparticle.find(".Detail > .Description").html(this.detail);
-			ToolsType = singleparticle.find(".Detail > .BuiltWith > .Navigate > *");
+			singleparticle.find(".Description").html(this.detail);
+			ToolsType = singleparticle.find(".BuiltWith > .Navigate > *");
 
 			var tools = this.tools,
 				canireset = true;
@@ -5688,7 +6375,7 @@ function PrepClone(){
 				singleparticle.find(".ToolBox").toggleClass("active");
 			}
 
-			singleparticle.find(".State").children(".RealState.active").removeClass("active");
+			singleparticle.find(".State").find(".RealState.active").removeClass("active");
 			if( this.state == "completed" ){
 				singleparticle.find(".State .RealState").eq(0).addClass("active");
 				if( this.website ){
@@ -5733,10 +6420,10 @@ function ResetParticle(asset, e){
 			h : asset.innerHeight()
 		};
 		asset.siblings(".ArtParticle, .DevParticle").each(function(){
-			Asc = $(this).children(".Container");
+			Asc = $(this).find(".Container");
 			AddFly.ParticleEntrance(false, false, true);
 		});
-		asset.siblings(".DevStar, .ArtStar").each(function(){
+		asset.parent().siblings(".DevStar, .ArtStar").each(function(){
 			Asc = $(this).find(".Star");
 			AddFly.ParticleEntrance(false, false, true);
 		});
@@ -5744,34 +6431,134 @@ function ResetParticle(asset, e){
 		Asc = asset.children();
 		AddFly.ParticleEntrance(false, false, true);
 		NavRotation.reverse();
-		var NavRevFly = EnterParticle;
 		EnterParticle.eventCallback("onComplete", function(){
-			if( e !== true ){
-				ReverseToDefault();
-			}
+			WrapItUp();
 		});
 		return;
 	}
 	EnterParticle.reverse().eventCallback("onReverseComplete", function(){
-		if( e !== true ){
-			ReverseToDefault();
-		}
-		// Re-activate other Particles' Gandalf reactions when fully reversed
-        asset.siblings(".ArtParticle, .DevParticle").data({GandalfActive: true, GandalfOpt: 0});
-		// At this point no Particle is active
-        Particle.activeObj = null;
-        // Re-activating TrackLines
-        TrackLines.disabled = false;
-		// Manually reappear NameTag if an asset is hovered after exit
-		asset.parent().children(".ArtParticle, .DevParticle").each(function(){
-			if( $(this).is(":hover") ){
-				NameTag.play($(this));
-			}
-		});
+		WrapItUp();
 	});
 	if( e !== true ){
         Glitch.on("#Gandalf", "Closing...");
     }
+	function WrapItUp(){
+		if( e !== true ){
+			ReverseToDefault();
+		}
+		// Re-activate other Particles' Gandalf reactions when fully reversed
+		asset.siblings(".ArtParticle, .DevParticle").data({GandalfActive: true, GandalfOpt: 0});
+		// At this point no Particle is active
+		Particle.activeObj = null;
+		// Re-activating TrackLines
+		TrackLines.disabled = false;
+		// Manually reappear NameTag if an asset is hovered after exit
+		asset.parent().children(".ArtParticle, .DevParticle").each(function(){
+			if( $(this).is(":hover") && !Is.NoTouch($(this)) ){
+				NameTag.play($(this));
+			}
+		});
+		// Reset scale to prevent miscalculations on next request
+		TweenMax.set($("#AntiToxins .SingleParticle"), {
+			scale: 1
+		});
+	}
+}
+function ParticleNavigate(T){
+
+	Particle.NaviDirection = T;
+	var GoToParticle = ( T.hasClass("PrevProject") ) ?
+		CurrentParticle.prev(".DevParticle, .ArtParticle") :
+		CurrentParticle.next(".DevParticle, .ArtParticle") ;
+	// Update status on Gandalf
+	Gandalfer.set(T);
+
+	if( GoToParticle.length === 0 ){
+		var group = ( CurrentParticle.hasClass("ArtParticle") ) ? "ArtParticle" : "DevParticle" ,
+			othergroup = ( group === "DevParticle" ) ? "ArtParticle" : "DevParticle" ;
+		if( CurrentParticle.parent().children("."+group).last().hasClass(CurrentParticle.attr("class")) ){
+			GoToParticle = CurrentParticle.parent().children("."+othergroup).first();
+		}
+		if( CurrentParticle.parent().children("."+group).first().hasClass(CurrentParticle.attr("class")) ){
+			GoToParticle = CurrentParticle.parent().children("."+othergroup).last();
+		}
+	}
+
+	ExpandParticle.duration(.2).reverse();
+
+	if( typeof(ParticleNavigation) !== "undefined" ){
+		NavRotation.reverse();
+	}
+
+	ParticleNavigation = new TimelineMax();
+	NavRotation = new TimelineMax();
+	NAV_HoldMyState = {
+		ot : GoToParticle.offset().top,
+		ol : GoToParticle.offset().left,
+		w : GoToParticle.innerWidth(),
+		h : GoToParticle.innerHeight()
+	};
+	// Creating the particle's clone
+	var clone = GoToParticle.clone();
+	// Emptying the clone's style attributes
+	clone.attr("style","");
+	clone.children(".Container").attr("style","");
+	clone.children(".Container").children().attr("style","");
+	// Adding the clone and its new attributes
+	$("#AntiToxins .SingleParticle > .Clone").html("");
+	$("#AntiToxins .SingleParticle > .Clone").append(clone);
+	$("#AntiToxins .SingleParticle > .Clone > div").addClass("CLONED").css({
+		width : (NAV_HoldMyState.w * DefaultScale(NAV_HoldMyState.w)),
+		paddingBottom: (NAV_HoldMyState.h * DefaultScale(NAV_HoldMyState.w))
+	}).click(function(){
+		Glitch.on("#Gandalf", "Closing...");
+		if( Particle.isActive ){
+			TweenMax.set($("#AntiToxins"), {overflow: ""});
+			var dur = $("#AntiToxins .SingleContainer")[0].scrollTop / 400;
+			dur = ( dur > .2 ) ? .2 : dur;
+			TweenMax.set($("#AntiToxins .SingleContainer"), {overflowY: "hidden"});
+			TweenMax.to($("#AntiToxins .SingleContainer"), dur, {scrollTop: 0, onComplete: function(){
+					ResetParticle(GoToParticle);
+				}});
+			return;
+		}
+	});
+	// Calling the function that prepares clone's children using the related particle's database
+	PrepClone();
+
+	// Animating siblings and stars
+	GoToParticle.siblings(".DevParticle, .ArtParticle").each(function(){
+		Asc = $(this).children(".Container");
+		// Applying new properties to sibling particles
+		if( !CurrentParticle.hasClass($(this).attr("class")) ){
+			AddFly.ParticleNavigate();
+		}
+		// Applying new properties to the current active particles to blend with other inactive particles
+		else{
+			AddFly.ParticleNavigate(false, true);
+			ParticleRotation.reverse();
+		}
+		// Disables cursor pointer
+		Asc.addClass("NoTouchin");
+	});
+	GoToParticle.parent().siblings(".DevStar, .ArtStar").each(function(){
+		Asc = $(this).find(".Star");
+		AddFly.ParticleNavigate();
+	});
+	// Animating the original particle
+	TweenMax.set([CurrentParticle, GoToParticle], {zIndex: 3, autoAlpha: 1});
+	TweenMax.set("#AntiToxins .SingleParticle > .Clone > *", {autoAlpha: 0});
+
+	Asc = GoToParticle.children();
+	AddFly.ParticleNavigate(true);
+
+	ParticleNavigation.eventCallback("onComplete", function(){
+		TriggerDiamond(GoToParticle);
+		Particle.Navigated = true;
+		Particle.NaviDirection = null;
+		// Reset Gandalf's content
+		Glitch.on("#Gandalf", null);
+	});
 }
 
 // DekcCloud
@@ -5933,11 +6720,84 @@ function CardDraggable(){
         }
     });
 }
+CardSlider = {
+    last: null,
+    placer : function(instance, dir){
+    	var reveal = false,
+    		conceal = false;
+    	// Search for current level through the container's children
+        for( i = 1; i < $(instance.target).children(".Card").length; i++ ){
+			    // Set the distance between Cards
+            var bound = $(instance.target).find(".Card").innerWidth() * .05,
+                // Get the visually front Card
+				card = $(instance.target).children(".Card").eq($(instance.target).children(".Card").length-i);
+            // Reveal all cards when container is at it's starting position
+            if( ( dir === -1 && instance.x === instance.maxX ) || ( dir === 1 && instance.x === instance.minX ) ){
+				reveal = $(instance.target).find(".Card > div");
+                break;
+            }
+			// Reveal only the last card and conceal other Cards when container is at it's final position
+            if( ( dir === -1 && instance.x === instance.minX ) || ( dir === 1 && instance.x === instance.maxX ) ){
+                card = $(instance.target).find(".Card").first();
+                conceal = card.siblings().children();
+                reveal = card.children();
+                break;
+            }
+            // Reveal this Card and conceal Cards in front of it when container is on the margin between the current and the next Card
+            if( ( dir === -1 && instance.x > -( bound * i ) ) || ( dir === 1 && instance.x < ( bound * i ) ) ){
+				conceal = [card.children(),card.nextAll().children()];
+				reveal = card.prevAll().children();
+                break;
+            }
+        }
+        // Reveal if available
+        if( reveal ){
+			TweenMax.to(reveal, .2,
+				{
+					autoAlpha: 1,
+					scaleY: 1,
+					transformOrigin: "50% 100%"
+				});
+		}
+		// Conceal if available
+        if( conceal ){
+			TweenMax.to(conceal, .2,
+				{
+					autoAlpha: 0,
+					scaleY: 0,
+					transformOrigin: "50% 100%"
+				});
+		}
+        // Store this container as the last used Slider
+        this.last = instance.target;
+    },
+    reset: function(dur){
+    	// Check if reset should be animated
+        var dur = ( dur ) ? dur : 0;
+        // Deny reset when no slider is engaged
+        if( this.last === null ){ return; }
+        // Do the reset
+        TweenMax.to($(".Slider .CardSlider .Card > div"), dur,{
+            autoAlpha: 1,
+            scaleY: 1,
+            x: 0,
+            y: 0
+        });
+        TweenMax.to($(".Slider .CardSlider"), dur,{
+            x: 0,
+            y: 0
+        });
+        // Reset Slider usage state
+        this.last = null;
+    }
+};
 
 // Gandalf setter
 Gandalfer = {
 	setup: function(GandalfRow){
 		$(GandalfRow[0]).click(function(){
+            // Check if touch allowed for touch devices
+            if( Is.NoTouch("#Gandalf") ){ return; }
 			var content = GandalfRow[1];
 			// Analyzing the element for deactivation requests
 			if( $(this).data().GandalfActive === false ){
@@ -6011,7 +6871,7 @@ Peeker = {
 	},
 	set: function(asset){
 		$.each(Peek, function(){
-			if( $(asset[0]).filter($(this[0])[0]) ){
+			if( $(asset[0]).filter($(this[0])[0]).length ){
 				var content = this[1];
 				var PO = asset.data().PeekOption;
 				if( typeof(PO) !== "undefined" ){
@@ -6044,7 +6904,7 @@ Is = {
         // Check if at least one variable is set
         if(
 			( width !== null && w <= width ) ||
-			( width !== null && h <= height )
+			( height !== null && h <= height )
 		){
         	// Respond the result for than variable
             return true;
