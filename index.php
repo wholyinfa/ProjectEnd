@@ -588,17 +588,13 @@
                             <div></div>
                         </div>
                     </div>
-                    <div class="Title">LORE LORE LORE LOER LOER</div>
+                    <div class="Title"></div>
                     <div class="Pages">
                         <div>
-                            <div class="Page" id="No1">MAMAD PAGE</div>
-                            <div class="Page active" id="No2">INDEX PAGE</div>
-                            <div class="Page" id="No3">KAFTAR PAGE</div>
                         </div>
                     </div>
                     <div class="Preview">
                         <div class="img">
-                            <img src="Assets/BuyCourse.jpg" alt="">
                         </div>
                         <div class="Cover">
                             <div></div>
@@ -631,7 +627,7 @@
                                 <div class="Design">DESIGN</div>
                             </div>
                         </div>
-                        <div class="Description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </div>
+                        <div class="Description"></div>
                     </div>
                     <div class="State">
                         <div class="RealState active">PROJECT STATE : COMPLETED <span>( <a href="" class="goto">Go To Webstie</a> )</span></div>
@@ -691,7 +687,7 @@
                             <div class="CloudGlow"></div>
                             <div class="Plate">
                                 <div class="Content">
-                                    <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feu</div>
+                                    <div></div>
                                 </div>
                             </div>
                             <div class="Cloud">SELECT A STONE</div>
