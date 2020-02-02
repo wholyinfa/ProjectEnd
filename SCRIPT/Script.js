@@ -908,7 +908,6 @@ function Globe(){
 // Pre Requisitions
 
 	// Prepping The Frame
-	$('body').height(height);
 	$(window).scrollTop(0);
 
 	// Animations Setup
@@ -3293,12 +3292,20 @@ function Globe(){
 
 function URI(ForceSet){
 	// Obtain the current URL path's name
-	var currenturl = (ForceSet) ? ActiveDivision.attr("id") : (document.location.pathname).replace(/\/~Project_END\//, ""),
+	var currenturl = (ForceSet) ? ActiveDivision.attr("id") : (document.location.pathname).replace(/\/~Project_END\//, "/"),
 		url = null;
 
+	// Redirect all requests to the root (temporarily)
+	if( typeof(ForceSet) === "undefined" ){
+		window.history.pushState({
+			id: DivisionURI[0].name
+		}, DivisionURI[0].pagetitle, "./");
+		document.title = DivisionURI[0].pagetitle;
+		return;
+	}
 	// Locate the page's URI information if available
 	$.each(DivisionURI, function(i){
-		if( this.name.toLowerCase() === currenturl.toLowerCase() || this.url.toLowerCase() === currenturl.toLowerCase() ){
+		if( this.name.toLowerCase() === (currenturl.toLowerCase()).replace("/","") || this.url.toLowerCase() === (currenturl.toLowerCase()).replace("/","") ){
 			url = ( this.name.toLowerCase() == "temporary" ) ? "./" : this.url ;
 			window.history.pushState({
 				id: this.name
@@ -3306,7 +3313,7 @@ function URI(ForceSet){
 			document.title = this.pagetitle;
 		}
 	});
-	if( currenturl !== "" && url == null ){
+	if( currenturl !== "/" && url == null ){
 		var msg ="404 - Page not found";
 		window.history.pushState({id : "404"}, msg, "404");
 		document.title = msg;
