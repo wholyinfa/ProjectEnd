@@ -548,10 +548,24 @@ DivisionURI = [
 	}
 ];
 
-
 $(document).ready(function(){Globe();Varia()});
 $(window).resize(function(){Varia();});
-
+$(window).bind("load", function() {
+    if( typeof(Loader) !== "undefined" ){
+        // Pause teh loading animation if it's set
+        Loader.pause();
+    }else{
+        // prevent loader when the page is loaded fast
+        Loader = false;
+    }
+    // After shrinking loading line fade the load barier
+    TweenMax.to("#LoaderLine", .2, {
+        scaleX: 0,
+        onComplete: function(){
+            TweenMax.to("#NOTREADY", .2, {autoAlpha: 0});
+        }
+    });
+});
  Global = {
  	Rotten : false ,
  	RottenStillActive : false,
@@ -598,6 +612,10 @@ function Varia(){
 			Math.atan2( SP.Y - TP.Y , SP.X - TP.X ) * 180 / Math.PI;
 		TweenMax.set($(this).children(".Container").children(), {rotation: Angle});
 	});
+	// When loader is allowed and is set, restart the loader on resize
+	if( typeof(Loader) !== "undefined" && Loader.isActive() && Loader !== false ){
+        Loader.restart();
+    }
 	// Disable assets not supported in touch devices
     NoTouchList = [
       	$("#Peek"),
@@ -891,6 +909,20 @@ function Varia(){
 function Globe(){
 	var   width = window.innerWidth,
 		  height = window.innerHeight;
+	// When loader is allowed run the loading animation
+	if( typeof(Loader) !== "undefined" && Loader !== false ){
+        Loader = new TimelineMax({repeat: -1});
+        Loader.to("#LoaderLine",.75, {
+            x: "-50%",
+            scaleX: 9,
+            ease: " back. in(1.7)"
+        }).to("#LoaderLine",.75, {
+            x: "-50%",
+            scaleX: 1,
+            ease: " back. in(1.7)"
+        });
+        Loader.delay(.5);
+    }
 	// Resetting all forms and inputs on page load
 	$("input,textarea").val("");
 	// Form the panels
@@ -1435,9 +1467,6 @@ function Globe(){
 	OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
-	$("#NOTREADY").css(
-		{ display : "none" }
-	);
 	$("#Trilogies header, #Trilogies footer, #BigMo > article, #Artery > article, #JourNey > article").css(
 		{ visibility : "hidden" , opacity : 0 , zIndex: -1 }
 	);

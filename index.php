@@ -24,7 +24,9 @@
 
 <body>
 
-    <div id="NOTREADY"></div>
+    <div id="NOTREADY">
+        <div id="LoaderLine"></div>
+    </div>
 
     <nav class="QuickAccess">
         <div class="Cells Frame">

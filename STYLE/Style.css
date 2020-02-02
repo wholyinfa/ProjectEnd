@@ -45,6 +45,12 @@ body{
     background: #0a0a0b;
     z-index: 6969;
 }
+#LoaderLine{
+    width: 10%; height: 2px;
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); border-radius: 50px;
+    background: #fff;
+}
 #icon{
     position: absolute; top: -1000%; left: 0;
 }
