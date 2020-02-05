@@ -3,7 +3,7 @@
 <head>
                 <meta name="robots" content="noindex,nofollow" />
 <meta charset='utf-8' />
-<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
 <meta name='description' content='Dedicated web developer with <?php echo date("Y") - 2014; ?> years of experience sharing identical affections in designing, having integrated innovation and creativity aligned with ideal quality. Interested on fully responsive and interactive modules & layouts resulting in 40% more flexible outcomes.' />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="InfamousRocket - Front-end web developer, Digital designer" />
@@ -117,6 +117,7 @@
 
         <img src="ASSETS/InfamousRocket.png" id="icon" alt="InfamousRocket">
         <footer id="SpaceCyclone">
+            <div class="TriggerBox"></div>
             <div class="BreathinFragment Entry">
                 <div>
                     <div class="Eyez"></div>
@@ -631,7 +632,6 @@
                     </div>
                     <div class="Preview">
                         <div class="img">
-                            <img src="Assets/BuyCourse.jpg" alt="">
                         </div>
                         <div class="Cover">
                             <div></div>
@@ -777,7 +777,7 @@
                         <div class="The"></div>
                         <div class="Title"></div>
                         <div class="Icon"></div>
-                            <div class="Description"><div class="Content">Bing able to bring a mythical creature to life, give it a name, color it, base it on a story and share it to the world or sometimes form an ecosystem of elements and witness them interactive and harmonize with each other flawlessly, is definitely a skill worth mastering.</div></div>
+                            <div class="Description"><div class="Content">Being able to bring a mythical creature to life, give it a name, color it, base it on a story and share it to the world or sometimes form an ecosystem of elements and witness them interactive and harmonize with each other flawlessly, is definitely a skill worth mastering.</div></div>
                         </div>
                         </div>
                     </div>

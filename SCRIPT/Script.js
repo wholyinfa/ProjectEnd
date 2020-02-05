@@ -32,7 +32,7 @@ Gandalf = [
     ],
     // SpaceCyclone
     [
-        ".Storm .Tripwire",
+        ".TriggerBox .Tripwire",
         ["Entering..."]
     ],
     [
@@ -127,15 +127,15 @@ Peek = [
 	],
 	// SpaceCyclone
 	[
-		".Download.Storm .Tripwire",
+		".DownloadStorm.Tripwire, .StormDownload.Tripwire",
 		"Downloadables"
 	],
 	[
-		".Request.Storm .Tripwire",
+		".RequestStorm.Tripwire, .StormDownload.Tripwire",
 		"Submit a project request"
 	],
 	[
-		".Connect.Storm .Tripwire",
+		".ConnectStorm.Tripwire, .StormDownload.Tripwire",
 		"Contact details"
 	],
 	[
@@ -565,6 +565,7 @@ $(window).bind("load", function() {
             TweenMax.to("#NOTREADY", .2, {autoAlpha: 0});
         }
     });
+    CardDraggable();
 });
  Global = {
  	Rotten : false ,
@@ -613,7 +614,7 @@ function Varia(){
 		TweenMax.set($(this).children(".Container").children(), {rotation: Angle});
 	});
 	// When loader is allowed and is set, restart the loader on resize
-	if( typeof(Loader) !== "undefined" && Loader.isActive() && Loader !== false ){
+	if( typeof(Loader) !== "undefined" && Loader !== false && Loader.isActive() ){
         Loader.restart();
     }
 	// Disable assets not supported in touch devices
@@ -621,6 +622,9 @@ function Varia(){
       	$("#Peek"),
       	$("#Gandalf"),
       	$(".Area69"),
+      	$(".TriggerBox .Tripwire"),
+      	$("#Skillometer .Strikes"),
+      	$(".CardSlider > .Card .Content"),
 		$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle"),
     ];
     $.each(NoTouchList, function(){
@@ -631,8 +635,6 @@ function Varia(){
             this.data({ notouch: false });
         }
     });
-    // Reset coordinates of the DivisionExpress' content
-    DivisionExpress.set.Position(true);
     // Resize & reposition Storm assets when in a storm
     if( typeof(EnterStorm) !== "undefined" && !EnterStorm.isActive() && EnterStorm.progress() == 1 ){
 		ReCap();
@@ -904,6 +906,9 @@ function Varia(){
             }
         });
     });
+    CardDraggable();
+    // Reset coordinates of the DivisionExpress' content
+    DivisionExpress.set.Position();
 }
 
 function Globe(){
@@ -937,6 +942,20 @@ function Globe(){
         }
     });
 
+    $("#SpaceCyclone .Storm").each(function(){
+        var tripwire = $(this).find(".Tripwire"),
+            clone = tripwire.clone();
+        clone
+            .addClass( ($(this).attr("class")).replace(/\s/g,"") )
+            .css({
+            width: tripwire.innerWidth(),
+            height: tripwire.innerHeight(),
+            top: tripwire.offset().top,
+            left: tripwire.offset().left,
+        });
+        $(".TriggerBox").append(clone);
+    });
+
 // Pre Requisitions
 
 	// Prepping The Frame
@@ -947,21 +966,21 @@ function Globe(){
 	  // Portals Animation
 
 	WolvenEyez = new TimelineMax({repeat: -1, yoyo: true, paused: true});
-	WolvenEyez.set('#Temporary .Eyez', {scale:1, z:0.01});
+	WolvenEyez.set('#Temporary .Eyez', {scale:1});
 	 WolvenEyez
-	  .to('#Temporary .Eyez', 1, {y: '+=5',scale: 0.95,ease :   Sine. easeInOut})
-	  .to('#Temporary .Eyez', 1, {y: '-=3',scale: 1,ease :   Sine. easeInOut})
-	  .to('#Temporary .Eyez', 1, {y: '+=3',scale: 0.9,ease :   Sine. easeInOut});
+	  .to('#Temporary .Eyez', 1, {y: '+=5%',scale: 0.95,ease :   Sine. easeInOut})
+	  .to('#Temporary .Eyez', 1, {y: '-=3%',scale: 1,ease :   Sine. easeInOut})
+	  .to('#Temporary .Eyez', 1, {y: '+=3%',scale: 0.9,ease :   Sine. easeInOut});
 
 	BrokenLaugh = new TimelineMax({repeat: -1, yoyo: true, paused: true});
-	BrokenLaugh.set('#Temporary .Laugh', {scale:1, z:0.01});
+	BrokenLaugh.set('#Temporary .Laugh', {scale:1});
 	 BrokenLaugh
-	  .to('#Temporary .Laugh', 1, {y: '-=2',scale: 0.95,ease :   Sine. easeInOut})
-	  .to('#Temporary .Laugh', 1, {y: '+=1',scale: 1,ease :   Sine. easeInOut})
-	  .to('#Temporary .Laugh', 1, {y: '+=2',scale: 0.9,ease :   Sine. easeInOut});
+	  .to('#Temporary .Laugh', 1, {y: '-=2.5%',scale: 0.95,ease :   Sine. easeInOut})
+	  .to('#Temporary .Laugh', 1, {y: '+=1%',scale: 1,ease :   Sine. easeInOut})
+	  .to('#Temporary .Laugh', 1, {y: '+=2.5%',scale: 0.9,ease :   Sine. easeInOut});
 
   Jflow = new TimelineMax({paused:true , repeat: -1});
-  Jflow.set('#Temporary .JourNey .Flow', {scale:1, z:0.01});
+  Jflow.set('#Temporary .JourNey .Flow', {scale:1});
 	Jflow
 	.to('#Temporary .JourNey .Flow', 0.4, {y: '-5%',scale: 1.05,ease :  Power1.easeOut})
 	.to('#Temporary .JourNey .Flow', 0.4, {y: '2.5%',scale: 1,ease :  Power1.easeIn})
@@ -991,7 +1010,7 @@ function Globe(){
 
 
   Hflow = new TimelineMax({paused:true , repeat: -1,repeatDelay: .5});
-  Hflow.set('#Temporary .Artery .Flow', {scale:1, z:0.01});
+  Hflow.set('#Temporary .Artery .Flow', {scale:1});
    Hflow
 	.to('#Temporary .Artery .Flow', .2, {scale: 1.1,ease: Power1.easeInOut })
 	.to('#Temporary .Artery .Flow', .2, {scale: 1,ease: Power1.easeInOut })
@@ -999,7 +1018,7 @@ function Globe(){
 	.to('#Temporary .Artery .Flow', .2, {scale: 1,ease: Power1.easeInOut });
 
   Hbloodaura = new TimelineMax({paused:true , repeat: -1});
-  Hbloodaura.set('#Temporary .Artery .BloodAura', {scale:1, z:0.01});
+  Hbloodaura.set('#Temporary .Artery .BloodAura', {scale:1});
    Hbloodaura
 	.to('#Temporary .Artery .BloodAura', 2, {scale: 1.1,rotation: 360,ease:  Elastic. easeInOut.config( 1, 0.3) });
 
@@ -1018,14 +1037,14 @@ function Globe(){
 	.to('#Temporary .Artery .Infa', .15, {skewX: 6,skewY: 10,ease: Bounce. easeInOut });
 
   Hbarry = new TimelineMax({paused:true , yoyo: true, repeat: -1});
-  Hbarry.set('#Temporary .Artery .Barry', {scale:1, z:0.01});
+  Hbarry.set('#Temporary .Artery .Barry', {scale:1});
 	Hbarry
 	.to('#Temporary .Artery .Barry', .4, {x: '-5%',y: '-5%',scale: 1.4,ease: Bounce. easeInOut });
 
 
 
   Mflow = new TimelineMax({paused:true ,yoyo: true , repeat: -1});
-  Mflow.set('#Temporary .BigMo .Flow', {scale:1, z:0.01});
+  Mflow.set('#Temporary .BigMo .Flow', {scale:1});
    Mflow
 	.to('#Temporary .BigMo .Flow', .4, {scale: 1.03,rotation: 5 ,ease: Power1.easeInOut })
 	.to('#Temporary .BigMo .Flow', .4, {scale: 1.12,rotation: -5 ,ease: Power1.easeInOut })
@@ -1034,7 +1053,7 @@ function Globe(){
 	.to('#Temporary .BigMo .Flow', .2, {scale: 1.05,rotation: 12 ,ease: Power1.easeInOut });
 
   Walla = new TimelineMax({paused:true ,yoyo: true , repeat: -1});
-  Walla.set(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], {scale:1, z:0.01});
+  Walla.set(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], {scale:1});
    Walla
 	.to(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], .2, {scale: 1.03,ease: Power1.easeInOut })
 	.to(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], .2, {scale: 1.06,ease: Power1.easeInOut })
@@ -1051,7 +1070,7 @@ function Globe(){
   }
 
   Mjaccuzi = new TimelineMax({paused:true , yoyo: true, repeat: -1});
-  Mjaccuzi.set('#Temporary .BigMo .Jaccuzi', {scale:1, z:0.01});
+  Mjaccuzi.set('#Temporary .BigMo .Jaccuzi', {scale:1});
    Mjaccuzi
 	.to('#Temporary .BigMo .Jaccuzi', .5, {rotation: 10,transformOrigin: '40% 60%',scale : 1.04,opacity: 1 ,ease: SlowMo.ease.config( 0.7, 0.7, false) })
 	.to('#Temporary .BigMo .Jaccuzi', .5, {rotation: -15,transformOrigin: '40% 60%',scale : 1.08,opacity: 1 ,ease: SlowMo.ease.config( 0.9, 0.7, false) })
@@ -1745,7 +1764,7 @@ function Globe(){
             }
             Glitch.on("#Gandalf", "Cancelling launch...");
         },
-		zIndexBoost: false
+        zIndexBoost: false
     });
 
     // Set hover reaction
@@ -1857,41 +1876,37 @@ function Globe(){
 	// DivisionReactor
 		// SpaceCyclone
 	Cyclone = {isActive : false};
-	$('#SpaceCyclone > .Storm .Tripwire').mouseenter(function(){
+	$('#SpaceCyclone > .TriggerBox .Tripwire').mouseenter(function(){
 	    // Prohibit hover reactions when entering the storm
-        if(Cyclone.isActive){return;}
+        if( Cyclone.isActive || Is.NoTouch($(this)) ){return;}
 
-		T = $(this).parent().parent();
+		T = $(this).attr("class");
 
-		if( T.hasClass("Download") ){
+		if( T.match(/Download/) ){
 			ToggleDownload();
 		}
-
-		if( T.hasClass("Request") ){
+		if( T.match(/Request/) ){
 			ToggleRequest();
 		}
-
-		if( T.hasClass("Connect") ){
+		if( T.match(/Connect/) ){
 			ToggleConnect();
 		}
 
 	})
 		.mouseleave(function(){
-			if(Cyclone.isActive){return;}
+			if( Cyclone.isActive || Is.NoTouch($(this)) ){return;}
 
-			T = $(this).parent().parent();
+			T = $(this).attr("class");
 
-			if( T.hasClass("Download") ){
-				ToggleDownload(true);
-			}
-
-			if( T.hasClass("Request") ){
-				ToggleRequest(true);
-			}
-
-			if( T.hasClass("Connect") ){
-				ToggleConnect(true);
-			}
+            if( T.match(/Download/) ){
+                ToggleDownload(true);
+            }
+            if( T.match(/Request/) ){
+                ToggleRequest(true);
+            }
+            if( T.match(/Connect/) ){
+                ToggleConnect(true);
+            }
 
 		});
 
@@ -1907,7 +1922,8 @@ function Globe(){
 		.mouseleave(function(){
 			AssetHover($(this),true);
 	});
-	$('#SpaceCyclone > .Storm .Tripwire').click(function(){
+	$('#SpaceCyclone .TriggerBox .Tripwire').click(function(){
+        var StormID = ($(this).attr("class").match(/Storm(\w*)|\w*Storm/g)[0]).replace("Storm","");
 	    // Check if method is in the middle of entering/exiting
 		if( typeof(EnterStorm) !== "undefined" && EnterStorm.isActive() ){
 		    // Run when entering the storm
@@ -1918,14 +1934,22 @@ function Globe(){
                     // Reappear footer
                     SC_Footer.reversed(!SC_Footer.reversed());
                     // Run hover reactions if a storm is hovered after the storm
-                    if( $(".Storm.Download .Tripwire").is(":hover") ){
-                        ToggleDownload();
-                    }
-                    if( $(".Storm.Request .Tripwire").is(":hover") ){
-                        ToggleRequest();
-                    }
-                    if( $(".Storm.Connect .Tripwire").is(":hover") ){
-                        ToggleConnect();
+
+                    if( Is.NoTouch($(this)) ) {
+                        $(".TriggerBox .Tripwire").each(function () {
+                            if ($(this).is(":hover")) {
+                                var Class = $(this).attr("class");
+                                if (Class.match(/Download/)) {
+                                    ToggleDownload();
+                                }
+                                if (Class.match(/Request/)) {
+                                    ToggleRequest();
+                                }
+                                if (Class.match(/Connect/)) {
+                                    ToggleConnect();
+                                }
+                            }
+                        });
                     }
                     // Remove cloned assets
                     Storm.find(".AlphaAsset.clone, .BetaAsset.clone").remove();
@@ -1944,7 +1968,7 @@ function Globe(){
 		    // Prohibit method to rerun mid-fly
 		    return;
         }
-        Storm = $(this).parent().parent();
+        Storm = $(".Storm."+StormID);
         Cyclone.isActive = Storm;
         SC_Footer.reverse();
 
@@ -2301,6 +2325,7 @@ function Globe(){
         }
     });
 	$("#Skillometer .Core .Strikes").mouseenter(function(){
+		if( Is.NoTouch($(this)) ){ return; }
 		var CoreElement = $(this).parent().parent().parent();
 		if( CoreClick == CoreElement.attr("class") ){return;}
 		OBJ = $(this).siblings(".Title").find(">span");
@@ -2319,7 +2344,12 @@ function Globe(){
 		CoreTitleSlider.pause(OBJ);
 	})
 		.mouseleave(function(){
-		if( CoreClick !== $(this).parent().attr("class") ){ReverseCore();}
+		if( Is.NoTouch($(this)) ){ return; }
+		if( CoreClick !== $(this).parent().attr("class") ){
+			if( typeof(Flicker) !== "undefined" && Flicker.isActive() ){
+				ReverseCore();
+			}
+		}
 		CoreTitleSlider.play();
 	});
 	$("#Skillometer .Core .Strikes").click(function(){
@@ -2862,6 +2892,8 @@ function Globe(){
 					});
 					// Allow scroll after everything is placed
 					TweenMax.set($("#Analyzer"), {overflowY: "auto"});
+                    // Reset coordinates of the DivisionExpress' content
+                    DivisionExpress.set.Position($("#Analyzer .DivisionExpress"));
 				}
 			})
 		},
@@ -3168,7 +3200,6 @@ function Globe(){
             onCompleteParams: ["{self}"]
         }, .05);
     });
-	CardDraggable();
 
     Sign = {
         activeObj: $(".Slider .Life.Sign"),
@@ -3659,7 +3690,7 @@ function SwitchDivision(target,Manual){
 		$(".Flow ,.Shrinker").css({transform: "", visibility: "", opacity: "", background: ""});
 		// Resetting fly associates
 		$(target).css({opacity: 0, visibility: "hidden",zIndex: -1,transform : "", transformOrigin: ""});
-		TweenMax.set(Flyascs.toString(), {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+		TweenMax.set(Flyascs.toString(), {y: 0, x: 0, scale: 1, rotation: 0});
 		Section.css({zIndex: 1});
 		SwitchDivisionActive[0] = false;
 	}
@@ -3747,7 +3778,7 @@ function DivisionSequence(reset,undone){
 	// Trial Start
     Ascs = [".Entry",".InfoPanel",[".Core"]];
 	if( DiviSection == "Skillometer" ){
-		FlyAssociates =  Ascs;
+		FlyAssociates = Ascs;
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
 			CoreTitleSlider.play();
@@ -3892,10 +3923,12 @@ function DivisionSequence(reset,undone){
 	if( Reactive ){
 		Order.Definitive= true;
 	}else if( reset ){
-		TweenMax.to(".DivisionExpress", .2, {
-			y: "0%",
-			autoAlpha: 1
-		});
+        // Reset coordinates of the DivisionExpress' content
+        DivisionExpress.set.Position();
+        TweenMax.to(".DivisionExpress", .2, {
+            y: "0%",
+            autoAlpha: 1
+        });
 	}else{
 		if( typeof(ExpressSequence) !== "undefined" && ExpressSequence.progress() === 1 ){
 			ExpressTheDivision($(ExpressSequence._first._targets[0]).parent());
@@ -3922,7 +3955,7 @@ function Fly(Reach,Manual){
 		if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
 		$(ResetVars).each(function(){
 		    // Reset all changes affected by Fly
-			TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+			TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0});
 		});
 	}
 	// Return on reverse fly
@@ -3963,7 +3996,7 @@ function Fly(Reach,Manual){
                 if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
                 $(ResetVars).each(function(){
                     // Reset all changes affected by Fly
-                    TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+                    TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0});
                 });
                 // By order of the fookin DivisionSequence
 				DiviOrders();
@@ -4314,7 +4347,7 @@ function Fly(Reach,Manual){
 
 			if( ActiveDivision.attr("id") === "Temporary" ) {
 				Shrinker = new TimelineMax({paused: true});
-				Shrinker.set(Subject.find(".Shrinker"), {scale: 1, rotation: 0, z: 0.01});
+				Shrinker.set(Subject.find(".Shrinker"), {scale: 1, rotation: 0});
 				Scale = (window.innerWidth / Subject.width()) * 2;
 				if (Math.abs(Rotation) !== Rotation) {
 					Rotation = -360;
@@ -4505,11 +4538,13 @@ function DiviOrders(){
 	}
 	if( Order.Definitive === true ){
 		Order.Definitive = false;
-		TweenMax.to(".DivisionExpress", .2, {
-			y: "0%",
-			autoAlpha: 1
-		});
         DivisionExpress.set.Beam(false);
+        // Reset coordinates of the DivisionExpress' content
+        DivisionExpress.set.Position();
+        TweenMax.to(".DivisionExpress", .2, {
+            y: "0%",
+            autoAlpha: 1
+        });
 	}
 }
 
@@ -4526,7 +4561,7 @@ function KillActiveFly(){
     if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
     $(ResetVars).each(function(){
         // Reset all changes affected by Fly
-        TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+        TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0});
     });
 	// Disabling some animations
 	if( ActivePortal[0] !== false && DirectRotten[0] !== false ){
@@ -4553,7 +4588,7 @@ function KillReverseFly(){
     if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
     $(ResetVars).each(function(){
         // Reset all changes affected by Fly
-        TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0, z: 0.01});
+        TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0});
     });
 	if( !ActiveFly.isActive() ){
 		ActiveFly.kill();
@@ -4661,12 +4696,19 @@ AddFly = {
 		Afrom_scale = 1;
 		Afrom_autoAlpha = 1;
         // Add exceptions for one section storms
-		Ato_y = ( type2 ) ? ((ActiveDivision.height()-SC_HoldMyState.ot)-SC_HoldMyState.h/2) : ((ActiveDivision.height()/2-SC_HoldMyState.ot)-SC_HoldMyState.h/2);
-		Ato_x = ( type2 ) ? ((ActiveDivision.width()-SC_HoldMyState.ol)-SC_HoldMyState.w/2) : ((ActiveDivision.width()/2-SC_HoldMyState.ol)-SC_HoldMyState.w/2);
+		Ato_y = ( type2 ) ? ((window.innerHeight-SC_HoldMyState.ot)-SC_HoldMyState.h/2) : ((window.innerHeight/2-SC_HoldMyState.ot)-SC_HoldMyState.h/2);
+		Ato_x = ( type2 ) ? ((window.innerWidth-SC_HoldMyState.ol)-SC_HoldMyState.w/2) : ((window.innerWidth/2-SC_HoldMyState.ol)-SC_HoldMyState.w/2);
 		Ato_scale = SC_scale;
 		Ato_autoAlpha = ( type1 ) ? .3 : 0;
+		// Reverse to original state when type1 is requested
+		if( type1 ){
+            var style = Asc.attr("style");
+            Asc.attr("style", "");
+        }
 		AscOrigin = ((SC_HoldMyState.ol+SC_HoldMyState.w/2)-Asc.offset().left)+"px ";
 		AscOrigin += ((SC_HoldMyState.ot+SC_HoldMyState.h/2)-Asc.offset().top)+"px";
+		// Return the attributes that was cleared above
+		if( type1 ){ Asc.attr("style", style) }
 		A_ease = Sine. easeOut;
 		TheFly = EnterStorm;
 		TheFly.add(
@@ -4689,7 +4731,7 @@ AddFly = {
 		if( type1 ){
 			TheFly.add(
 				TweenMax.from(Asc, 1, {
-					rotation: TheFly._first.target[0]._gsTransform.rotation,
+					rotation: Asc[0]._gsTransform.rotation,
 					ease: A_ease
 				}), 0
 			);
@@ -5253,26 +5295,36 @@ DivisionExpress = {
             return this;
         },
         // Set target position
-        Position: function(){
-            // Get all targets and
-                    $(".DivisionExpress").each(function(){
-                        // Reposition this asset when
-                        if (
-                            // Page is loaded
-                            typeof (ExpressSequence) == "undefined" ||
-                            // Or when an asset is expanded but not this one (exclude the expanded asset)
-                            (DivisionExpress.isExpanded() &&
-                            ActiveDivision.attr("id") !== $(this).parent().attr("id")) ||
-                            // Or when no asset is expanded (so all are included)
-                            (!DivisionExpress.isExpanded())
-                        ) {
-                            // Hide this asset with it's content's height
-                            TweenMax.set([$(this).find(".Trigger"), $(this).find(".Content")], {
-                                y: -$(this).find(".Content").innerHeight(),
-                                transformOrigin: "50% 0%"
-                            });
-                        }
-                    });
+        Position: function(target){
+            function SetTween(This){
+                // Hide this asset with it's content's height
+                TweenMax.set([This.find(".Trigger"), This.find(".Content").children()], {
+                    y: function(){ return -This.find(".Content").innerHeight(); }
+                });
+                TweenMax.set(This.find(".Content"), {visibility: "hidden"});
+            }
+            // When only one target is requested:
+            if( typeof(target) !== "undefined" ){
+                SetTween(target);
+            }
+            // When not:
+            else{
+                // Get all targets and
+                $(".DivisionExpress").each(function(){
+                    // Reposition this asset when
+                    if (
+                        // Page is loaded
+                        typeof (ExpressSequence) == "undefined" ||
+                        // Or when an asset is expanded but not this one (exclude the expanded asset)
+                        (DivisionExpress.isExpanded() &&
+                        ActiveDivision.attr("id") !== $(this).parent().attr("id")) ||
+                        // Or when no asset is expanded (so all are included)
+                        (!DivisionExpress.isExpanded())
+                    ) {
+                       SetTween($(this));
+                    }
+                });
+            }
             return this;
         }
     },
@@ -5295,7 +5347,7 @@ function ExpressTheDivision(This){
 		(!ExpressSequence.isActive() && ExpressSequence.progress() !== 1)
 	){
 	    // Set .Hint element's wiggle effect
-		HintWiggle = new TimelineMax();
+		HintWiggle = new TimelineMax({paused: true});
 		HintWiggle
 			.to(This.find(".Hint"), .05, {
 				x: 10
@@ -5307,20 +5359,19 @@ function ExpressTheDivision(This){
 		// Set content opening effect
 		ExpressSequence = new TimelineMax({paused: true});
 		ExpressSequence.add(
-			TweenMax.fromTo([This.find(".Trigger"),This.find(".Content")], .2, {
+			TweenMax.fromTo([This.find(".Trigger"),This.find(".Content").children()], .35, {
 				autoAlpha: 1,
                 // Set responsive value to be able to reverse back to the currect position after page is resized
 				y: function(){ return -This.find(".Content").innerHeight(); }
 			}, {
 				autoAlpha: 1,
 				y: 0,
-				ease:  Power1.easeOut
+				ease: Sine.easeOut
 			}), 0
 		);
 	}
     // Run when DivisionExpress is collapsed or collapsing
 	if( !DivisionExpress.isExpanded() ){
-		This.find(".Hint").html("CLOSE");
 		TweenMax.set(This, {autoAlpha: 1});
 		UpperBeam.progress(.2).pause();
 		// Reset the recorded valuse when static
@@ -5329,8 +5380,11 @@ function ExpressTheDivision(This){
         }
 		// Set current state
 		DivisionExpress.isExpanded(true);
-		ExpressSequence.play();
-		HintWiggle.play();
+        TweenMax.set(This.find(".Content"), {visibility: "visible"});
+		ExpressSequence.play().eventCallback("onComplete",function(){
+            HintWiggle.play();
+            This.find(".Hint").html("CLOSE");
+        });
 	}
     // Run when DivisionExpress is expanded or expanding
 	else{
@@ -5343,8 +5397,11 @@ function ExpressTheDivision(This){
         }
         // Set current state
         DivisionExpress.isExpanded(false);
-		ExpressSequence.reverse();
-		HintWiggle.reverse();
+		ExpressSequence.reverse().eventCallback("onReverseComplete",function(){
+		    TweenMax.set(This.find(".Content"), {visibility: "hidden"});
+            HintWiggle.reverse();
+            This.find(".Hint").html("READ!");
+        });
 	}
 }
 // Pathfinder
@@ -5682,7 +5739,8 @@ function PocketPath(reset){
 					{
 						x: xvalue
 					});
-			}
+			},
+            zIndexBoost: false
 		});
 	}else{
 		if( Draggable.get(path) ){
@@ -5712,7 +5770,13 @@ function ApplyCoreSlide(){
 	CoreSlider.play();
 }
 function ReverseCore(All){
-	Flicker.kill(); Brrr.kill();
+	if( typeof(Flicker) === "undefined" ){
+		if( typeof(CoreMove) === "undefined" ){
+			return;
+		}
+	}else {
+		Flicker.kill(); Brrr.kill();
+	}
 	ReverseDur = 1;
 	TweenMax.to(Core.children(), ReverseDur, {autoAlpha: 1,x: 0});
 	if( typeof(CoreMove) !== "undefined" && All ){
@@ -6002,7 +6066,7 @@ function ExitStorm(t){
 	});
 	EnterStorm.reverse().eventCallback("onReverseComplete", function(){
         // Re-enable Definer hover/enter/close asset after exit
-        TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 1}, 0);
+        TweenMax.set(".TriggerBox .Tripwire", {autoAlpha: 1}, 0);
         // Reactivate cyclone activation indicator
         Cyclone.isActive = false;
 		// Prevent scrolling on SpaceCyclone
@@ -6010,7 +6074,7 @@ function ExitStorm(t){
 		// Reset storm priorities
 		Storm.siblings(".Storm").children().attr("style","");
 		// Clear Assets' inline attributes
-		Storm.find(".AssetContainer, .AssetContainer > .AlphaAsset, .AssetContainer > .BetaAsset").attr("style","");
+		Storm.find(".AssetContainer, .AssetContainer > .AlphaAsset, .AssetContainer > .BetaAsset, .Sub, .StarFlow").attr("style","");
 		// Remove the clones
 		Storm.find(".AlphaAsset.clone, .BetaAsset.clone").remove();
     });
@@ -6028,6 +6092,10 @@ function StormSequence(){
             height: clone.innerHeight()
         });
     });
+    // Pausing current running animations
+    ToggleConnect(false);
+    ToggleDownload(false);
+    ToggleRequest(false);
     // Set the final attributes for AssetContainer so other animations are calculated based on this
 	// Setting fly attributes
 	SC_scale = 3;
@@ -6048,10 +6116,6 @@ function StormSequence(){
 		.add(
 			TweenMax.to(Storm.find(".Flow"), 1, {autoAlpha: 0, rotation: 360, scale: 0, transformOrigin: "center"}),0
 		);
-	// Pausing current running animations
-	ToggleConnect(false);
-	ToggleDownload(false);
-	ToggleRequest(false);
 	// Applying storm entrance effects
 	// siblings storms
 	Storm.siblings(".Storm").each(function(){
@@ -6087,7 +6151,7 @@ function PostRitualSequence(){
     // Set the titles' position fix
     TweenMax.set( Storm.find(".Sub"), {x: "-50%"} );
     // Disable Definer hover/enter/close asset after enter
-    TweenMax.set(Storm.find(".Tripwire"), {autoAlpha: 0}, 0);
+    TweenMax.set(".TriggerBox .Tripwire", {autoAlpha: 0}, 0);
     if (Storm.find(".AlphaAsset:hover").length != 0) {
         AssetHover(Storm.find(".AlphaAsset"));
     }
@@ -6712,7 +6776,8 @@ function CardDraggable(){
                         {
                             y: yvalue
                         });
-                }
+                },
+                zIndexBoost: false
             });
         }
         else{
@@ -6727,13 +6792,19 @@ function CardDraggable(){
             });
         }
     });
-    content.mouseenter(function(){
+    // Reset content's position in case it's scrolled
+    TweenMax.set(content, {
+        y: 0
+    });
+    content.unbind("mouseenter").mouseenter(function(){
+        if( Is.NoTouch($(this)) ){ return }
         var container = $(this).parent(),
             content = $(this);
         // Forbid hover reaction when user is dragging
         if( typeof(Draggable.get(content)) !== "undefined" && Draggable.get(content).isDragging ){ return; }
         // Check whether #content overflows it's content
         if( ( content.innerHeight() - container.innerHeight() ) > 0 ){
+
             var y = {
                 from: "-=20",
                 to: "+=20"
@@ -6760,7 +6831,9 @@ CardSlider = {
     last: null,
     placer : function(instance, dir){
     	var reveal = false,
-    		conceal = false;
+    		conceal = false,
+            revealparent = false,
+    		concealparent = false;
     	// Search for current level through the container's children
         for( i = 1; i < $(instance.target).children(".Card").length; i++ ){
 			    // Set the distance between Cards
@@ -6770,24 +6843,33 @@ CardSlider = {
             // Reveal all cards when container is at it's starting position
             if( ( dir === -1 && instance.x === instance.maxX ) || ( dir === 1 && instance.x === instance.minX ) ){
 				reveal = $(instance.target).find(".Card > div");
+				revealparent = $(instance.target).find(".Card");
                 break;
             }
 			// Reveal only the last card and conceal other Cards when container is at it's final position
             if( ( dir === -1 && instance.x === instance.minX ) || ( dir === 1 && instance.x === instance.maxX ) ){
                 card = $(instance.target).find(".Card").first();
                 conceal = card.siblings().children();
+                concealparent = card.siblings();
                 reveal = card.children();
+                revealparent = card;
                 break;
             }
             // Reveal this Card and conceal Cards in front of it when container is on the margin between the current and the next Card
             if( ( dir === -1 && instance.x > -( bound * i ) ) || ( dir === 1 && instance.x < ( bound * i ) ) ){
 				conceal = [card.children(),card.nextAll().children()];
+                concealparent = [card,card.nextAll()];
 				reveal = card.prevAll().children();
+                revealparent = card.prevAll();
                 break;
             }
         }
         // Reveal if available
         if( reveal ){
+			TweenMax.set(revealparent,
+				{
+					autoAlpha: 1,
+				});
 			TweenMax.to(reveal, .2,
 				{
 					autoAlpha: 1,
@@ -6797,6 +6879,10 @@ CardSlider = {
 		}
 		// Conceal if available
         if( conceal ){
+			TweenMax.set(concealparent,
+				{
+					autoAlpha: 0,
+				});
 			TweenMax.to(conceal, .2,
 				{
 					autoAlpha: 0,
@@ -6813,6 +6899,9 @@ CardSlider = {
         // Deny reset when no slider is engaged
         if( this.last === null ){ return; }
         // Do the reset
+        TweenMax.set($(".Slider .CardSlider .Card"), {
+            autoAlpha: 1
+        });
         TweenMax.to($(".Slider .CardSlider .Card > div"), dur,{
             autoAlpha: 1,
             scaleY: 1,
