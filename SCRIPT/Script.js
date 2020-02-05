@@ -662,6 +662,8 @@ function Varia(){
 			Area69.set(Storm.find(".Area69"));
 		}
 	}
+    // Set the dimensions and position of TripWire clones identical to the original TripWires
+	SetTripWire();
 
     var FormTL = false;
     // Indicate a form is expanded
@@ -941,18 +943,10 @@ function Globe(){
             clone.appendTo($(".Slider .Life.Cards .CardSlider"))
         }
     });
-
+    // Add all Storm TripWire clones to TriggerBox
     $("#SpaceCyclone .Storm").each(function(){
-        var tripwire = $(this).find(".Tripwire"),
-            clone = tripwire.clone();
-        clone
-            .addClass( ($(this).attr("class")).replace(/\s/g,"") )
-            .css({
-            width: tripwire.innerWidth(),
-            height: tripwire.innerHeight(),
-            top: tripwire.offset().top,
-            left: tripwire.offset().left,
-        });
+        var clone = $(this).find(".Tripwire").clone();
+        clone.addClass( ($(this).attr("class")).replace(/\s/g,""));
         $(".TriggerBox").append(clone);
     });
 
@@ -6077,6 +6071,8 @@ function ExitStorm(t){
 		Storm.find(".AssetContainer, .AssetContainer > .AlphaAsset, .AssetContainer > .BetaAsset, .Sub, .StarFlow").attr("style","");
 		// Remove the clones
 		Storm.find(".AlphaAsset.clone, .BetaAsset.clone").remove();
+		// Reposition TripWire clones in case browser was resized when a Cyclone was entered
+		SetTripWire();
     });
 	// Reset and disable Definer asset hover reactions
 	Area69.reset(Storm.find(".Area69")).enabled(false);
@@ -6169,6 +6165,19 @@ function PostRitualSequence(){
     if( Is.ThisSize(768) ){
         Area69.set(Storm.find(".Area69"));
     }
+}
+function SetTripWire(){
+	if( Cyclone.isActive ){ return; }
+	$("#SpaceCyclone .Storm").each(function(i){
+		var tripwire = $(this).find(".Tripwire");
+		$(".TriggerBox").children().eq(i)
+			.css({
+				width: tripwire.innerWidth(),
+				height: tripwire.innerHeight(),
+				top: tripwire.offset().top,
+				left: tripwire.offset().left,
+			});
+	});
 }
 
 // AntiToxins
