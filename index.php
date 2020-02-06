@@ -1,19 +1,27 @@
 <!doctype html>
 <html lang='en'>
 <head>
-                <meta name="robots" content="noindex,nofollow" />
-<meta charset='utf-8' />
-<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
-<meta name='description' content='Dedicated web developer with <?php echo date("Y") - 2014; ?> years of experience sharing identical affections in designing, having integrated innovation and creativity aligned with ideal quality. Interested on fully responsive and interactive modules & layouts resulting in 40% more flexible outcomes.' />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="InfamousRocket - Front-end web developer, Digital designer" />
-<meta property="og:description" content="Dedicated web developer with <?php echo date("Y") - 2014; ?> years of experience sharing identical affections in designing, having integrated innovation and creativity aligned with ideal quality. Interested on fully responsive and interactive modules & layouts resulting in 40% more flexible outcomes." />
-<meta property="og:image" content="ASSETS/InfamousRocket.png" />
-<meta property="og:url" content="http://infamousrocket.com" />
+                <meta name="robots" content="noindex,nofollow">
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
+<meta name='description' content='Dedicated web developer with <?php echo date("Y") - 2014; ?> years of experience sharing identical affections in designing, having integrated innovation and creativity aligned with ideal quality. Interested on fully responsive and interactive modules & layouts resulting in 40% more flexible outcomes.'>
+<meta property="og:type" content="website">
+<meta property="og:title" content="InfamousRocket - Front-end web developer, Digital designer">
+<meta property="og:description" content="Dedicated web developer with <?php echo date("Y") - 2014; ?> years of experience sharing identical affections in designing, having integrated innovation and creativity aligned with ideal quality. Interested on fully responsive and interactive modules & layouts resulting in 40% more flexible outcomes.">
+<meta property="og:image" content="ASSETS/InfamousRocket.png">
+<meta property="og:url" content="http://infamousrocket.com">
+<meta name="theme-color" content="#0a0a0b">
+<meta name="apple-mobile-web-app-title" content="InfamousRocket">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>InfamousRocket - Front-end web developer, Digital designer</title>
-<link rel='canonical' href='http://infamousrocket.com/' />
-<link href='ASSETS/favicon.ico' type='image/x-icon' rel='icon' />
-<link href='STYLE/Style.css' rel='stylesheet' type='text/css' />
+<link rel='canonical' href='http://infamousrocket.com/'>
+<link href='ASSETS/favicon.ico' type='image/x-icon' rel='icon'>
+<link href='ASSETS/favicon-48.png' type='image/x-icon' rel='icon'>
+<link href='ASSETS/favicon-96.png' type='image/x-icon' rel='icon'>
+<link href='ASSETS/favicon-144.png' type='image/x-icon' rel='icon'>
+<link href='ASSETS/favicon-192.png' type='image/x-icon' rel='icon'>
+<link href='STYLE/Style.css' rel='stylesheet' type='text/css'>
 <script src='SCRIPT/JQ-3.1.1.js' type='text/javascript' language='javascript' ></script>
 <script src='SCRIPT/GSAP/TweenMax.min.js' type='text/javascript' language='javascript' ></script>
 <script src='SCRIPT/GSAP/TimelineMax.min.js' type='text/javascript' language='javascript' ></script>
