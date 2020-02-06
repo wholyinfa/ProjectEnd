@@ -786,6 +786,9 @@ section article{
 #SpaceCyclone .TriggerBox{
     z-index: 2;
 }
+#SpaceCyclone .TriggerBox .Tripwire{
+    z-index: 1;
+}
 #SpaceCyclone .Tripwire{
     width: 120%; height: 120%;
     position: absolute; top: -10%; left: -10% ;
