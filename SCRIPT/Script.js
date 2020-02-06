@@ -5291,9 +5291,20 @@ DivisionExpress = {
         // Set target position
         Position: function(target){
             function SetTween(This){
+                // Get the difference between the space above QuickAccess and the DivisionExpress
+                var n = $(".QuickAccess").offset().top -
+                    (
+                        This.find(".Content").innerHeight() +
+                        This.find(".Trigger").innerHeight() +
+                        This.find(".Hint").innerHeight()
+                    );
+                // Apply scroll when the difference is affecting the content's appearance
+                if( n < -10 ){
+					This.find(".Content h2").height(This.find(".Content h2").height() - Math.abs(n));
+                }
                 // Hide this asset with it's content's height
                 TweenMax.set([This.find(".Trigger"), This.find(".Content").children()], {
-                    y: function(){ return -This.find(".Content").innerHeight(); }
+                    y: function(){ return -This.find(".Content").outerHeight(true); }
                 });
                 TweenMax.set(This.find(".Content"), {visibility: "hidden"});
             }
@@ -5355,8 +5366,8 @@ function ExpressTheDivision(This){
 		ExpressSequence.add(
 			TweenMax.fromTo([This.find(".Trigger"),This.find(".Content").children()], .35, {
 				autoAlpha: 1,
-                // Set responsive value to be able to reverse back to the currect position after page is resized
-				y: function(){ return -This.find(".Content").innerHeight(); }
+                // Set responsive value to be able to reverse back to the correct position after page is resized
+				y: function(){ return -This.find(".Content").outerHeight(true); }
 			}, {
 				autoAlpha: 1,
 				y: 0,
