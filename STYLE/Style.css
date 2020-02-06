@@ -822,7 +822,7 @@ section article{
     visibility: hidden; opacity: 0;
 }
 #SpaceCyclone form > [type="file"]{
-    position: absolute; top: -10000000%;
+    position: absolute; left: -10000%;
 }
 #SpaceCyclone button:hover{
     cursor: pointer;

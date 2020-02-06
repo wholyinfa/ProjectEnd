@@ -5953,7 +5953,7 @@ function AssetForm(t,func){
     }
 
     // Disable scroll to prevent calculation errors
-    Storm.find(".AssetContainer").css({overflow: "hidden"});
+    Storm.find(".AssetContainer").css({overflowX: "hidden", overflowY: "hidden"});
     // Revert scroll position to zero
     TweenMax.to(Storm.find(".AssetContainer"), .3, {
         scrollTop: 0
@@ -6014,7 +6014,7 @@ function AssetForm(t,func){
     });
     Form.Arrange[Class].eventCallback("onComplete", function(){
         // Enable scroll for overlapping forms
-        Storm.find(".AssetContainer").css({overflow: "auto"});
+        Storm.find(".AssetContainer").css({overflowX: "hidden", overflowY: "auto"});
     });
 }
 function Deformer(t, nonstop){
@@ -6114,7 +6114,7 @@ function ExitStorm(t){
 	// Reset and disable Definer asset hover reactions
 	Area69.reset(Storm.find(".Area69")).enabled(false);
     // Disable overflowing
-    Storm.find(".AssetContainer").css({overflow: ""});
+    Storm.find(".AssetContainer").css({overflowY: "", overflowX: ""});
 }
 function StormSequence(){
     // Apply width and height for assets based on their unchanged clones
