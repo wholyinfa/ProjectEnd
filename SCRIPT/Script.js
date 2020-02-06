@@ -911,6 +911,30 @@ function Varia(){
     CardDraggable();
     // Reset coordinates of the DivisionExpress' content
     DivisionExpress.set.Position();
+
+    if( typeof(ExpressSequence) !== "undefined" &&
+        (
+            ( !ExpressSequence.isActive() && ExpressSequence.progress() === 1 ) ||
+            ExpressSequence.isActive()
+        )
+    ){
+        // Store DivisionExpress' animations progress when the animation is active
+        var progress = ( ExpressSequence.isActive() ) ?
+            [
+                ExpressSequence.progress(),
+                HintWiggle.progress()
+            ] : [1, 1];
+        // Collapse the DivisionExpress and skip animations to the original position
+        ExpressTheDivision(ActiveDivision.find(".DivisionExpress"));
+        ExpressSequence.progress(0);
+        HintWiggle.progress(0);
+        // Reset coordinates of the DivisionExpress' content
+        DivisionExpress.set.Position(ActiveDivision.find(".DivisionExpress"));
+        // Recall the DivisionExpress sequence and skip to the determined progress
+        ExpressTheDivision(ActiveDivision.find(".DivisionExpress"));
+        ExpressSequence.progress(progress[0]);
+        HintWiggle.progress(progress[1]);
+    }
 }
 
 function Globe(){
@@ -5291,6 +5315,8 @@ DivisionExpress = {
         // Set target position
         Position: function(target){
             function SetTween(This){
+                // Reset any possible height changes
+                This.find(".Content h2").height("");
                 // Get the difference between the space above QuickAccess and the DivisionExpress
                 var n = $(".QuickAccess").offset().top -
                     (
@@ -5299,7 +5325,7 @@ DivisionExpress = {
                         This.find(".Hint").innerHeight()
                     );
                 // Apply scroll when the difference is affecting the content's appearance
-                if( n < -10 ){
+                if( n < -10 && !Is.ThisSize(null, 350) ){
 					This.find(".Content h2").height(This.find(".Content h2").height() - Math.abs(n));
                 }
                 // Hide this asset with it's content's height
