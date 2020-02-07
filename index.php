@@ -142,11 +142,11 @@
                 <div class="StarFlow"></div>
                 <div class="Flow"></div>
                 <div class="AssetContainer">
-                <a href="" class="AlphaAsset Resume">
+                <a href="ASSETS/AliHadadiCV.pdf" class="AlphaAsset Resume">
                     <div class="Asset"></div>
                     <div class="Sub">RESUME</div>
                 </a>
-                <a href="" class="BetaAsset CV">
+                <a href="ASSETS/AliHadadiCV.pdf" class="BetaAsset CV">
                     <div class="Asset"></div>
                     <div class="Sub">CV</div>
                 </a>
