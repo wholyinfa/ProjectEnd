@@ -624,6 +624,7 @@ function Varia(){
       	$(".Area69"),
       	$(".TriggerBox .Tripwire"),
       	$("#Skillometer .Strikes"),
+      	$("#Footer > a"),
       	$(".CardSlider > .Card .Content"),
 		$("#AntiToxins .DevParticle, #AntiToxins .ArtParticle"),
     ];
@@ -2171,6 +2172,7 @@ function Globe(){
     	Area69.reset($(this));
     });
 	$("#Footer > a").mouseenter(function(){
+		if( Is.NoTouch($(this)) ){ return false; }
 	    TweenMax.to($(this).find("img"), .15, {
 	        scale: 1.3,
 	        transformOrigin: "50% 100%",
@@ -2183,12 +2185,15 @@ function Globe(){
         });
     })
         .mouseleave(function(){
+			if( Is.NoTouch($(this)) ){ return false; }
         TweenMax.to($(this).find("img"), .15, {
             scale: 1,
+			clearProps: "all",
             ease: Power1.easeOut
         });
         TweenMax.to($(this).find(".Line"), .15, {
             scaleY: 0,
+			clearProps: "all",
             ease: Power1.easeOut
         });
     });
