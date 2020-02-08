@@ -267,7 +267,7 @@ Projects = [
 				active: false
 			}
 		],
-		detail: "Smooth and strong just like HajNabi's oil products, with unique motions ensuring an interactive experience along with powerful slideshows implementing both style and content within the website's core, which itself simplifies access to complex modules.<br>Superior desktop version while thoroughly Mobile-friendly and maximizing responsive design with pixel-based restructuring features.",
+		detail: "Smooth and strong just like HajNabi's oil products, with unique motions ensuring an interactive experience along with powerful slideshows implementing both style and content within the website's core, which itself simplifies access to complex Modules.<br>Superior desktop version while thoroughly Mobile-friendly and maximizing responsive design with pixel-based restructuring features.",
 		tools: [
 			"html",
 			"css",
@@ -430,7 +430,7 @@ Projects = [
 				active: false
 			}
 		],
-		detail: "Liolt showcases projects in a unique form delivering all the necessary information among with interactive modules while expanding viewer's perspective over what the owners are capable of, also it develops new ways of connecting to the user by introducing the individuals or organizations involved in creative ways.",
+		detail: "Liolt showcases projects in a unique form delivering all the necessary information among with interactive Modules while expanding viewer's perspective over what the owners are capable of, also it develops new ways of connecting to the user by introducing the individuals or organizations involved in creative ways.",
 		tools: [
 			"ai",
 			"ps"
