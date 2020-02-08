@@ -1,0 +1,15 @@
+{
+    "name": "dt/infamousrocket",
+    "description": "Infamous rocket website email module",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mr Apr",
+            "email": "mamali0938@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : "^7.2"
+    }
+}
