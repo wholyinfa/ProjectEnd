@@ -1861,11 +1861,16 @@ function Globe(){
     });
     $(".PathFinder .Pocket").mouseenter(function(){
         var pathfinder = $(".PathFinder"),
-            path = pathfinder.find("#Path");
+            path = pathfinder.find("#Path"),
+            contentgap = path.innerWidth() - pathfinder.innerWidth();
         // Forbid hover reaction when user is dragging
-        if( typeof(Draggable.get(path)) !== "undefined" && Draggable.get(path).isDragging ){ return; }
+        if(
+			( typeof(Draggable.get(path)) !== "undefined" && Draggable.get(path).isDragging ) ||
+			( typeof(IdlePath) !== "undefined" && IdlePath.isActive() ) ||
+			( path.position().left > 0 || path.position().left < -contentgap )
+		){ return; }
         // Check whether #Path overflows it's content
-        if( ( path.innerWidth() - pathfinder.innerWidth() ) > 0 ){
+        if( contentgap > 0 ){
             // Create animation Timeline
             IdlePath = new TimelineMax();
             var x = {
