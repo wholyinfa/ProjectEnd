@@ -8,13 +8,8 @@ class SendNotification
 {
     public $notification_object;
 
-    public function __construct(SendNotificationInterface $notification_object = null)
+    public function __construct(SendNotificationInterface $notification_object)
     {
-        if(is_null($notification_object) || empty($notification_object))
-        {
-            $notification_object = new Email();
-        }
-
         $this->notification_object = $notification_object;
     }
 

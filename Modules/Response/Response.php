@@ -18,7 +18,7 @@ class Response
         return new self;
     }
 
-    public static function formatResponse($data,$status)
+    public static function formatResponse($data,$status = 200)
     {
         if(is_null(static::$driver) || empty(static::$driver))
         {
