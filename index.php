@@ -81,7 +81,7 @@
             <div class="Cell LeftSection B"></div>
             <div class="Cell LeftSection A"></div>
         </div>
-        <div class="Cells JourNey">
+        <div class="Cells Journey">
             <div class="Cell RightSection I"></div>
             <div class="Cell RightSection H"></div>
             <div class="Cell RightSection G"></div>
@@ -318,7 +318,7 @@
                 <div class="Laugh"></div>
             </div>
 
-            <div class='Portal JourNey'>
+            <div class='Portal Journey'>
                 <div class='Flow'></div>
                 <div class="Shrinker">
                     <div class='Rotten'></div>
@@ -349,7 +349,7 @@
                     <div class='Behindmo'></div>
                     <div class='Bigmo'></div>
                     <div class='Frontmo'></div>
-                    <div class='Jaccuzi'></div>
+                    <div class='Jacuzzi'></div>
                 </div>
             </div>
 
@@ -630,12 +630,12 @@
                             <div></div>
                         </div>
                     </div>
-                    <div class="Title">LORE LORE LORE LOER LOER</div>
+                    <div class="Title"></div>
                     <div class="Pages">
                         <div>
-                            <div class="Page" id="No1">MAMAD PAGE</div>
-                            <div class="Page active" id="No2">INDEX PAGE</div>
-                            <div class="Page" id="No3">KAFTAR PAGE</div>
+                            <div class="Page" id="No1"></div>
+                            <div class="Page active" id="No2"></div>
+                            <div class="Page" id="No3"></div>
                         </div>
                     </div>
                     <div class="Preview">
@@ -674,7 +674,7 @@
                     <div class="Description"></div>
                     <div class="State">
                         <div class="Container">
-                            <div class="RealState">PROJECT STATE : COMPLETED <span>( <a href="" class="goto">Go To Webstie</a> )</span></div>
+                            <div class="RealState">PROJECT STATE : COMPLETED <span>( <a href="" class="goto">Go To Website</a> )</span></div>
                             <div class="RealState">PROJECT STATE : DOING</div>
                             <div class="RealState">PROJECT STATE : CANCELLED</div>
                             <div class="Exc">
@@ -911,7 +911,7 @@
                         <div class="The"></div>
                         <div class="Title"></div>
                         <div class="Icon"></div>
-                            <div class="Description"><div class="Content">Feeling the hard cold ground as it reflects "power" for each pushup, hearing the sky yell “higher” at every pullup, fighting the wind, the rain, the snow, the dust while running towards a superior shape of body and mind is worth hustling for everyday.</div></div>
+                            <div class="Description"><div class="Content">Feeling the hard cold ground as it reflects "power" for each Push-up, hearing the sky yell “higher” at every Pull-up, fighting the wind, the rain, the snow, the dust while running towards a superior shape of body and mind is worth hustling for everyday.</div></div>
                         </div>
                         </div>
                     </div>
