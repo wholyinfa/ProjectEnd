@@ -785,7 +785,7 @@
                         <div class="The"></div>
                         <div class="Title"></div>
                         <div class="Icon"></div>
-                            <div class="Description"><div class="Content">Being able to bring a mythical creature to life, give it a name, color it, base it on a story and share it to the world or sometimes form an ecosystem of elements and witness them interactive and harmonize with each other flawlessly, is definitely a skill worth mastering.</div></div>
+                            <div class="Description"><div class="Content">Being able to bring a mythical creature to life, give it a name, color it, base it on a story and share it to the world or sometimes form an ecosystem of elements and witness them interact and harmonize with each other flawlessly, is definitely a skill worth mastering.</div></div>
                         </div>
                         </div>
                     </div>
@@ -815,7 +815,7 @@
                         <div class="The"></div>
                         <div class="Title"></div>
                         <div class="Icon"></div>
-                            <div class="Description"><div class="Content">Most electronic devices do what humans are unable to do, they grant us extra abilities making our lives easier and our pockets greasier; Harnessing the power of a tiny bit of this digital ocean of information ensures entrance to the future era in a ready state.</div></div>
+                            <div class="Description"><div class="Content">Most electronic devices do what humans are unable to do, they grant us extra abilities making our lives easier and our pockets greasier; Harnessing a tiny bit of the power of this digital ocean of information ensures entrance to the future era in a ready state.</div></div>
                         </div>
                         </div>
                     </div>

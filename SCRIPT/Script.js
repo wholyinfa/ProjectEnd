@@ -1,4 +1,4 @@
-var
+let Loader, EnterStorm, CoreMove, CoreSlot, ExpandPreview, EnterParticle, ActiveFly, ReverseFly, ParticleNavigation, ExpressSequence, Shrinker, Flicker, SignGlitch, UpperBeam, tprint, tpath, Navigation, Associates,
 Portal = ['Journey','Artery','BigMo'],
 PortalColor = ['#00ffff','#ff8f8f','#b3ffb3',"#FFF"],
 Gandalf = [
@@ -564,12 +564,9 @@ $(document).ready(function(){
 });
 $(window).resize(function(){Varia();});
 $(window).bind("load", function() {
-    if( typeof(Loader) !== "undefined" ){
+    if( Loader ){
         // Pause teh loading animation if it's set
-        Loader.pause();
-    }else{
-        // prevent loader when the page is loaded fast
-        Loader = false;
+        Loader.delay(0).kill();
     }
     // After shrinking loading line fade the load barier
     TweenMax.to("#LoaderLine", .2, {
@@ -612,7 +609,7 @@ function Varia() {
 		TweenMax.set($(this).children(".Container").children(), {rotation: Angle});
 	});
 		// When loader is allowed and is set, restart the loader on resize
-		if (typeof (Loader) !== "undefined" && Loader !== false && Loader.isActive()) {
+		if ( Loader && Loader.isActive()) {
 			Loader.restart();
 		}
 		// Disable assets not supported in touch devices
@@ -635,11 +632,11 @@ function Varia() {
 			}
 		});
 		// Resize & reposition Storm assets when in a storm
-		if (typeof (EnterStorm) !== "undefined" && !EnterStorm.isActive() && EnterStorm.progress() === 1) {
+		if ( EnterStorm && !EnterStorm.isActive() && EnterStorm.progress() === 1) {
 			ReCap();
 		}
 		// Handle resize mid-animation
-		if (typeof (EnterStorm) !== "undefined" && EnterStorm.isActive() && !EnterStorm.reversed()) {
+		if ( EnterStorm && EnterStorm.isActive() && !EnterStorm.reversed()) {
 			// Pause the animation and set new ones
 			ReCap();
 			// Manually call post entrance sequences because Ritual won't trigger it's default onComplete Event listener
@@ -739,12 +736,12 @@ function Varia() {
 			});
 		});
 		// When a Core is loaded but not currently loading:
-		if (typeof (CoreMove) !== "undefined" && !CoreMove.isActive()) {
+		if ( CoreMove && !CoreMove.isActive()) {
 			// Remove recorded attributes to enable position recalculation
 			CoreMove.invalidate();
 		}
 		// When a core is in the process of loading:
-		if (typeof (CoreMove) !== "undefined" && CoreMove.isActive()) {
+		if ( CoreMove && CoreMove.isActive()) {
 			// Remove recorded attributes to enable position recalculation
 			CoreMove.invalidate();
 			// If unloading
@@ -759,11 +756,11 @@ function Varia() {
 			}
 		}
 		// Check if SingleParticle is currently active and showing
-		if (typeof (EnterParticle) !== "undefined" && !EnterParticle.isActive() && EnterParticle.progress() === 1) {
+		if ( EnterParticle && !EnterParticle.isActive() && EnterParticle.progress() === 1) {
 			// Store current active particle's object cause in ResetParticle() method it is removed
 			let prtcle = Particle.activeObj,
 				// Determine whether preview is open
-				preview = (typeof (ExpandPreview) !== "undefined" && ExpandPreview.progress() === 1);
+				preview = ( ExpandPreview && ExpandPreview.progress() === 1);
 			Particle.Navigated = false;
 			// Reset everything back to their default position
 			ResetParticle(Particle.activeObj);
@@ -786,7 +783,7 @@ function Varia() {
 			}
 		}
 		// Or if it's in the entrance process
-		if (typeof (EnterParticle) !== "undefined" && EnterParticle.isActive()) {
+		if ( EnterParticle && EnterParticle.isActive()) {
 			// Indicate reverse state
 			let rev = false;
 			if (EnterParticle.reversed()) {
@@ -814,7 +811,7 @@ function Varia() {
 				ParticleActivation(prtcle);
 			}
 		}
-		if (typeof (ParticleNavigation) !== "undefined" && ParticleNavigation.isActive()) {
+		if ( ParticleNavigation && ParticleNavigation.isActive()) {
 			// Store progress for each running animation
 			let progress = [
 				ParticleNavigation.progress(),
@@ -915,14 +912,14 @@ function Varia() {
 		// Reset coordinates of the DivisionExpress' content
 		DivisionExpress.set.Position();
 
-		if (typeof (ExpressSequence) !== "undefined" &&
+		if ( ExpressSequence &&
 			(
 				(!ExpressSequence.isActive() && ExpressSequence.progress() === 1) ||
 				ExpressSequence.isActive()
 			)
 		) {
 			// Store DivisionExpress' animations progress when the animation is active
-			let progress = (ExpressSequence.isActive()) ?
+			let progress = ( ExpressSequence.isActive() ) ?
 				[
 					ExpressSequence.progress(),
 					HintWiggle.progress()
@@ -965,19 +962,27 @@ function Globe(){
 		anlz = $("#Analyzer"),
 		dcca = $("#DeckCloud .Card"),
 		decc = $(".Deck:not(.Slider) .Cards .Card");
+	let
+		IdlePath, DeployNameTag;
 	// When loader is allowed run the loading animation
-	if( typeof(Loader) !== "undefined" && Loader !== false ){
+	if( !Loader ){
         Loader = new TimelineMax({repeat: -1});
-        Loader.to("#LoaderLine",.75, {
-            x: "-50%",
-            scaleX: 9,
-            ease: " back. in(1.7)"
-        }).to("#LoaderLine",.75, {
-            x: "-50%",
-            scaleX: 1,
-            ease: " back. in(1.7)"
-        });
-        Loader.delay(.5);
+        TweenMax.to("#LoaderLine", {
+			x: "-50%",
+			scaleX: 9,
+			ease: "back.in(1.7)",
+			onComplete: function(){
+				Loader.delay(.5).to("#LoaderLine",.75, {
+					x: "-50%",
+					scaleX: 9,
+					ease: "back.in(1.7)"
+				}).to("#LoaderLine",.75, {
+					x: "-50%",
+					scaleX: 1,
+					ease: "back.in(1.7)"
+				});
+			}
+		});
     }
 	// Resetting all forms and inputs on page load
 	$("input,textarea").val("");
@@ -1591,7 +1596,7 @@ function Globe(){
 			quac = $(".QuickAccess");
 		let t = $(this);
 		// Forbid Portal activation when Fly animation is running
-		if( typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ){
+		if( ActiveFly && ActiveFly.isActive() ){
 			return;
 		}
 
@@ -1613,7 +1618,7 @@ function Globe(){
 				// ReSet fly clearance
 				if( Global.Rotten ){
 					for( XX = 0 ; XX < Portal.length ; XX++ ){
-						if( typeof(ActiveRotten[XX]) != "undefined" &&
+						if( ActiveRotten[XX] &&
 							$(ActiveRotten[XX].target[0]).parent().parent().hasClass("active") ){
 
 							CheckForToggle($(ActiveRotten[XX].target[0]).parent().parent(),true);
@@ -1725,20 +1730,20 @@ function Globe(){
                 // Randomly select an option
                 Opt = Math.floor(OptLength*Math.random());
                 // Ensure the selection of all arrays before re-selecting the same option
-                for( i = 0 ; i < RandList.length ; i++ ){
-                    // Check whether the option is repetitive
-                    if( RandList[i] === Opt ){
-                        // Run the loop until:
-                        while(
-                            // The option is not repetitive
-                            RandList[i] === Opt ||
-                            // Or the current option isn't the same as the previous option
-                            RandList[RandList.length] === Opt ){
-                            // Randomly select an option
-                            Opt = Math.floor(OptLength*Math.random());
-                        }
-                    }
-                }
+				for( let i of RandList ){
+					// Check whether the option is repetitive
+					if( i === Opt ){
+						// Run the loop until:
+						while(
+							// The option is not repetitive
+						i === Opt ||
+						// Or the current option isn't the same as the previous option
+						RandList[RandList.length-1] === Opt ){
+							// Randomly select an option
+							Opt = Math.floor(OptLength*Math.random());
+						}
+					}
+				}
                 // Reset picked list to allow a new loop
                 if( RandList.length === OptLength ){
                     RandList = [];
@@ -1890,7 +1895,7 @@ function Globe(){
 				}
 				ReverseFly.duration(ReverseFly.duration()-ReverseFly.duration()*.9).reverse().eventCallback("onReverseComplete",KillReverseFly);
 			}else{
-            	if( ActiveDivision.attr("id") === "Temporary" || ( typeof(Shrinker) !== "undefined" && Shrinker.isActive() ) ){
+            	if( ActiveDivision.attr("id") === "Temporary" || ( Shrinker && Shrinker.isActive() ) ){
 				Shrinker.duration(Shrinker.duration()-Shrinker.duration()*.9).reverse();
 				}
             }
@@ -1910,8 +1915,8 @@ function Globe(){
 	});
 	// Reverse sequence
 	revh.click(function(){
-		if( (typeof (ReverseFly) === "undefined" || !ReverseFly.isActive()) &&
-			(typeof (ActiveFly) === "undefined" || !ActiveFly.isActive()) ){
+		if( ( !ReverseFly || !ReverseFly.isActive() ) &&
+			( !ActiveFly || !ActiveFly.isActive() ) ){
 			ReverseHandle($(this));
 		}
 	});
@@ -1931,7 +1936,7 @@ function Globe(){
 	rebu.click(function(){
 		if( DirectFlyActive[0] ){ return; }
 		if (Reverse.pedal === true){
-			if (typeof (ReverseFly) === "undefined" || !ReverseFly.isActive()) {
+			if ( !ReverseFly || !ReverseFly.isActive() ) {
 				ReverseHandle();
 			} else {
 				ReverseHandle(false);
@@ -1947,7 +1952,7 @@ function Globe(){
 	} );
 	$("#Ditch").click(function() {
 		if (Reverse.pedal === false){
-			if (typeof (ActiveFly) === "undefined" || !ActiveFly.isActive()) {
+			if ( !ActiveFly || !ActiveFly.isActive() ) {
 				ReverseHandle();
 			} else {
 				ReverseHandle(false);
@@ -1965,7 +1970,7 @@ function Globe(){
 	// Set hover reaction
     pfpo.mousedown(function(){
         // Forbid hover animations
-        if( typeof(IdlePath) !== "undefined" ){
+        if( IdlePath ){
             IdlePath.pause();
         }
     });
@@ -1975,8 +1980,8 @@ function Globe(){
             contentgap = path.innerWidth() - pathfinder.innerWidth();
         // Forbid hover reaction when user is dragging
         if(
-			( typeof(Draggable.get(path)) !== "undefined" && Draggable.get(path).isDragging ) ||
-			( typeof(IdlePath) !== "undefined" && IdlePath.isActive() ) ||
+			( Draggable.get(path) && Draggable.get(path).isDragging ) ||
+			( IdlePath && IdlePath.isActive() ) ||
 			( path.position().left > 0 || path.position().left < -contentgap )
 		){ return; }
         // Check whether #Path overflows it's content
@@ -2061,7 +2066,7 @@ function Globe(){
 	$('#SpaceCyclone .TriggerBox .Tripwire').click(function(){
         let StormID = ($(this).attr("class").match(/Storm(\w*)|\w*Storm/g)[0]).replace("Storm","");
 	    // Check if method is in the middle of entering/exiting
-		if( typeof(EnterStorm) !== "undefined" && EnterStorm.isActive() ){
+		if( EnterStorm && EnterStorm.isActive() ){
 		    // Run when entering the storm
 		    if( !EnterStorm.reversed() ){
                 EnterStorm.reverse().eventCallback("onReverseComplete", function(){
@@ -2145,7 +2150,7 @@ function Globe(){
         }
         else{
             // Collapse the current asset if it's expanded
-            if( typeof(Form.Arrange[Class]) !== "undefined" ) {
+            if( Form.Arrange[Class] ) {
                 if( Deformer($(this)) ){ return; }
             }
             // Expand current asset
@@ -2255,7 +2260,7 @@ function Globe(){
     });
 	$("#SpaceCyclone > .Storm .Definer").click(function(){
         // Check if method is in the middle of entering/exiting
-        if( typeof(EnterStorm) !== "undefined" && EnterStorm.isActive() ){
+        if( EnterStorm && EnterStorm.isActive() ){
             // Run when entering
             if( !EnterStorm.reversed() ){
                 EnterStorm.reverse();
@@ -2468,7 +2473,7 @@ function Globe(){
 		OBJ = $(this).siblings(".Title").find(">span");
 		Core = CoreElement.find(".Extender");
 		Dur = ((OBJ.width()*100)/OBJ.parent().innerWidth())/125;
-		if( typeof(Flicker) !== "undefined" && Flicker.isActive() ){
+		if( Flicker && Flicker.isActive() ){
 			ReverseCore();
 		}
 		Flicker = new TimelineMax({yoyo: true,repeat: -1});
@@ -2483,7 +2488,7 @@ function Globe(){
 		.mouseleave(function(){
 		if( Is.NoTouch($(this)) ){ return; }
 		if( CoreClick !== $(this).parent().attr("class") ){
-			if( typeof(Flicker) !== "undefined" && Flicker.isActive() ){
+			if( Flicker && Flicker.isActive() ){
 				ReverseCore();
 			}
 		}
@@ -2503,7 +2508,7 @@ function Globe(){
 		}
 		ReverseCore(true);
 		// Check if any other element is engaging with the device
-		if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
+		if( CoreSlot && CoreSlot.children().length > 0 ){
 		    // Cancel load of the last unplaced element
 			Emginashun.duration(Emginashun.duration()/14.4).reverse().eventCallback("onReverseComplete",DelCore,[Emginashun._first.target[0]]);
 			Laser.pause();
@@ -2539,7 +2544,7 @@ function Globe(){
 				scaleX: 0,
 				ease:  Back.easeIn.config(2)
 			}, 0);
-		CoreMove.play().eventCallback("onComplete",CoreArrived);
+		CoreMove.play();
 		AffectedCores.Core.push(Core);AffectedCores.Waya.push(Core.find(".Waya"));
 
 		CoreSlot = $(".CoreSlot");
@@ -2635,7 +2640,7 @@ function Globe(){
 			return false;
 		}
 		if( Emginashun.reversed() ){ return; }
-		if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
+		if( CoreSlot && CoreSlot.children().length > 0 ){
 			Laser.pause();
             if( LoadedCore ){ InfoPanel.off(); }
 			RemoveCore();
@@ -2685,9 +2690,11 @@ function Globe(){
 		reverse: function(duration){
 			let dur = ( typeof(duration) === "number" ) ? duration : null ;
 			// Reverse TagName deployment if already not reversed
-			if( typeof(DeployNameTag) !== "undefined" && !DeployNameTag.reversed() ){
+			if( DeployNameTag && !DeployNameTag.reversed() ){
 				if( dur !== null ){ DeployNameTag.duration(dur); }
 				DeployNameTag.reverse().eventCallback("onReverseComplete", function(t){
+					// Prevent hiding NameTag element when hover is triggered
+					if ( !t._last || TweenMax.getTweensOf($(t._last.target[0]).parent().children()).length ) return;
 				    t._last.target[0].style.display = "none";
                 }, ["{self}"]);
 			}
@@ -2696,7 +2703,7 @@ function Globe(){
 	atda.mouseenter(function(){
 		if( Is.NoTouch($(this)) ){ return; }
 		// Abort reaction if SingleParticle is open or when entering particle
-		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) || Particle.Navigated ){ return; }
+		if( Particle.isActive || ( EnterParticle && EnterParticle.isActive() ) || Particle.Navigated ){ return; }
 		// Get and fade the stars and all other particles but the current one
 		TweenMax.staggerTo(
 		    ( $(this).hasClass("DevParticle") ) ?
@@ -2708,7 +2715,7 @@ function Globe(){
 	.mouseleave(function(){
 		if( Is.NoTouch($(this)) ){ return; }
 		// Abort reaction if SingleParticle is open or when entering particle
-		if( Particle.isActive || ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) || Particle.Navigated ){ return; }
+		if( Particle.isActive || ( EnterParticle && EnterParticle.isActive() ) || Particle.Navigated ){ return; }
 		// Resetting blurred assets on mouseleave
         TweenMax.staggerTo($(this).parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(this), .25, {opacity: 1}, .04);
 		// Remove NameTag
@@ -2745,8 +2752,7 @@ function Globe(){
 		}
 		$(this).data({GandalfActive: true});
 		TrackLines.isActive[Class] = true;
-
-		if( typeof(TrackLines.obj[Class]) === "undefined" ){
+		if( !TrackLines.obj[Class] ){
 			TrackLines.obj[Class] = [];
 			$( Particles ).each(function(){
 				TrackLines.obj[Class].push( Star.append("<div class='Line'></div>").children(".Line").last() );
@@ -2815,7 +2821,7 @@ function Globe(){
 		});
 	});
 	$("#AntiToxins .ArtSign, #AntiToxins .DevSign").click(function(){
-	    if( typeof(SignGlitch) !== "undefined" && ( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() ) ){
+	    if( SignGlitch && ( EnterParticle && EnterParticle.isActive() ) ){
             SignGlitch.invalidate().pause();
         }
 		SignGlitch = new TimelineMax();
@@ -3075,13 +3081,13 @@ function Globe(){
 	})
 		.mouseleave(function(){
 			let T = $(this).parent().parent().attr("class");
-		if( ( typeof(CardSelect.isActive[T]) !== "undefined" && CardSelect.isActive[T] ) || CardSelect.validator[T] ){
+		if( CardSelect.isActive[T] || CardSelect.validator[T] ){
 
 			let ishv = CardSelect.validator[T] && !$(this).parent().children(".Card").filter(function() { return $(this).is(":hover"); }).length;
 			// Enable hover reactions when:
 			if(
 				// Mousedown is triggered and cursor leaves the cards area
-				ishv ||
+				( !CardSelect.isActive[T] && ishv ) ||
 				// Drag exits the Card area
 				( ishv && $(mdevent.target).hasClass("Content") ) ){
 				// Resetting mousedown variables
@@ -3099,7 +3105,7 @@ function Globe(){
 			transformOrigin: "50% 100%"
 		} );
 		// Checking to see if any of the the next ( active ) siblings are hovered
-		if( ActiveHover.length && typeof(CardHover.HoverReveal[T]) !== "undefined" && prevsiblings.length ){
+		if( ActiveHover.length && CardHover.HoverReveal[T] && prevsiblings.length ){
 			// var Hm = CardHover.HoverReveal[T].getTweensOf(ActiveHover.children());
 			// Removing the targeted tween from the main timeline
 			// CardHover.HoverReveal[T].remove( Hm );
@@ -3138,7 +3144,7 @@ function Globe(){
 		// Decks are currently placing and haven't finished
 		// Any other cards are hovered
 		if(
-			typeof(CardHover.HoverReveal[T]) === "undefined" ||
+			!CardHover.HoverReveal[T] ||
 			PlaceDeck.isActive() ||
 			OtherCardsHovered
 		){
@@ -3159,26 +3165,30 @@ function Globe(){
 		mdevent = e;
 		CardSelect.validator[T] = 1;
 		// Making sure a card is selected to run the de-select process
-		if( typeof(CardSelect.isActive[T]) !== "undefined" && CardSelect.isActive[T] &&
+		if( CardSelect.isActive[T] &&
 			// Prevent other cards from appearing when content is clicked
 			!$(mdevent.target).hasClass("Content") ) {
 			// Prepping the handlers so we can read what mouse is hovering on after de-select
-			TweenMax.set($(this).nextAll(".Card"), {autoAlpha: 1});
+			TweenMax.set($(this).siblings(".Card"), {autoAlpha: 1});
 		}
 		CardSelect.mdReset[T] = $(this);
 	});
 	decc.mouseup(function(){
-		let T = $(this).parent().parent().attr("class");
+		let T = $(this).parent().parent().attr("class"),
+			b;
 		CardSelect.validator[T] = 0;
 		// Declaring account state only when not declared
-		if( typeof(CardSelect.isActive[T]) === "undefined" ){
+		if( !CardSelect.isActive[T] ){
 			CardSelect.isActive[T] = false;
 		}
-		if( typeof(CardSelect.mdReset[T]) === "undefined" || CardSelect.mdReset[T] === false ){
+		if( !CardSelect.mdReset[T] ){
 			return;
 		}
 		// Abort method when content dragging is in process
-		if( (typeof(Draggable.get(CardSelect.mdReset[T].find(".Content"))) !== "undefined" && Draggable.get(CardSelect.mdReset[T].find(".Content")).timeSinceDrag() < .005) || $(mdevent.target).hasClass("Content") ){
+		if(
+			( Draggable.get(CardSelect.mdReset[T].find(".Content")) &&
+				Draggable.get(CardSelect.mdReset[T].find(".Content")).timeSinceDrag() < .005) ||
+			$(mdevent.target).hasClass("Content") ){
 			// Prevent hover reactions on decsending cards
 			CardSelect.mdReset[T] = false;
 			return;
@@ -3187,7 +3197,7 @@ function Globe(){
 		// De-selecting
 		if( CardSelect.isActive[T] || !$(this).hasClass(CardSelect.mdReset[T].attr("class")) || !$(this).hasClass(CardSelect.mdReset[T].attr("class")) ){
 			if( CardSelect.mdReset[T] ){
-				siblings = CardSelect.mdReset[T].nextAll(".Card");
+				siblings = CardSelect.mdReset[T].siblings(".Card");
 			}
 			CardDeSelect( T, $(this), siblings );
 			// Exclusive commands for Peek
@@ -3210,7 +3220,7 @@ function Globe(){
 		CardSelect.isActive[T] = true;
 		CardSelect.object[T] = $(this);
 		// Pausing any kind of hover related animations to be able to fully hide sibiling cards
-		if( typeof(CardHover.HoverReveal[T]) !== "undefined" ){
+		if( CardHover.HoverReveal[T] ){
 			CardHover.HoverReveal[T].pause();
 		}
 		// Hiding siblings's direct children
@@ -3218,6 +3228,9 @@ function Globe(){
 		TweenMax.staggerTo( siblings, .15, {
 			scaleY: 0
 		}, .075, function(){
+			if ( CardSelect.validator[T] ){
+				return;
+			}
 			// Hiding the direct siblings after the animations
 			TweenMax.set( $(siblings).parent(), {autoAlpha: 0});
 
@@ -3251,7 +3264,7 @@ function Globe(){
             // Deny request when:
             if(
 				// Request is not forced
-            	typeof(force) === "undefined" &&
+            	!force &&
 				// Target is the active object
 				( T !== null && this.activeObj.hasClass(T.attr("class")) )
 			){ return; }
@@ -3397,9 +3410,8 @@ function URI(ForceSet){
 	// Obtain the current URL path's name
 	let currenturl = (ForceSet) ? ActiveDivision.attr("id") : (document.location.pathname).replace(/\/~Project_END\//, "/"),
 		url;
-
 	// Redirect all requests to the root (temporarily)
-	if( typeof(ForceSet) === "undefined" ){
+	if( !ForceSet ){
 		window.history.pushState({
 			id: DivisionURI[0].name
 		}, DivisionURI[0].pagetitle, "./");
@@ -3443,7 +3455,7 @@ Panel = {
 		// Deprioritize inactive Cells
 		TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
 		// Checking to make sure the current panel doesn't have it's exclusive animation already set
-		if( typeof(PanelSwitch.obj[Class]) === "undefined" || NEW ) {
+		if( !PanelSwitch.obj[Class] || NEW ) {
 			// Creating the animation set
 			PanelSwitch.obj[Class] = new TimelineMax();
 			PanelSwitch.obj[Class].add(
@@ -3550,7 +3562,7 @@ function SwitchDivision(target,Manual){
 		}
 	}
 	// Boosting active fly's speed to wrap up faster
-	if( typeof(Shrinker) !== "undefined" && Shrinker.isActive() ) {
+	if( Shrinker && Shrinker.isActive() ) {
 		Shrinker.duration(2);
 		Shrinker.eventCallback("onComplete",LoadSection,[FlyAssociates]);
 	}else{
@@ -3662,7 +3674,7 @@ function SwitchDivision(target,Manual){
 
 	Draggable.get(".Pedal").endDrag();
 	ReverseSequence();
-	DivisionSequence(true,target);
+	DivisionSequence(true);
 	Pathfinder();
     DivisionExpress.set.Beam();
 	URI(true);
@@ -3670,7 +3682,7 @@ function SwitchDivision(target,Manual){
   // Division sequences
 Order = {ID: null, Definitive: false};
 
-function DivisionSequence(reset,undone){
+function DivisionSequence(reset){
 	DiviSection = ActiveDivision.attr("id");
 	PreFlyIsSet = false; Reactive = false;
 	if( reset && Reverse.obj ){
@@ -3679,7 +3691,7 @@ function DivisionSequence(reset,undone){
 		PreDivision = false;
 	}
 		NextDivision = ( Forward.obj !== false ) ? Forward.obj.attr("id") : null;
-	if( typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() && !ActiveFly.reversed() ){
+	if( ActiveFly && ActiveFly.isActive() && !ActiveFly.reversed() ){
 		Reactive = true;
 	}
 
@@ -3702,11 +3714,6 @@ function DivisionSequence(reset,undone){
             TweenMax.to($(".Portalian"), .2, {autoAlpha: 0});
 		}
 		FlyAssociates = Ascs;
-	}else if( typeof(undone) !== "undefined" && undone.attr("id") === "Temporary" ){
-		// DO after left the current dimension
-		WolvenEyez.restart().pause();
-		BrokenLaugh.restart().pause();
-		TweenMax.to($(".Portalian"), .2, {autoAlpha: 0});
 	}
 	if( PreDivision === "Temporary" && !PreFlyIsSet ){
         PreFlyAssociates = Ascs;
@@ -3732,8 +3739,6 @@ function DivisionSequence(reset,undone){
 			}
 		}
 		FlyAssociates =  Ascs;
-	}else if( typeof(undone) !== "undefined" && undone.attr("id") === "SpaceCyclone" ){
-		// DO after left the current dimension
 	}
 	if( PreDivision === "SpaceCyclone" && !PreFlyIsSet ){
 		PreFlyAssociates = Ascs;
@@ -3749,7 +3754,7 @@ function DivisionSequence(reset,undone){
 			CoreTitleSlider.play();
 		}else{
 			// DO when about to leave
-			if( typeof(CoreSlot) !== "undefined" && CoreSlot.children().length > 0 ){
+			if( CoreSlot && CoreSlot.children().length > 0 ){
 				Laser.pause();
 				if( LoadedCore ){ InfoPanel.off(); }
 				RemoveCore(.2);
@@ -3759,8 +3764,6 @@ function DivisionSequence(reset,undone){
 			}
 			CoreTitleSlider.pause();
 		}
-	}else if( typeof(undone) !== "undefined" && undone.attr("id") === "Skillometer" ){
-		// DO after left the current dimension
 	}
     if( PreDivision === "Skillometer" && !PreFlyIsSet ){
         PreFlyAssociates = Ascs;
@@ -3783,7 +3786,7 @@ function DivisionSequence(reset,undone){
 			// DO when about to leave
 			if( !AntiToxins.reversed() ){
                 // When Sign is glitching
-                if( typeof(SignGlitch) !== "undefined" ){
+                if( SignGlitch ){
                     // Stop the glitch
                     SignGlitch.kill();
                 }
@@ -3792,12 +3795,6 @@ function DivisionSequence(reset,undone){
 			StarRotation.pause();
 			TrackLines.fade();
 		}
-	}else if( typeof(undone) !== "undefined" && undone.attr("id") === "AntiToxins" ){
-		// DO after left the current dimension
-		if( !AntiToxins.reversed() ){
-			AntiToxins.reversed( !AntiToxins.reversed() );
-		}
-		AntiToxins.restart().pause();
 	}
 	if( PreDivision === "AntiToxins" && !PreFlyIsSet ){
 		PreFlyAssociates = Ascs;
@@ -3826,8 +3823,6 @@ function DivisionSequence(reset,undone){
 				Analyzer.Reverse(Analyzer.object, true);
 			}
 		}
-	}else if( typeof(undone) !== "undefined" && undone.attr("id") === "Analyzer" ){
-		// DO after left the current dimension
 	}
 	if( PreDivision === "Analyzer" && !PreFlyIsSet ){
 		PreFlyAssociates = Ascs;
@@ -3861,7 +3856,7 @@ function DivisionSequence(reset,undone){
 						CardSelect.mdReset[K[i]] = false;
 						CardSelect.validator[K[i]] = 0;
 						TweenMax.set(CardSelect.object[K[i]].nextAll(".Card"), {autoAlpha: 1});
-						CardDeSelect( CardSelect.object[K[i]].parent().parent().attr("class"), CardSelect.object[K[i]], CardSelect.object[K[i]].nextAll(".Card") );
+						CardDeSelect( CardSelect.object[K[i]].parent().parent().attr("class"), CardSelect.object[K[i]], CardSelect.object[K[i]].siblings(".Card") );
 					}
 				});
 			if( PlaceDeck.isActive() ){
@@ -3870,14 +3865,6 @@ function DivisionSequence(reset,undone){
 			DeckCloudFly.invalidate().reverse();
 			Gravity.pause();
 		}
-	}else if( typeof(undone) !== "undefined" && undone.attr("id") === "DeckCloud" ){
-		// DO after left the current dimension
-		DeckCloudFly.reversed( !DeckCloudFly.reverse() );
-		DeckCloudFly.invalidate().restart().pause();
-		ShuffleFireFly.restart().pause();
-		PlaceDeck.restart().pause();
-		ShuffleFire.invalidate().pause();
-		Gravity.restart().pause();
 	}
 	if( PreDivision === "DeckCloud" && !PreFlyIsSet ){
 		PreFlyAssociates = Ascs;
@@ -3895,7 +3882,7 @@ function DivisionSequence(reset,undone){
             autoAlpha: 1
         });
 	}else{
-		if( typeof(ExpressSequence) !== "undefined" && ExpressSequence.progress() === 1 ){
+		if( ExpressSequence && ExpressSequence.progress() === 1 ){
 			ExpressTheDivision($(ExpressSequence._first._targets[0]).parent());
 		}
 		TweenMax.to(".DivisionExpress", .2, {
@@ -3912,25 +3899,25 @@ function Fly(Reach,Manual){
 		quac = $(".QuickAccess");
 	DivisionSequence();
 	// Restart fly associates while shrinker is still running
-	if( (typeof(Shrinker) !== "undefined" && Shrinker.isActive()) && (typeof(ActiveFly) !== "undefined" && !ActiveFly.isActive()) ){
+	if( ( Shrinker && Shrinker.isActive() ) && ( ActiveFly && !ActiveFly.isActive() ) ){
 		Shrinker.duration(.1); KillActiveFly();
 		TweenMax.to($(DirectRotten[0].target[0]).parent().parent().find(".Flow"),.5,{background: "",autoAlpha: 1});
 	}
 	// Or just restart active fly associates while reversing to the same division
-	if( (Reverse.pedal === true && (typeof(ActiveFly) !== "undefined" && !ActiveFly.isActive())) || (typeof(ReverseFly) !== "undefined" && !ReverseFly.isActive()) ){
+	if( (Reverse.pedal === true && ( ActiveFly && !ActiveFly.isActive()) ) || ( ReverseFly && !ReverseFly.isActive()) ){
 		// Store all available Fly associates
 	    ResetVars = ActiveFly.getChildren();
-		if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
+		if( ReverseFly ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
 		$(ResetVars).each(function(){
 		    // Reset all changes affected by Fly
 			TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0});
 		});
 	}
 	// Return on reverse fly
-	if( Reverse.pedal === false && ( (typeof(ReverseFly) !== "undefined" && ReverseFly.isActive()) ||
-		( typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ) ) ){
+	if( Reverse.pedal === false && ( ( ReverseFly && ReverseFly.isActive()) ||
+		( ActiveFly && ActiveFly.isActive() ) ) ){
 		// Return on reverse fly
-		if( typeof(ReverseFly) !== "undefined" && ReverseFly.isActive() ){
+		if( ReverseFly && ReverseFly.isActive() ){
 			if( ActiveFly.reversed() ){
 				ActiveFly.reversed(!ActiveFly.reversed());
 				ReverseFly.reversed(!ReverseFly.reversed());
@@ -3957,7 +3944,7 @@ function Fly(Reach,Manual){
 						Reverse.obj.css({zIndex: -1}); ActiveDivision.css({zIndex: 1});
 						// Store all available Fly associates
 						ResetVars = ActiveFly.getChildren();
-						if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
+						if( ReverseFly ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
 						$(ResetVars).each(function(){
 							// Reset all changes affected by Fly
 							TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0});
@@ -3977,7 +3964,7 @@ function Fly(Reach,Manual){
 				rebu.data({GandalfOpt: 0});
 				ActiveFly.reversed( !ActiveFly.reversed() );
 				// Setting the active portal to shrink
-				if( ActivePortal[0] !== false && DirectRotten[0] !== false && (typeof(Shrinker) !== "undefined" && Shrinker.reversed()) ) {
+				if( ActivePortal[0] !== false && DirectRotten[0] !== false && ( Shrinker && Shrinker.reversed() ) ) {
 					Shrinker.reversed(!Shrinker.reversed());
 					DirectRotten[0].reverse();
 					CheckForToggle(ActivePortal[0], true);
@@ -3986,10 +3973,10 @@ function Fly(Reach,Manual){
 		return;
 	}
     // Return on forward fly
-	if( Reverse.pedal === true && typeof(ActiveFly) !== "undefined" && ActiveFly.isActive() ||
-		( typeof(ReverseFly) !== "undefined" && ReverseFly.isActive() ) ){
+	if( Reverse.pedal === true && ActiveFly && ActiveFly.isActive() ||
+		( ReverseFly && ReverseFly.isActive() ) ){
 	    // Reverse forwarded reverse fly
-		if( typeof(ReverseFly) !== "undefined" && ReverseFly.isActive() ){
+		if( ReverseFly && ReverseFly.isActive() ){
 		    // Return on Forward fly
             if( ActiveFly.isActive() && !ReverseFly.reversed() ){
                 $("#Ditch").data({GandalfOpt: 3});
@@ -4008,7 +3995,7 @@ function Fly(Reach,Manual){
 					}
 					Glitch.on("#Gandalf", null);
 					// Reactivating the portal
-					if( ActivePortal[0] !== false && DirectRotten[0] !== false && typeof(Shrinker) !== "undefined" ) {
+					if( ActivePortal[0] !== false && DirectRotten[0] !== false && Shrinker ) {
 						DirectRotten[0].play();
 						CheckForToggle(ActivePortal[0]);
 					}
@@ -4027,7 +4014,7 @@ function Fly(Reach,Manual){
 					Glitch.on("#Gandalf", null);
 					$("#Ditch").data({GandalfOpt: 0});
 					// Reactivating the portal
-					if( ActivePortal[0] !== false && DirectRotten[0] !== false && typeof(Shrinker) !== "undefined" ) {
+					if( ActivePortal[0] !== false && DirectRotten[0] !== false && Shrinker ) {
 						DirectRotten[0].play();
 						CheckForToggle(ActivePortal[0]);
 					}
@@ -4037,7 +4024,7 @@ function Fly(Reach,Manual){
 
 		}
 		// Preventing the active portal to shrink & reactivating the portal
-		if( ActivePortal[0] !== false && DirectRotten[0] !== false && typeof(Shrinker) !== "undefined" && Shrinker.isActive() ) {
+		if( ActivePortal[0] !== false && DirectRotten[0] !== false && Shrinker && Shrinker.isActive() ) {
 			Shrinker.reverse();
 			if(!ActiveFly.reversed()){
 				DirectRotten[0].play();
@@ -4251,14 +4238,16 @@ function Fly(Reach,Manual){
 					// ReArrange associates based on the focused subject
 					Associates = NextDivisionAssociates;
 					if( Forward.obj.attr("id") === "Temporary" ){
-						ThePortal = $(DirectRotten[0].target[0]).parent().parent();
+						let prtl = $(DirectRotten[0].target[0]).parent().parent().attr("class"),
+							s;
 						Associates = NextDivisionAssociates;
-						for( let i = 0; i < Associates.length; i++){
-							if ( $(Associates[i]).hasClass(ThePortal.attr("class")) ) {
-								SubjArr = Associates.splice(i, 1);
+						for( let i of Associates){
+							if ( $(i).hasClass(prtl) ) {
+								s = Associates.splice(Associates.indexOf(i), 1);
+								break;
 							}
 						}
-						Associates.unshift(SubjArr);
+						Associates.unshift(s);
 					}
 					X = 1; AutoNode = [];
 					$(Associates).each(function(){
@@ -4525,7 +4514,7 @@ function KillActiveFly(){
 	ActiveDivision.css({zIndex: 1});
     // Store all available Fly associates
     ResetVars = ActiveFly.getChildren();
-    if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
+    if( ReverseFly ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
     $(ResetVars).each(function(){
         // Reset all changes affected by Fly
         TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0});
@@ -4539,7 +4528,7 @@ function KillActiveFly(){
 		ActiveFly.kill();
 		delete ActiveFly;
 	}
-	if( typeof(ReverseFly) !== "undefined" && !ReverseFly.isActive() ){
+	if( ReverseFly && !ReverseFly.isActive() ){
 		ReverseFly.kill();
 		delete ReverseFly;
 	}
@@ -4552,7 +4541,7 @@ function KillReverseFly(){
 	Reverse.isAllowed(Reverse.memory);
     // Store all available Fly associates
     ResetVars = ActiveFly.getChildren();
-    if( typeof(ReverseFly) !== "undefined" ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
+    if( ReverseFly ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
     $(ResetVars).each(function(){
         // Reset all changes affected by Fly
         TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0});
@@ -4577,7 +4566,7 @@ function KillReverseFly(){
 AddFly = {
 	Switch : function(r){
 		let s = Asc.attr("class") === Subject.attr("class") && Asc.parent().attr("id") === Subject.parent().attr("id"),
-			rx = typeof(r) !== "undefined" && typeof(r) !== "boolean" && r !== "next",
+			rx = r === "ffs",
 			n = r === "next",
 			ya = (r === true) ? ((Reverse.obj.height()/2-hmst.ot)-hmst.h/2) : 0,
 			xa = (r === true) ? ((Reverse.obj.width()/2-hmst.ol)-hmst.w/2) : 0,
@@ -4634,7 +4623,7 @@ AddFly = {
 		}
 	},
 	Spin : function(r){
-		let rx = typeof(r) !== "undefined" && typeof(r) !== "boolean",
+		let rx = r === "ffs",
 			ra = (r === true) ? -180 : (r === false) ? -180 : 0,
 			rb = (r === true) ? 0 : (r === false) ? 0 : 180,
 			sa = (r === true) ? 1 : 1,
@@ -5230,7 +5219,7 @@ DivisionExpress = {
             // Abort if current division doesn't have a DivisionExpress
             if( !DivisionExpress.CHECK() ){ return this; }
             // Check if pause is requested
-            if( typeof(pause) !== "undefined" && typeof(UpperBeam) !== "undefined" ){
+            if( typeof(pause) === "boolean" && UpperBeam ){
                 if( pause ){
                     UpperBeam.invalidate().pause();
                     return this;
@@ -5284,7 +5273,7 @@ DivisionExpress = {
                 TweenMax.set(This.find(".Content"), {visibility: "hidden"});
             }
             // When only one target is requested:
-            if( typeof(target) !== "undefined" ){
+            if( target ){
                 SetTween(target);
             }
             // When not:
@@ -5294,7 +5283,7 @@ DivisionExpress = {
                     // Reposition this asset when
                     if (
                         // Page is loaded
-                        typeof (ExpressSequence) === "undefined" ||
+						!ExpressSequence ||
                         // Or when an asset is expanded but not this one (exclude the expanded asset)
                         (DivisionExpress.isExpanded() &&
                         ActiveDivision.attr("id") !== $(this).parent().attr("id")) ||
@@ -5322,7 +5311,7 @@ function ExpressTheDivision(This){
     // Create new animations when
 	if(
 	    // Page is loaded
-		typeof(ExpressSequence) === "undefined" ||
+		!ExpressSequence ||
         // Previous animation is static and is at it's start point
 		(!ExpressSequence.isActive() && ExpressSequence.progress() !== 1)
 	){
@@ -5386,11 +5375,11 @@ function ExpressTheDivision(This){
 }
 // Pathfinder
 function Pathfinder(){
-	Last_tprint = (typeof(tprint) !== "undefined") ? tprint : false;
+	Last_tprint = ( tprint ) ? tprint : false;
 	Path = "#Path"; Busted = false;
 	ctt = false;
 	// Preventing pathfinder to rewrite similar paths
-	if( ( typeof(tpath) !== "undefined" ) &&
+	if( tpath &&
 		( tpath.parent.attr("id") === ActiveDivision.parent().attr("id") &&
 		( tpath.parent.attr("id") !== "Trilogies" ) || tprint.parent === null )
 		 ){
@@ -5717,8 +5706,8 @@ function DelCore(ThisCore){
 	$(ThisCore).parent().remove();
 }
 function ReverseCore(All){
-	if( typeof(Flicker) === "undefined" ){
-		if( typeof(CoreMove) === "undefined" ){
+	if( !Flicker ){
+		if( !CoreMove ){
 			return;
 		}
 	}else {
@@ -5726,7 +5715,7 @@ function ReverseCore(All){
 	}
 	ReverseDur = 1;
 	TweenMax.to(Core.children(), ReverseDur, {autoAlpha: 1,x: 0});
-	if( typeof(CoreMove) !== "undefined" && All ){
+	if( CoreMove && All ){
 		CoreGlow.kill();
 		CoreMove.reverse();
 		AffectedCores = {Core: [], Waya: []};
@@ -5972,7 +5961,7 @@ function ExitStorm(t){
     // Fill the new Ritual animation with updated values
 	$(tmp.getChildren()).each(function(){
 	    // Set a variable to unify objects and other types of subjects passed to the Tween
-	    let a = ( typeof(this.target[0]) !== "undefined" ) ? this.target : this.target[0],
+	    let a = ( this.target[0] ) ? this.target : this.target[0],
             d = EnterStorm.duration();
 		if( $(a).hasClass("Curtain") ){
             Ritual.to(a, d, {autoAlpha: 0,ease: Sine. easeOut});
@@ -6002,7 +5991,7 @@ function ExitStorm(t){
 			SC_Footer.reversed( !SC_Footer.reversed() ).resume();
 		}
 		// Resetting Gandalf only after exit by direct click
-		if( (typeof(ActiveFly) !== "undefined" && typeof(ReverseFly) !== "undefined") && !ActiveFly.isActive() && !ReverseFly.isActive() ){
+		if( ( ActiveFly && ReverseFly ) && !ActiveFly.isActive() && !ReverseFly.isActive() ){
 		    Glitch.on("#Gandalf", null);
         }
 	});
@@ -6145,7 +6134,7 @@ function ParticleActivation(T, e, norebase){
     // When navigating
 	if(
 		( Particle.activeObj !== null && !$(Particle.activeObj).hasClass(T.attr("class")) ) ||
-		( typeof(e) !== "undefined" && e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) ) ||
+		( e && e !== null && ( $(e.target).hasClass("DevParticle") || $(e.target).hasClass("ArtParticle") ) ) ||
         Particle.Navigated
 	){
 		return;
@@ -6167,7 +6156,7 @@ function ParticleActivation(T, e, norebase){
 		return;
 	}
 	// In case EnterParticle animations are built we resume where we left off
-	if( typeof(EnterParticle) !== "undefined" && EnterParticle.isActive() && EnterParticle.reversed() ){
+	if( EnterParticle && EnterParticle.isActive() && EnterParticle.reversed() ){
 		EnterParticle.reversed( !EnterParticle.reversed() );
 		ParticleRotation.reversed( !ParticleRotation.reversed() );
 		Particle.isActive = T.attr("class");
@@ -6176,7 +6165,7 @@ function ParticleActivation(T, e, norebase){
 	}
 	AntiToxins.invalidate().pause();
     // When Sign is glitching
-    if( typeof(SignGlitch) !== "undefined" ){
+    if( SignGlitch ){
         // Stop the glitch
         SignGlitch.kill();
     }
@@ -6432,8 +6421,8 @@ function ImgExpand(s){
 	const
 		atsc = $("#AntiToxins .SingleContainer");
     if(
-        (typeof(ExpandPreview) !== "undefined" && ExpandPreview.isActive()) ||
-        (typeof(Navigation) !== "undefined" && Navigation.isActive())
+        ( ExpandPreview && ExpandPreview.isActive()) ||
+        ( Navigation && Navigation.isActive() )
     ){ return; }
     // Disable scrolling on the main container
     TweenMax.set( atsc, {overflowY: "hidden"} );
@@ -6460,7 +6449,7 @@ function ImgExpand(s){
                 return -activeimg.offset().left;
             }
         }, 0);
-    if( typeof(s) !== "undefined" ){
+    if( s ){
         imgContainer.find(".img.active img").unbind("click").click(function(){
             // Reverse main container's scroll state to their state
             TweenMax.set( atsc, {overflowY: s} );
@@ -6566,7 +6555,7 @@ function ParticleNavigate(T){
 
 	ExpandParticle.duration(.2).reverse();
 
-	if( typeof(ParticleNavigation) !== "undefined" ){
+	if( ParticleNavigation ){
 		NavRotation.reverse();
 	}
 
@@ -6658,7 +6647,7 @@ function DimeRotation(T){
 function CardHoverIn(This){
 	let T = This.parent().parent().attr("class"),
 		siblings = This.nextAll(".Card").toArray().reverse();
-	if( (typeof(CardSelect.isActive[T]) !== "undefined" && CardSelect.isActive[T]) || (typeof(CardSelect.mdReset[T]) !== "undefined" && CardSelect.mdReset[T]) ){
+	if( CardSelect.isActive[T] || CardSelect.mdReset[T] ){
 		return;
 	}
 	// Aborting hover sequence when :
@@ -6666,7 +6655,7 @@ function CardHoverIn(This){
 	// There is no sibling after the current element
 	// The hover timeline is currently active and reversing
 	if(
-		PlaceDeck.isActive() || !siblings.length || (typeof(CardHover.HoverReveal[T]) !== "undefined" && CardHover.HoverReveal[T].reversed() && CardHover.HoverReveal[T].isActive())
+		PlaceDeck.isActive() || !siblings.length || ( CardHover.HoverReveal[T] && CardHover.HoverReveal[T].reversed() && CardHover.HoverReveal[T].isActive() )
 	){
 		return;
 	}
@@ -6675,7 +6664,7 @@ function CardHoverIn(This){
 		CardHover.HoverReveal[T] = new TimelineMax();
 	}
 	// Declare a new active list only when one already doesn't exist
-	if( typeof(CardHover.AlreadyActive[T]) === "undefined" ){
+	if( !CardHover.AlreadyActive[T] ){
 		CardHover.AlreadyActive[T] = [];
 	}
 	$(siblings).each(function(){
@@ -6711,8 +6700,15 @@ function CardHoverIn(This){
 	CardHover.isActive[T] = This;
 }
 function CardDeSelect(theT, This, ResetTargets){
+	let a = ResetTargets.children(),
+		b = TweenMax.getTweensOf(a);
+	$(b).each(function(){
+		this.pause().kill();
+	});
+	// Reveal the direct siblings after the animations
+	TweenMax.set( ResetTargets, {autoAlpha: 1});
 	// Reversing all next siblings to their default position
-	TweenMax.staggerTo( ResetTargets.children(), .15, {
+	TweenMax.staggerTo( a, .15, {
 		scaleY: 1,
 		transformOrigin: "bottom"
 	}, "-=.075", function(){
@@ -6729,7 +6725,6 @@ function CardDeSelect(theT, This, ResetTargets){
 		}
 	} );
 	// Resetting the card select variables
-	CardSelect.isActive[theT] = false;
 	CardSelect.isActive[theT] = false;
 	CardSelect.object[theT] = false;
 }
@@ -6792,7 +6787,7 @@ function CardDraggable(){
         if( Is.NoTouch($(this)) ){ return }
         let content = $(this);
         // Forbid hover reaction when user is dragging
-        if( typeof(Draggable.get(content)) !== "undefined" && Draggable.get(content).isDragging ){ return; }
+        if( Draggable.get(content) && Draggable.get(content).isDragging ){ return; }
         // Check whether #content overflows it's content
         if( ( content.innerHeight() - $(this).parent().innerHeight() ) > 0 ){
 
@@ -7005,8 +7000,8 @@ Is = {
         let w = window.innerWidth,
             h = window.innerHeight;
         // Check which variables are sent
-        if( typeof(width) === "undefined" ){ width = null; }
-        if( typeof(height) === "undefined" ){ height = null; }
+        if( !width ){ width = null; }
+        if( !height ){ height = null; }
         // Check if both variables are requested for test
         if( height !== null && width !== null ){
         	// Respond true if both are bellow the requested size
@@ -7031,19 +7026,6 @@ Is = {
 };
 
 // Glitch
-Stimer = [];Si = [];Se = [];Sa = [];Rep = [];Subj = [];Mod = []; Sickid = [];
-SDuration = [];
-Tags = {
-	reg: [],
-	org: []
-};
-/*
-	id: target's id,
-	subj: sick text,
-	acc: Sicknature's function which is used to prevent unwanted overwrites
-	ctt: prevent's overwriting target's current content || can also be a secret number so something would happen after the animation
-	remcontainer: Boolean, If true; deletes the target after sick is done
- */
 G = {
 	id : [],
 	interval : [],
@@ -7070,7 +7052,7 @@ Glitch = {
 	},
 	durtest : function(num){
 		// Speed the process in case the user is already switching divisions before the Glitch is done ( UHAHAHAHAH >=) )
-		if( (typeof(ActiveFly) !== "undefined" && ActiveFly.isActive()) || (typeof(ReverseFly) !== "undefined" && ReverseFly.isActive()) ){
+		if( ( ActiveFly && ActiveFly.isActive() ) || ( ReverseFly && ReverseFly.isActive()) ){
 			Glitch.dur(num);
 		}
 	},
@@ -7102,7 +7084,7 @@ Glitch = {
 			obj = ( id instanceof jQuery ) ? id : $(id);
 		}
 		// Resets the called account if no subject is defined
-		Reset = typeof(subject) === "undefined" || subject === null;
+		Reset = !subject;
 		// Resetting intervals and such when the same element is called while it's already running
 		if( G.id.length !== 0 ){
 			G.reset(id);

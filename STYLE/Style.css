@@ -4,6 +4,7 @@
     src: url('../FONT/OCR.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
 html{
     overflow: hidden;
@@ -2050,6 +2051,7 @@ section article{
     grid-template-columns: repeat(48, 1fr);
     -ms-grid-rows: (1fr)[17];
     grid-template-rows: repeat(17, 1fr);
+    z-index: -1;
 }
 #Skillometer .Cores > *:nth-child(1){
     -ms-grid-row: 1;
