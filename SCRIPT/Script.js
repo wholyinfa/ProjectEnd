@@ -565,7 +565,7 @@ $(document).ready(function(){
 $(window).resize(function(){Varia();});
 $(window).bind("load", function() {
     if( Loader ){
-        // Pause teh loading animation if it's set
+        // Pause the loading animation if it's set
         Loader.delay(0).kill();
     }
     // After shrinking loading line fade the load barier
@@ -963,22 +963,22 @@ function Globe(){
 		dcca = $("#DeckCloud .Card"),
 		decc = $(".Deck:not(.Slider) .Cards .Card");
 	let
-		IdlePath, DeployNameTag;
+		IdlePath, DeployNameTag, ajaxreq;
 	// When loader is allowed run the loading animation
 	if( !Loader ){
         Loader = new TimelineMax({repeat: -1});
-        TweenMax.to("#LoaderLine", {
+        TweenMax.to("#LoaderLine", .75, {
 			x: "-50%",
 			scaleX: 9,
 			ease: "back.in(1.7)",
 			onComplete: function(){
 				Loader.delay(.5).to("#LoaderLine",.75, {
 					x: "-50%",
-					scaleX: 9,
+					scaleX: 1,
 					ease: "back.in(1.7)"
 				}).to("#LoaderLine",.75, {
 					x: "-50%",
-					scaleX: 1,
+					scaleX: 9,
 					ease: "back.in(1.7)"
 				});
 			}
@@ -2159,7 +2159,7 @@ function Globe(){
 	});
 
 	$('#SpaceCyclone .Attach').click(function(){
-		input = $(this).siblings('input');
+		let input = $(this).siblings('[name="file"]');
 		if( input.val() !== "" ){
 			input.val("");
 			$(this).html("Attach a file");
@@ -2167,11 +2167,10 @@ function Globe(){
 		}
 		input.click();
 		input.change(function(e){
-			fileName = e.target.files[0].name;
-			$(this).siblings('.Attach').html(fileName);
+			$(this).siblings('.Attach').html( e.target.files[0].name );
 		});
 	});
-	$("#SpaceCyclone > .Storm form input[type='text']").focusin(function(){
+	$("#SpaceCyclone > .Storm form input").focusin(function(){
 		FormEffects.fadeout($(this));
 	});
 	$("#SpaceCyclone > .Storm form textarea").focusin(function(){
@@ -2184,14 +2183,14 @@ function Globe(){
 	    // Refuse to redirect
 	    e.preventDefault();
 	    // Collect form's inputs
-        let inputs = $(this).find("input:not([type='file']), .TextArea > textarea"),
-            regx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g,
+        let inputs = $(this).find("input:not([type='file'],[name='CSRF']), .TextArea > textarea"),
+            regx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi,
             error = 0,
             file = $(this).find("[type='file']"),
             err_container = "#"+$(this).attr("id")+" .Error",
             form = $(this);
         $.each(inputs, function(){
-            let efilter = $(this).filter("[name='email']");
+            let efilter = $(this).filter("[type='email']");
            if(
                ( !efilter.length && !$(this).val() ) ||
                ( efilter.length && !efilter.val().match(regx) )
@@ -2213,50 +2212,83 @@ function Globe(){
             return false;
         }
         // Build the data object
-        let data = {
-            name: $(inputs[0]).val(),
-            email: $(inputs[1]).val(),
-            subject: $(inputs[2]).val(),
-            context: $(inputs[3]).val()
-        };
-        // Include the file if provided
-        if( file.prop("files").length ){
-            data.file = file.prop("files")[0].name;
-        }
+        let data = new FormData();
+		data.append('type', form.attr("id").replace("Project", " Project"));
+		$.each(inputs, function(){
+			data.append(this.name, this.value);
+		});
+		data.append('CSRF', $(this).find("[name='CSRF']").attr("value"));
+		// Include the file if provided
+		if( file.prop("files").length ){
+			data.append('file', file[0].files[0]);
+		}
         // Finalize and clear form of previous error remains
         if( $(err_container).text() ){
             Glitch.on(err_container, null);
         }
         // Update send status
-        Glitch.on("#Gandalf", "Sending...");
-        $.ajax(
-            {
-                type: "POST",
-                url: "#",
-                data: data,
-                success: function(response){
-                    if( response === "sent" ){
-                    // Request asset reset and send a function to run after the reset animation
-                        AssetForm(form.siblings(".Title"), function(){
-                            // Reset the form
-                            form[0].reset();
-                            // Bring back the place holders
-                            form.find("input:not([type='file']), textarea").each(function(){
-                                FormEffects.reverse($(this));
-                            });
-                            // Update send status
-                            Glitch.on("#Gandalf", "Message sent!");
-                        });
-                    }
-                },
-                error: function(){
-                    // Print error message
-                    Glitch.on(err_container, "Hmm... Something's not right...");
-                    // Update send status
-                    Glitch.on("#Gandalf", "Send unsuccessful!");
-                }
-            }
-        )
+		if( !ajaxreq ) {
+			Glitch.on("#Gandalf", "Sending...");
+			grecaptcha.execute('6LfpatoUAAAAAGb-TYvnZSbA9vSG0LNy5_xvToLn', {action: 'tunnel'}).then(function (token) {
+				data.append('recaptcha', token);
+				$.ajax(
+					{
+						type: "POST",
+						url: "tunnel.php",
+						data: data,
+						processData: false,
+						contentType: false,
+						success: function (response) {
+							// Update send status
+							Glitch.on("#Gandalf", null);
+							switch (response) {
+								case "F1":
+									Glitch.on(err_container, "Unable to upload your file.");
+									break;
+								case "F2":
+									Glitch.on(err_container, "Attached file format is not allowed.");
+									break;
+								case "F":
+									Glitch.on(err_container, "Unable to submit your request, please try again.");
+									break;
+								case "errC":
+									Glitch.on(err_container, "Sorry for this, Something's wrong on our side. Feel free to try again.");
+									break;
+								case "err":
+									Glitch.on(err_container, "Trouble communicating, refresh your browser. (this form will reset when you do!)");
+									break;
+								case "exc":
+									Glitch.on(err_container, "Too many requests, try again later.");
+									break;
+								case "S":
+									// Request asset reset and send a function to run after the reset animation
+									Deformer(form.siblings(".Title"), null, function () {
+										// Reset the attachment button
+										form.find(".Attach").trigger("click");
+										// Reset the form inputs
+										form[0].reset();
+										// Bring back the place holders
+										form.find("input:not([type='file']), textarea").each(function () {
+											FormEffects.reverse($(this));
+										});
+									});
+									// Update send status
+									Glitch.on("#Gandalf", "Message sent!");
+									break;
+								default:
+									Glitch.on(err_container, "Hmm... Something's not right...");
+							}
+						},
+						error: function () {
+							// Print error message
+							Glitch.on(err_container, "Unable to exchange data successfully.");
+							// Update send status
+							Glitch.on("#Gandalf", "Send unsuccessful!");
+						}
+					}
+				)
+			});
+		}
     });
 	$("#SpaceCyclone > .Storm .Definer").click(function(){
         // Check if method is in the middle of entering/exiting
@@ -5835,22 +5867,13 @@ Form = {
 	Arrange: [],
 	ActiveDom: null
 };
-function AssetForm(t,func){
+function AssetForm(t){
 	// Defining required vars
 	var Asset = t.parent(),
 		c = t.parent().attr("class"),
 		form = t.siblings("form");
 	AssetHover(Asset,true);
 	if( EnterStorm.isActive() ){ return; }
-    // If available, run the second parameter after the animation is reversed (EXCLUSIVE FORM SEQUENCE)
-    if( func ){
-        Form.Arrange[c].eventCallback("onReverseComplete", function(){
-            // Run the function
-            func();
-            // Reset call back on the animation
-            Form.Arrange[c].eventCallback("onReverseComplete", null);
-        });
-    }
 
     // Disable scroll to prevent calculation errors
     Storm.find(".AssetContainer").css({overflowX: "hidden", overflowY: "hidden"});
@@ -5917,9 +5940,18 @@ function AssetForm(t,func){
         Storm.find(".AssetContainer").css({overflowX: "hidden", overflowY: "auto"});
     });
 }
-function Deformer(t, nonstop){
+function Deformer(t, nonstop, func){
 	let s = false,
         c = t.parent().attr("class");
+	// If available, run the requested method after the animation is reversed (EXCLUSIVE FORM SEQUENCE)
+	if( func ){
+		Form.Arrange[c].eventCallback("onReverseComplete", function(){
+			// Call the function
+			func();
+			// Reset call back on the animation
+			Form.Arrange[c].eventCallback("onReverseComplete", null);
+		});
+	}
 	if (Form.Arrange[c].isActive()) {
 		if (Form.Arrange[c].reversed()) {
 			Form.Arrange[c].reversed(!Form.Arrange[c].reversed());
@@ -5939,6 +5971,10 @@ function Deformer(t, nonstop){
 	if( !nonstop ){
 			Form.ActiveDom = ( s === true ) ? null : t;
 	}
+	let ac = Storm.find(".AssetContainer"), d = ac[0].scrollTop / 400;
+	d = ( d > .2 ) ? .2 : d;
+	ac.css({overflowX: "hidden", overflowY: "hidden"});
+	TweenMax.to(ac, d, {scrollTop: 0});
 	return s;
 
 }

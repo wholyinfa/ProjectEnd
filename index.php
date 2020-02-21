@@ -22,6 +22,7 @@
 <link href='ASSETS/favicon-144.png' type='image/x-icon' rel='icon'>
 <link href='ASSETS/favicon-192.png' type='image/x-icon' rel='icon'>
 <link href='STYLE/Style.css' rel='stylesheet' type='text/css'>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfpatoUAAAAAGb-TYvnZSbA9vSG0LNy5_xvToLn" async defer></script>
 <script src='SCRIPT/JQ-3.1.1.js' type='text/javascript' language='javascript' ></script>
 <script src='SCRIPT/GSAP/TweenMax.min.js' type='text/javascript' language='javascript' ></script>
 <script src='SCRIPT/GSAP/TimelineMax.min.js' type='text/javascript' language='javascript' ></script>
@@ -173,14 +174,14 @@
                             <div class="Asset"></div>
                             <div class="Sub">CODE PROJECT</div>
                         </div>
-                        <form id="CodeReq" action="/">
+                        <form id="CodeProject" action="tunnel.php">
                             <div class="Input">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" >
                             </div>
                             <div class="Input">
                                 <label for="email">E-mail</label>
-                                <input type="text" name="email">
+                                <input type="email" name="email">
                             </div>
                             <div class="Input">
                                 <label for="subject">Request subject</label>
@@ -192,9 +193,10 @@
                                 <textarea name="context"></textarea>
                             </div>
                             <div class="Error"></div>
-                            <input type="file" accept=".jpeg,.png,.zip,.pdf,.doc,.docx,.txt">
+                            <input type="file" name="file" accept=".jpeg,.png,.zip,.pdf,.doc,.docx,.txt">
+                            <input type="text" name="CSRF" value="<?=$_SESSION['tkn']?>"/>
                             <button class="Attach" type="button">Attach a file</button>
-                            <button class="Submit" type="submit">SEND</button>
+                            <button class="Submit g-recaptcha" data-sitekey="6LfpatoUAAAAAGb-TYvnZSbA9vSG0LNy5_xvToLn" type="submit" data-callback="Captcha">SEND</button>
                         </form>
                     </div>
                     <div class="BetaAsset DesignProject">
@@ -202,14 +204,14 @@
                             <div class="Asset"></div>
                             <div class="Sub">DESIGN PROJECT</div>
                         </div>
-                        <form id="DesignReq" action="/">
+                        <form id="DesignProject" action="tunnel.php">
                             <div class="Input">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" >
                             </div>
                             <div class="Input">
                                 <label for="email">E-mail</label>
-                                <input type="text" name="email">
+                                <input type="email" name="email">
                             </div>
                             <div class="Input">
                                 <label for="subject">Request subject</label>
@@ -221,9 +223,10 @@
                                 <textarea name="context"></textarea>
                             </div>
                             <div class="Error"></div>
-                            <input type="file" accept=".jpeg,.png,.zip,.pdf,.doc,.docx,.txt">
+                            <input type="file" name="file" accept=".jpeg,.png,.zip,.pdf,.doc,.docx,.txt">
+                            <input type="text" name="CSRF" value="<?=$_SESSION['tkn']?>"/>
                             <button class="Attach" type="button">Attach a file</button>
-                            <button class="Submit" type="submit">SEND</button>
+                            <button class="Submit g-recaptcha" data-sitekey="6LfpatoUAAAAAGb-TYvnZSbA9vSG0LNy5_xvToLn" type="submit" data-callback="Captcha">SEND</button>
                         </form>
                     </div>
                     </div>
@@ -249,14 +252,14 @@
                         <div class="Asset"></div>
                         <div class="Sub">SEND A MESSAGE</div>
                     </div>
-                    <form id="MsgReq" action="/">
+                    <form id="Contact" action="tunnel.php">
                         <div class="Input">
                             <label for="name">Name</label>
                             <input type="text" name="name" >
                         </div>
                         <div class="Input">
                             <label for="email">E-mail</label>
-                            <input type="text" name="email">
+                            <input type="email" name="email">
                         </div>
                         <div class="Input">
                             <label for="subject">Subject</label>
@@ -267,9 +270,10 @@
                             <textarea name="context"></textarea>
                         </div>
                         <div class="Error"></div>
-                        <input type="file" accept=".jpeg,.png,.zip,.pdf,.doc,.docx,.txt">
+                        <input type="file" name="file" accept=".jpeg,.png,.zip,.pdf,.doc,.docx,.txt">
+                        <input type="text" name="CSRF" value="<?=$_SESSION['tkn']?>"/>
                         <button class="Attach" type="button">Attach a file</button>
-                        <button class="Submit" type="submit">SEND</button>
+                        <button class="Submit g-recaptcha" data-sitekey="6LfpatoUAAAAAGb-TYvnZSbA9vSG0LNy5_xvToLn" type="submit" data-callback="Captcha">SEND</button>
                     </form>
                 </div>
                 <div class="BetaAsset Phone">
@@ -990,5 +994,7 @@
     <div id="Gandalf"></div>
     <div id="Peek"></div>
 
+    <script>
+    </script>
 </body>
 </html>
