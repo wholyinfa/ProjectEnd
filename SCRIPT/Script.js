@@ -1,4 +1,337 @@
-let Loader, EnterStorm, CoreMove, CoreSlot, ExpandPreview, EnterParticle, ActiveFly, ReverseFly, ParticleNavigation, ExpressSequence, Shrinker, Flicker, SignGlitch, UpperBeam, tprint, tpath, Navigation, Associates,
+const
+	Form = {
+	Arrange: [],
+	ActiveDom: null
+	},
+	Particle = {isActive : false, activeObj: null, Navigated: false, NaviDirection: null},
+	Area69 = {
+		enable: null,
+		enabled: function(t){
+			// Save enable/disable requests
+			this.enable = t !== false;
+		},
+		varset: function(t,r){
+			// Deny request when disabled
+			if( !this.enable ){
+				return;
+			}
+			let	R = ( r ) ? 0 : 180;
+			TweenMax.to( t.siblings().filter(".Indicator"), .15, {
+				rotation: R,
+				autoAlpha: ( r ) ? 1 : 0
+			} );
+			TweenMax.to( t.siblings().filter(".Close"), .15, {
+				y: "-50%",
+				rotation: R,
+				autoAlpha: ( r ) ? 0 : 1
+			} );
+		},
+		set: function(t){
+			this.varset(t);
+			return this;
+		},
+		reset: function(t){
+			this.varset(t,true);
+			return this;
+		}
+	},
+	CardSlider = {
+		last: null,
+		placer : function(instance, dir){
+			let t = instance.target,
+				reveal = false,
+				conceal = false,
+				revealparent = false,
+				concealparent = false,
+				tc = $(t).children(".Card"),
+				l = tc.length;
+			// Set the distance between Cards
+			let bound = $(t).find(".Card").innerWidth() * .05;
+			// Search for current level through the container's children
+			for( let i = 1; i < l; i++ ){
+				// Get the visually front Card
+				let card = tc.eq(tc.length-i);
+				// Reveal all cards when container is at it's starting position
+				if( ( dir === -1 && instance.x === instance.maxX ) || ( dir === 1 && instance.x === instance.minX ) ){
+					reveal = $(t).find(".Card > div");
+					revealparent = $(t).find(".Card");
+					break;
+				}
+				// Reveal only the last card and conceal other Cards when container is at it's final position
+				if( ( dir === -1 && instance.x === instance.minX ) || ( dir === 1 && instance.x === instance.maxX ) ){
+					card = $(t).find(".Card").first();
+					conceal = card.siblings().children();
+					concealparent = card.siblings();
+					reveal = card.children();
+					revealparent = card;
+					break;
+				}
+				// Reveal this Card and conceal Cards in front of it when container is on the margin between the current and the next Card
+				if( ( dir === -1 && instance.x > -( bound * i ) ) || ( dir === 1 && instance.x < ( bound * i ) ) ){
+					conceal = [card.children(),card.nextAll().children()];
+					concealparent = [card,card.nextAll()];
+					reveal = card.prevAll().children();
+					revealparent = card.prevAll();
+					break;
+				}
+			}
+			// Reveal if available
+			if( reveal ){
+				TweenMax.set(revealparent,
+					{
+						autoAlpha: 1,
+					});
+				TweenMax.to(reveal, .2,
+					{
+						autoAlpha: 1,
+						scaleY: 1,
+						transformOrigin: "50% 100%"
+					});
+			}
+			// Conceal if available
+			if( conceal ){
+				TweenMax.set(concealparent,
+					{
+						autoAlpha: 0,
+					});
+				TweenMax.to(conceal, .2,
+					{
+						autoAlpha: 0,
+						scaleY: 0,
+						transformOrigin: "50% 100%"
+					});
+			}
+			// Store this container as the last used Slider
+			this.last = t;
+		},
+		reset: function(dur){
+			// Check if reset should be animated
+			let d = ( dur ) ? dur : 0;
+			// Deny reset when no slider is engaged
+			if( this.last === null ){ return; }
+			// Do the reset
+			TweenMax.set($(".Slider .CardSlider .Card"), {
+				autoAlpha: 1
+			});
+			TweenMax.to($(".Slider .CardSlider .Card > div"), d,{
+				autoAlpha: 1,
+				scaleY: 1,
+				x: 0,
+				y: 0
+			});
+			TweenMax.to($(".Slider .CardSlider"), d,{
+				x: 0,
+				y: 0
+			});
+			// Reset Slider usage state
+			this.last = null;
+		}
+	},
+	DivisionExpress = {
+		active: false,
+		// Check or Set the target expand state
+		isExpanded: function(state){
+			if( typeof(state) === "boolean" ){
+				this.active = state;
+				return state;
+			}
+			return this.active;
+		},
+		set: {
+			// Set the Beam effect for .Trigger
+			Beam: function (pause) {
+				// Abort if current division doesn't have a DivisionExpress
+				if( !DivisionExpress.CHECK() ){ return this; }
+				// Check if pause is requested
+				if( typeof(pause) === "boolean" && UpperBeam ){
+					if( pause ){
+						UpperBeam.invalidate().pause();
+						return this;
+					}else if( pause === false ){
+						UpperBeam.resume();
+						return this;
+					}
+				}
+				// Set the beam
+				let b = Active.Division.find(".DivisionExpress .Trigger");
+				TweenMax.set(b, {autoAlpha: 0});
+				UpperBeam = new TimelineMax({paused: false, repeat: -1, repeatDelay: 1});
+				UpperBeam.fromTo(b, .25, {
+					autoAlpha: .6,
+					transformOrigin: "50% 0%"
+				}, {
+					autoAlpha: 1,
+					transformOrigin: "50% 0%"
+				}).to(b, .25, {
+					autoAlpha: .6,
+					transformOrigin: "50% 0%"
+				}).to(b, .25, {
+					autoAlpha: 1,
+					transformOrigin: "50% 0%"
+				}).to(b, .25, {
+					autoAlpha: .6,
+					transformOrigin: "50% 0%"
+				});
+				return this;
+			},
+			// Set target position
+			Position: function(target){
+				function SetTween(This){
+					// Reset any possible height changes
+					This.find(".Content h2").height("");
+					// Get the difference between the space above QuickAccess and the DivisionExpress
+					let n = $(".QuickAccess").offset().top -
+						(
+							This.find(".Content").innerHeight() +
+							This.find(".Trigger").innerHeight() +
+							This.find(".Hint").innerHeight()
+						);
+					// Apply scroll when the difference is affecting the content's appearance
+					if( n < -10 && !Is.ThisSize(null, 350) ){
+						This.find(".Content h2").height(This.find(".Content h2").height() - Math.abs(n));
+					}
+					// Hide this asset with it's content's height
+					TweenMax.set([This.find(".Trigger"), This.find(".Content").children()], {
+						y: function(){ return -This.find(".Content").outerHeight(true); }
+					});
+					TweenMax.set(This.find(".Content"), {visibility: "hidden"});
+				}
+				// When only one target is requested:
+				if( target ){
+					SetTween(target);
+				}
+				// When not:
+				else{
+					// Get all targets and
+					$(".DivisionExpress").each(function(){
+						// Reposition this asset when
+						if (
+							// Page is loaded
+							!ExpressSequence ||
+							// Or when an asset is expanded but not this one (exclude the expanded asset)
+							(DivisionExpress.isExpanded() &&
+								Active.Division.attr("id") !== $(this).parent().attr("id")) ||
+							// Or when no asset is expanded (so all are included)
+							(!DivisionExpress.isExpanded())
+						) {
+							SetTween($(this));
+						}
+					});
+				}
+				return this;
+			}
+		},
+		CHECK: function(){
+			// Checks the current active division for DivisionExpress element
+			if( Active.Division.find(".DivisionExpress").length ){
+				// Retruns true when the division has DivisionExpress
+				return true;
+			}
+			// And false when it doesn't
+			return false;
+		}
+	},
+	Panel = {
+		setup: function(){
+			this.set();
+			this.set(true);
+		},
+		set: function(NEW){
+			const
+				qaca = $(".QuickAccess > .Cells.active");
+			let Class = ( NEW === true ) ? "Frame"
+				: qaca.attr("class"),
+				CellGroup = ( NEW === true ) ? $(".QuickAccess > .Cells.Frame")
+					: qaca;
+			// Deprioritize inactive Cells
+			TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
+			// Checking to make sure the current panel doesn't have it's exclusive animation already set
+			if( !PanelSwitch.obj[Class] || NEW ) {
+				// Creating the animation set
+				PanelSwitch.obj[Class] = new TimelineMax();
+				PanelSwitch.obj[Class].add(
+					TweenMax.set(CellGroup, {
+						zIndex: 0
+					}), 0
+				).add(
+					TweenMax.to(CellGroup.children(".E"), .4, {
+						scale: 1,
+						rotation: -38.23,
+						ease:  Circ. easeOut
+					})
+				).add(
+					TweenMax.staggerTo(CellGroup.children(".F, .D"), .3, {
+						cycle: {
+							rotation: [17.94, -17.94]
+						},
+						ease:  Circ. easeOut
+					}), "-=.2"
+				).add(
+					TweenMax.staggerTo(CellGroup.children(".G, .C"), .3, {
+						cycle: {
+							rotation: [-3.71, 2.65]
+						},
+						ease:  Circ. easeOut
+					}), "-=.2"
+				).add(
+					TweenMax.staggerTo(CellGroup.children(".H, .B"), .3, {
+						cycle: {
+							rotation: [23.66, -23.66]
+						},
+						ease:  Circ. easeOut
+					}), "-=.2"
+				).add(
+					TweenMax.staggerTo(CellGroup.children(".I, .A"), .3, {
+						cycle: {
+							rotation: [58, -61.31]
+						},
+						ease:  Circ. easeOut
+					}), "-=.2"
+				);
+				if( NEW ){ return; }
+			}
+			// We proceed knowing the animation is already set
+			if( !PanelSwitch.obj[Class].isActive() ){
+				// Restart the animation Only when the panel isn't already active
+				PanelSwitch.obj[Class].restart();
+				PanelSwitch.obj[Class].eventCallback("onComplete", function(){
+					// Prioritize current Active Cell group
+					TweenMax.set(".QuickAccess > .Cells.active", {zIndex: 0});
+					// Deprioritize inactive Cells after active Cells finish animating
+					TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
+				});
+			}
+			// Reverse the animation when the same running animation is requested
+			else if( PanelSwitch.obj[Class].isActive() && PanelSwitch.obj[Class].reversed() ){
+				// Cancel animation reverse
+				PanelSwitch.obj[Class].reversed( !PanelSwitch.obj[Class].reversed() );
+			}
+			// Check for the last Cell group animation
+			if( PanelSwitch.Harmonizer ){
+				// Reverse last Cell group animation
+				PanelSwitch.Harmonizer.reverse();
+				// Remove Cell group animation from the variable
+				PanelSwitch.Harmonizer = false;
+			}
+			// Save current active Cell group animation to a variable
+			PanelSwitch.Harmonizer = PanelSwitch.obj[Class];
+		}
+	},
+	BreathingFragment = new TimelineMax({paused: true}),
+	PedalPrevent = new TimelineMax({paused:true, repeat: 1}),
+	SC_Footer = new TimelineMax({paused: true}),
+	SC_Tripwire = '#SpaceCyclone .TriggerBox .Tripwire',
+	AntiToxins = new TimelineMax({paused: true}),
+	StarRotation = new TimelineMax({paused:true ,repeat: -1}),
+	AnalyzerFly = new TimelineMax({paused: true}),
+	ShuffleFireFly = new TimelineMax({paused: true}),
+	DeckCloudFly = new TimelineMax({paused: true}),
+	Gravity = new TimelineMax({repeat: -1, paused: true}),
+	PlaceDeck = new TimelineMax({paused: true}),
+	ShuffleFire = new TimelineMax({paused: true, repeat: -1, yoyo: true}),
+	PedalPrism = new TimelineMax({paused: true, repeat: -1});
+let Loader, Active, Forward, Reverse, CutTripwire, EnterStorm, InCyclone, Ritual, CoreMove, CoreSlot, CurrentParticle, ExpandPreview, EnterParticle, ExpandParticle, ParticleRotation, ActiveFly, ReverseFly, ParticleNavigation, ExpressSequence, HintWiggle, Shrinker, Flicker, SignGlitch, UpperBeam, tprint, tpath, Navigation, NavRotation, Associates, Analyzer, PedalAction, AnalyzePlate, CrystalRotation, Sign, Rotten, Subject, Parent, PedalBoundary, Locked, PRTJ, PRTA, PRTB, SCDL, SCRQ, SCCN, Storm, PostRitual,
+NextDivisionAssociates = 0,
 Portal = ['Journey','Artery','BigMo'],
 PortalColor = ['#00ffff','#ff8f8f','#b3ffb3',"#FFF"],
 Gandalf = [
@@ -33,7 +366,7 @@ Gandalf = [
 ],
 // SpaceCyclone
 [
-	".TriggerBox .Tripwire",
+	SC_Tripwire,
 	["Entering..."]
 ],
 [
@@ -549,7 +882,6 @@ DivisionURI = [
 }
 ],
 Global = {
-	Rotten : false ,
 	RottenStillActive : false,
 	// Peek
 	PeekActive: null,
@@ -586,64 +918,49 @@ function Varia() {
 		smcs = $("#Skillometer .CoreSlot");
 
 	$("#Analyzer .Particles > div").each(function () {
-		if (Particle.isActive) {
-			return;
-		}
+		if (Particle.isActive) return;
 		TweenMax.set($(this).children(".dime"), {rotation: DimeRotation($(this))});
 	});
 	atda.each(function () {
-		if (Particle.isActive) {
-			return;
-		}
-		Target = ($(this).hasClass("DevParticle")) ? $("#AntiToxins .DevStar") : $("#AntiToxins .ArtStar");
-		SP = {
-			X: $(this).offset().left + ($(this).width() / 2),
-			Y: $(this).offset().top + ($(this).width() / 2)
-		};
-		TP = {
-			X: Target.offset().left + (Target.width() / 2),
-			Y: Target.offset().top + (Target.width() / 2)
-		};
-		Angle = ($(this).hasClass("DevParticle")) ? Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI :
-			Math.atan2(SP.Y - TP.Y, SP.X - TP.X) * 180 / Math.PI;
-		TweenMax.set($(this).children(".Container").children(), {rotation: Angle});
+		if (Particle.isActive) return;
+		let t = $(this),
+			target = (t.hasClass("DevParticle")) ? $("#AntiToxins .DevStar") : $("#AntiToxins .ArtStar"),
+			SP = {
+				X: t.offset().left + (t.width() / 2),
+				Y: t.offset().top + (t.width() / 2)
+			},
+			TP = {
+				X: target.offset().left + (target.width() / 2),
+				Y: target.offset().top + (target.width() / 2)
+			};
+		TweenMax.set(t.children(".Container").children(), {rotation: (t.hasClass("DevParticle")) ?
+				Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI :
+				Math.atan2(SP.Y - TP.Y, SP.X - TP.X) * 180 / Math.PI
+		});
 	});
 		// When loader is allowed and is set, restart the loader on resize
 		if ( Loader && Loader.isActive()) {
 			Loader.restart();
 		}
 		// Disable assets not supported in touch devices
-		NoTouchList = [
-			$("#Peek"),
-			$("#Gandalf"),
-			$(".Area69"),
-			$(".TriggerBox .Tripwire"),
-			$("#Skillometer .Strikes"),
-			$("#Footer > a"),
-			$(".CardSlider > .Card .Content"),
-			atda,
-		];
-		$.each(NoTouchList, function () {
+	let nt = Is.ThisSize(768);
+		$.each(
+			[
+				$("#Peek"),
+				$("#Gandalf"),
+				$(".Area69"),
+				$(".TriggerBox .Tripwire"),
+				$("#Skillometer .Strikes"),
+				$("#Footer > a"),
+				$(".CardSlider > .Card .Content"),
+				atda
+			]
+			, function () {
 			// Disable touch for most mobile devices (not tablets)
-			if (Is.ThisSize(768)) {
-				this.data({notouch: true});
-			} else {
-				this.data({notouch: false});
-			}
+			this.data({notouch: nt});
 		});
-		// Resize & reposition Storm assets when in a storm
-		if ( EnterStorm && !EnterStorm.isActive() && EnterStorm.progress() === 1) {
-			ReCap();
-		}
-		// Handle resize mid-animation
-		if ( EnterStorm && EnterStorm.isActive() && !EnterStorm.reversed()) {
-			// Pause the animation and set new ones
-			ReCap();
-			// Manually call post entrance sequences because Ritual won't trigger it's default onComplete Event listener
-			PostRitualSequence();
-		}
 
-		function ReCap() {
+		const ReCap = () => {
 			// Reset assets to their original positions
 			EnterStorm.progress(0).pause();
 			Ritual.progress(0).pause();
@@ -658,29 +975,43 @@ function Varia() {
 			if (Is.ThisSize(768)) {
 				Area69.set(Storm.find(".Area69"));
 			}
+		};
+
+		// Resize & reposition Storm assets when in a storm
+		if ( EnterStorm && !EnterStorm.isActive() && EnterStorm.progress() === 1) {
+			ReCap();
+		}
+		// Handle resize mid-animation
+		if ( EnterStorm && EnterStorm.isActive() && !EnterStorm.reversed()) {
+			// Pause the animation and set new ones
+			ReCap();
+			// Manually call post entrance sequences because Ritual won't trigger it's default onComplete Event listener
+			PostRitualSequence();
 		}
 
 		// Set the dimensions and position of TripWire clones identical to the original TripWires
 		SetTripWire();
 
-		let FormTL = false;
+		let FormTL,
+			FormClass;
 		// Indicate a form is expanded
 		if (Form.ActiveDom) {
-			FormTL = Form.Arrange[Form.ActiveDom.parent().attr("class")];
+			FormClass = Form.ActiveDom.parent().attr("class");
+			FormTL = Form.Arrange[FormClass];
 		}
 		// When the form's placement sequence is completed but not running:
 		if (FormTL && !FormTL.isActive()) {
 			// Recalculate the form's attributes
 			AssetForm(Form.ActiveDom);
-			Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
+			Form.Arrange[FormClass].progress(1);
 		}
 		// When it's still running and is not reversed
 		else if (FormTL && !FormTL.reversed()) {
 			// Pause it's animation and...
-			Form.Arrange[Form.ActiveDom.parent().attr("class")].pause();
+			Form.Arrange[FormClass].pause();
 			// Recalculate the form
 			AssetForm(Form.ActiveDom);
-			Form.Arrange[Form.ActiveDom.parent().attr("class")].progress(1);
+			Form.Arrange[FormClass].progress(1);
 		}
 		// Set Skillometer's height based on the distance between InfoPanel and QuickAccess
 		let DeviHeight = quac[0].offsetTop -
@@ -716,23 +1047,20 @@ function Varia() {
 			fontSize: smcs.height() * .13
 		});
 		// Connect the wires to the Skillometer's Core
+		let crkp = $("#Skillometer .CoreKeepa");
 		$("#Skillometer .Cores .Core").each(function () {
-			Waya = $(this).find(".Waya");
-			Target = $("#Skillometer .CoreKeepa");
-			WayaOffset = Waya.offset().left;
-			SP = {
-				X: $(this).offset().left + ($(this).width() / 2),
-				Y: $(this).offset().top + ($(this).width() / 2)
-			};
-			TP = {
-				X: Target.offset().left + (Target.width() / 2),
-				Y: Target.offset().top + (Target.width() / 2)
-			};
-			Width = Math.sqrt((SP.X - TP.X) * (SP.X - TP.X) + (SP.Y - TP.Y) * (SP.Y - TP.Y));
-			Angle = Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI;
-			TweenMax.set(Waya, {
-				width: Width,
-				rotation: Angle
+			let t = $(this),
+				SP = {
+					X: t.offset().left + (t.width() / 2),
+					Y: t.offset().top + (t.width() / 2)
+				},
+				TP = {
+					X: crkp.offset().left + (crkp.width() / 2),
+					Y: crkp.offset().top + (crkp.width() / 2)
+				};
+			TweenMax.set(t.find(".Waya"), {
+				width: Math.sqrt((SP.X - TP.X) * (SP.X - TP.X) + (SP.Y - TP.Y) * (SP.Y - TP.Y)),
+				rotation: Math.atan2(TP.Y - SP.Y, TP.X - SP.X) * 180 / Math.PI
 			});
 		});
 		// When a Core is loaded but not currently loading:
@@ -785,14 +1113,11 @@ function Varia() {
 		// Or if it's in the entrance process
 		if ( EnterParticle && EnterParticle.isActive()) {
 			// Indicate reverse state
-			let rev = false;
-			if (EnterParticle.reversed()) {
-				rev = true;
-			}
+			let rev = EnterParticle.reversed(),
 			// Store current active particle's object cause in ResetParticle() method it is removed
-			let prtcle = Particle.activeObj;
+			prtcle = Particle.activeObj,
 			// Store progress for each running animation
-			let progress = [
+			progress = [
 				EnterParticle.progress(),
 				ParticleRotation.progress()
 			];
@@ -829,7 +1154,7 @@ function Varia() {
 			NavRotation.progress(progress[1]);
 		}
 
-		if (ActiveDivision.attr("id") === "Analyzer") {
+		if (Active.Division.attr("id") === "Analyzer") {
 			// Clear overflow commands given by javascript in screens wider than 1024 width and shorter than 600 height
 			if (!Is.ThisSize(1024) && Is.ThisSize(null, 600)) {
 				TweenMax.set(anlz, {overflowY: ""});
@@ -884,13 +1209,15 @@ function Varia() {
 					CardSlider.placer(this, dir);
 				},
 				onDragEnd: function () {
+					let t = this.target,
+						l = $(t).children(".Card").length,
+						stickto = 0;
 					// Prevent displacement when already at minimum or maximum position
 					if (this.x === this.maxX || this.x === this.minX) {
 						return;
 					}
-					let stickto = 0;
 					// Search for the current level through container's children
-					for (i = 0; i < $(this.target).children(".Card").length; i++) {
+					for(i = 0; i < l ; i++) {
 						// Revert to previous Card's position when placed between it's margin before the next Card
 						if ((dir === -1 && this.x >= -(bound * i + 1)) || (dir === 1 && this.x <= (bound * i + 1))) {
 							stickto = dir * bound * (i);
@@ -898,7 +1225,7 @@ function Varia() {
 						}
 					}
 					// Animate the placement
-					TweenMax.to(this.target, .2,
+					TweenMax.to(t, .2,
 						{
 							x: stickto,
 							y: dir * stickto
@@ -925,13 +1252,13 @@ function Varia() {
 					HintWiggle.progress()
 				] : [1, 1];
 			// Collapse the DivisionExpress and skip animations to the original position
-			ExpressTheDivision(ActiveDivision.find(".DivisionExpress"));
+			ExpressTheDivision(Active.Division.find(".DivisionExpress"));
 			ExpressSequence.progress(0);
 			HintWiggle.progress(0);
 			// Reset coordinates of the DivisionExpress' content
-			DivisionExpress.set.Position(ActiveDivision.find(".DivisionExpress"));
+			DivisionExpress.set.Position(Active.Division.find(".DivisionExpress"));
 			// Recall the DivisionExpress sequence and skip to the determined progress
-			ExpressTheDivision(ActiveDivision.find(".DivisionExpress"));
+			ExpressTheDivision(Active.Division.find(".DivisionExpress"));
 			ExpressSequence.progress(progress[0]);
 			HintWiggle.progress(progress[1]);
 		}
@@ -939,19 +1266,46 @@ function Varia() {
 
 function Globe(){
 	const
+		JourneyPortal = '#Temporary .Journey',
+		ArteryPortal = '#Temporary .Artery',
+		BigMoPortal = '#Temporary .BigMo',
+		DownloadStorm = '#SpaceCyclone .Download.Storm',
+		RequestStorm = '#SpaceCyclone .Request.Storm',
+		ConnectStorm = '#SpaceCyclone .Connect.Storm',
 		atda = $("#AntiToxins .DevParticle, #AntiToxins .ArtParticle"),
 		qpdl = $(".Pedal"),
-		scds = $("#SpaceCyclone .Download.Storm .StarFlow"),
-		scdf = $("#SpaceCyclone .Download.Storm .Flow"),
-		scda = $("#SpaceCyclone .Download.Storm .CV > .Asset"),
-		scrs = $("#SpaceCyclone .Request.Storm .StarFlow"),
-		scrf = $("#SpaceCyclone .Request.Storm .Flow"),
-		sccp = $("#SpaceCyclone .Request.Storm .CodeProject > .Title > .Asset"),
-		sccs = $("#SpaceCyclone .Connect.Storm .StarFlow"),
-		sccf = $("#SpaceCyclone .Connect.Storm .Flow"),
-		scph = $("#SpaceCyclone .Connect.Storm .Phone > .Asset"),
+		scds = `${DownloadStorm} .StarFlow`,
+		scdf = `${DownloadStorm} .Flow`,
+		scdd = `${DownloadStorm} .Definer > .Asset`,
+		scda = `${DownloadStorm} .CV > .Asset`,
+		scdr = `${DownloadStorm} .Resume > .Asset`,
+		scrs = `${RequestStorm} .StarFlow`,
+		scrf = `${RequestStorm} .Flow`,
+		scra = `${RequestStorm} .Definer > .Asset`,
+		sccp = `${RequestStorm} .CodeProject > .Title > .Asset`,
+		scdp = `${RequestStorm} .DesignProject > .Title > .Asset`,
+		sccs = `${ConnectStorm} .StarFlow`,
+		sccf = `${ConnectStorm} .Flow`,
+		scph = `${ConnectStorm} .Phone > .Asset`,
+		scen = `${ConnectStorm} .Envelope .Title > .Asset`,
 		spcy = $("#SpaceCyclone"),
 		tmpo = $("#Temporary > .Portal"),
+		tmpe = '#Temporary .Eyez',
+		tmpl = '#Temporary .Laugh',
+		prjf = `${JourneyPortal} .Flow`,
+		prjs = `${JourneyPortal} .StarFrame`,
+		prjt = `${JourneyPortal} .Terrain`,
+		prjd = `${JourneyPortal} .DeepSea`,
+		prsh = `${JourneyPortal} .Ship`,
+		praf = `${ArteryPortal} .Flow`,
+		prab = `${ArteryPortal} .BloodAura`,
+		pras = `${ArteryPortal} .Scatter`,
+		prak = `${ArteryPortal} .Keymord`,
+		prbr = `${ArteryPortal} .Barry`,
+		prbf = `${BigMoPortal} .Flow`,
+		prbm = `${BigMoPortal} .Behindmo, ${BigMoPortal} .Frontmo`,
+		prbb = `${BigMoPortal} .Bigmo`,
+		prbj = `${BigMoPortal} .Jacuzzi`,
 		revh = $(".Reverse > .Handle"),
 		rebu = $("#Reach"),
 		pfpo = $(".PathFinder .Pocket"),
@@ -990,256 +1344,253 @@ function Globe(){
 	Panel.setup();
 	// Add Cards from Life & Work Decks to the Slider Deck
     $(".Deck .Cards .Card").each(function(){
-        let clone = $(this).clone();
-        if( $(this).parent().parent().hasClass("Work") ){
-            clone.appendTo($(".Slider .Work.Cards .CardSlider"))
-        }else if( $(this).parent().parent().hasClass("Life") ){
-            clone.appendTo($(".Slider .Life.Cards .CardSlider"))
+        let clone = $(this).clone(),
+			Cards = $(".Slider .Cards"),
+			Deck = $(this).closest(".Deck");
+        if( Deck.hasClass("Work") ){
+            clone.appendTo(Cards.filter(".Work"))
+        }else if( Deck.hasClass("Life") ){
+            clone.appendTo(Cards.filter(".Life"))
         }
     });
     // Add all Storm TripWire clones to TriggerBox
     $("#SpaceCyclone .Storm").each(function(){
-        let clone = $(this).find(".Tripwire").clone();
-        clone.addClass( ($(this).attr("class")).replace(/\s/g,""));
+        let t = $(this),
+			clone = t.find(".Tripwire").clone();
+        clone.addClass( (t.attr("class")).replace(/\s/g,"") );
         $(".TriggerBox").append(clone);
     });
 
 // Pre Requisitions
 
-	// Prepping The Frame
-	$(window).scrollTop(0);
-
 	// Animations Setup
 
-	  // Portals Animation
+	BreathingFragment
+	.add(
+		new TimelineMax({repeat: -1, yoyo: true})
+			.set(tmpe, {scale:1})
+			.to(tmpe, 1, {y: '+=5%',scale: 0.95,ease :   Sine. easeInOut})
+			.to(tmpe, 1, {y: '-=3%',scale: 1,ease :   Sine. easeInOut})
+			.to(tmpe, 1, {y: '+=3%',scale: 0.9,ease :   Sine. easeInOut}), 0
+	).add(
+		new TimelineMax({repeat: -1, yoyo: true})
+			.set(tmpl, {scale:1})
+			.to(tmpl, 1, {y: '-=2.5%',scale: 0.95,ease :   Sine. easeInOut})
+			.to(tmpl, 1, {y: '+=1%',scale: 1,ease :   Sine. easeInOut})
+			.to(tmpl, 1, {y: '+=2.5%',scale: 0.9,ease :   Sine. easeInOut}), 0
+	);
 
-	WolvenEyez = new TimelineMax({repeat: -1, yoyo: true, paused: true});
-	WolvenEyez.set('#Temporary .Eyez', {scale:1});
-	 WolvenEyez
-	  .to('#Temporary .Eyez', 1, {y: '+=5%',scale: 0.95,ease :   Sine. easeInOut})
-	  .to('#Temporary .Eyez', 1, {y: '-=3%',scale: 1,ease :   Sine. easeInOut})
-	  .to('#Temporary .Eyez', 1, {y: '+=3%',scale: 0.9,ease :   Sine. easeInOut});
+	// Portals animations
+	// Journey Portal animations
+	PRTJ =
+	[
+		new TimelineMax({paused:true, repeat: -1})
+			.to(prjf, 0.4, {y: '-5%',scale: 1.05,ease :  Power1.easeOut})
+			.to(prjf, 0.4, {y: '2.5%',scale: 1,ease :  Power1.easeIn})
+			.to(prjf, 0.4, {y: '0%',ease :  Power1.easeInOut}),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(prjs, 1, {x: '-3%',rotation: 5,transformOrigin: "50% 200%",ease :  Power1.easeInOut})
+			.to(prjs, 1, {x: '0%',rotation: -5,transformOrigin: "50% 200%",ease :  Power1.easeInOut})
+			.to(prjs, 1, {x: '3%',rotation: 5,transformOrigin: "50% 200%",ease :  Power1.easeInOut})
+			.to(prjs, 1, {x: '0%',rotation: 0,transformOrigin: "50% 200%",ease :  Power1.easeInOut}),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(prjt, 0.8, {scale: 1.04,ease : Power1.easeInOut,delay: 0.2})
+			.to(prjt, 0.8, {scale: 1,ease : Power1.easeInOut}),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(prjd, .5, {skewX: 30,transformOrigin: "top left",ease:  Power2.easeInOut })
+			.to(prjd, .5, {skewX: 0,transformOrigin: "top left",ease:  Power2.easeInOut }),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(prsh, .6, {x: 20,rotation: 10,ease: Power1.easeInOut,transformOrigin: "30% 80%" })
+			.to(prsh, .6, {x: -5,rotation: -10,ease: Power1.easeInOut,transformOrigin: "30% 80%" })
+			.to(prsh, .6, {x: 20,rotation: 10,ease: Power1.easeInOut,transformOrigin: "30% 80%" })
+			.to(prsh, .6, {x: 0,rotation: 0,ease: Power1.easeInOut,transformOrigin: "30% 80%" })
+	];
+	
+	// Artery Portal animations
+	PRTA =
+	[
+		new TimelineMax({paused:true, repeat: -1,repeatDelay: .5})
+			.to(praf, .2, {scale: 1.1,ease: Power1.easeInOut })
+			.to(praf, .2, {scale: 1,ease: Power1.easeInOut })
+			.to(praf, .2, {scale: 1.15,ease: Power1.easeInOut })
+			.to(praf, .2, {scale: 1,ease: Power1.easeInOut }),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(prab, 2, {scale: 1.1,rotation: 360,ease:  Elastic. easeInOut.config( 1, 0.3) })
+			.to(prab, .2, {scale: 1}),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(pras, .4, {x: '5%',y: '5%',ease: Power2.easeInOut })
+			.to(pras, .4, {x: '-5%',y: '-2%',ease: Power2.easeInOut })
+			.to(pras, .4, {x: '5%',y: '5%',ease: Power2.easeInOut })
+			.to(pras, .4, {x: '0%',y: '0%',ease: Power2.easeInOut }),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(prak, .8, {x: '-1%',y: '-1%',rotation: 5,ease: SlowMo.ease.config( 0.7, 2, false) })
+			.to(prak, .8, {x: '1%',y: '1%',rotation: -5,ease: SlowMo.ease.config( 0.7, 2, false) })
+			.to(prak, .8, {x: '-1%',y: '-1%',rotation: 5,ease: SlowMo.ease.config( 0.7, 2, false) })
+			.to(prak, .8, {x: '0%',y: '0%',rotation: 0,ease: SlowMo.ease.config( 0.7, 2, false) }),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(`${ArteryPortal} .Infa`, .15, {skewX: 6,skewY: 10,ease: Bounce. easeInOut })
+			.to(`${ArteryPortal} .Infa`, .15, {skewX: 1,skewY: 1,ease: Bounce. easeInOut }),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(prbr, .4, {x: '-5%',y: '-5%',scale: 1.4,ease: Bounce. easeInOut })
+			.to(prbr, .4, {x: '0%',y: '0%',scale: 1,ease: Bounce. easeInOut })
+	];
 
-	BrokenLaugh = new TimelineMax({repeat: -1, yoyo: true, paused: true});
-	BrokenLaugh.set('#Temporary .Laugh', {scale:1});
-	 BrokenLaugh
-	  .to('#Temporary .Laugh', 1, {y: '-=2.5%',scale: 0.95,ease :   Sine. easeInOut})
-	  .to('#Temporary .Laugh', 1, {y: '+=1%',scale: 1,ease :   Sine. easeInOut})
-	  .to('#Temporary .Laugh', 1, {y: '+=2.5%',scale: 0.9,ease :   Sine. easeInOut});
+	// BigMo Portal animations
+	PRTB =
+	[
+		new TimelineMax({paused:true , repeat: -1})
+			.to(prbf, .4, {scale: 1.03,rotation: 5 ,ease: Power1.easeInOut })
+			.to(prbf, .4, {scale: 1.12,rotation: -5 ,ease: Power1.easeInOut })
+			.to(prbf, .4, {scale: 1.09,rotation: 8 ,ease: Power1.easeInOut })
+			.to(prbf, .4, {scale: 1.14,rotation: -8 ,ease: Power1.easeInOut })
+			.to(prbf, .2, {scale: 1.05,rotation: 12 ,ease: Power1.easeInOut })
+			.to(prbf, .2, {scale: 1,rotation: 0 ,ease: Power1.easeInOut }),
+		new TimelineMax({paused:true , repeat: -1})
+			.to(prbm, .2, {scale: 1.03,ease: Power1.easeInOut })
+			.to(prbm, .2, {scale: 1.06,ease: Power1.easeInOut })
+			.to(prbm, .2, {scale: 1.09,ease: Power1.easeInOut })
+			.to(prbm, .2, {scale: 1.06,ease: Power1.easeInOut })
+			.to(prbm, .2, {scale: 1.03,ease: Power1.easeInOut })
+			.to(prbm, .2, {scale: 1,ease: Power1.easeInOut }),
+		new TimelineMax({paused: true, repeat: -1,
+			onRepeat:
+				function(){
+				TweenMax.fromTo(prbb,.5,{opacity: 0},{opacity: 1});
+				}
+			})
+			.to(prbb, .6, {y: '60%', ease: Power1.easeInOut}),
+		new TimelineMax({paused:true , repeat: -1})
+			.to(prbj, .5, {rotation: 10,transformOrigin: '40% 60%',scale : 1.04,opacity: 1 ,ease: SlowMo.ease.config( 0.7, 0.7, false) })
+			.to(prbj, .5, {rotation: -15,transformOrigin: '40% 60%',scale : 1.08,opacity: 1 ,ease: SlowMo.ease.config( 0.9, 0.7, false) })
+			.to(prbj, .5, {rotation: 20,transformOrigin: '40% 60%',scale : 0.9,opacity: 1 ,ease: SlowMo.ease.config( 0.7, 0.7, false) })
+			.to(prbj, .5, {rotation: -20,transformOrigin: '40% 60%',scale : 1.1,opacity: 1 ,ease: SlowMo.ease.config( 0.7, 0.9, false) })
+			.to(prbj, .5, {rotation: 0,transformOrigin: '40% 60%',scale : 1 ,ease: SlowMo.ease.config( 0.7, 0.9, false) })
+	];
 
-  Jflow = new TimelineMax({paused:true , repeat: -1});
-  Jflow.set('#Temporary .Journey .Flow', {scale:1});
-	Jflow
-	.to('#Temporary .Journey .Flow', 0.4, {y: '-5%',scale: 1.05,ease :  Power1.easeOut})
-	.to('#Temporary .Journey .Flow', 0.4, {y: '2.5%',scale: 1,ease :  Power1.easeIn})
-	.to('#Temporary .Journey .Flow', 0.4, {y: '0%',ease :  Power1.easeInOut});
+	// QuickAccess animations
+	PedalAction = TweenMax.to(qpdl, .5, {rotation: 360, transformOrigin: "50% 35%", ease:  Power0.easeNone, repeat: -1, paused: true});
+	PedalPrevent
+	.to(PedalAction.target[0], .025, {x: "3%"})
+	.to(PedalAction.target[0], .05, {x: "-3%"})
+	.to(PedalAction.target[0], .025, {x: "0%"});
 
-  Jstarframe = new TimelineMax({paused:true , yoyo: true, repeat: -1});
-	Jstarframe
-	.to('#Temporary .Journey .StarFrame', 1, {x: '-3%',rotation: 5,transformOrigin: "50% 200%",ease :  Power1.easeInOut})
-	.to('#Temporary .Journey .StarFrame', 1, {x: '0%',rotation: -5,transformOrigin: "50% 200%",ease :  Power1.easeInOut});
-
-  Jterrain = new TimelineMax({paused:true , repeat: -1});
-	Jterrain
-	.to('#Temporary .Journey .Terrain', 0.8, {scale: 1.04,ease : Power1.easeInOut,delay: 0.2})
-	.to('#Temporary .Journey .Terrain', 0.8, {scale: 1,ease : Power1.easeInOut});
-
-  Jdeepsea = new TimelineMax({paused:true , repeat: -1});
-	Jdeepsea
-	.to('#Temporary .Journey .DeepSea', .5, {skewX: 30,transformOrigin: "top left",ease:  Power2.easeInOut })
-	.to('#Temporary .Journey .DeepSea', .5, {skewX: 0,transformOrigin: "top left",ease:  Power2.easeInOut });
-
-  Jship = new TimelineMax({paused:true , yoyo: true , repeat: -1});
-	Jship
-	.to('#Temporary .Journey .Ship', .6, {x: 20,rotation: 10,ease: Power1.easeInOut,transformOrigin: "30% 80%" })
-	.to('#Temporary .Journey .Ship', .6, {x: -5,rotation: -10,ease: Power1.easeInOut,transformOrigin: "30% 80%" })
-		.to('#Temporary .Journey .Ship', .6, {x: 20,rotation: 10,ease: Power1.easeInOut,transformOrigin: "30% 80%" });
-
-
-
-  Hflow = new TimelineMax({paused:true , repeat: -1,repeatDelay: .5});
-  Hflow.set('#Temporary .Artery .Flow', {scale:1});
-   Hflow
-	.to('#Temporary .Artery .Flow', .2, {scale: 1.1,ease: Power1.easeInOut })
-	.to('#Temporary .Artery .Flow', .2, {scale: 1,ease: Power1.easeInOut })
-	.to('#Temporary .Artery .Flow', .2, {scale: 1.15,ease: Power1.easeInOut })
-	.to('#Temporary .Artery .Flow', .2, {scale: 1,ease: Power1.easeInOut });
-
-  Hbloodaura = new TimelineMax({paused:true , repeat: -1});
-  Hbloodaura.set('#Temporary .Artery .BloodAura', {scale:1});
-   Hbloodaura
-	.to('#Temporary .Artery .BloodAura', 2, {scale: 1.1,rotation: 360,ease:  Elastic. easeInOut.config( 1, 0.3) });
-
-  Hscatter = new TimelineMax({paused:true , yoyo: true, repeat: -1});
-	Hscatter
-	.to('#Temporary .Artery .Scatter', .4, {x: '5%',y: '5%',ease: Power2.easeInOut })
-	.to('#Temporary .Artery .Scatter', .4, {x: '-5%',y: '-2%',ease: Power2.easeInOut });
-
-  Hkeymord = new TimelineMax({paused:true , yoyo: true, repeat: -1});
-	Hkeymord
-	.to('#Temporary .Artery .Keymord', .8, {x: '-1%',y: '-1%',rotation: 5,ease: SlowMo.ease.config( 0.7, 2, false) })
-	.to('#Temporary .Artery .Keymord', .8, {x: '1%',y: '1%',rotation: -5,ease: SlowMo.ease.config( 0.7, 2, false) });
-
-  Hdazhali = new TimelineMax({paused:true , yoyo: true, repeat: -1});
-	Hdazhali
-	.to('#Temporary .Artery .Infa', .15, {skewX: 6,skewY: 10,ease: Bounce. easeInOut });
-
-  Hbarry = new TimelineMax({paused:true , yoyo: true, repeat: -1});
-  Hbarry.set('#Temporary .Artery .Barry', {scale:1});
-	Hbarry
-	.to('#Temporary .Artery .Barry', .4, {x: '-5%',y: '-5%',scale: 1.4,ease: Bounce. easeInOut });
-
-
-
-  Mflow = new TimelineMax({paused:true ,yoyo: true , repeat: -1});
-  Mflow.set('#Temporary .BigMo .Flow', {scale:1});
-   Mflow
-	.to('#Temporary .BigMo .Flow', .4, {scale: 1.03,rotation: 5 ,ease: Power1.easeInOut })
-	.to('#Temporary .BigMo .Flow', .4, {scale: 1.12,rotation: -5 ,ease: Power1.easeInOut })
-	.to('#Temporary .BigMo .Flow', .4, {scale: 1.09,rotation: 8 ,ease: Power1.easeInOut })
-	.to('#Temporary .BigMo .Flow', .4, {scale: 1.14,rotation: -8 ,ease: Power1.easeInOut })
-	.to('#Temporary .BigMo .Flow', .2, {scale: 1.05,rotation: 12 ,ease: Power1.easeInOut });
-
-  Walla = new TimelineMax({paused:true ,yoyo: true , repeat: -1});
-  Walla.set(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], {scale:1});
-   Walla
-	.to(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], .2, {scale: 1.03,ease: Power1.easeInOut })
-	.to(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], .2, {scale: 1.06,ease: Power1.easeInOut })
-	.to(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], .2, {scale: 1.09,ease: Power1.easeInOut })
-	.to(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], .2, {scale: 1.06,ease: Power1.easeInOut })
-	.to(['#Temporary .BigMo .Behindmo','#Temporary .BigMo .Frontmo'], .2, {scale: 1.03,ease: Power1.easeInOut });
-
-  Mbigmo = TweenMax.to('#Temporary .BigMo .Bigmo', .6, {repeat: -1, paused: true,y: '60%', opacity: 1,
-	ease: Power1.easeInOut,
-	onRepeat: REP});
-
-  function REP(){
-	TweenMax.fromTo('#Temporary .BigMo .Bigmo',0.2,{opacity: 0},{opacity: 1});
-  }
-
-  Mjaccuzi = new TimelineMax({paused:true , yoyo: true, repeat: -1});
-  Mjaccuzi.set('#Temporary .BigMo .Jaccuzi', {scale:1});
-   Mjaccuzi
-	.to('#Temporary .BigMo .Jaccuzi', .5, {rotation: 10,transformOrigin: '40% 60%',scale : 1.04,opacity: 1 ,ease: SlowMo.ease.config( 0.7, 0.7, false) })
-	.to('#Temporary .BigMo .Jaccuzi', .5, {rotation: -15,transformOrigin: '40% 60%',scale : 1.08,opacity: 1 ,ease: SlowMo.ease.config( 0.9, 0.7, false) })
-	.to('#Temporary .BigMo .Jaccuzi', .5, {rotation: 20,transformOrigin: '40% 60%',scale : 0.9,opacity: 1 ,ease: SlowMo.ease.config( 0.7, 0.7, false) })
-	.to('#Temporary .BigMo .Jaccuzi', .5, {rotation: -20,transformOrigin: '40% 60%',scale : 1.1,opacity: 1 ,ease: SlowMo.ease.config( 0.7, 0.9, false) });
-
-	  // QuickAccess animations
-  PedalAction = TweenMax.to(qpdl, .5, {rotation: 360, transformOrigin: "50% 35%", ease:  Power0.easeNone, repeat: -1, paused: true});
-  PedalPrevent = new TimelineMax({paused:true, repeat: 1});
-  PedalPrevent
-	  .to(PedalAction.target[0], .025, {x: "3%"})
-	  .to(PedalAction.target[0], .05, {x: "-3%"})
-	  .to(PedalAction.target[0], .025, {x: "0%"});
-
-		// SpaceCyclone animations
-	SC_DL_Stars = new TimelineMax({paused:true, repeat: -1});
-	SC_DL_Stars
-		.to(scds, .8,
-			{autoAlpha: .4, rotation: 2, transformOrigin: "50% 100%", ease: Power0.easeNone}
+	// Download Cyclone animations
+	TweenMax.set(scdr, {rotation: 35, y: "-10%", x: "15%", transformOrigin: "15% 35%"} );
+	SCDL =
+	[
+		new TimelineMax({repeat: -1, paused: true})
+			.to(scds, .8,
+				{autoAlpha: .4, rotation: 2, transformOrigin: "50% 100%", ease: Power0.easeNone}
 			)
-		.to(scds, .8,
-			{autoAlpha: 1, rotation: 0, transformOrigin: "50% 100%", ease: Power0.easeNone}
+			.to(scds, .8,
+				{autoAlpha: 1, rotation: 0, transformOrigin: "50% 100%", ease: Power0.easeNone}
 			)
-		.to(scds, .8,
-			{autoAlpha: .4, rotation: -2, transformOrigin: "50% 100%", ease: Power0.easeNone}
+			.to(scds, .8,
+				{autoAlpha: .4, rotation: -2, transformOrigin: "50% 100%", ease: Power0.easeNone}
 			)
-		.to(scds, .8,
-			{autoAlpha: 1, rotation: 0, transformOrigin: "50% 100%", ease: Power0.easeNone}
-			);
-	SC_DL_Flow = new TimelineMax({paused:true, repeat: -1});
-	SC_DL_Flow
-		.to(scdf, .4,
-			{autoAlpha: .5, transformOrigin: "55% 100%", ease: Power0.easeNone}
+			.to(scds, .8,
+				{autoAlpha: 1, rotation: 0, transformOrigin: "50% 100%", ease: Power0.easeNone}
+			),
+		new TimelineMax({repeat: -1, paused: true})
+			.to(scdf, .4,
+				{autoAlpha: .5, transformOrigin: "55% 100%", ease: Power0.easeNone}
 			)
-		.to(scdf, .4,
-			{autoAlpha: 1, transformOrigin: "55% 100%", ease: Power0.easeNone}
-			);
-	SC_DL_Download = new TimelineMax({paused:true, repeat: -1});
-	SC_DL_Download
-		.fromTo($("#SpaceCyclone .Download.Storm .Definer > .Asset"), .6,
-			{y: "0%", autoAlpha: 1,ease: Power0.easeNone},
-			{y: "40%", autoAlpha: 1,ease: Power0.easeNone}
-			);
-	SC_DL_Resume = new TimelineMax({paused:true, repeat: -1, yoyo: true, yoyoEase: Power1.easeInOut});
-	SC_DL_Resume
-	.fromTo($("#SpaceCyclone .Download.Storm .Resume > .Asset"), .8,
-		{rotation: 35, y: "-10%", x: "15%", transformOrigin: "15% 35%",ease: Power1.easeInOut},
-		{rotation: 70, y: "-10%", x: "15%", transformOrigin: "15% 35%",ease: Power1.easeInOut}
-		, 0);
-	SC_DL_CV = new TimelineMax({paused:true, repeat: -1, yoyo: true});
-	SC_DL_CV
-	.to(scda, .8,
-		{rotation: -30, transformOrigin: "80% 0%",ease: Power1.easeInOut}
-		, 0)
-	.to(scda, .8,
-		{rotation: 0, transformOrigin: "80% 0%",ease: Power1.easeInOut}
-		);
+			.to(scdf, .4,
+				{autoAlpha: 1, transformOrigin: "55% 100%", ease: Power0.easeNone}
+			),
+		new TimelineMax({repeat: -1, paused: true})
+			.to(scdd, .8,
+				{y: "40%", autoAlpha: 1,ease: Power1.easeInOut}
+			)
+			.to(scdd, .8,
+				{y: "0%", autoAlpha: 1,ease: Power1.easeInOut}
+			),
+		new TimelineMax({repeat: -1, paused: true})
+			.to(scdr, .8,
+				{rotation: 70 ,ease: Power1.easeInOut}
+			)
+			.to(scdr, .8,
+				{rotation: 35 ,ease: Power1.easeInOut}
+			),
+		new TimelineMax({repeat: -1, paused: true})
+			.to(scda, .8,
+				{rotation: -30, transformOrigin: "80% 0%",ease: Power1.easeInOut}
+				)
+			.to(scda, .8,
+				{rotation: 0, transformOrigin: "80% 0%",ease: Power1.easeInOut}
+			)
+	];
 
-	SC_RQ_Stars = new TimelineMax({paused:true, repeat: -1});
-	SC_RQ_Stars
-		.to(scrs, .8,
-			{autoAlpha: .4, rotation: 2, transformOrigin: "100% 60%", ease: Power0.easeNone}
-		)
-		.to(scrs, .8,
-			{autoAlpha: 1, rotation: 0, transformOrigin: "100% 60%", ease: Power0.easeNone}
-		)
-		.to(scrs, .8,
-			{autoAlpha: .4, rotation: -2, transformOrigin: "100% 60%", ease: Power0.easeNone}
-		)
-		.to(scrs, .8,
-			{autoAlpha: 1, rotation: 0, transformOrigin: "100% 60%", ease: Power0.easeNone}
-		);
-	SC_RQ_Flow = new TimelineMax({paused:true, repeat: -1});
-	SC_RQ_Flow
-		.to(scrf, .4,
-			{autoAlpha: .5, transformOrigin: "55% 100%", ease: Power0.easeNone}
-		)
-		.to(scrf, .4,
-			{autoAlpha: 1, transformOrigin: "55% 100%", ease: Power0.easeNone}
-		);
-	SC_RQ_Plus = new TimelineMax({paused:true, repeat: -1, yoyo: true, yoyoEase: Power3.easeOut});
-	SC_RQ_Plus
-		.to($("#SpaceCyclone .Request.Storm .Definer > .Asset"), .3,
-			{scale: .5, opacity: 1,ease: Power3.easeIn}
-		);
-	SC_RQ_CodeProject = new TimelineMax({paused:true, repeat: -1});
-	SC_RQ_CodeProject
-		.to(sccp, .8,
-			{x: -10, rotation: 10, transformOrigin: "0% 100%", ease:   RoughEase.ease.config({ template:
-					Power0.easeNone,
-					strength:
-						1,
-					points:
-						20,
-					taper:
-						"none",
-					randomize: true,
-					clamp: false
-				})}
-		)
-		.to(sccp, .8,
-			{x: 10, rotation: -10, transformOrigin: "0% 100%", ease:   RoughEase.ease.config({ template:
-					Power0.easeNone,
-					strength:
-						1,
-					points:
-						20,
-					taper:
-						"none",
-					randomize: true,
-					clamp: false
-				})}
-		);
-	SC_RQ_DesignProject = new TimelineMax({paused:true, repeat: -1, yoyo: true, yoyoEase: Circ. easeInOut});
-	SC_RQ_DesignProject
-		.to($("#SpaceCyclone .Request.Storm .DesignProject > .Title > .Asset"), .8,
-			{rotationY: 180, transformOrigin: "50% 50%", ease:  Circ. easeInOut}
-		);
+	// Request Cyclone animations
+	SCRQ =
+	[
+		new TimelineMax({paused:true, repeat: -1})
+			.to(scrs, .8,
+				{autoAlpha: .4, rotation: 2, transformOrigin: "100% 60%", ease: Power0.easeNone}
+			)
+			.to(scrs, .8,
+				{autoAlpha: 1, rotation: 0, transformOrigin: "100% 60%", ease: Power0.easeNone}
+			)
+			.to(scrs, .8,
+				{autoAlpha: .4, rotation: -2, transformOrigin: "100% 60%", ease: Power0.easeNone}
+			)
+			.to(scrs, .8,
+				{autoAlpha: 1, rotation: 0, transformOrigin: "100% 60%", ease: Power0.easeNone}
+			),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(scrf, .4,
+				{autoAlpha: .5, transformOrigin: "55% 100%", ease: Power0.easeNone}
+			)
+			.to(scrf, .4,
+				{autoAlpha: 1, transformOrigin: "55% 100%", ease: Power0.easeNone}
+			),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(scra, .3,
+				{scale: .5,ease: Power3.easeIn}
+			)
+			.to(scra, .3,
+				{scale: 1,ease: Power3.easeOut}
+			),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(sccp, .8,
+				{x: -10, rotation: 10, transformOrigin: "0% 100%", ease:   RoughEase.ease.config({ template:
+						Power0.easeNone,
+						strength:
+							1,
+						points:
+							20,
+						taper:
+							"none",
+						randomize: true,
+						clamp: false
+					})}
+			)
+			.to(sccp, .8,
+				{x: 10, rotation: -10, transformOrigin: "0% 100%", ease:   RoughEase.ease.config({ template:
+						Power0.easeNone,
+						strength:
+							1,
+						points:
+							20,
+						taper:
+							"none",
+						randomize: true,
+						clamp: false
+					})}
+			),
+		new TimelineMax({paused:true, repeat: -1})
+			.to(scdp, .8,
+				{rotationY: 180, transformOrigin: "50% 50%", ease:  Circ. easeInOut}
+			)
+			.to(scdp, .8,
+				{rotationY: 0, transformOrigin: "50% 50%", ease:  Circ. easeInOut}
+			)
+	];
 
-	SC_CN_Stars = new TimelineMax({paused:true, repeat: -1});
-	SC_CN_Stars
+	// Connect Cyclone animations
+	SCCN =
+	[
+		new TimelineMax({paused:true, repeat: -1})
 		.to(sccs, .8,
 			{autoAlpha: .4, rotation: 2, transformOrigin: "0% 60%", ease: Power0.easeNone}
 		)
@@ -1251,22 +1602,19 @@ function Globe(){
 		)
 		.to(sccs, .8,
 			{autoAlpha: 1, rotation: 0, transformOrigin: "0% 60%", ease: Power0.easeNone}
-		);
-	SC_CN_Flow = new TimelineMax({paused:true, repeat: -1});
-	SC_CN_Flow
+		),
+	new TimelineMax({paused:true, repeat: -1})
 		.to(sccf, .4,
 			{autoAlpha: .5, transformOrigin: "55% 100%", ease: Power0.easeNone}
 		)
 		.to(sccf, .4,
 			{autoAlpha: 1, transformOrigin: "55% 100%", ease: Power0.easeNone}
-		);
-	SC_CN_Wifi = new TimelineMax({paused:true, repeat: -1});
-	SC_CN_Wifi
-		.to($("#SpaceCyclone .Connect.Storm .Definer > .Asset"), .3,
-			{rotation: 360, transformOrigin: "50% 73.2%", opacity: 1,ease: Power0.easeNone}
-		);
-	SC_CN_Phone = new TimelineMax({paused:true, repeat: -1});
-	SC_CN_Phone
+		),
+	TweenMax
+		.to(`${ConnectStorm} .Definer > .Asset`, .3,
+			{rotation: 360, transformOrigin: "50% 76%", opacity: 1,ease: Power0.easeNone, paused:true, repeat: -1}
+		),
+	new TimelineMax({paused:true, repeat: -1})
 		.to(scph, .13,
 			{scale: 1.05, rotation: 25, transformOrigin: "center",ease: Power0.easeNone}
 		)
@@ -1281,90 +1629,98 @@ function Globe(){
 		)
 		.to(scph, .2,
 			{scale: 1, rotation: 0, transformOrigin: "center",ease: Power0.easeNone}
-		);
-	SC_CN_Envelope = new TimelineMax({paused:true, repeat: -1});
-	SC_CN_Envelope
-		.to($("#SpaceCyclone .Connect.Storm .Envelope .Title > .Asset"), .6,
+		),
+	new TimelineMax({paused:true, repeat: -1})
+		.to(scen, .6,
 			{scale: 0, rotation: 90, transformOrigin: "100% 50%",ease: Power0.easeNone}
-		);
-	SC_Footer = new TimelineMax({paused: true});
-	SC_Footer.fromTo(spcy.find("#Footer > div"), .2,
+		)
+		.set(scen,
+			{scale: 1, autoAlpha: 0, rotation: 45}
+		)
+		.to(scen, .2,
+			{autoAlpha: 1, rotation: 0, transformOrigin: "0% 0%",ease: Power0.easeNone}
+		)
+];
+	// Footer animations
+	SC_Footer
+	.fromTo(spcy.find("#Footer > div"), .2,
 		{y: 10,autoAlpha: 0},
 		{y: 0,autoAlpha: 1}
-	).fromTo(spcy.find("#Footer > a"), .2,
+	)
+	.fromTo(spcy.find("#Footer > a"), .2,
 		{y: 10,autoAlpha: 0},
 		{y: 0,autoAlpha: 1}, "-=.1"
 	);
-	AntiToxins = new TimelineMax({paused: true});
-	AntiToxins.add(
-			TweenMax.fromTo($(".DevSignBeam, .ArtSignBeam, .DevSign, .ArtSign"), .5, {
-				autoAlpha: 0,
-				ease: RoughEase.ease.config({ template:
-					Power0.easeNone,
-					strength:
-						1,
-					points:
-						20,
-					taper:
-						"none",
-					randomize: true,
-					clamp: false
-				})
-			}, {
-				autoAlpha: 1,
-				ease: RoughEase.ease.config({ template:
-					Power0.easeNone,
-					strength:
-						1,
-					points:
-						20,
-					taper:
-						"none",
-					randomize: true,
-					clamp: false
-				})
-			}), 0
-		);
-	StarRotation = new TimelineMax({paused:true ,repeat: -1});
-	StarRotation.to("#AntiToxins .Star > div", 20, {
+
+	// AntiToxins animations
+	AntiToxins
+	.fromTo($(".DevSignBeam, .ArtSignBeam, .DevSign, .ArtSign"), .5,
+		{
+		autoAlpha: 0,
+		ease: RoughEase.ease.config({
+			template:
+			Power0.easeNone,
+			strength:
+				1,
+			points:
+				20,
+			taper:
+				"none",
+			randomize: true,
+			clamp: false
+			})
+		}, {
+			autoAlpha: 1,
+			ease: RoughEase.ease.config({
+				template:
+				Power0.easeNone,
+				strength:
+					1,
+				points:
+					20,
+				taper:
+					"none",
+				randomize: true,
+				clamp: false
+			})
+		}, 0);
+	StarRotation
+	.to("#AntiToxins .Star > div", 20, {
 		rotation: 360,
 		ease: Power0.easeNone
 	}, 0);
-	AnalyzerFly = new TimelineMax({paused: true});
+
+	// Analyzer animations
 	AnalyzerFly
-        .fromTo("#Analyzer .Analyzer .Circle", .1, {
-            autoAlpha: 1
-        }, {
-           autoAlpha: 0
-            })
-        .add(
-		TweenMax.fromTo("#PrevFace", .1, {
-			autoAlpha: 0,
-			x: "+=100%"
-		}, {
-			autoAlpha: 1,
-			x: "-=100%"
-		}), 0
-	).add(
-		TweenMax.fromTo("#NextFace", .1, {
-			autoAlpha: 0,
-			x: "-=100%"
-		}, {
-			autoAlpha: 1,
-			x: "+=100%"
-		}), 0
-	).add(
-		TweenMax.staggerFromTo("#Analyzer .Express", .2, {
-				autoAlpha: 0,
-				scale: 0,
-				transformOrigin: "50% 50%"
-			},
-			{
-				autoAlpha: 1,
-				scale: 1,
-				transformOrigin: "50% 50%"
-			}, .1), 0
-	);
+	.fromTo("#Analyzer .Analyzer .Circle", .1, {
+		autoAlpha: 1
+	}, {
+	   autoAlpha: 0
+	})
+	.fromTo("#PrevFace", .1, {
+		autoAlpha: 0,
+		x: "+=100%"
+	}, {
+		autoAlpha: 1,
+		x: "-=100%"
+	}, 0)
+	.fromTo("#NextFace", .1, {
+		autoAlpha: 0,
+		x: "-=100%"
+	}, {
+		autoAlpha: 1,
+		x: "+=100%"
+	}, 0)
+	.fromTo("#Analyzer .Express", .2, {
+		autoAlpha: 0,
+		scale: 0,
+		transformOrigin: "50% 50%"
+	},
+	{
+		autoAlpha: 1,
+		scale: 1,
+		transformOrigin: "50% 50%"
+	}, 0);
 	AnalyzePlate = TweenMax.to( "#Analyzer .Plate", .4, {
 		autoAlpha: 0,
 		transformOrigin: "50% 0%"
@@ -1386,7 +1742,6 @@ function Globe(){
 	});
 
 	// DeckCloud
-	ShuffleFireFly = new TimelineMax({paused: true});
 	ShuffleFireFly.add(
 		TweenMax.fromTo("#DeckCloud .Deck:not(.Slider) .ShuffleFire", .35, {
 			y: "+=50%",
@@ -1398,105 +1753,106 @@ function Globe(){
 			autoAlpha: 1
 		}), 0
 	);
-	DeckCloudFly = new TimelineMax({paused: true});
-	DeckCloudFly.fromTo("#DeckCloud .Cards .Fader, #DeckCloud .GravityForce, #DeckCloud .GravityForceX", .1, {
-			autoAlpha: 0
-		}, {
-            autoAlpha: 1
-		}, 0).fromTo("#DeckCloud .Deck .Sign, #DeckCloud .Deck .ShuffleFire", .1, {
-			autoAlpha: 0
-		}, {
-            autoAlpha: function(i, t){
-                // Get the other Deck's class
-                let Class = ( Sign.activeObj.hasClass("Work") )? ".Life" : ".Work";
-                // Set exclusive values for SliderDeck's ShuffelFires & Signs
-				// Check if current Tween is from the other Deck
-                if( Sign.activeObj.siblings(Class).find(t).length && $(t).hasClass("ShuffleFire") ){
-                    return 0;
-                }
-				// Check if current Tween is from the active Deck
-                if( Sign.activeObj.parent().find(t).length && $(t).hasClass("Sign") && $(t).hasClass(Class.replace(".","")) ){
-                    return .4;
-                }
-                return 1;
-        }
-		}, 0);
-	Gravity = new TimelineMax({repeat: -1, paused: true});
-	Gravity.add(
-		TweenMax.fromTo("#DeckCloud .Deck.Work .GravityForce, #DeckCloud .Deck.Life .GravityForceX", .1, {
+	DeckCloudFly
+	.fromTo("#DeckCloud .Cards .Fader, #DeckCloud .GravityForce, #DeckCloud .GravityForceX", .1, {
+		autoAlpha: 0
+	}, {
+		autoAlpha: 1
+	}, 0)
+	.fromTo("#DeckCloud .Deck .Sign, #DeckCloud .Deck .ShuffleFire", .1, {
+		autoAlpha: 0
+	}, {
+		autoAlpha: function(i, t){
+			t = $(t);
+			let s = Sign.activeObj;
+			// Get the other Deck's class
+			let Class = ( s.hasClass("Work") )? ".Life" : ".Work";
+			// Set exclusive values for SliderDeck's ShuffelFires & Signs
+			// Check if current Tween is from the other Deck
+			if( s.siblings(Class).find(t).length && t.hasClass("ShuffleFire") ){
+				return 0;
+			}
+			// Check if current Tween is from the active Deck
+			if( s.parent().find(t).length && t.hasClass("Sign") && t.hasClass(Class.replace(".","")) ){
+				return .4;
+			}
+			return 1;
+		}
+	}, 0);
+	let GravityX = new TimelineMax();
+	GravityX
+		.fromTo("#DeckCloud .Deck.Work .GravityForceX, #DeckCloud .Deck.Life .GravityForce", .4, {
 			y: "+=20%",
 			autoAlpha: 0
 		}, {
 			autoAlpha: 1,
 			ease: Power0.easeNone
 		})
-	).add(
-		TweenMax.to("#DeckCloud .Deck.Work .GravityForce, #DeckCloud .Deck.Life .GravityForceX", 1, {
+		.to("#DeckCloud .Deck.Work .GravityForceX, #DeckCloud .Deck.Life .GravityForce", 1, {
 			y: "-=30%",
 			ease: Power0.easeNone
-		}), "-=.4"
-	).add(
-		TweenMax.to("#DeckCloud .Deck.Work .GravityForce, #DeckCloud .Deck.Life .GravityForceX", .4, {
+		}, "-=.4")
+		.to("#DeckCloud .Deck.Work .GravityForceX, #DeckCloud .Deck.Life .GravityForce", .4, {
 			autoAlpha: 0,
 			ease: Power0.easeNone
-		}), "-=.4"
-	);
-	GravityX = new TimelineMax();
-	GravityX.add(
-		TweenMax.fromTo("#DeckCloud .Deck.Work .GravityForceX, #DeckCloud .Deck.Life .GravityForce", .4, {
-			y: "+=20%",
-			autoAlpha: 0
-		}, {
-			autoAlpha: 1,
-			ease: Power0.easeNone
-		})
-	).add(
-		TweenMax.to("#DeckCloud .Deck.Work .GravityForceX, #DeckCloud .Deck.Life .GravityForce", 1, {
-			y: "-=30%",
-			ease: Power0.easeNone
-		}), "-=.4"
-	).add(
-		TweenMax.to("#DeckCloud .Deck.Work .GravityForceX, #DeckCloud .Deck.Life .GravityForce", .4, {
-			autoAlpha: 0,
-			ease: Power0.easeNone
-		}), "-=.4"
-	);
-	Gravity.add( GravityX, .4 );
-	PlaceDeck = new TimelineMax({paused: true});
-	PlaceDeck.add(
-		TweenMax.staggerFromTo("#DeckCloud .Work .Cards .Card", .3, {
-			y: -50,
-			autoAlpha: 0
-		}, {
-			y: 0,
-			autoAlpha: 1
-		}, .1), 0
-	).add(
-		TweenMax.fromTo("#DeckCloud .Work .Sign", .3, {
+		}, "-=.4");
+	Gravity
+	.fromTo("#DeckCloud .Deck.Work .GravityForce, #DeckCloud .Deck.Life .GravityForceX", .1, {
+		y: "+=20%",
+		autoAlpha: 0
+	}, {
+		autoAlpha: 1,
+		ease: Power0.easeNone
+	})
+	.to("#DeckCloud .Deck.Work .GravityForce, #DeckCloud .Deck.Life .GravityForceX", 1, {
+		y: "-=30%",
+		ease: Power0.easeNone
+	}, "-=.4")
+	.to("#DeckCloud .Deck.Work .GravityForce, #DeckCloud .Deck.Life .GravityForceX", .4, {
+		autoAlpha: 0,
+		ease: Power0.easeNone
+	}, "-=.4")
+	.add( GravityX, .4 );
+	PlaceDeck
+	.staggerFromTo("#DeckCloud .Work .Cards .Card", .3, {
+		y: -50,
+		autoAlpha: 0
+	}, {
+		y: 0,
+		autoAlpha: 1
+	}, .1, 0)
+	.staggerFromTo("#DeckCloud .Life .Cards .Card", .3, {
+		y: -50,
+		autoAlpha: 0
+	}, {
+		y: 0,
+		autoAlpha: 1
+	}, .1, 0)
+	.staggerFromTo("#DeckCloud .Slider .Cards .Card", .3, {
+		y: -50,
+		autoAlpha: 0
+	}, {
+		y: 0,
+		autoAlpha: 1
+	}, .1, 0)
+	.fromTo("#DeckCloud .Work .Sign", .3, {
 			scale: 0,
 		}, {
 			scale: 1,
 			ease: Back. easeOut.config( 1.7)
-		}, .1), 0
-	);
-	PlaceDeck.add(
-		TweenMax.staggerFromTo("#DeckCloud .Life .Cards .Card, #DeckCloud .Slider .Cards .Card", .3, {
-			y: -50,
-			autoAlpha: 0
-		}, {
-			y: 0,
-			autoAlpha: 1
-		}, .1), 0
-	).add(
-		TweenMax.fromTo("#DeckCloud .Life .Sign, #DeckCloud .Slider .Sign", .3, {
-			scale: 0
-		}, {
-			scale: 1,
-			ease: Back. easeOut.config( 1.7)
-		}, .1), 0
-	);
-	ShuffleFire = new TimelineMax({paused: true, repeat: -1, yoyo: true
-	});
+		}, .1, 0)
+	.fromTo("#DeckCloud .Life .Sign", .3, {
+		scale: 0
+	}, {
+		scale: 1,
+		ease: Back. easeOut.config( 1.7)
+	}, .1, 0)
+	.fromTo("#DeckCloud .Slider .Sign", .3, {
+		scale: 0
+	}, {
+		scale: 1,
+		ease: Back. easeOut.config( 1.7)
+	}, .1, 0);
 	ShuffleFire.staggerFromTo("#DeckCloud .ShuffleFire .Fire", 1, {
         cycle:{scaleY: function(){
                 return (Math.random() * .05) + 1;
@@ -1519,7 +1875,8 @@ function Globe(){
 			clamp: false
 		})
 	}, .01);
-	PedalPrism = new TimelineMax({paused: true, repeat: -1});
+
+	// Pedal prism effect
 	PedalPrism.add(
 		TweenMax.fromTo(".Pedal", 1, {
 			filter: "hue-rotate(0deg)",
@@ -1529,9 +1886,10 @@ function Globe(){
 			ease: Power0.easeNone
 		}), 0
 	);
+
     // Fly sequence
-	  // Defining sequence vars
-	OnLoadActive = $("#Temporary");
+	// Defining sequence vars
+	let OnLoadActive = $("#Temporary");
 	OnLoadActive.css({ zIndex : 1 });
 	// Hiding the hidable xD
 	$("#Trilogies header, #Trilogies footer, #BigMo > article, #Artery > article, #Journey > article").css(
@@ -1540,13 +1898,16 @@ function Globe(){
 	OnLoadActive.css(
 		{ visibility : "" , opacity : "" , zIndex: 1 }
 	);
-	  // Active vars
+	// Active vars
 	Active = {
 		Dimension: "Trilogies",
+		Portal: false,
+		Division: OnLoadActive,
+		SwitchDivision: false,
 		Color: PortalColor[PortalColor.length-1]
 	};
-	ActivePortal = [false]; Origin = [0];
-	ActiveDivision = OnLoadActive; SwitchDivisionActive = [false];
+
+	// Fly vars
 	Forward = {isAvailable : false, obj: false, allowed: false, memory: null, isAllowed: function(set,memory){
 		if(typeof(set) === "boolean"){
 			this.allowed = set;
@@ -1556,9 +1917,6 @@ function Globe(){
 		}
 		return this.allowed;
 	}};
-	NextDivisionAssociates = false;
-	DirectFlyActive = [false];
-	  // Reverse vars
 	Reverse = {pedal: false, obj: false, allowed: false, Override: false, memory: null, isAllowed: function(set,memory){
 		if(typeof(set) === "boolean"){
 			this.allowed = set;
@@ -1576,13 +1934,18 @@ function Globe(){
 			return this.Override;
 		}
 	}};
-	  // Rotten vars
-	ActiveRotten = []; DirectRotten = [false];
-	  // Running onload functions
+	
+	// Rotten vars
+	Rotten = {
+		Active: [],
+		Direct: false,
+	};
+
+	// Running onload functions
 	ReverseSequence();
-	  // Setting portals rotten animation
+	// Setting portals rotten animation
 	tmpo.each(function(i){
-		ActiveRotten[i] = TweenMax.to($(this).find(".Rotten"), 1, {
+		Rotten.Active[i] = TweenMax.to($(this).find(".Rotten"), 1, {
 			paused: true,
 			rotation: 360,
 			repeat: -1,
@@ -1590,141 +1953,102 @@ function Globe(){
 		});
 	});
 	tmpo.click(function(){
-		const
-			rebu = $("#Reach"),
-			qaca = $(".QuickAccess > .Cells.active"),
-			quac = $(".QuickAccess");
-		let t = $(this);
 		// Forbid Portal activation when Fly animation is running
-		if( ActiveFly && ActiveFly.isActive() ){
-			return;
-		}
+		if( ActiveFly && ActiveFly.isActive() ) return;
 
-		for( X = 0 ; X < Portal.length ; X++ ){
-			if( t.hasClass(Portal[X]) ){
-				Active.Dimension = Portal[X];
-				Active.Color = PortalColor[X];
-				let A;
-				// QuickAccess
-				qaca.toggleClass("active");
-				quac.find("."+Portal[X]).toggleClass("active");
-				// Peek , Gandalf , Portalian
-				if( !t.hasClass("active") ){
-					$(".Portalian,#Gandalf,#Peek").css("color",Active.Color);
-				}else{
-					$(".Portalian,#Gandalf,#Peek").css("color","");
-				}
-
-				// ReSet fly clearance
-				if( Global.Rotten ){
-					for( XX = 0 ; XX < Portal.length ; XX++ ){
-						if( ActiveRotten[XX] &&
-							$(ActiveRotten[XX].target[0]).parent().parent().hasClass("active") ){
-
-							CheckForToggle($(ActiveRotten[XX].target[0]).parent().parent(),true);
-
-							$('#Temporary > .active').toggleClass("active");
-							Global.Rotten = DirectRotten[0] = ActivePortal[0] = false;
-							Forward.isAvailable = false;
-							Forward.isAllowed(false,false);
-							rebu.data({GandalfOpt: 1});
-
-							ActiveRotten[XX].eventCallback("onRepeat",null).eventCallback("onRepeat", function(XX){
-								ActiveRotten[XX].pause().eventCallback("onRepeat",null);
-							}, [XX]);
-							if( $(ActiveRotten[XX].target[0]).parent().parent().hasClass(Portal[X]) ){
-								qaca.toggleClass("active");
-								quac.find(".Default").toggleClass("active");
-								A = true;
-								// Changing Gandalf's content
-								$("#Temporary .Void").data({GandalfActive: true});
-							}
-						}
-					}
-				}
-
-				// Form the panels
-				Panel.set();
-
-				if( !A ) {
-					// Set fly clearance
-					ActivePortal[0] = t;
-					ActiveRotten[X].resume();
-					DirectRotten[0] = ActiveRotten[X];
-					Global.Rotten = true;
-					t.toggleClass("active");
-					CheckForToggle(t);
-					// Fly Config
-					Subject = ActivePortal[0];
-					Parent = Subject.parent();
-					if( Active.Dimension === Portal[0] ){
-						Forward.isAvailable = false;
-						Forward.isAllowed(false,false);
-						rebu.data({GandalfOpt: 2});
-					}else {
-						Forward.isAvailable = true;
-						Forward.isAllowed(true, true);
-						rebu.data({GandalfOpt: 0});
-					}
-					// Changing Gandalf's content
-					t.data({GandalfOpt: 0, PostClickOpt: 1});
-					$("#Temporary .Void").data({GandalfActive: false});
-				}
-			}
-			if( !Global.Rotten && X+1 === Portal.length ){
+		const
+			qaca = $(".QuickAccess > .Cells.active"),
+			quac = $(".QuickAccess"),
+			t = $(this),
+			Rottens = Rotten.Active;
+		let A;
+		// Run when a portal is de-selected
+		if( Rotten.Direct ){
+			$('#Temporary > .active').toggleClass("active");
+			TempToggle( Active.Portal, "reverse" );
+			Forward.isAvailable = false;
+			Forward.isAllowed(false,false);
+			rebu.data({GandalfOpt: 1});
+			// Reverse rotten to it's original position
+			Rotten.Direct.reverse( ( Rotten.Direct.time() === 0 ) ? 0 : Rotten.Direct.time() );
+			// Determine whether user is deselecting manually
+			if( Active.Portal.hasClass( t.attr("class") ) ){
+                A = true;
+				$([quac.find(".Default"), qaca]).toggleClass("active");
+				// Changing Gandalf's content
+				$("#Temporary .Void").data({GandalfActive: true});
+				// Update Active inputs
 				Active.Dimension = "Trilogies";
 				Active.Color = PortalColor[PortalColor.length-1];
 			}
-			// Setting oolor and other properties for pathfinder values
-			PathCallTo();
+			// Reset vars
+			Rotten.Direct = Active.Portal = false;
 		}
+		// Match the selected portal to the database
+        Portal.find(function(portal, X){
+            if( t.hasClass(portal) ){
+				// Make sure the portal is not manually de-selected
+                if( !A ) {
+                    // Update Active inputs
+                    Active.Dimension = portal;
+                    Active.Color = PortalColor[X];
+                    Active.Portal = t;
+                    // Run the rotten's animation
+                    if( Rottens[X].reversed() ) Rottens[X].reversed( false );
+                    Rottens[X].resume();
+                    Rotten.Direct = Rottens[X];
+                    // Animate Portal assets
+                    TempToggle( t, "play" );
+                    t.toggleClass("active");
+                    // Set Fly config
+                    Subject = Active.Portal;
+                    Parent = Subject.parent();
+                    let c = Active.Dimension === Portal[0];
+                    Forward.isAvailable = !c;
+                    Forward.isAllowed(!c,!c);
+                    // Set Gandalf's content
+                    rebu.data({GandalfOpt: (c) ? 2 : 0});
+                    t.data({GandalfOpt: 0, PostClickOpt: 1});
+                    $("#Temporary .Void").data({GandalfActive: false});
+                }
+                $([quac.find("."+portal), qaca]).toggleClass("active");
+                $(".Portalian,#Gandalf,#Peek").css("color", Active.Color);
+
+                // Form the panels
+                Panel.set();
+                return;
+            }
+        });
+		// Setting color and other properties for pathfinder values
+		PathCallTo();
 	});
 
-	$('#Temporary>div').mouseenter(function(){
-
-		T = $(this);
-
-		if( T.hasClass(Portal[0]) ){
-			if(!T.hasClass("active")){ToggleJourney();}
+	function TempToggle( t, req ){
+		if( !t.hasClass("active") ){
+			req = ( req ) ? req : undefined;
+			if (t.hasClass(Portal[0])) Toggle.JRNY( req );
+			if (t.hasClass(Portal[1])) Toggle.ARTR( req );
+			if (t.hasClass(Portal[2])) Toggle.BIGM( req );
 		}
-
-		if( T.hasClass(Portal[1]) ){
-			if(!T.hasClass("active")){ToggleArtery();}
-		}
-
-		if( T.hasClass(Portal[2]) ){
-			if(!T.hasClass("active")){ToggleBigmo();}
-		}
-
+	}
+	$('#Temporary > div')
+	.mouseenter(function(){
+		TempToggle($(this), "play");
 	})
-		.mouseleave(function(){
-
-			T = $(this);
-
-			if( T.hasClass(Portal[0]) ){
-				if(!T.hasClass("active")){ToggleJourney(true);}
-			}
-
-			if( T.hasClass(Portal[1]) ){
-				if(!T.hasClass("active")){ToggleArtery(true);}
-
-			}
-
-			if( T.hasClass(Portal[2]) ){
-				if(!T.hasClass("active")){ToggleBigmo(true);}
-			}
-
-		});
+	.mouseleave(function(){
+		TempToggle($(this), "reverse");
+	});
 
 	// Set Gandalf reaction to BreathingFragment
     $(".BreathinFragment").click(function(){
         let BR = $(this),
             Opt = $(this),
-            OptLength = 0;
+            OptLength = 0,
+			RandList = Global.RandList.BR,
+			RLLenght = RandList.length;
         // Find this asset's row in Gandalf's array
         $.each(Gandalf,function(){
             if( $(BR[0]).filter(this[0]).length ){
-                let RandList = Global.RandList.BR;
                 // Get the overall option length
                 OptLength = this[1].length;
                 // Randomly select an option
@@ -1738,14 +2062,14 @@ function Globe(){
 							// The option is not repetitive
 						i === Opt ||
 						// Or the current option isn't the same as the previous option
-						RandList[RandList.length-1] === Opt ){
+						RandList[RLLenght-1] === Opt ){
 							// Randomly select an option
 							Opt = Math.floor(OptLength*Math.random());
 						}
 					}
 				}
                 // Reset picked list to allow a new loop
-                if( RandList.length === OptLength ){
+                if( RLLenght === OptLength ){
                     RandList = [];
                 }
                 // Add currently selected option to an array
@@ -1759,50 +2083,25 @@ function Globe(){
 
     // Add TranslucentWave effect
 	$(".QuickAccess .Cells .Cell").click(function(){
-		let PrevSiblings = $(this).prevAll(),
-			NextSiblings = $(this).nextAll();
+	    let from = { autoAlpha: 1 },
+            to = { autoAlpha: 0, delay: .1, onComplete: function(){this.reverse()} };
 		// Animate siblings placed before the clicked element
-		TweenMax.staggerFromTo(PrevSiblings, .175,{
-		   autoAlpha: 1,
-        },{
-		   autoAlpha: 0,
-			delay: .1,
-           onComplete: function(){
-		       this.reverse();
-           }
-        }, .1);
-		// Animate clicked asset
-		TweenMax.fromTo(this, .175,{
-		   autoAlpha: 1
-        },{
-		   autoAlpha: 0,
-            onComplete: function(){
-                this.reverse();
-            }
-        }, .1);
+		TweenMax.staggerFromTo($(this).prevAll(), .175, from, to, .1);
 		// Animate siblings placed after the clicked element
-		TweenMax.staggerFromTo(NextSiblings, .175,{
-		   autoAlpha: 1,
-        },{
-		   autoAlpha: 0,
-			delay: .1,
-            onComplete: function(){
-                this.reverse();
-            }
-        }, .1);
+		TweenMax.staggerFromTo($(this).nextAll(), .175, from, to, .1);
+        // Animate clicked asset
+        delete to.delay;
+        TweenMax.fromTo(this, .175, from, to, .1);
 	});
 
   	// Defining QuickAccess controlls
-    PedalTop = qpdl.position().top;
     PedalBoundary = {Start : 0,
-	                 Stop : PedalTop};
-	Locked = [false];
+	                 Stop : qpdl.position().top};
     // Add pedal's prism effect
-    $(".Pedal .Ped.Handle").mouseenter(function(){
+    $(".Pedal .Ped.Handle")
+    .mouseenter(function(){
     	// Deactive reverse if animation is reversed
-        if( PedalPrism.reversed() ){
-            PedalPrism.reversed(!PedalPrism.reversed());
-        }
+        if( PedalPrism.reversed() ) PedalPrism.reversed(!PedalPrism.reversed());
 		// Continue the animation
         PedalPrism.resume();
     })
@@ -1821,276 +2120,217 @@ function Globe(){
 		onDragScope: this.target,
 		onDragStopScope: this.target,
 		onPress: function(){
-			if( (!Forward.isAllowed() && !Reverse.pedal) || (!Reverse.isAllowed() && Reverse.pedal) ) {
-			    if( !Reverse.isAllowed() && Reverse.pedal ){
-                    Glitch.on("#Gandalf", "Can't go back");
-                }else{
-			        if( Active.Dimension === Portal[0] ){
-                        Glitch.on("#Gandalf", "Soon!");
-                    }else{
-                        Glitch.on("#Gandalf", "Select a dimension to fly");
-                    }
-                }
+		    let c = !Reverse.isAllowed() && Reverse.pedal;
+			if( (!Forward.isAllowed() && !Reverse.pedal) || c ) {
+                Glitch.on("#Gandalf", ( c ) ? "Can't go back" : ( Active.Dimension === Portal[0] ) ? "Soon!" : "Select a dimension to fly");
 				PreventFly(this);
 			}
 		},
 		onDragStart: function(){
-			Locked[0] = false; // UnLocks the spaceship's movement
+			Locked = false; // UnLocks the spaceship's movement
 			PedalAction.restart().play();
 			Fly();
+			// Update status
+			Glitch.on("#Gandalf", ( ( !Reverse.pedal ) ? "Forward" : "Reverse" )+" launch initiated...");
         },
 		onDrag: function(){
-            CurPos = this.y;
+            let CurPos = this.y,
+            // Set pedal's boundary
+			Region = Math.abs(this.maxY - this.minY),
+			// Calculate pedal's position in percentage
+			XtoPercent = ( !Reverse.pedal ) ?
+			( (CurPos) * 100) / Region :
+			( Math.abs(CurPos-this.maxY) * 100) / Region;
 
-            // Boundary Set
-
-			if( Reverse.pedal === false ) {
-			    XtoPercent = (CurPos === this.minY) ? 0 : 100;
-                Glitch.on("#Gandalf", "Forward launch initiated...");
-			}
-			else{
-			    XtoPercent = (CurPos === this.minY) ? 100 : 0;
-                Glitch.on("#Gandalf", "Reverse launch initiated...");
-			}
-            if( CurPos < PedalBoundary.Stop && CurPos > PedalBoundary.Start ) {
-                Region = Math.abs(this.maxY - this.minY);
-                XtoPercent = (Reverse.pedal === false) ? ( (CurPos) * 100) / Region : ( Math.abs(CurPos-this.maxY) * 100) / Region;
-            }
-
-            Dur = ActiveFly.duration()-((ActiveFly.duration()*.9)*( XtoPercent / 100 ));
-            ActiveFly.duration(Dur);
-            if( (Reverse.pedal === true && ReverseFly.isActive()) || Reverse.IsOverrided() ){
-				Dur = ReverseFly.duration()-((ReverseFly.duration()*.9)*( XtoPercent / 100 ));
-				ReverseFly.duration(Dur);
-			}else{
-				if( SwitchDivisionActive[0] === false && ActiveDivision.attr("id") === "Temporary" ){
-					Dur = Shrinker.duration()-((Shrinker.duration()*.9)*( XtoPercent / 100 ));
-					Shrinker.duration(Dur);
-				}
-			}
-
+            // Calculate animation's duration relative to pedal's position
+            let Dur = function(d){
+				return d - ( ( d * FlyTime() ) * ( XtoPercent / 100 ) );
+			};
+            // Sync durations of the main Fly animation
+			ActiveFly.duration( Dur(ActiveFly.duration()) );
+			// Sync durations of Fly-related animations
+            if( ( Reverse.pedal && ReverseFly.isActive() ) || Reverse.IsOverrided() ) ReverseFly.duration( Dur(ReverseFly.duration()) );
+            else if( Active.SwitchDivision === false && Active.Division.attr("id") === "Temporary" ) Shrinker.duration( Dur(Shrinker.duration()) );
         },
         onDragEnd: function(){
-			DivisionSequence();
+			// Reverse the pedal to it's original position
+			let rev = TweenMax.to(this.target, .2, { y: ( Reverse.pedal ) ? this.maxY : this.minY , ease: Power3. easeOut}),
+				r = Reverse.IsOverrided();
+			// Re-toggle Portal animations (if any is active) after reposition
+			if( Active.Portal ) rev.eventCallback("onComplete", CheckForToggle, [Active.Portal]);
+			// Reset Pedal's rotation
 			PedalAction.pause();
 			TweenMax.to(PedalAction.target[0], PedalAction.time(), {rotation: 0});
-            CurPos = this.y;
-            Top = (Reverse.pedal === true) ? this.maxY : this.minY;
-            // Defining how the pedal's getting re-set
-			if( ActivePortal[0] === false ){
-				TweenMax.to(this.target, .2, { y:Top , ease: Power3. easeOut});
-			}else{
-				TweenMax.to(this.target, .2, { y:Top , ease: Power3. easeOut, onComplete: CheckForToggle, onCompleteParams: [ActivePortal[0]]});
-			}
-            if( Locked[0] === true ){ return; }
+			// Call the sequence
+			DivisionSequence();
+
+            if( Locked ) return;
             Forward.isAllowed(true);
-            ActiveFly.duration(ActiveFly.duration()-ActiveFly.duration()*.9).reverse().eventCallback("onReverseComplete",KillActiveFly);
-            if( (Reverse.pedal === true && ReverseFly.isActive()) || Reverse.IsOverrided() ){
-				Reverse.isAllowed(true);
-				if( !Reverse.IsOverrided() ){
-					Forward.isAllowed(false);
-				}
-				else{
-					Reverse.isAllowed(false);
-				}
-				ReverseFly.duration(ReverseFly.duration()-ReverseFly.duration()*.9).reverse().eventCallback("onReverseComplete",KillReverseFly);
-			}else{
-            	if( ActiveDivision.attr("id") === "Temporary" || ( Shrinker && Shrinker.isActive() ) ){
-				Shrinker.duration(Shrinker.duration()-Shrinker.duration()*.9).reverse();
-				}
-            }
+			// Reverse the original animation to original position at the maximum speed
+            ActiveFly.duration(FlyTime(ActiveFly.duration())).reverse().eventCallback("onReverseComplete",KillActiveFly);
+			// Reverse the other animations to original position at the maximum speed
+            if( ( Reverse.pedal && ReverseFly.isActive() ) || r ){
+				Forward.isAllowed(r);
+				Reverse.isAllowed(!r);
+				ReverseFly.duration(FlyTime(ReverseFly.duration())).reverse().eventCallback("onReverseComplete",KillReverseFly);
+			}
+            else if( Active.Division.attr("id") === "Temporary" || ( Shrinker && Shrinker.isActive() ) )
+				Shrinker.duration(FlyTime(Shrinker.duration())).reverse();
+            // Update status
             Glitch.on("#Gandalf", "Cancelling launch...");
         },
         zIndexBoost: false
     });
 
     // Set hover reaction
-	revh.mouseenter(function(){
+	revh
+    .mouseenter(function(){
 		// Allow hover
 		$(this).parent().addClass("hover");
 	})
 	.mouseleave(function(){
 		// Forbid hover
 		$(this).parent().removeClass("hover");
-	});
+	})
 	// Reverse sequence
-	revh.click(function(){
+	.click(function(){
 		if( ( !ReverseFly || !ReverseFly.isActive() ) &&
 			( !ActiveFly || !ActiveFly.isActive() ) ){
 			ReverseHandle($(this));
 		}
 	});
 	// Apply handle effect
-	$("#Reach, #Ditch").mousedown(function(){
-		// Differentiate buttons attributes.
-		let to = ( $(this).attr("id") === "Reach" ) ? "0% 0%" : "100% 0%",
-			r = ( $(this).attr("id") === "Reach" ) ? 5 : -5;
+	$("#Reach, #Ditch")
+    .mousedown(function(){
+		let c = $(this).attr("id") === "Reach";
 		// Apply the animation
-		TweenMax.to( $(this), .1, {transformOrigin: to, rotation: r} );
+		TweenMax.to( $(this), .1, {transformOrigin: ( c ) ? "0% 0%" : "100% 0%", rotation: ( c ) ? 5 : -5} );
 	})
     .on("mouseup mouseout", function(){
 		// Reverse to normal
 		TweenMax.to( this, .1, {rotation: 0});
 	});
 	// Fly alternatives
-	rebu.click(function(){
-		if( DirectFlyActive[0] ){ return; }
-		if (Reverse.pedal === true){
-			if ( !ReverseFly || !ReverseFly.isActive() ) {
-				ReverseHandle();
-			} else {
-				ReverseHandle(false);
-			}
-		}
-		if( Forward.isAllowed() ) {
-		    rebu.data({GandalfOpt: 0});
+	$("#Ditch, #Reach").click(function() {
+		let c = this.id === "Reach",
+			p = Reverse.pedal,
+			f = ( c ) ? ReverseFly : ActiveFly;
+		// Indicate direction on reverse pedal
+		if( ( c ) ? p : !p ) ReverseHandle( ( !(!f || !f.isActive()) ) ? false : undefined );
+		// Determine availability of the fly path
+		if( ( ( c ) ? Forward : Reverse ).isAllowed() ) {
+			$(this).data({GandalfOpt: 0});
+			// Launch
 			Fly(true);
 		}
-		else{
-			PreventFly();
-		}
-	} );
-	$("#Ditch").click(function() {
-		if (Reverse.pedal === false){
-			if ( !ActiveFly || !ActiveFly.isActive() ) {
-				ReverseHandle();
-			} else {
-				ReverseHandle(false);
-			}
-		}
-		if( Reverse.isAllowed() ) {
-            $("#Ditch").data({GandalfOpt: 0});
-			Fly(true);
-		}
-		else{
-			PreventFly();
-		}
+		// Prevent fly if path is blocked
+		else PreventFly();
 	} );
 
 	// Set hover reaction
-    pfpo.mousedown(function(){
+    pfpo
+    .mousedown(function(){
         // Forbid hover animations
-        if( IdlePath ){
-            IdlePath.pause();
-        }
-    });
-    pfpo.mouseenter(function(){
+        if( IdlePath ) IdlePath.pause();
+    })
+    .mouseenter(function(){
         let pathfinder = $(".PathFinder"),
             path = pathfinder.find("#Path"),
             contentgap = path.innerWidth() - pathfinder.innerWidth();
-        // Forbid hover reaction when user is dragging
+        // Forbid hover reaction when:
         if(
+        	// User is dragging
 			( Draggable.get(path) && Draggable.get(path).isDragging ) ||
+			// Or hover reaction is already running
 			( IdlePath && IdlePath.isActive() ) ||
+			// Or when user dragged #Path outside the boundary
 			( path.position().left > 0 || path.position().left < -contentgap )
-		){ return; }
+		) return;
         // Check whether #Path overflows it's content
         if( contentgap > 0 ){
             // Create animation Timeline
             IdlePath = new TimelineMax();
-            let x = {
+			// Check Paths position to set animation accordingly
+            let x =
+			// Check Paths position to set animation accordingly
+			( path.position().left >= 0 ) ? {
                 from: "-=20",
                 to: "+=20"
-            };
-            // Check Paths position to set animation accordingly
-            if( path.position().left < 0 ){
-                // Reverse motion attributes when Path is far to the left
-                x = {
-                    from: "+=20",
-                    to: "-=20"
-                };
-            }
+            } :
+			// Reverse motion attributes when Path is far to the left
+			{
+				from: "+=20",
+				to: "-=20"
+			};
             // Set animations
-            IdlePath.add(
-                TweenMax.to("#Path", .5, {
-                    x: x.from,
-                })
-            )
-            .add(
-                TweenMax.to("#Path", .5, {
-                    x: x.to,
-                })
-            );
+            IdlePath
+				.to("#Path", .5, {
+					x: x.from,
+				})
+				.to("#Path", .5, {
+					x: x.to,
+				});
         }
     });
 
 	// DivisionReactor
 		// SpaceCyclone
-	Cyclone = {isActive : false};
-	$('#SpaceCyclone > .TriggerBox .Tripwire').mouseenter(function(){
+	$(SC_Tripwire).on("mouseenter mouseleave", function(){
+		let t = $(this);
 	    // Prohibit hover reactions when entering the storm
-        if( Cyclone.isActive || Is.NoTouch($(this)) ){return;}
+        if( InCyclone || Is.NoTouch(t) ){return;}
+		t = t.attr("class");
+        // Match the related toggle method
+		if( t.match(/Download/) ) return Toggle.DWNL();
+		if( t.match(/Request/) ) return Toggle.RQST();
+		if( t.match(/Connect/) ) return Toggle.CNCT();
+	});
 
-		T = $(this).attr("class");
-
-		if( T.match(/Download/) ){
-			ToggleDownload();
-		}
-		if( T.match(/Request/) ){
-			ToggleRequest();
-		}
-		if( T.match(/Connect/) ){
-			ToggleConnect();
-		}
-
-	})
-		.mouseleave(function(){
-			if( Cyclone.isActive || Is.NoTouch($(this)) ){return;}
-
-			T = $(this).attr("class");
-
-            if( T.match(/Download/) ){
-                ToggleDownload(true);
-            }
-            if( T.match(/Request/) ){
-                ToggleRequest(true);
-            }
-            if( T.match(/Connect/) ){
-                ToggleConnect(true);
-            }
-
-		});
-
-	$('#SpaceCyclone > .Storm .AlphaAsset .Title:not(.active),#SpaceCyclone > .Storm .BetaAsset:not(.Phone) .Title:not(.active)').mouseenter(function(){
+	$('#SpaceCyclone > .Storm .AlphaAsset .Title:not(.active),#SpaceCyclone > .Storm .BetaAsset:not(.Phone) .Title:not(.active)')
+	.mouseenter(function(){
 		AssetHover($(this).parent());
 	})
-		.mouseleave(function(){
-			AssetHover($(this).parent(),true);
+	.mouseleave(function(){
+		AssetHover($(this).parent(),true);
 	});
-	$('#SpaceCyclone > .Download.Storm .AlphaAsset, #SpaceCyclone > .Download.Storm .BetaAsset').mouseenter(function(){
+
+	$('#SpaceCyclone > .Download.Storm .AlphaAsset, #SpaceCyclone > .Download.Storm .BetaAsset')
+	.mouseenter(function(){
 		AssetHover($(this));
 	})
-		.mouseleave(function(){
-			AssetHover($(this),true);
+	.mouseleave(function(){
+		AssetHover($(this),true);
 	});
-	$('#SpaceCyclone .TriggerBox .Tripwire').click(function(){
+
+	$(SC_Tripwire).click(function(){
+		// Update status on Gandalf
+		// Glitch.on("#Gandalf", "BOZ");
         let StormID = ($(this).attr("class").match(/Storm(\w*)|\w*Storm/g)[0]).replace("Storm","");
 	    // Check if method is in the middle of entering/exiting
 		if( EnterStorm && EnterStorm.isActive() ){
-		    // Run when entering the storm
+		    // Reverse if currently entering
 		    if( !EnterStorm.reversed() ){
                 EnterStorm.reverse().eventCallback("onReverseComplete", function(){
+					// Reset the curtain
+					Storm.siblings(".Curtain").attr("class","Curtain");
+					// Run only if user's not flying
+					if( !ActiveFly.isActive() ){
+						// Reset tripwire interactions
+						TweenMax.set(SC_Tripwire, {autoAlpha: 1});
+						// Reappear footer
+						SC_Footer.reversed(!SC_Footer.reversed());
+					}
                     // Deactivate cyclone activation indicator
-                    Cyclone.isActive = false;
-                    // Reappear footer
-                    SC_Footer.reversed(!SC_Footer.reversed());
+                    InCyclone = false;
                     // Run hover reactions if a storm is hovered after the storm
+                    if( !Is.NoTouch($(this)) ) {
+                    	let t = $(`${SC_Tripwire}:hover`),
+							Class = ( t.length ) ? t.attr("class") : StormID,
+							arg = ( t.length ) ? undefined : "reverse";
 
-                    if( Is.NoTouch($(this)) ) {
-                        $(".TriggerBox .Tripwire").each(function () {
-                            if ($(this).is(":hover")) {
-                                let Class = $(this).attr("class");
-                                if (Class.match(/Download/)) {
-                                    ToggleDownload();
-                                }
-                                if (Class.match(/Request/)) {
-                                    ToggleRequest();
-                                }
-                                if (Class.match(/Connect/)) {
-                                    ToggleConnect();
-                                }
-                            }
-                        });
+						if (Class.match(/Download/)) return Toggle.DWNL(arg);
+						if (Class.match(/Request/)) return Toggle.RQST(arg);
+						if (Class.match(/Connect/)) return Toggle.CNCT(arg);
                     }
                     // Remove cloned assets
                     Storm.find(".AlphaAsset.clone, .BetaAsset.clone").remove();
@@ -2098,35 +2338,38 @@ function Globe(){
                 CutTripwire.reverse();
                 Ritual.reverse();
                 PostRitual.reverse();
+				// Delete entrance status
+				$(SC_Tripwire).data({GandalfOpt: null}) ;
             }
-		    // Run when exiting the storm
+		    // Re-enter when currently reversing
 		    else{
-                EnterStorm.reversed(!EnterStorm.reversed());
-                CutTripwire.reversed(!CutTripwire.reversed());
-                Ritual.reversed(!Ritual.reversed());
-                PostRitual.reversed(!PostRitual.reversed());
+				// Since all related animations run at similar directions:
+		    	let x = !EnterStorm.reversed();
+		    	EnterStorm.reversed(x); CutTripwire.reversed(x); Ritual.reversed(x); PostRitual.reversed(x);
             }
 		    // Prohibit method to rerun mid-fly
 		    return;
         }
         Storm = $(".Storm."+StormID);
-        Cyclone.isActive = Storm;
+        InCyclone = Storm;
         SC_Footer.reverse();
 
+        // Prevent reactions from interacting with other tripwires
+		TweenMax.set( $(this).siblings(), {autoAlpha: 0});
         // Prevent scrolling on SpaceCyclone
 		TweenMax.set(spcy, {overflow: "inherit"});
 
 		PostRitual = new TimelineMax();
 		// Applying the curtain
-		CurClass = ( Storm.hasClass("Request") ) ? "Req" :
+		Storm.siblings(".Curtain").addClass(
+			( Storm.hasClass("Request") ) ? "Req" :
 			( Storm.hasClass("Download") ) ? "DL" :
-				( Storm.hasClass("Connect") ) ? "Con" : "BOZ";
-		Storm.siblings(".Curtain").addClass(CurClass);
+			( Storm.hasClass("Connect") ) ? "Con" : "BOZ"
+		);
 		// Clone assets inside the AssetContainer so their original state is saved after the resize
         if( Storm.find(".AlphaAsset.clone, .BetaAsset.clone").length === 0 ){
             // Fetch the clones & insert them before the AssetContainer
             Storm.find(".AssetContainer > .AlphaAsset, .AssetContainer > .BetaAsset").clone().addClass("clone").attr("style","").insertBefore(Storm.find(".AssetContainer"));
-            // Storm.find(".clone, .clone *").attr("style", "");
             TweenMax.set(Storm.find(".clone"), {autoAlpha: 0});
         }
 		// Create new animations for storm entrance assets
@@ -2135,24 +2378,23 @@ function Globe(){
 		Ritual.eventCallback("onComplete", function(){
             PostRitualSequence();
 		});
+		// Apply entrance status
+		$(SC_Tripwire).data({GandalfOpt: 0}) ;
 	});
-	StormForm = [];
+
 	$("#SpaceCyclone > .Storm .Title").click(function (){
-        let storm = $(this).parent(),
-            Class = storm.attr("class");
-        // Check if another asset is requested while one is expanded
-        if( Form.ActiveDom !== null && !storm.hasClass(Form.ActiveDom.parent().attr("class")) ){
-            // Collapse the other form
-            if( Deformer(Form.ActiveDom, true) ){
-                // Open the requested one
+        let storm = $(this).parent();
+        if(
+			// Check if another asset is requested while one is expanded
+			( Form.ActiveDom !== null && !storm.hasClass(Form.ActiveDom.parent().attr("class")) ) &&
+			// Collapse the other form
+			Deformer(Form.ActiveDom, true)
+		)
+			// Open the requested one
                 AssetForm($(this));
-            }
-        }
         else{
             // Collapse the current asset if it's expanded
-            if( Form.Arrange[Class] ) {
-                if( Deformer($(this)) ){ return; }
-            }
+            if( Form.Arrange[storm.attr("class")] && Deformer($(this)) ) return;
             // Expand current asset
             AssetForm($(this));
         }
@@ -2165,19 +2407,19 @@ function Globe(){
 			$(this).html("Attach a file");
 			return;
 		}
-		input.click();
-		input.change(function(e){
+		input.click().change(function(e){
 			$(this).siblings('.Attach').html( e.target.files[0].name );
 		});
 	});
 	$("#SpaceCyclone > .Storm form input").focusin(function(){
-		FormEffects.fadeout($(this));
+		TweenMax.to($(this).siblings("label"), .2, {autoAlpha: 0});
 	});
 	$("#SpaceCyclone > .Storm form textarea").focusin(function(){
-		FormEffects.fadeout($(this));
+		TweenMax.to($(this).siblings("label"), .2, {autoAlpha: 0});
 	});
 	$("#SpaceCyclone > .Storm form input, #SpaceCyclone > .Storm form textarea").focusout(function(){
-		FormEffects.reverse($(this));
+		let t = $(this);
+		if( t.val() === null || t.val() === "" ) TweenMax.to(t.siblings("label"), .2, {autoAlpha: 1, scale: 1, y: "0%"});
 	});
 	$("#SpaceCyclone > .Storm form").submit(function(e){
 	    // Refuse to redirect
@@ -2187,7 +2429,7 @@ function Globe(){
             regx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi,
             error = 0,
             file = $(this).find("[type='file']"),
-            err_container = "#"+$(this).attr("id")+" .Error",
+            err_container = `#${$(this).attr("id")} .Error`,
             form = $(this);
         $.each(inputs, function(){
             let efilter = $(this).filter("[type='email']");
@@ -2209,25 +2451,23 @@ function Globe(){
             error = "Please review the highlighted fields";
             Glitch.on(err_container, error);
             // End the request due to errors
-            return false;
+            return;
         }
         // Build the data object
         let data = new FormData();
-		data.append('type', form.attr("id").replace("Project", " Project"));
+		data
+			.append('type', form.attr("id").replace("Project", " Project"))
+			.append('CSRF', $(this).find("[name='CSRF']").attr("value"));
 		$.each(inputs, function(){
 			data.append(this.name, this.value);
 		});
-		data.append('CSRF', $(this).find("[name='CSRF']").attr("value"));
 		// Include the file if provided
-		if( file.prop("files").length ){
-			data.append('file', file[0].files[0]);
-		}
+		if( file.prop("files").length ) data.append('file', file[0].files[0]);
         // Finalize and clear form of previous error remains
-        if( $(err_container).text() ){
-            Glitch.on(err_container, null);
-        }
-        // Update send status
+        if( $(err_container).text() ) Glitch.on(err_container, null);
+
 		if( !ajaxreq ) {
+			// Update send status
 			Glitch.on("#Gandalf", "Sending...");
 			grecaptcha.execute('6LfpatoUAAAAAGb-TYvnZSbA9vSG0LNy5_xvToLn', {action: 'tunnel'}).then(function (token) {
 				data.append('recaptcha', token);
@@ -2269,7 +2509,8 @@ function Globe(){
 										form[0].reset();
 										// Bring back the place holders
 										form.find("input:not([type='file']), textarea").each(function () {
-											FormEffects.reverse($(this));
+											let t = $(this);
+											if( t.val() === null || t.val() === "" ) TweenMax.to(t.siblings("label"), .2, {autoAlpha: 1, scale: 1, y: "0%"});
 										});
 									});
 									// Update send status
@@ -2291,40 +2532,18 @@ function Globe(){
 		}
     });
 	$("#SpaceCyclone > .Storm .Definer").click(function(){
-        // Check if method is in the middle of entering/exiting
-        if( EnterStorm && EnterStorm.isActive() ){
-            // Run when entering
-            if( !EnterStorm.reversed() ){
-                EnterStorm.reverse();
-                CutTripwire.reverse();
-                // Cancel reverse on the renewed Ritual
-                Ritual.reversed(!Ritual.reversed());
-            }
-            // Run when exiting
-            else{
-                EnterStorm.reversed(!EnterStorm.reversed());
-                CutTripwire.reversed(!CutTripwire.reversed());
-                // Since Ritual is renewed in ExitStorm() method is not reversed yet
-                Ritual.reverse().eventCallback("onReverseComplete", function(){
-                    // Run post ritual sequences after resettling
-                    PostRitual.reversed(!PostRitual.reversed());
-                });
-            }
-            // Prohibit calling ExitStorm() method mid-fly
-            return;
-        }
-		ExitStorm($(this).parent().parent());
+		ExitStorm($(this).closest(".Storm"));
 	});
 	// Add hover reactions
     $("#SpaceCyclone > .Storm .Definer .Area69").mouseenter(function(){
-    	if( Is.NoTouch($(this)) ){ return false; }
+    	if( Is.NoTouch($(this)) ) return;
 		Area69.set($(this));
     }).mouseleave(function(){
-    	if( Is.NoTouch($(this)) ){ return false; }
+    	if( Is.NoTouch($(this)) ) return;
     	Area69.reset($(this));
     });
 	$("#Footer > a").mouseenter(function(){
-		if( Is.NoTouch($(this)) ){ return false; }
+		if( Is.NoTouch($(this)) ) return;
 	    TweenMax.to($(this).find("img"), .15, {
 	        scale: 1.3,
 	        transformOrigin: "50% 100%",
@@ -2337,7 +2556,7 @@ function Globe(){
         });
     })
         .mouseleave(function(){
-			if( Is.NoTouch($(this)) ){ return false; }
+			if( Is.NoTouch($(this)) ) return;
         TweenMax.to($(this).find("img"), .15, {
             scale: 1,
 			clearProps: "all",
@@ -2443,7 +2662,7 @@ function Globe(){
 					CorePower = (MaxPower*this.power)/100;
 					SupPower = 12+Math.round((12*this.power)/100);
 					Decimal = (Math.round(CorePower)/Math.pow(10,L)).toFixed(L-5);
-					CorePower = Decimal+"×"+10;
+					CorePower = `${Decimal}×10`;
 					$("#Skillometer .Power sup").html(SupPower);
 
 					TweenMax.to($("#Skillometer #Info"), .2, {scaleX: 1});
@@ -2500,7 +2719,7 @@ function Globe(){
     });
 	smcs.mouseenter(function(){
 		if( Is.NoTouch($(this)) ){ return; }
-		let CoreElement = $(this).parent().parent().parent();
+		let CoreElement = $(this).closest(".Core");
 		if( CoreClick === CoreElement.attr("class") ){return;}
 		OBJ = $(this).siblings(".Title").find(">span");
 		Core = CoreElement.find(".Extender");
@@ -2527,7 +2746,7 @@ function Globe(){
 		CoreTitleSlider.play();
 	});
 	smcs.click(function(){
-		CoreElement = $(this).parent().parent().parent();
+		CoreElement = $(this).closest(".Core");
 		CoreElement.addClass("active");
 		// Cancel load when same element is requested
 		if( CoreClick === CoreElement.attr("class") ){
@@ -2739,8 +2958,8 @@ function Globe(){
 		// Get and fade the stars and all other particles but the current one
 		TweenMax.staggerTo(
 		    ( $(this).hasClass("DevParticle") ) ?
-                $(this).parent().parent().find(".DevParticle, .ArtStar, .ArtParticle").not(this) :
-                $(this).parent().parent().find(".DevStar, .DevParticle, .ArtParticle").not(this)
+				$("#AntiToxins").find(".DevParticle, .ArtStar, .ArtParticle").not(this) :
+				$("#AntiToxins").find(".DevStar, .DevParticle, .ArtParticle").not(this)
             , .25, {opacity: .2, overwrite: true}, .04);
 		NameTag.play($(this));
 	})
@@ -2749,11 +2968,10 @@ function Globe(){
 		// Abort reaction if SingleParticle is open or when entering particle
 		if( Particle.isActive || ( EnterParticle && EnterParticle.isActive() ) || Particle.Navigated ){ return; }
 		// Resetting blurred assets on mouseleave
-        TweenMax.staggerTo($(this).parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(this), .25, {opacity: 1}, .04);
+        TweenMax.staggerTo($("#AntiToxins").find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(this), .25, {opacity: 1}, .04);
 		// Remove NameTag
 		NameTag.reverse();
 	});
-	Particle = {isActive : false, activeObj: null, Navigated: false, NaviDirection: null};
 	atda.click(function(e){
 		ParticleActivation($(this), e);
 		// Remove NameTag
@@ -3067,8 +3285,7 @@ function Globe(){
 			p = true;
 		}
 		if( p ){
-			PedalPrevent = new TimelineMax({repeat: 1});
-			PedalPrevent
+			new TimelineMax({repeat: 1})
 				.to($(this), .025, {y: "5%"})
 				.to($(this), .05, {y: "-5%"})
 				.to($(this), .025, {y: "0%"});
@@ -3112,7 +3329,7 @@ function Globe(){
 		CardHoverIn( $(this) );
 	})
 		.mouseleave(function(){
-			let T = $(this).parent().parent().attr("class");
+			let T = $(this).closest(".Deck").attr("class");
 		if( CardSelect.isActive[T] || CardSelect.validator[T] ){
 
 			let ishv = CardSelect.validator[T] && !$(this).parent().children(".Card").filter(function() { return $(this).is(":hover"); }).length;
@@ -3193,7 +3410,7 @@ function Globe(){
 		CardHover.HoverReveal[T].reverse();
 	});
 	decc.mousedown(function(e){
-		let T = $(this).parent().parent().attr("class");
+		let T = $(this).closest(".Deck").attr("class");
 		mdevent = e;
 		CardSelect.validator[T] = 1;
 		// Making sure a card is selected to run the de-select process
@@ -3206,8 +3423,7 @@ function Globe(){
 		CardSelect.mdReset[T] = $(this);
 	});
 	decc.mouseup(function(){
-		let T = $(this).parent().parent().attr("class"),
-			b;
+		let T = $(this).closest(".Deck").attr("class");
 		CardSelect.validator[T] = 0;
 		// Declaring account state only when not declared
 		if( !CardSelect.isActive[T] ){
@@ -3433,14 +3649,14 @@ function Globe(){
 	Pathfinder();
 	URI();
 	DivisionSequence(true);
-	if( ActiveDivision.attr("id") === "Temporary" ){
+	if( Active.Division.attr("id") === "Temporary" ){
 		rebu.data({GandalfOpt: 1});
 	}
 }
 
 function URI(ForceSet){
 	// Obtain the current URL path's name
-	let currenturl = (ForceSet) ? ActiveDivision.attr("id") : (document.location.pathname).replace(/\/~Project_END\//, "/"),
+	let currenturl = (ForceSet) ? Active.Division.attr("id") : (document.location.pathname).replace(/\/~Project_END\//, "/"),
 		url;
 	// Redirect all requests to the root (temporarily)
 	if( !ForceSet ){
@@ -3472,92 +3688,6 @@ PanelSwitch = {
 	obj : [],
 	Harmonizer: false
 };
-Panel = {
-	setup: function(){
-		this.set();
-		this.set(true);
-	},
-	set: function(NEW){
-		const
-			qaca = $(".QuickAccess > .Cells.active");
-		let Class = ( NEW === true ) ? "Frame"
-			: qaca.attr("class"),
-			CellGroup = ( NEW === true ) ? $(".QuickAccess > .Cells.Frame")
-			: qaca;
-		// Deprioritize inactive Cells
-		TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
-		// Checking to make sure the current panel doesn't have it's exclusive animation already set
-		if( !PanelSwitch.obj[Class] || NEW ) {
-			// Creating the animation set
-			PanelSwitch.obj[Class] = new TimelineMax();
-			PanelSwitch.obj[Class].add(
-				TweenMax.set(CellGroup, {
-					zIndex: 0
-				}), 0
-			).add(
-				TweenMax.to(CellGroup.children(".E"), .4, {
-					scale: 1,
-					rotation: -38.23,
-					ease:  Circ. easeOut
-				})
-			).add(
-				TweenMax.staggerTo(CellGroup.children(".F, .D"), .3, {
-					cycle: {
-						rotation: [17.94, -17.94]
-					},
-					ease:  Circ. easeOut
-				}), "-=.2"
-			).add(
-				TweenMax.staggerTo(CellGroup.children(".G, .C"), .3, {
-					cycle: {
-						rotation: [-3.71, 2.65]
-					},
-					ease:  Circ. easeOut
-				}), "-=.2"
-			).add(
-				TweenMax.staggerTo(CellGroup.children(".H, .B"), .3, {
-					cycle: {
-						rotation: [23.66, -23.66]
-					},
-					ease:  Circ. easeOut
-				}), "-=.2"
-			).add(
-				TweenMax.staggerTo(CellGroup.children(".I, .A"), .3, {
-					cycle: {
-						rotation: [58, -61.31]
-					},
-					ease:  Circ. easeOut
-				}), "-=.2"
-			);
-			if( NEW ){ return; }
-		}
-		// We proceed knowing the animation is already set
-		if( !PanelSwitch.obj[Class].isActive() ){
-			// Restart the animation Only when the panel isn't already active
-			PanelSwitch.obj[Class].restart();
-			PanelSwitch.obj[Class].eventCallback("onComplete", function(){
-				// Prioritize current Active Cell group
-				TweenMax.set(".QuickAccess > .Cells.active", {zIndex: 0});
-				// Deprioritize inactive Cells after active Cells finish animating
-				TweenMax.set(".QuickAccess > .Cells:not(.active)", {zIndex: -1});
-			});
-		}
-		// Reverse the animation when the same running animation is requested
-		else if( PanelSwitch.obj[Class].isActive() && PanelSwitch.obj[Class].reversed() ){
-			// Cancel animation reverse
-			PanelSwitch.obj[Class].reversed( !PanelSwitch.obj[Class].reversed() );
-		}
-		// Check for the last Cell group animation
-		if( PanelSwitch.Harmonizer ){
-			// Reverse last Cell group animation
-			PanelSwitch.Harmonizer.reverse();
-			// Remove Cell group animation from the variable
-			PanelSwitch.Harmonizer = false;
-		}
-		// Save current active Cell group animation to a variable
-		PanelSwitch.Harmonizer = PanelSwitch.obj[Class];
-	}
-};
 
 // Fly sequence
   // Portals activation procedure
@@ -3566,11 +3696,11 @@ Panel = {
 function SwitchDivision(target,Manual){
 	const
 		rebu = $("#Reach");
-	Section = false; SwitchDivisionActive[0] = true;
+	Section = false; Active.SwitchDivision = true;
 	Forward.obj = false;
 	Dur = 2;
 
-	for (X = 0; X < Portal.length; X++) {
+	for(X = 0; X < Portal.length; X++) {
 		if (target.hasClass(Portal[X])) {
 			const
 				prtl = $("#" + Portal[X]);
@@ -3578,15 +3708,15 @@ function SwitchDivision(target,Manual){
 			TweenMax.to(target.find(".Flow"),.5,{background: Active.Color,autoAlpha: 0});
 			// Activating the new section
 				Section = prtl.children().first();
-			if( ActiveDivision.attr("id") === "Temporary" ){target = $("#Temporary");}
+			if( Active.Division.attr("id") === "Temporary" ){target = $("#Temporary");}
 			// Switching
-			ActiveDivision = Section;
+			Active.Division = Section;
 
 			Dimension = prtl;
 			ChildrenLen = Dimension.children("footer,header,article").length;
-			if ((Reverse.pedal === false &&
-				(ChildrenLen > 1 && ActiveDivision.index() + 1 < ChildrenLen))) {
-				Forward.obj = Dimension.children().eq(ActiveDivision.index() + 1);
+			if ((!Reverse.pedal &&
+				(ChildrenLen > 1 && Active.Division.index() + 1 < ChildrenLen))) {
+				Forward.obj = Dimension.children().eq(Active.Division.index() + 1);
 			}
 			Forward.isAvailable = true;
 			Forward.isAllowed(true);
@@ -3599,13 +3729,13 @@ function SwitchDivision(target,Manual){
 		Shrinker.eventCallback("onComplete",LoadSection,[FlyAssociates]);
 	}else{
 		// Hiding the current section
-		TweenMax.to(ActiveDivision, .5, {autoAlpha: 0,onComplete: LoadSection,onCompleteParams: [FlyAssociates]});
+		TweenMax.to(Active.Division, .5, {autoAlpha: 0,onComplete: LoadSection,onCompleteParams: [FlyAssociates]});
 	}
-	Locked[0] = true;
-	ActivePortal[0] = false;
+	Locked = true;
+	Active.Portal = false;
 	// Prepping the spaceship for the next section
 	if( Section === false || Manual ){
-		Dimension = ActiveDivision.parent();
+		Dimension = Active.Division.parent();
 		ChildrenLen = Dimension.children("footer,header,article").length;
 
 		Forward.isAvailable = true;
@@ -3613,75 +3743,56 @@ function SwitchDivision(target,Manual){
         Glitch.on("#Gandalf", null);
 		if( !Manual ) {
 			// Keeping the current division in target variable
-			target = ActiveDivision;
+			target = Active.Division;
 			// Set upcoming sibling of the last division as current division when:
 			if (
                 // Last division isn't reversed to this division
-				Reverse.pedal === false &&
+				!Reverse.pedal &&
                 // Current division has upcoming siblings
-                ( ActiveDivision.index() + 1 < ChildrenLen &&
+                ( Active.Division.index() + 1 < ChildrenLen &&
                 // Next division when set, isn't the Temporary division (Current main division)
-				Dimension.children().eq(ActiveDivision.index() + 1).attr("id") !== "Temporary" )
+				Dimension.children().eq(Active.Division.index() + 1).attr("id") !== "Temporary" )
 			) {
-				ActiveDivision = Dimension.children().eq(ActiveDivision.index() + 1);
-			} else if ((ActivePortal[0] === false && Reverse.pedal === false)) {
-				ActiveDivision = Subject = $("#Temporary");
+				Active.Division = Dimension.children().eq(Active.Division.index() + 1);
+			} else if ((Active.Portal === false && !Reverse.pedal)) {
+				Active.Division = Subject = $("#Temporary");
 				Forward.isAvailable = false;
 				// Resetting portals affected assets
-				if (DirectRotten[0] !== false) {
-					DirectRotten[0].play();
-					GetPortal = $(DirectRotten[0].target[0]).parent().parent();
+				if (Rotten.Direct !== false) {
+					Rotten.Direct.play();
+					GetPortal = $(Rotten.Direct.target[0]).closest(".Portal");
 					CheckForToggle(GetPortal);
 					// Fly Config
-					ActivePortal[0] = Subject = GetPortal;
+					Active.Portal = Subject = GetPortal;
 					Parent = Subject.parent();
 					Forward.isAvailable = true;
 				}else{
 				    rebu.data({GandalfOpt: 1});
 					Forward.isAllowed(false);
 				}
-			} else if (Reverse.pedal === true) {
-				ActiveDivision = Reverse.obj;
-				Subject = ActiveDivision.find(".Entry");
-				Parent = ActiveDivision;
+			} else if (Reverse.pedal) {
+				Active.Division = Reverse.obj;
+				Subject = Active.Division.find(".Entry");
+				Parent = Active.Division;
 				// Resetting portals affected assets
-				if (DirectRotten[0] !== false && ActiveDivision.attr("id") === "Temporary") {
-					DirectRotten[0].play();
-					GetPortal = $(DirectRotten[0].target[0]).parent().parent();
+				if (Rotten.Direct !== false && Active.Division.attr("id") === "Temporary") {
+					Rotten.Direct.play();
+					GetPortal = $(Rotten.Direct.target[0]).closest(".Portal");
 					CheckForToggle(GetPortal);
 					// Fly Config
-					ActivePortal[0] = GetPortal;
-					if (ActiveDivision.attr("id") === "Temporary") {
+					Active.Portal = GetPortal;
+					if (Active.Division.attr("id") === "Temporary") {
 						Subject = GetPortal;
 					}
 				}
 			}
 			// Set the upcoming sibling as next division when current division has followed siblings
-			if ( ActiveDivision.index() + 1 < ChildrenLen ) {
-				Forward.obj = Dimension.children().eq(ActiveDivision.index() + 1);
+			if ( Active.Division.index() + 1 < ChildrenLen ) {
+				Forward.obj = Dimension.children().eq(Active.Division.index() + 1);
 			}
 			// Or reset to the main division
-			else if( ActiveDivision.attr("id") !== "Temporary" ){
+			else if( Active.Division.attr("id") !== "Temporary" ){
 				Forward.obj = $("#Temporary");
-			}
-		}
-		else{
-			Section = ActiveDivision;
-			ActiveDivision = target;
-			target = Section;
-			DirectFlyActive[0] = false;
-
-			// Resetting portals affected assets
-			if ( DirectRotten[0] !== false && ActiveDivision.attr("id") === "Temporary") {
-				DirectRotten[0].play();
-				GetPortal = $(DirectRotten[0].target[0]).parent().parent();
-				CheckForToggle(GetPortal);
-				// Fly Config
-				ActivePortal[0] = Subject = GetPortal;
-				Parent = Subject.parent();
-				Forward.isAvailable = true;
-				Forward.obj = Parent;
-				Forward.isAllowed(true);
 			}
 		}
 		if( !Forward.obj.length && Active.Dimension === Portal[0] ){
@@ -3689,7 +3800,7 @@ function SwitchDivision(target,Manual){
 			Forward.isAvailable = false;
 			Forward.isAllowed(false);
 		}
-			Section = ActiveDivision;
+			Section = Active.Division;
 	}
 
 	Section.css({visibility: "", opacity: "", transform : "", transformOrigin: ""});
@@ -3701,7 +3812,7 @@ function SwitchDivision(target,Manual){
 		$(target).css({opacity: 0, visibility: "hidden",zIndex: -1,transform : "", transformOrigin: ""});
 		TweenMax.set(Flyascs.toString(), {y: 0, x: 0, scale: 1, rotation: 0});
 		Section.css({zIndex: 1});
-		SwitchDivisionActive[0] = false;
+		Active.SwitchDivision = false;
 	}
 
 	Draggable.get(".Pedal").endDrag();
@@ -3715,7 +3826,7 @@ function SwitchDivision(target,Manual){
 Order = {ID: null, Definitive: false};
 
 function DivisionSequence(reset){
-	DiviSection = ActiveDivision.attr("id");
+	DiviSection = Active.Division.attr("id");
 	PreFlyIsSet = false; Reactive = false;
 	if( reset && Reverse.obj ){
         PreDivision = Reverse.obj.attr("id");
@@ -3732,8 +3843,7 @@ function DivisionSequence(reset){
 	if( DiviSection === "Temporary" ){
 		if( Reactive || reset ){
 			// DO on entrance or RESTART
-			WolvenEyez.play();
-			BrokenLaugh.play();
+			BreathingFragment.play();
 			if( reset ){
                 TweenMax.to($(".Portalian"), .2, {autoAlpha: 1});
             }else{
@@ -3741,8 +3851,7 @@ function DivisionSequence(reset){
             }
 		}else{
 			// DO when about to leave
-			WolvenEyez.pause();
-			BrokenLaugh.pause();
+			BreathingFragment.pause();
             TweenMax.to($(".Portalian"), .2, {autoAlpha: 0});
 		}
 		FlyAssociates = Ascs;
@@ -3760,14 +3869,16 @@ function DivisionSequence(reset){
             if( reset ) {
                 if( SC_Footer.reversed() ){ SC_Footer.reversed(!SC_Footer.reversed()) }
                 SC_Footer.resume();
+				TweenMax.set(SC_Tripwire, {autoAlpha: 1});
             }else{
                 Order.ID = DiviSection;
             }
 		}else{
 			// DO when about to leave
+			TweenMax.set(SC_Tripwire, {autoAlpha: 0});
 			SC_Footer.reverse();
-			if( Cyclone.isActive ){
-				ExitStorm(Cyclone.isActive);
+			if( InCyclone ){
+				ExitStorm(InCyclone);
 			}
 		}
 		FlyAssociates =  Ascs;
@@ -3884,11 +3995,11 @@ function DivisionSequence(reset){
 			let K = Object.keys(CardSelect.isActive);
 			// Checking for active cards
 				$(Object.values(CardSelect.isActive)).each(function(i){
-					if( this === true ){
+					if( this == true ){
 						CardSelect.mdReset[K[i]] = false;
 						CardSelect.validator[K[i]] = 0;
 						TweenMax.set(CardSelect.object[K[i]].nextAll(".Card"), {autoAlpha: 1});
-						CardDeSelect( CardSelect.object[K[i]].parent().parent().attr("class"), CardSelect.object[K[i]], CardSelect.object[K[i]].siblings(".Card") );
+						CardDeSelect( CardSelect.object[K[i]].closest(".Deck").attr("class"), CardSelect.object[K[i]], CardSelect.object[K[i]].siblings(".Card") );
 					}
 				});
 			if( PlaceDeck.isActive() ){
@@ -3928,15 +4039,16 @@ function DivisionSequence(reset){
 function Fly(Reach,Manual){
 	const
 		rebu = $("#Reach"),
+		dibu = $("#Ditch"),
 		quac = $(".QuickAccess");
 	DivisionSequence();
 	// Restart fly associates while shrinker is still running
 	if( ( Shrinker && Shrinker.isActive() ) && ( ActiveFly && !ActiveFly.isActive() ) ){
 		Shrinker.duration(.1); KillActiveFly();
-		TweenMax.to($(DirectRotten[0].target[0]).parent().parent().find(".Flow"),.5,{background: "",autoAlpha: 1});
+		TweenMax.to($(Rotten.Direct.target[0]).closest(".Portal").find(".Flow"),.5,{background: "",autoAlpha: 1});
 	}
 	// Or just restart active fly associates while reversing to the same division
-	if( (Reverse.pedal === true && ( ActiveFly && !ActiveFly.isActive()) ) || ( ReverseFly && !ReverseFly.isActive()) ){
+	if( (Reverse.pedal && ( ActiveFly && !ActiveFly.isActive()) ) || ( ReverseFly && !ReverseFly.isActive()) ){
 		// Store all available Fly associates
 	    ResetVars = ActiveFly.getChildren();
 		if( ReverseFly ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
@@ -3946,7 +4058,7 @@ function Fly(Reach,Manual){
 		});
 	}
 	// Return on reverse fly
-	if( Reverse.pedal === false && ( ( ReverseFly && ReverseFly.isActive()) ||
+	if( !Reverse.pedal && ( ( ReverseFly && ReverseFly.isActive()) ||
 		( ActiveFly && ActiveFly.isActive() ) ) ){
 		// Return on reverse fly
 		if( ReverseFly && ReverseFly.isActive() ){
@@ -3969,11 +4081,11 @@ function Fly(Reach,Manual){
 						Forward.isAllowed(Forward.memory);
 						Reverse.isAllowed(Reverse.memory);
 						// Setting the active portal to stop shrinking
-						if( ActivePortal[0] !== false && DirectRotten[0] !== false ){
-							DirectRotten[0].play();
-							CheckForToggle(ActivePortal[0]);
+						if( Active.Portal !== false && Rotten.Direct !== false ){
+							Rotten.Direct.play();
+							CheckForToggle(Active.Portal);
 						}
-						Reverse.obj.css({zIndex: -1}); ActiveDivision.css({zIndex: 1});
+						Reverse.obj.css({zIndex: -1}); Active.Division.css({zIndex: 1});
 						// Store all available Fly associates
 						ResetVars = ActiveFly.getChildren();
 						if( ReverseFly ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
@@ -3996,22 +4108,22 @@ function Fly(Reach,Manual){
 				rebu.data({GandalfOpt: 0});
 				ActiveFly.reversed( !ActiveFly.reversed() );
 				// Setting the active portal to shrink
-				if( ActivePortal[0] !== false && DirectRotten[0] !== false && ( Shrinker && Shrinker.reversed() ) ) {
+				if( Active.Portal !== false && Rotten.Direct !== false && ( Shrinker && Shrinker.reversed() ) ) {
 					Shrinker.reversed(!Shrinker.reversed());
-					DirectRotten[0].reverse();
-					CheckForToggle(ActivePortal[0], true);
+					Rotten.Direct.reverse();
+					CheckForToggle(Active.Portal, true);
 				}
 		}
 		return;
 	}
     // Return on forward fly
-	if( Reverse.pedal === true && ActiveFly && ActiveFly.isActive() ||
+	if( Reverse.pedal && ActiveFly && ActiveFly.isActive() ||
 		( ReverseFly && ReverseFly.isActive() ) ){
 	    // Reverse forwarded reverse fly
 		if( ReverseFly && ReverseFly.isActive() ){
 		    // Return on Forward fly
             if( ActiveFly.isActive() && !ReverseFly.reversed() ){
-                $("#Ditch").data({GandalfOpt: 3});
+                dibu.data({GandalfOpt: 3});
             }
             Forward.isAllowed(true);
             Reverse.isAllowed(false);
@@ -4021,15 +4133,15 @@ function Fly(Reach,Manual){
 					Forward.isAllowed(Forward.memory);
 					Reverse.isAllowed(Reverse.memory);
 					if( !Reverse.obj ){
-						$("#Ditch").data({GandalfOpt: 1});
+						dibu.data({GandalfOpt: 1});
 					}else{
-						$("#Ditch").data({GandalfOpt: 0});
+						dibu.data({GandalfOpt: 0});
 					}
 					Glitch.on("#Gandalf", null);
 					// Reactivating the portal
-					if( ActivePortal[0] !== false && DirectRotten[0] !== false && Shrinker ) {
-						DirectRotten[0].play();
-						CheckForToggle(ActivePortal[0]);
+					if( Active.Portal !== false && Rotten.Direct !== false && Shrinker ) {
+						Rotten.Direct.play();
+						CheckForToggle(Active.Portal);
 					}
 					// By order of the fookin DivisionSequence
 					DiviOrders();
@@ -4039,16 +4151,16 @@ function Fly(Reach,Manual){
 		else{
 				Forward.isAllowed(true);
 				Reverse.isAllowed(false);
-				$("#Ditch").data({GandalfOpt: 3});
+				dibu.data({GandalfOpt: 3});
 				ActiveFly.reverse().eventCallback("onReverseComplete",function(){
 					Forward.isAllowed(Forward.memory);
 					Reverse.isAllowed(Reverse.memory);
 					Glitch.on("#Gandalf", null);
-					$("#Ditch").data({GandalfOpt: 0});
+					dibu.data({GandalfOpt: 0});
 					// Reactivating the portal
-					if( ActivePortal[0] !== false && DirectRotten[0] !== false && Shrinker ) {
-						DirectRotten[0].play();
-						CheckForToggle(ActivePortal[0]);
+					if( Active.Portal !== false && Rotten.Direct !== false && Shrinker ) {
+						Rotten.Direct.play();
+						CheckForToggle(Active.Portal);
 					}
 					// Reset all attributes of active associates (Important to prevent calculating errors caused by next division's animations being set but never performed)
 					KillActiveFly();
@@ -4056,11 +4168,11 @@ function Fly(Reach,Manual){
 
 		}
 		// Preventing the active portal to shrink & reactivating the portal
-		if( ActivePortal[0] !== false && DirectRotten[0] !== false && Shrinker && Shrinker.isActive() ) {
+		if( Active.Portal !== false && Rotten.Direct !== false && Shrinker && Shrinker.isActive() ) {
 			Shrinker.reverse();
 			if(!ActiveFly.reversed()){
-				DirectRotten[0].play();
-				CheckForToggle(ActivePortal[0]);
+				Rotten.Direct.play();
+				CheckForToggle(Active.Portal);
 			}
 		}
 		return;
@@ -4075,22 +4187,22 @@ function Fly(Reach,Manual){
 		}
 		// Setting the active section to fly
 		  // Rerouting the fly path when the spaceship's already in a dimension
-		if( Reverse.pedal === true ){
+		if( Reverse.pedal ){
 			Parent = Reverse.obj;
 		}else{
-			Parent = ActiveDivision;
+			Parent = Active.Division;
 		}
-		if( Manual ){ Parent = ActiveDivision; }
-		if( ActivePortal[0] === false ){
-			if( Reverse.pedal === true && Reverse.obj.attr("id") === "Temporary" ){
-				Subject = $(DirectRotten[0].target).parent().parent();
+		if( Manual ){ Parent = Active.Division; }
+		if( Active.Portal === false ){
+			if( Reverse.pedal && Reverse.obj.attr("id") === "Temporary" ){
+				Subject = $(Rotten.Direct.target[0]).closest(".Portal");
 			}else{
 				Subject = Parent.find(".Entry");
 			}
-		}else if(Reverse.pedal === true ){
+		}else if(Reverse.pedal ){
 			Subject = Reverse.obj.find(".Entry");
 		}else{
-			Subject = $(DirectRotten[0].target).parent().parent();
+			Subject = $(Rotten.Direct.target[0]).closest(".Portal");
 		}
 		SubjectScale = {y: Subject.offset().top + (Subject.innerHeight()/2),
 			x: Subject.offset().left + (Subject.width()/2)
@@ -4098,8 +4210,6 @@ function Fly(Reach,Manual){
 		SubjectCenter = {top: ( ( Parent.height() - Subject.innerHeight() )/2 ) - Subject.offset().top,
 			left: ( ( Parent.width() - Subject.width() )/2 ) - Subject.offset().left
 		};
-		Origin[0] = SubjectScale.x+"px "+SubjectScale.y+"px";
-		if( SubjectScale.x === 0 && SubjectScale.y === 0 ){ Origin[0] = "center"}
 		  // Defining the fly & reverse fly animations
 		ActiveFly = new TimelineMax({paused: true});
 		ActiveFly.eventCallback("onReverseComplete",KillActiveFly);
@@ -4109,16 +4219,16 @@ function Fly(Reach,Manual){
         AnimDur = 15;
 
         // Get the spaceship ready for reverse fly
-		if( Reverse.pedal === true ){
+		if( Reverse.pedal ){
 			Forward.isAllowed(true,Forward.isAllowed());
 			Reverse.isAllowed(false,Reverse.isAllowed());
 			Reverse.IsOverrided(false);
 			TweenMax.set(Reverse.obj,{autoAlpha: 1});
-			Reverse.obj.css({zIndex: 1}); ActiveDivision.css({zIndex: -1});
+			Reverse.obj.css({zIndex: 1}); Active.Division.css({zIndex: -1});
 			ReverseFly = new TimelineMax({paused: true});
 			ReverseFly.eventCallback("onReverseComplete",KillReverseFly);
 			if( PreFlyAssociates.length > 1 ){
-				if( ActiveDivision.attr("id") !== "Temporary" ){
+				if( Active.Division.attr("id") !== "Temporary" ){
 					hmst = RevHoldMyState = {
 						ot : Subject.offset().top,
 						ol : Subject.offset().left,
@@ -4140,7 +4250,7 @@ function Fly(Reach,Manual){
 						AutoNode.push(this);
 					}else{
 						Asc = Parent.find(this.toString());
-						if( ActiveDivision.attr("id") !== "Temporary" ) {
+						if( Active.Division.attr("id") !== "Temporary" ) {
 							AddFly.Switch(true);
 						}else{
 							AddFly.Spin(true);
@@ -4152,7 +4262,7 @@ function Fly(Reach,Manual){
 				X = 1;
 					Parent.find(AutoNode.toString()).each(function () {
 						Asc = Parent.find(this);
-						if( ActiveDivision.attr("id") !== "Temporary" ) {
+						if( Active.Division.attr("id") !== "Temporary" ) {
 							AddFly.Switch(true);
 						}else{
 							AddFly.Spin(true);
@@ -4165,11 +4275,11 @@ function Fly(Reach,Manual){
 				X = 1; AutoNode = [];
 				$(FlyAssociates).each(function(){
 					// Creating an array consisting of multiple nodes (if there are any)
-					if( this.length === 1 && ActiveDivision.find(this.toString()).length > 1 ){
+					if( this.length === 1 && Active.Division.find(this.toString()).length > 1 ){
 						AutoNode.push(this);
 					}else{
-						Asc = ActiveDivision.find(this.toString());
-						if( ActiveDivision.attr("id") !== "Temporary" ) {
+						Asc = Active.Division.find(this.toString());
+						if( Active.Division.attr("id") !== "Temporary" ) {
 							AddFly.Switch("ffs");
 						}else{
 							AddFly.Spin("ffs");
@@ -4179,9 +4289,9 @@ function Fly(Reach,Manual){
 				});
 				if( AutoNode.length > 0 ) {
 				X = 1;
-					ActiveDivision.find(AutoNode.toString()).each(function () {
-						Asc = ActiveDivision.find(this);
-						if( ActiveDivision.attr("id") !== "Temporary" ) {
+					Active.Division.find(AutoNode.toString()).each(function () {
+						Asc = Active.Division.find(this);
+						if( Active.Division.attr("id") !== "Temporary" ) {
 							AddFly.Switch("ffs");
 						}else{
 							AddFly.Spin("ffs");
@@ -4190,7 +4300,7 @@ function Fly(Reach,Manual){
 					});
 				}
 			}
-			if( ActiveDivision.attr("id") !== "Temporary" ){ TheDelay = TheDelayNum = 0; }else{ TheDelay = "-=9"; TheDelayNum = 9; }
+			if( Active.Division.attr("id") !== "Temporary" ){ TheDelay = TheDelayNum = 0; }else{ TheDelay = "-=9"; TheDelayNum = 9; }
 			ActiveFly
 				.fromTo(Reverse.obj, AnimDur-TheDelayNum, {
 					autoAlpha: 0,
@@ -4200,7 +4310,7 @@ function Fly(Reach,Manual){
 					ease: CustomEase.create("custom", "M0,0 C0,0 0.194,0.907 0.514,0.942 0.642,0.972 1,1 1,1")
 				}, TheDelay);
 			ReverseFly
-				.fromTo(ActiveDivision, AnimDur-TheDelayNum, {
+				.fromTo(Active.Division, AnimDur-TheDelayNum, {
 					autoAlpha: 1,
 					ease: CustomEase.create("custom", "M0,0 C0,0 0.194,0.907 0.514,0.942 0.642,0.972 1,1 1,1")
 				}, {
@@ -4213,7 +4323,7 @@ function Fly(Reach,Manual){
 			Forward.isAllowed(false,Forward.isAllowed());
 			Reverse.isAllowed(true,Reverse.isAllowed());
 			Reverse.IsOverrided(false);
-			if( ActiveDivision.attr("id") === "SpaceCyclone" && NextDivisionAssociates.length > 1 ){
+			if( Active.Division.attr("id") === "SpaceCyclone" && NextDivisionAssociates.length > 1 ){
 				hmst = RevHoldMyState = {
 					ot : quac.offset().top+200,
 					ol : quac.offset().left,
@@ -4229,7 +4339,7 @@ function Fly(Reach,Manual){
 						AutoNode.push(this);
 					}else{
 						Asc = Forward.obj.find(this.toString());
-						if( ActiveDivision.attr("id") !== "SpaceCyclone" ) {
+						if( Active.Division.attr("id") !== "SpaceCyclone" ) {
 							AddFly.Switch();
 						}else{
 							AddFly.Spin(false);
@@ -4241,7 +4351,7 @@ function Fly(Reach,Manual){
 					X = 1;
 					Forward.obj.find(AutoNode.toString()).each(function () {
 						Asc = Forward.obj.find(this);
-						if( ActiveDivision.attr("id") !== "SpaceCyclone" ) {
+						if( Active.Division.attr("id") !== "SpaceCyclone" ) {
 							AddFly.Switch();
 						}else{
 							AddFly.Spin(false);
@@ -4251,7 +4361,7 @@ function Fly(Reach,Manual){
 				}
 			}else{
 				if( Forward.obj !== false && Forward.obj.attr("id") === "Temporary" ){
-					KeepThatShit = $(DirectRotten[0].target[0]).parent().parent();
+					KeepThatShit = $(Rotten.Direct.target[0]).closest(".Portal");
 					hmst = RevHoldMyState = {
 						ot : KeepThatShit.offset().top,
 						ol : KeepThatShit.offset().left,
@@ -4270,7 +4380,7 @@ function Fly(Reach,Manual){
 					// ReArrange associates based on the focused subject
 					Associates = NextDivisionAssociates;
 					if( Forward.obj.attr("id") === "Temporary" ){
-						let prtl = $(DirectRotten[0].target[0]).parent().parent().attr("class"),
+						let prtl = $(Rotten.Direct.target[0]).closest(".Portal").attr("class"),
 							s;
 						Associates = NextDivisionAssociates;
 						for( let i of Associates){
@@ -4310,7 +4420,7 @@ function Fly(Reach,Manual){
 						AutoNode.push(this);
 					}else{
 						Asc = Parent.find(this.toString());
-						if( ActiveDivision.attr("id") !== "SpaceCyclone" ) {
+						if( Active.Division.attr("id") !== "SpaceCyclone" ) {
 							AddFly.Switch();
 						}else{
 							AddFly.Spin();
@@ -4322,7 +4432,7 @@ function Fly(Reach,Manual){
 					X = 1;
 					Parent.find(AutoNode.toString()).each(function () {
 						Asc = Parent.find(this);
-						if( ActiveDivision.attr("id") !== "SpaceCyclone" ) {
+						if( Active.Division.attr("id") !== "SpaceCyclone" ) {
 							AddFly.Switch();
 						}else{
 							AddFly.Spin();
@@ -4334,7 +4444,7 @@ function Fly(Reach,Manual){
 
 			// Setting the active portal to shrink
 
-			if( ActiveDivision.attr("id") === "Temporary" ) {
+			if( Active.Division.attr("id") === "Temporary" ) {
 				Shrinker = new TimelineMax({paused: true});
 				Shrinker.set(Subject.find(".Shrinker"), {scale: 1, rotation: 0});
 				Scale = (window.innerWidth / Subject.width()) * 2;
@@ -4362,11 +4472,11 @@ function Fly(Reach,Manual){
 					},(AnimDur*1.4)-.5);
 			}else{
 
-				if( ActiveDivision.attr("id") !== "SpaceCyclone" ){
+				if( Active.Division.attr("id") !== "SpaceCyclone" ){
 					TheDelay = "-=10";
 					TheDelayNum = AnimDur - 3;
 					ActiveFly
-						.fromTo(ActiveDivision, AnimDur - TheDelayNum, {
+						.fromTo(Active.Division, AnimDur - TheDelayNum, {
 							autoAlpha: 1
 						}, {
 							autoAlpha: 0
@@ -4380,7 +4490,7 @@ function Fly(Reach,Manual){
 					TheDelay = "-=9";
 					TheDelayNum = 9;
 					ActiveFly
-						.fromTo(ActiveDivision, AnimDur - TheDelayNum, {
+						.fromTo(Active.Division, AnimDur - TheDelayNum, {
 							autoAlpha: 1,
 							ease: CustomEase.create("custom", "M0,0 C0,0 0.194,0.907 0.514,0.942 0.642,0.972 1,1 1,1")
 						}, {
@@ -4400,15 +4510,15 @@ function Fly(Reach,Manual){
 			}
 		}
 	// Portals Animations
-	if( DirectRotten[0] !== false ){
-		if( DirectRotten[0].time() !== 0 ){ DirectRotten[0].reverse(DirectRotten[0].time()) }
-		else{ DirectRotten[0].reverse() }
+	if( Rotten.Direct !== false ){
+		if( Rotten.Direct.time() !== 0 ){ Rotten.Direct.reverse(Rotten.Direct.time()) }
+		else{ Rotten.Direct.reverse() }
 	}
-	if( ActivePortal[0] !== false ){
-		CheckForToggle(ActivePortal[0], true);
+	if( Active.Portal !== false ){
+		CheckForToggle(Active.Portal, true);
 	}
 	// Defining what division to switch to
-	if( Reverse.pedal === true ){
+	if( Reverse.pedal ){
 		ActiveFly.eventCallback("onComplete",SwitchDivision,[Reverse.obj]);
 	}else{
 		if( Manual ){
@@ -4422,22 +4532,30 @@ function Fly(Reach,Manual){
 		ActiveFly.reversed( !ActiveFly.reversed() );
 	}
 	Dur = ActiveFly.duration();
-	if( Reach ){ Dur = AnimDur-AnimDur*.9; } // Reach Button : Duration decreased
+	if( Reach ){ Dur = FlyTime(AnimDur); } // Reach Button : Duration decreased
 	ActiveFly.duration(Dur).resume();
 
-	if( ActiveDivision.attr("id") === "Temporary" && Reverse.pedal === false ) {
+	if( Active.Division.attr("id") === "Temporary" && !Reverse.pedal ) {
 		if( Shrinker.reversed() ){Shrinker.reversed( !Shrinker.reversed() );}
 		Dur = Shrinker.duration();
-		if( Reach ){ Dur -= Dur*.9; } // Reach Button : Duration decreased
+		if( Reach ){ Dur = FlyTime(Dur); } // Reach Button : Duration decreased
 		Shrinker.duration(Dur).resume();
 	}
 
-	if( Reverse.pedal === true || Reverse.IsOverrided() ){
+	if( Reverse.pedal || Reverse.IsOverrided() ){
 		if( ReverseFly.reversed() ){ReverseFly.reversed( !ReverseFly.reversed() );}
 		Dur = ReverseFly.duration();
-		if( Reach ){ Dur = AnimDur-AnimDur*.9; } // Reach Button : Duration decreased
+		if( Reach ){ Dur = FlyTime(AnimDur); } // Reach Button : Duration decreased
 		ReverseFly.duration(Dur).resume();
 	}
+}
+function FlyTime(d){
+	// Fastest animation time of the overall animation duration
+	let r = .905;
+	// Return the relativity number when calculation is not requested
+	if( !d ) return r;
+	// Calculate based on relativity to get the fastest fly time possible
+	return d - d * r;
 }
   // Prevent fly
 function PreventFly(t){
@@ -4473,28 +4591,29 @@ function ReverseHandle(NoChange){
 }
   // Reverse sequence
 function ReverseSequence(){
+	const dibu = $("#Ditch");
 	let A;
-	Dimension = ActiveDivision.parent();
+	Dimension = Active.Division.parent();
 	ChildrenLen = Dimension.children("footer,header,article").length;
-	StartFromZero = ActiveDivision.index() - (Dimension.children().length - ChildrenLen);
+	StartFromZero = Active.Division.index() - (Dimension.children().length - ChildrenLen);
 	Reverse.isAllowed(true);
 	if (ChildrenLen > 1 &&
 		StartFromZero - 1 >= 0) {
-		Reverse.obj = Dimension.children().eq(ActiveDivision.index() - 1);
+		Reverse.obj = Dimension.children().eq(Active.Division.index() - 1);
 	} else if ( Active.Dimension !== "Trilogies" ) {
 		if (Active.Dimension === Dimension.attr("id")) {
 			Reverse.obj = $("#Trilogies > #Temporary");
 		} else {
 			Reverse.obj = $("#" + Active.Dimension).children("footer,header,article").last();
 		}
-        $("#Ditch").data({GandalfOpt: 0});
+        dibu.data({GandalfOpt: 0});
 		Reverse.obj.parent().css({visibility: "", opacity: ""});
 	}else{
 		A = true;
 	}
 	if( !Reverse.obj.length || A ){
 		Reverse.obj = false; Reverse.isAllowed(false);
-		$("#Ditch").data({GandalfOpt: 1});
+		dibu.data({GandalfOpt: 1});
 	}
 }
 // DivisionSequence orders
@@ -4505,6 +4624,7 @@ function DiviOrders(){
     if( Order.ID === "SpaceCyclone" ){
         if( SC_Footer.reversed() ){ SC_Footer.reversed(!SC_Footer.reversed()) }
         SC_Footer.resume();
+		TweenMax.set( SC_Tripwire, {autoAlpha: 1});
     }
 	if( Order.ID === "AntiToxins" ){
 		AntiToxins.duration(.5).restart().resume();
@@ -4543,7 +4663,7 @@ function DiviOrders(){
 function KillActiveFly(){
 	Forward.isAllowed(Forward.memory);
 	if( Reverse.obj !== false ){Reverse.obj.css({zIndex: -1});}
-	ActiveDivision.css({zIndex: 1});
+	Active.Division.css({zIndex: 1});
     // Store all available Fly associates
     ResetVars = ActiveFly.getChildren();
     if( ReverseFly ){ ResetVars = ResetVars.concat(ReverseFly.getChildren()) ;}
@@ -4552,8 +4672,8 @@ function KillActiveFly(){
         TweenMax.set(this.target, {y: 0, x: 0, scale: 1, rotation: 0});
     });
 	// Disabling some animations
-	if( ActivePortal[0] !== false && DirectRotten[0] !== false ){
-		DirectRotten[0].reversed( !DirectRotten[0].reversed() ).resume();
+	if( Active.Portal !== false && Rotten.Direct !== false ){
+		Rotten.Direct.reversed( !Rotten.Direct.reversed() ).resume();
 	}
 
 	if( !ActiveFly.isActive() ){
@@ -4638,12 +4758,12 @@ AddFly = {
 		);
 		// When the target division is Analyzer add an exclusive animation
 		if(
-			ActiveDivision.attr("id") === "Analyzer" ||
-			( Reverse.pedal === true && Reverse.obj.attr("id") === "Analyzer" )
+			Active.Division.attr("id") === "Analyzer" ||
+			( Reverse.pedal && Reverse.obj.attr("id") === "Analyzer" )
 		){
 			let r = {
-				a: ( Reverse.pedal === true ) ? 760 : 0,
-				b: ( Reverse.pedal === true ) ? 0 : 760
+				a: ( Reverse.pedal ) ? 760 : 0,
+				b: ( Reverse.pedal ) ? 0 : 760
 			};
 			TF.fromTo("#Analyzer .Analyzer .Glitch", TheDURATION, {
 				rotation: r.a,
@@ -4664,7 +4784,7 @@ AddFly = {
 			o +=  ((hmst.ot+hmst.h/2)-Asc.offset().top)+"px";
 		let e = Back.easeInOut.config(2),
 			TF = (rx || r === false) ? ReverseFly : ActiveFly,
-			TheParent = (rx) ? ActiveDivision.find(Asc) : (r !== false) ? Parent.find(Asc) : Forward.obj.find(Asc);
+			TheParent = (rx) ? Active.Division.find(Asc) : (r !== false) ? Parent.find(Asc) : Forward.obj.find(Asc);
 		TF.add(
 			TweenMax.fromTo(TheParent, AnimDur, {
 				rotation: ra,
@@ -4765,7 +4885,7 @@ AddFly = {
 					+ 25
 					+ (( (AT_HoldMyState.h * DefaultScale(AT_HoldMyState.w)) - AT_HoldMyState.h ) / 2)
 				) - AT_HoldMyState.ot ),
-			xb = ( ( ActiveDivision.width()/2 - AT_HoldMyState.ol ) - AT_HoldMyState.w / 2 ),
+			xb = ( ( Active.Division.width()/2 - AT_HoldMyState.ol ) - AT_HoldMyState.w / 2 ),
 			sb = ( type1 ) ? DefaultScale(AT_HoldMyState.w) : AT_scale,
 			Ato_autoAlpha = ( type1 ) ? 1 : .2;
 			o = ( ( AT_HoldMyState.ol + AT_HoldMyState.w / 2 ) - Asc.offset().left ) + "px ";
@@ -4804,7 +4924,7 @@ AddFly = {
                 + 25
                 + (( (NAV_HoldMyState.h * DefaultScale(NAV_HoldMyState.w)) - NAV_HoldMyState.h ) / 2)
             ) - NAV_HoldMyState.ot ),
-			xb = (( ActiveDivision.width() / 2 - NAV_HoldMyState.ol ) - NAV_HoldMyState.w / 2 ),
+			xb = (( Active.Division.width() / 2 - NAV_HoldMyState.ol ) - NAV_HoldMyState.w / 2 ),
 			Ato_autoAlpha = ( type1 ) ? 1 : .2,
 			o = ( ( NAV_HoldMyState.ol + NAV_HoldMyState.w / 2 ) - Asc.parent().offset().left ) + "px ";
 			o += ( ( NAV_HoldMyState.ot + NAV_HoldMyState.h / 2 ) - Asc.parent().offset().top ) + "px";
@@ -4894,7 +5014,7 @@ StormRitual = {
         yb =
             (
                 (
-                    ( ActiveDivision.height() * nthofpageh - qa ) -
+                    ( Active.Division.height() * nthofpageh - qa ) -
                     ( Asc.offset().top + Asc.innerHeight()/2 ) +
                     Math.abs(Asc.find(".Sub").position().top)
                 ) * 100
@@ -4902,7 +5022,7 @@ StormRitual = {
         xb =
             (
                 (
-                    ( ActiveDivision.width() * nthofpagew ) -
+                    ( Active.Division.width() * nthofpagew ) -
                     ( Asc.offset().left + Asc.innerWidth()/2 )
                 ) * 100
             ) / Asc.innerWidth();
@@ -4954,7 +5074,7 @@ StormRitual = {
                     y: "",
                     x: "",
                     height: $(".QuickAccess").offset().top -
-                        ((ActiveDivision.height() * nthofpageh - qa) + Asc.innerHeight()) +
+                        ((Active.Division.height() * nthofpageh - qa) + Asc.innerHeight()) +
                         Math.abs(Asc.find(".Sub").position().top),
                     ease: e
                 });
@@ -5038,307 +5158,83 @@ StormRitual = {
 	}
 };
 // Portals animation control
-function ToggleJourney(Rev){
-	if( Rev ){
-		if( Jflow.time() !== 0 ){ Jflow.reverse(Jflow.time()) }
-		else{ Jflow.reverse() }
-		if( Jstarframe.time() !== 0 ){ Jstarframe.reverse(Jstarframe.time()) }
-		else{ Jstarframe.reverse() }
-		if( Jterrain.time() !== 0 ){ Jterrain.reverse(Jterrain.time()) }
-		else{ Jterrain.reverse() }
-		if( Jdeepsea.time() !== 0 ){ Jdeepsea.reverse(Jdeepsea.time()) }
-		else{ Jdeepsea.reverse() }
-		if( Jship.time() !== 0 ){ Jship.reverse(Jship.time()) }
-		else{ Jship.reverse() }
-		return;
-	}
-	Jflow.play();
-	Jstarframe.play();
-	Jterrain.play();
-	Jdeepsea.play();
-	Jship.play();
+function CheckForToggle(Target,rev){
+	if( Target.hasClass(Portal[0]) ) return Toggle.JRNY( (rev) ? "reverse" : undefined );
+	if( Target.hasClass(Portal[1]) ) return Toggle.ARTR( (rev) ? "reverse" : undefined );
+	if( Target.hasClass(Portal[2]) ) return Toggle.BIGM( (rev) ? "reverse" : undefined );
 }
-function ToggleArtery(Rev){
-	if( Rev ){
-		if( Hflow.time() !== 0 ){ Hflow.reverse(Hflow.time()) }
-		else{ Hflow.reverse() }
-		if( Hbloodaura.time() !== 0 ){ Hbloodaura.reverse(Hbloodaura.time()) }
-		else{ Hbloodaura.reverse() }
-		if( Hscatter.time() !== 0 ){ Hscatter.reverse(Hscatter.time()) }
-		else{ Hscatter.reverse() }
-		if( Hkeymord.time() !== 0 ){ Hkeymord.reverse(Hkeymord.time()) }
-		else{ Hkeymord.reverse() }
-		if( Hdazhali.time() !== 0 ){ Hdazhali.reverse(Hdazhali.time()) }
-		else{ Hdazhali.reverse() }
-		if( Hbarry.time() !== 0 ){ Hbarry.reverse(Hbarry.time()) }
-		else{ Hbarry.reverse() }
-		return;
+Toggle = {
+	state: {
+		journey: 0, artery: 0, bigmo: 0,
+		download: 0, request: 0, connect: 0
+	},
+	init: function(req, anim, type){
+		let state = this.state[type],
+			react = {
+				reverse: ( !req && state ),
+				play: ( !req && !state ),
+				Freverse: ( req === "reverse" ),
+				Fplay: ( req === "play" ),
+				pause: ( req === "pause" ),
+				restart: ( req === "reset" )
+			};
+		this.state[type] = ( react.play || react.Fplay ) ? 1 : 0;
+		$.each(anim, function(){
+			let t = this;
+			t.paused( false ).reversed( false );
+			if( react.reverse || react.Freverse ) {
+				// Stop the animation in the next repeat if the progress is more than 50%
+				if (t.progress() !== 1 && t.progress() >= .5) {
+					// Store the "onRepeat" callback of this animation if available
+					let oldcb = t.eventCallback("onRepeat");
+					// Set the "onRepeat" callback to pause the animation
+					t.eventCallback("onRepeat", function () {
+						// Ensure the target isn't reactivated before pausing (causing interference with the procedure)
+						if( !Toggle.state[type] ) t.restart().pause();
+						// Restore the callback if any was set
+						if( oldcb ) {
+							oldcb();
+							t.eventCallback("onRepeat", oldcb)
+						};
+					});
+				}
+				// If not, reverse to default position
+				else t.reverse((t.time() !== 0) ? t.time() : null);
+			}
+			else if( react.play || react.Fplay ){
+				t.play();
+			}
+			else if( react.pause ) t.pause();
+			else if( react.restart ) t.restart().pause();
+		});
+	},
+	JRNY: function(req){
+		this.init(req, PRTJ, "journey");
+		return this;
+	},
+	ARTR: function(req){
+		this.init(req, PRTA, "artery");
+		return this;
+	},
+	BIGM: function(req){
+		this.init(req, PRTB, "bigmo");
+		return this;
+	},
+	DWNL: function(req){
+		this.init(req, SCDL, "download");
+		return this;
+	},
+	RQST: function(req){
+		this.init(req, SCRQ, "request");
+		return this;
+	},
+	CNCT: function(req){
+		this.init(req, SCCN, "connect");
+		return this;
 	}
-	Hflow.play();
-	Hbloodaura.play();
-	Hscatter.play();
-	Hkeymord.play();
-	Hdazhali.play();
-	Hbarry.play();
-}
-function ToggleBigmo(Rev){
-	if( Rev ){
-		if( Mflow.time() !== 0 ){ Mflow.reverse(Mflow.time()) }
-		else{ Mflow.reverse() }
-		if( Walla.time() !== 0 ){ Walla.reverse(Walla.time()) }
-		else{ Walla.reverse() }
-		if( Mbigmo.time() !== 0 ){ Mbigmo.reverse(Mbigmo.time()) }
-		else{ Mbigmo.reverse() }
-		if( Mjaccuzi.time() !== 0 ){ Mjaccuzi.reverse(Mjaccuzi.time()) }
-		else{ Mjaccuzi.reverse() }
-		return;
-	}
-	Mflow.play();
-	Walla.play();
-	Mbigmo.play();
-	Mjaccuzi.play();
-}
-function CheckForToggle(Target,Rev){
-	if( Rev ){
-		if( Target.hasClass(Portal[0]) ){
-			ToggleJourney(true);
-		}
-
-		if( Target.hasClass(Portal[1]) ){
-			ToggleArtery(true);
-		}
-
-		if( Target.hasClass(Portal[2]) ){
-			ToggleBigmo(true);
-		}
-		return;
-	}
-	if( Target.hasClass(Portal[0]) ){
-		ToggleJourney();
-	}
-
-	if( Target.hasClass(Portal[1]) ){
-		ToggleArtery();
-	}
-	if( Target.hasClass(Portal[2]) ){
-		ToggleBigmo();
-	}
-}
-
-function ToggleDownload(Rev){
-	if( Rev === true ){
-		if( SC_DL_Stars.time() !== 0 ){ SC_DL_Stars.reverse(SC_DL_Stars.time()) }
-		else{ SC_DL_Stars.reverse() }
-		if( SC_DL_Flow.time() !== 0 ){ SC_DL_Flow.reverse(SC_DL_Flow.time()) }
-		else{ SC_DL_Flow.reverse() }
-		if( SC_DL_Download.time() !== 0 ){ SC_DL_Download.reverse(SC_DL_Download.time()) }
-		else{ SC_DL_Download.reverse() }
-		if( SC_DL_Resume.time() !== 0 ){ SC_DL_Resume.reverse(SC_DL_Resume.time()) }
-		else{ SC_DL_Resume.reverse() }
-		if( SC_DL_CV.time() !== 0 ){ SC_DL_CV.reverse(SC_DL_CV.time()) }
-		else{ SC_DL_CV.reverse() }
-		return;
-	}
-	if( Rev === false ){
-		SC_DL_Stars.pause();
-		SC_DL_Flow.pause();
-		SC_DL_Download.pause();
-		SC_DL_Resume.pause();
-		SC_DL_CV.pause();
-		return;
-	}
-	if( Rev === "reset" ){
-		SC_DL_Stars.restart().pause();
-		SC_DL_Flow.restart().pause();
-		SC_DL_Download.restart().pause();
-		SC_DL_Resume.restart().pause();
-		SC_DL_CV.restart().pause();
-		return;
-	}
-	SC_DL_Stars.play();
-	SC_DL_Flow.play();
-	SC_DL_Download.play();
-	SC_DL_Resume.play();
-	SC_DL_CV.play();
-}
-function ToggleRequest(Rev){
-	if( Rev === true ){
-		if( SC_RQ_Stars.time() !== 0 ){ SC_RQ_Stars.reverse(SC_RQ_Stars.time()) }
-		else{ SC_RQ_Stars.reverse() }
-		if( SC_RQ_Flow.time() !== 0 ){ SC_RQ_Flow.reverse(SC_RQ_Flow.time()) }
-		else{ SC_RQ_Flow.reverse() }
-		if( SC_RQ_Plus.time() !== 0 ){ SC_RQ_Plus.reverse(SC_RQ_Plus.time()) }
-		else{ SC_RQ_Plus.reverse() }
-		if( SC_RQ_CodeProject.time() !== 0 ){ SC_RQ_CodeProject.reverse(SC_RQ_CodeProject.time()) }
-		else{ SC_RQ_CodeProject.reverse() }
-		if( SC_RQ_DesignProject.time() !== 0 ){ SC_RQ_DesignProject.reverse(SC_RQ_DesignProject.time()) }
-		else{ SC_RQ_DesignProject.reverse() }
-		return;
-	}
-	if( Rev === false ){
-		SC_RQ_Stars.pause();
-		SC_RQ_Flow.pause();
-		SC_RQ_Plus.pause();
-		SC_RQ_CodeProject.pause();
-		SC_RQ_DesignProject.pause();
-		return;
-	}
-	if( Rev === "reset" ){
-		SC_RQ_Stars.restart().pause();
-		SC_RQ_Flow.restart().pause();
-		SC_RQ_Plus.restart().pause();
-		SC_RQ_CodeProject.restart().pause();
-		SC_RQ_DesignProject.restart().pause();
-		return;
-	}
-	SC_RQ_Stars.play();
-	SC_RQ_Flow.play();
-	SC_RQ_Plus.play();
-	SC_RQ_CodeProject.play();
-	SC_RQ_DesignProject.play();
-}
-function ToggleConnect(Rev){
-	if( Rev === true ){
-		if( SC_CN_Stars.time() !== 0 ){ SC_CN_Stars.reverse(SC_CN_Stars.time()) }
-		else{ SC_CN_Stars.reverse() }
-		if( SC_CN_Flow.time() !== 0 ){ SC_CN_Flow.reverse(SC_CN_Flow.time()) }
-		else{ SC_CN_Flow.reverse() }
-		if( SC_CN_Wifi.time() !== 0 ){ SC_CN_Wifi.reverse(SC_CN_Wifi.time()) }
-		else{ SC_CN_Wifi.reverse() }
-		if( SC_CN_Phone.time() !== 0 ){ SC_CN_Phone.reverse(SC_CN_Phone.time()) }
-		else{ SC_CN_Phone.reverse() }
-		if( SC_CN_Envelope.time() !== 0 ){ SC_CN_Envelope.reverse(SC_CN_Envelope.time()) }
-		else{ SC_CN_Envelope.reverse() }
-		return;
-	}
-	if( Rev === false ){
-		SC_CN_Stars.pause();
-		SC_CN_Flow.pause();
-		SC_CN_Wifi.pause();
-		SC_CN_Phone.pause();
-		SC_CN_Envelope.pause();
-		return;
-	}
-	if( Rev === "reset" ){
-		SC_CN_Stars.restart().pause();
-		SC_CN_Flow.restart().pause();
-		SC_CN_Wifi.restart().pause();
-		SC_CN_Phone.restart().pause();
-		SC_CN_Envelope.restart().pause();
-		return;
-	}
-	SC_CN_Stars.play();
-	SC_CN_Flow.play();
-	SC_CN_Wifi.play();
-	SC_CN_Phone.play();
-	SC_CN_Envelope.play();
-}
+};
 
 // DivisionExpress
-DivisionExpress = {
-    active: false,
-    // Check or Set the target expand state
-    isExpanded: function(state){
-        if( typeof(state) === "boolean" ){
-            this.active = state;
-            return state;
-        }
-        return this.active;
-    },
-    set: {
-        // Set the Beam effect for .Trigger
-        Beam: function (pause) {
-            // Abort if current division doesn't have a DivisionExpress
-            if( !DivisionExpress.CHECK() ){ return this; }
-            // Check if pause is requested
-            if( typeof(pause) === "boolean" && UpperBeam ){
-                if( pause ){
-                    UpperBeam.invalidate().pause();
-                    return this;
-                }else if( pause === false ){
-                    UpperBeam.resume();
-                    return this;
-                }
-            }
-            // Set the beam
-            let b = ActiveDivision.find(".DivisionExpress .Trigger");
-            TweenMax.set(b, {autoAlpha: 0});
-            UpperBeam = new TimelineMax({paused: false, repeat: -1, repeatDelay: 1});
-            UpperBeam.fromTo(b, .25, {
-                autoAlpha: .6,
-                transformOrigin: "50% 0%"
-            }, {
-                autoAlpha: 1,
-                transformOrigin: "50% 0%"
-            }).to(b, .25, {
-                autoAlpha: .6,
-                transformOrigin: "50% 0%"
-            }).to(b, .25, {
-                autoAlpha: 1,
-                transformOrigin: "50% 0%"
-            }).to(b, .25, {
-                autoAlpha: .6,
-                transformOrigin: "50% 0%"
-            });
-            return this;
-        },
-        // Set target position
-        Position: function(target){
-            function SetTween(This){
-                // Reset any possible height changes
-                This.find(".Content h2").height("");
-                // Get the difference between the space above QuickAccess and the DivisionExpress
-                let n = $(".QuickAccess").offset().top -
-                    (
-                        This.find(".Content").innerHeight() +
-                        This.find(".Trigger").innerHeight() +
-                        This.find(".Hint").innerHeight()
-                    );
-                // Apply scroll when the difference is affecting the content's appearance
-                if( n < -10 && !Is.ThisSize(null, 350) ){
-					This.find(".Content h2").height(This.find(".Content h2").height() - Math.abs(n));
-                }
-                // Hide this asset with it's content's height
-                TweenMax.set([This.find(".Trigger"), This.find(".Content").children()], {
-                    y: function(){ return -This.find(".Content").outerHeight(true); }
-                });
-                TweenMax.set(This.find(".Content"), {visibility: "hidden"});
-            }
-            // When only one target is requested:
-            if( target ){
-                SetTween(target);
-            }
-            // When not:
-            else{
-                // Get all targets and
-                $(".DivisionExpress").each(function(){
-                    // Reposition this asset when
-                    if (
-                        // Page is loaded
-						!ExpressSequence ||
-                        // Or when an asset is expanded but not this one (exclude the expanded asset)
-                        (DivisionExpress.isExpanded() &&
-                        ActiveDivision.attr("id") !== $(this).parent().attr("id")) ||
-                        // Or when no asset is expanded (so all are included)
-                        (!DivisionExpress.isExpanded())
-                    ) {
-                       SetTween($(this));
-                    }
-                });
-            }
-            return this;
-        }
-    },
-    CHECK: function(){
-        // Checks the current active division for DivisionExpress element
-        if( ActiveDivision.find(".DivisionExpress").length ){
-            // Retruns true when the division has DivisionExpress
-            return true;
-        }
-        // And false when it doesn't
-        return false;
-    }
-};
 function ExpressTheDivision(This){
     // Create new animations when
 	if(
@@ -5412,14 +5308,14 @@ function Pathfinder(){
 	ctt = false;
 	// Preventing pathfinder to rewrite similar paths
 	if( tpath &&
-		( tpath.parent.attr("id") === ActiveDivision.parent().attr("id") &&
+		( tpath.parent.attr("id") === Active.Division.parent().attr("id") &&
 		( tpath.parent.attr("id") !== "Trilogies" ) || tprint.parent === null )
 		 ){
 			Busted = true;
 	}
 	tpath = {
-		self: ActiveDivision,
-		parent: ActiveDivision.parent()
+		self: Active.Division,
+		parent: Active.Division.parent()
 	};
 	tprint = {
 		pre: null,
@@ -5568,12 +5464,12 @@ function Pathfinder(){
 					if( typeof(this[1]) !== "object" ){
 						// Normal procedure
 						tprint.final += ( this[0] === "parent" ) ? "<span>-></span>" : "<span>></span>";
-						tprint.final += "<a>" + this[1] + "</a>";
+						tprint.final += `<a>${this[1]}</a>`;
 					}else{
 						// Repeating the procedure for each of the arrays
 						$(this[1]).each(function () {
 							tprint.final += ( this[0] === "parent" ) ? "<span>-></span>" : "<span>></span>";
-							tprint.final += "<a>" + this + "</a>";
+							tprint.final += `<a>${this}</a>`;
 						});
 					}
 				});
@@ -5614,7 +5510,7 @@ function Pathfinder(){
 		if( add.length > 0 ){
 			$(add).each(function () {
 				tprint.final += ( this[0] === "parent" ) ? "<span>-></span>" : "<span>></span>";
-				tprint.final += "<a>" + this[1] + "</a>";
+				tprint.final += `<a>${this[1]}</a>`;
 			});
 		}
 		Glitch.durtest(5);
@@ -5625,7 +5521,7 @@ function Pathfinder(){
 			if ( (value !== null && key !== "final") ) {
 					if( typeof(value) === "object" ){
 						$(tprint.self).each(function(i){
-							tprint.final += "<a>" + this + "</a>";
+							tprint.final += `<a>${this}</a>`;
 							if( i+1 < tprint.self.length ){
 								tprint.final += "<span>></span>";
 							}
@@ -5635,7 +5531,7 @@ function Pathfinder(){
 						if (key === "pre" && ( tpath.self.attr("id") === "Temporary" || value === true )){
 							tprint.final += "<a>Trilogy</a>";
 						}else{
-							tprint.final += "<a>" + value + "</a>";
+							tprint.final += `<a>${value}</a>`;
 						}
 						if (key !== "self" && key !== "pre") {
 							tprint.final += "<span>></span>";
@@ -5733,7 +5629,7 @@ function PocketPath(reset){
 }
 // SkilloCore
 function DelCore(ThisCore){
-	TweenMax.set($(ThisCore).parent().parent(), {zIndex: 0});
+	TweenMax.set($(ThisCore).closest(".CoreSlot"), {zIndex: 0});
 	TweenMax.set(CoreKeepa, {zIndex: 0,autoAlpha: 1});
 	$(ThisCore).parent().remove();
 }
@@ -5803,25 +5699,10 @@ CoreTitleSlider = {
 };
 
 // SpaceCyclone
-FormEffects = {
-	fadeout : function(t){
-		// defining the label
-		label = t.siblings("label");
-		// animating the label
-		TweenMax.to(label, .2, {autoAlpha: 0});
-	},
-	reverse : function(t){
-		if( t.val() === null || t.val() === "" ){
-			// defining the label
-			label = t.siblings("label");
-			TweenMax.to(label, .2, {autoAlpha: 1, scale: 1, y: "0%"});
-		}
-	}
-};
 function AssetHover(t,reverse){
-	if( Cyclone.isActive === false || EnterStorm.isActive() || ( t.children(".Title").hasClass("active") && !reverse ) ){ return; }
+	if( InCyclone === false || EnterStorm.isActive() || ( t.children(".Title").hasClass("active") && !reverse ) ){ return; }
 	AssetAlpha = (!reverse) ? .3 : 0;
-        if( t.parent().parent().parent().hasClass("Download") ){
+        if( t.closest(".Storm").hasClass("Download") ){
 		TweenMax.to($(".Curtain > .Alpha"), .2, {autoAlpha: AssetAlpha});
 		return;
 	}
@@ -5832,41 +5713,6 @@ function AssetHover(t,reverse){
 		TweenMax.to($(".Curtain > .Beta"), .2, {autoAlpha: AssetAlpha});
 	}
 }
-Area69 = {
-	enable: null,
-	enabled: function(t){
-		// Save enable/disable requests
-		this.enable = t !== false;
-	},
-	varset: function(t,r){
-		// Deny request when disabled
-		if( !this.enable ){
-			return;
-		}
-		let	R = ( r ) ? 0 : 180;
-		TweenMax.to( t.siblings().filter(".Indicator"), .15, {
-			rotation: R,
-			autoAlpha: ( r ) ? 1 : 0
-		} );
-		TweenMax.to( t.siblings().filter(".Close"), .15, {
-			y: "-50%",
-			rotation: R,
-			autoAlpha: ( r ) ? 0 : 1
-		} );
-	},
-	set: function(t){
-		this.varset(t);
-		return this;
-	},
-	reset: function(t){
-		this.varset(t,true);
-		return this;
-	}
-};
-Form = {
-	Arrange: [],
-	ActiveDom: null
-};
 function AssetForm(t){
 	// Defining required vars
 	var Asset = t.parent(),
@@ -5980,6 +5826,11 @@ function Deformer(t, nonstop, func){
 }
 function ExitStorm(t){
 	Storm = t;
+	// Check if method is in the middle of entering/exiting & Prohibit calling ExitStorm() method mid-fly
+	if( EnterStorm && EnterStorm.isActive() && !EnterStorm.reversed() ){
+		$(`.Tripwire.${(t.attr("class")).replace(/\s/g,"")}`).trigger("click");
+		return;
+	}
 	// Reset the forms
 	if( Form.ActiveDom !== null ){
 		Deformer(Form.ActiveDom);
@@ -6011,31 +5862,29 @@ function ExitStorm(t){
 			}
 		}
 	});
-	// Resetting the storm
+	// Reset the storm
 	CutTripwire.reverse().eventCallback("onReverseComplete",function(){
+		// Reset the curtain
 		Storm.siblings(".Curtain").attr("class","Curtain");
-		if( Storm.hasClass("Download") ){
-			ToggleDownload("reset");
-		}
-		if( Storm.hasClass("Request") ){
-			ToggleRequest("reset");
-		}
-		if( Storm.hasClass("Connect") ){
-			ToggleConnect("reset");
-		}
-		if( SC_Footer.reversed() ){
-			SC_Footer.reversed( !SC_Footer.reversed() ).resume();
-		}
+
 		// Resetting Gandalf only after exit by direct click
 		if( ( ActiveFly && ReverseFly ) && !ActiveFly.isActive() && !ReverseFly.isActive() ){
 		    Glitch.on("#Gandalf", null);
         }
+		if( Storm.hasClass("Download") ) return Toggle.DWNL("reset");
+		if( Storm.hasClass("Request") ) return Toggle.RQST("reset");
+		if( Storm.hasClass("Connect") ) Toggle.CNCT("reset");
 	});
 	EnterStorm.reverse().eventCallback("onReverseComplete", function(){
-        // Re-enable Definer hover/enter/close asset after exit
-        TweenMax.set(".TriggerBox .Tripwire", {autoAlpha: 1}, 0);
-        // Reactivate cyclone activation indicator
-        Cyclone.isActive = false;
+		// Deactivate cyclone activation indicator
+		InCyclone = false;
+		// Run only if user's not flying
+		if( !ActiveFly.isActive() ){
+			// Reset tripwire interactions
+			TweenMax.set(SC_Tripwire, {autoAlpha: 1});
+			// Reappear footer
+			if( SC_Footer.reversed() ) SC_Footer.reversed( !SC_Footer.reversed() ).resume();
+		}
 		// Prevent scrolling on SpaceCyclone
 		TweenMax.set($("#SpaceCyclone"), {overflow: ""});
 		// Reset storm priorities
@@ -6062,9 +5911,9 @@ function StormSequence(){
         });
     });
     // Pausing current running animations
-    ToggleConnect(false);
-    ToggleDownload(false);
-    ToggleRequest(false);
+    Toggle.DWNL("pause");
+	Toggle.RQST("pause");
+	Toggle.CNCT("pause");
     // Set the final attributes for AssetContainer so other animations are calculated based on this
 	// Setting fly attributes
 	SC_scale = 3;
@@ -6140,7 +5989,7 @@ function PostRitualSequence(){
     }
 }
 function SetTripWire(){
-	if( Cyclone.isActive ){ return; }
+	if( InCyclone ){ return; }
 	$("#SpaceCyclone .Storm").each(function(i){
 		let t = $(this).find(".Tripwire");
 		$(".TriggerBox").children().eq(i)
@@ -6176,7 +6025,7 @@ function ParticleActivation(T, e, norebase){
 		return;
 	}
 	// Unbluring the blur effect given to sibling elements on mouseenter method
-	let f = T.parent().parent().find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(T);
+	let f = $("#AntiToxins").find(".DevStar, .DevParticle, .ArtStar, .ArtParticle").not(T);
 	TweenMax.to(f, .5, {opacity: 1});
     TweenMax.to(".QuickAccess", .5, {y: "100%"});
     TweenMax.set("#AntiToxins", {overflow: "inherit"});
@@ -6186,7 +6035,7 @@ function ParticleActivation(T, e, norebase){
 	if( Particle.isActive ){
 		// Set opt 1 to display when clicked and switch to opt 0 after click
 		T.data({GandalfOpt: 1, PostClickOpt: 0});
-		ResetParticle(Asc.parent().parent(),
+		ResetParticle(Asc.closest(".ArtParticle, .DevParticle"),
 			// Prevent default reset due to user flying to another division while particle was resetting
 			( e === null ) ? true : null);
 		return;
@@ -6350,7 +6199,7 @@ function PrepClone(){
 				imgContainer = sp.find(".Preview");
 
 				PageContainer.append("<a></a>");
-				imgContainer.append("<div class='img'><img alt='Sample of "+this.title.toUpperCase()+" page in "+Ptitle+" project'></div>");
+				imgContainer.append(`<div class='img'><img alt='Sample of ${this.title.toUpperCase()} page in ${Ptitle} project'></div>`);
 
 				PageContainer.children().last()
 					.addClass("Page")
@@ -6681,7 +6530,7 @@ function DimeRotation(T){
 }
 // DekcCloud
 function CardHoverIn(This){
-	let T = This.parent().parent().attr("class"),
+	let T = This.closest(".Deck").attr("class"),
 		siblings = This.nextAll(".Card").toArray().reverse();
 	if( CardSelect.isActive[T] || CardSelect.mdReset[T] ){
 		return;
@@ -6849,95 +6698,6 @@ function CardDraggable(){
         }
     });
 }
-CardSlider = {
-    last: null,
-    placer : function(instance, dir){
-    	let reveal = false,
-    		conceal = false,
-            revealparent = false,
-			concealparent = false;
-    	// Search for current level through the container's children
-        for( i = 1; i < $(instance.target).children(".Card").length; i++ ){
-			    // Set the distance between Cards
-            let bound = $(instance.target).find(".Card").innerWidth() * .05,
-                // Get the visually front Card
-				card = $(instance.target).children(".Card").eq($(instance.target).children(".Card").length-i);
-            // Reveal all cards when container is at it's starting position
-            if( ( dir === -1 && instance.x === instance.maxX ) || ( dir === 1 && instance.x === instance.minX ) ){
-				reveal = $(instance.target).find(".Card > div");
-				revealparent = $(instance.target).find(".Card");
-                break;
-            }
-			// Reveal only the last card and conceal other Cards when container is at it's final position
-            if( ( dir === -1 && instance.x === instance.minX ) || ( dir === 1 && instance.x === instance.maxX ) ){
-                card = $(instance.target).find(".Card").first();
-                conceal = card.siblings().children();
-                concealparent = card.siblings();
-                reveal = card.children();
-                revealparent = card;
-                break;
-            }
-            // Reveal this Card and conceal Cards in front of it when container is on the margin between the current and the next Card
-            if( ( dir === -1 && instance.x > -( bound * i ) ) || ( dir === 1 && instance.x < ( bound * i ) ) ){
-				conceal = [card.children(),card.nextAll().children()];
-                concealparent = [card,card.nextAll()];
-				reveal = card.prevAll().children();
-                revealparent = card.prevAll();
-                break;
-            }
-        }
-        // Reveal if available
-        if( reveal ){
-			TweenMax.set(revealparent,
-				{
-					autoAlpha: 1,
-				});
-			TweenMax.to(reveal, .2,
-				{
-					autoAlpha: 1,
-					scaleY: 1,
-					transformOrigin: "50% 100%"
-				});
-		}
-		// Conceal if available
-        if( conceal ){
-			TweenMax.set(concealparent,
-				{
-					autoAlpha: 0,
-				});
-			TweenMax.to(conceal, .2,
-				{
-					autoAlpha: 0,
-					scaleY: 0,
-					transformOrigin: "50% 100%"
-				});
-		}
-        // Store this container as the last used Slider
-        this.last = instance.target;
-    },
-    reset: function(dur){
-    	// Check if reset should be animated
-        let d = ( dur ) ? dur : 0;
-        // Deny reset when no slider is engaged
-        if( this.last === null ){ return; }
-        // Do the reset
-        TweenMax.set($(".Slider .CardSlider .Card"), {
-            autoAlpha: 1
-        });
-        TweenMax.to($(".Slider .CardSlider .Card > div"), d,{
-            autoAlpha: 1,
-            scaleY: 1,
-            x: 0,
-            y: 0
-        });
-        TweenMax.to($(".Slider .CardSlider"), d,{
-            x: 0,
-            y: 0
-        });
-        // Reset Slider usage state
-        this.last = null;
-    }
-};
 
 // Gandalf setter
 Gandalfer = {
@@ -6952,7 +6712,7 @@ Gandalfer = {
 			}
 			let PO = $(this).data().GandalfOpt;
 			if( typeof(PO) !== "undefined" ){
-				content = GandalfRow[1][PO];
+				content = (PO === null) ? null : GandalfRow[1][PO];
 			}
 			// Placing Gandalf's content
 			Glitch.on("#Gandalf", content);
@@ -7031,7 +6791,7 @@ Peeker = {
 };
 
 // Mobile size identification
-Is = {
+const Is = {
     ThisSize: function (width, height){
         let w = window.innerWidth,
             h = window.innerHeight;
