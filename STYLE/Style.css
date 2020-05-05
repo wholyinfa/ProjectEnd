@@ -559,6 +559,7 @@ section article{
 #Temporary > .Void {
     width: 100%; height: 100%;
     top: 0; left: 0;
+    grid-area: 1 / 1 / -1 / -1;
 }
 #Temporary > .Portal:hover {
     cursor: pointer;
@@ -1478,10 +1479,11 @@ section article{
 }
 #Skillometer .GeloV{
     width: 100%; height: 100%;
-    position: relative; z-index: -1;
+    position: relative; z-index: -2;
     -ms-grid-column: 2;
     -ms-grid-column-span: 1;
-    grid-area: 3 / 2 / auto / 3;
+    grid-area: 3 / 2 / auto / span 1;
+    margin: 0 auto;
 }
 #Skillometer .GeloV div{
     width: 200%; height: 200%;

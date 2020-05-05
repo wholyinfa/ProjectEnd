@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang='en'>
 <head>
-                <meta name="robots" content="noindex,nofollow">
 <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
 <meta name='description' content='Dedicated web developer with <?php echo date("Y") - 2014; ?> years of experience sharing identical affections in designing, having integrated innovation and creativity aligned with ideal quality. Interested on fully responsive and interactive modules & layouts resulting in 40% more flexible outcomes.'>
@@ -379,6 +378,7 @@
                     </div>
                 </div>
             </div>
+            <div class="GeloV"><div></div></div>
             <div class="InfoPanel">
                 <div class="Laser">
                     <div></div>
@@ -497,7 +497,6 @@
                     </div>
                 </div>
             </div>
-            <div class="GeloV"><div></div></div>
         </article>
         <article id="AntiToxins">
             <div class="Entry"></div>
